@@ -1,0 +1,80 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.firebase.v1;
+
+import "google/events/cloudevent.proto";
+import "google/protobuf/struct.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Firebase.V1";
+
+// The CloudEvent raised when a document is created in the Firebase
+// Real Time Database.
+message DocumentCreated {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firebase.database.document.v1.created";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent raised when a document is created in the Firebase
+// Real Time Database.
+message DocumentUpdated {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firebase.database.document.v1.updated";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent raised when a document is created in the Firebase
+// Real Time Database.
+message DocumentDeleted {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firebase.database.document.v1.deleted";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent raised when a document is written (created, updated
+// or deleted) in the Firebase Real Time Database.
+message DocumentWritten {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firebase.database.document.v1.written";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The data within all Firebase Real Time Database document events.
+message DocumentEventData {
+  // The original data for the document.
+  google.protobuf.Value data = 1;
+  // The change in the document data.
+  google.protobuf.Value delta = 2;
+
+  // The matches from wildcards specified in the event subscription, to the
+  // values of those wildcards in the document name. For example,
+  // a subscription to
+  // `/projects/my_project/databases/(default)/documents/users/{username}`
+  // matching a document with name
+  // `/projects/my_project/databases/(default)/documents/users/marie`
+  // would result in a mapping of `'username': 'marie'`.
+  map<string, string> wildcards = 3;
+}
+
