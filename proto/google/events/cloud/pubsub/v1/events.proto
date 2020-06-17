@@ -24,7 +24,7 @@ import "google/protobuf/timestamp.proto";
 // The CloudEvent raised when a PubSub message is published for a topic.
 message MessagePublished {
   option (google.events.cloud_event_type) =
-    "google.cloud.pubsub.message.v1.published";
+      "google.cloud.pubsub.topic.v1.messagePublished";
 
   // The data associated with the event.
   PubsubMessageData data = 1;
