@@ -1,0 +1,40 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.scheduler.v1;
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
+
+import "google/events/cloudevent.proto";
+import "google/protobuf/timestamp.proto";
+
+// The CloudEvent raised when a Scheduler job is executed.
+message JobExecuted {
+  option (google.events.cloud_event_type) =
+      "google.cloud.scheduler.job.v1.executed";
+
+  // The data associated with the event.
+  SchedulerData data = 1;
+}
+
+// Scheduler event data.
+message SchedulerData {
+  // The custom data the user specified when creating the scheduler source.
+  bytes custom_data = 1;
+
+  // The time at which the job was executed, populated by the server.
+  google.protobuf.Timestamp execution_time = 2;
+}
