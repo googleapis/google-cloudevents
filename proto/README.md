@@ -13,14 +13,14 @@ created to make it easier to consume events.
 There are two protobuf messages that are relevant for any given CloudEvent
 type:
 
-- The "envelope" message (e.g. `ObjectFinalized`)
-- The "data" message (e.g. `StorageObject`)
+- The "envelope" message (e.g. `ObjectFinalizedEvent`)
+- The "data" message (e.g. `StorageObjectData`)
 
 There is a 1:1 relationship between CloudEvent types and envelope
 messages, but a many:1 relationship between CloudEvent types and
 data messages. In other words, many CloudEvent types can use the
 same data message. For example, every event associated with
-something happening to a Cloud Storage object uses `StorageObject`
+something happening to a Cloud Storage object uses `StorageObjectData`
 as the data message. Each envelope message specifies the CloudEvent
 type it's associated with via a proto annotation.
 
@@ -48,8 +48,8 @@ event that is created when a Google Cloud Storage object is
 finalized:
 
 - Proto file: `google/events/cloud/storage/v1/events.proto`
-- Envelope message: `google.events.cloud.storage.v1.ObjectFinalized`
-- Data message: `google.events.cloud.storage.v1.StorageObject`
+- Envelope message: `google.events.cloud.storage.v1.ObjectFinalizedEvent`
+- Data message: `google.events.cloud.storage.v1.StorageObjectData`
 - Event type: `google.cloud.storage.object.v1.finalized`
 
 Note that the `events` part of the proto package is not part of the
@@ -62,6 +62,18 @@ type. That reversal may seem confusing initially, but it means that
 events for multiple resources in the same product (e.g. buckets and
 objects within Cloud Storage) can use common messages in their
 definitions.
+
+## Message naming conventions
+
+While not required for technical correctness, we use a suffix of "Event"
+for all envelope messages, and a suffix of "Data" for all event data messages.
+Sometimes it can be convenient to combine the two suffixes. For example,
+`DocumentEventData` in the Firestore package is used as the event data
+message for all document events. This approach should only be taken
+when it is required for clarity.
+
+We avoid the use either "Event" or "Data" as a suffix for messages which
+aren't envelope messages or event data messages.
 
 ## Versioning governance
 

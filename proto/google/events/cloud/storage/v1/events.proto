@@ -23,50 +23,43 @@ import "google/protobuf/wrappers.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Storage.V1";
 
 // The CloudEvent raised when an object is finalized in Google Cloud Storage.
-message ObjectFinalized {
+message ObjectFinalizedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.storage.object.v1.finalized";
 
   // The data associated with the event.
-  StorageObject data = 1;
+  StorageObjectData data = 1;
 }
 
 // The CloudEvent raised when an object is archived in Google Cloud Storage.
-message ObjectArchived  {
+message ObjectArchivedEvent  {
   option (google.events.cloud_event_type) =
     "google.cloud.storage.object.v1.archived";
 
   // The data associated with the event.
-  StorageObject data = 1;
+  StorageObjectData data = 1;
 }
 
 // The CloudEvent raised when an object is deleted  in Google Cloud Storage.
-message ObjectDeleted {
+message ObjectDeletedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.storage.object.v1.deleted";
 
   // The data associated with the event.
-  StorageObject data = 1;
+  StorageObjectData data = 1;
 }
 
 // The CloudEvent raised when an object's metadata is updated  in Google Cloud Storage.
-message ObjectMetadataUpdated {
+message ObjectMetadataUpdatedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.storage.object.v1.metadataUpdated";
 
   // The data associated with the event.
-  StorageObject data = 1;
-}
-
-// A bucket within Google Cloud Storage.
-// Note: even if we don't have any events which emit a bucket at the moment,
-// I'm sure we will at some point.
-message StorageBucket {
-  // TBD
+  StorageObjectData data = 1;
 }
 
 // An object within Google Cloud Storage.
-message StorageObject {
+message StorageObjectData {
   // Describes the customer-specified mechanism used to store the data at rest.
   message CustomerEncryption {
     // The encryption algorithm.
