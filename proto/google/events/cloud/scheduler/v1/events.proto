@@ -22,7 +22,7 @@ import "google/events/cloudevent.proto";
 import "google/protobuf/timestamp.proto";
 
 // The CloudEvent raised when a Scheduler job is executed.
-message JobExecuted {
+message JobExecutedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.scheduler.job.v1.executed";
 

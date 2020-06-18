@@ -23,7 +23,7 @@ import "google/rpc/status.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
 // The CloudEvent raised when an audit log entry is written.
-message AuditLogWritten {
+message AuditLogWrittenEvent {
   option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
 
   // The data associated with the event.

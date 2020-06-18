@@ -24,7 +24,7 @@ import "google/type/latlng.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
 
 // The CloudEvent raised when a Firestore document is created.
-message DocumentCreated {
+message DocumentCreatedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.created";
 
@@ -33,7 +33,7 @@ message DocumentCreated {
 }
 
 // The CloudEvent raised when a Firestore document is updated.
-message DocumentUpdated {
+message DocumentUpdatedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.updated";
 
@@ -42,7 +42,7 @@ message DocumentUpdated {
 }
 
 // The CloudEvent raised when a Firestore document is deleted.
-message DocumentDeleted {
+message DocumentDeletedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.deleted";
 
@@ -51,7 +51,7 @@ message DocumentDeleted {
 }
 
 // The CloudEvent raised when a Firestore document is created, updated or deleted.
-message DocumentWritten {
+message DocumentWrittenEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.written";
 
