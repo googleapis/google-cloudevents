@@ -34,7 +34,4 @@ message JobExecutedEvent {
 message SchedulerData {
   // The custom data the user specified when creating the scheduler source.
   bytes custom_data = 1;
-
-  // The time at which the job was executed, populated by the server.
-  google.protobuf.Timestamp execution_time = 2;
 }
