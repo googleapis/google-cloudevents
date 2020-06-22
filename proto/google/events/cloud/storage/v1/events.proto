@@ -174,4 +174,10 @@ message StorageObjectData {
   // Metadata of customer-supplied encryption key, if the object is encrypted by
   // such a key.
   CustomerEncryption customer_encryption = 28;
+
+  // The link to this object.
+  string media_link = 100;
+
+  // Media download link.
+  string self_link = 101;
 }
