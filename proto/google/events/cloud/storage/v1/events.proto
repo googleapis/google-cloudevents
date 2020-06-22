@@ -25,16 +25,16 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Storage.V1";
 // The CloudEvent raised when an object is finalized in Google Cloud Storage.
 message ObjectFinalizedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.storage.object.v1.finalized";
+      "google.cloud.storage.object.v1.finalized";
 
   // The data associated with the event.
   StorageObjectData data = 1;
 }
 
 // The CloudEvent raised when an object is archived in Google Cloud Storage.
-message ObjectArchivedEvent  {
+message ObjectArchivedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.storage.object.v1.archived";
+      "google.cloud.storage.object.v1.archived";
 
   // The data associated with the event.
   StorageObjectData data = 1;
@@ -43,16 +43,17 @@ message ObjectArchivedEvent  {
 // The CloudEvent raised when an object is deleted  in Google Cloud Storage.
 message ObjectDeletedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.storage.object.v1.deleted";
+      "google.cloud.storage.object.v1.deleted";
 
   // The data associated with the event.
   StorageObjectData data = 1;
 }
 
-// The CloudEvent raised when an object's metadata is updated  in Google Cloud Storage.
+// The CloudEvent raised when an object's metadata is updated  in Google Cloud
+// Storage.
 message ObjectMetadataUpdatedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.storage.object.v1.metadataUpdated";
+      "google.cloud.storage.object.v1.metadataUpdated";
 
   // The data associated with the event.
   StorageObjectData data = 1;
@@ -113,7 +114,7 @@ message StorageObjectData {
   // checksum, see
   // [https://cloud.google.com/storage/docs/hashes-etags#_JSONAPI][Hashes and
   // ETags: Best Practices].
-  bytes crc32c = 11;
+  string crc32c = 11;
 
   // Number of underlying components that make up this object. Components are
   // accumulated by compose operations.
