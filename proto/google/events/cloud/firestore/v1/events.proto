@@ -23,44 +23,17 @@ import "google/type/latlng.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
 
-// The CloudEvent raised when a Firestore document is created.
-message DocumentCreatedEvent {
+// The data within all Firestore document events.
+message DocumentEventData {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.created";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;
-}
-
-// The CloudEvent raised when a Firestore document is updated.
-message DocumentUpdatedEvent {
-  option (google.events.cloud_event_type) =
-    "google.cloud.firestore.document.v1.updated";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;	
-}
-
-// The CloudEvent raised when a Firestore document is deleted.
-message DocumentDeletedEvent {
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.deleted";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;	
-}
-
-// The CloudEvent raised when a Firestore document is created, updated or deleted.
-message DocumentWrittenEvent {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firestore.document.v1.updated";
   option (google.events.cloud_event_type) =
     "google.cloud.firestore.document.v1.written";
 
-  // The data associated with the event.
-  DocumentEventData data = 1;	
-}
-
-// The data within all Firestore document events.
-message DocumentEventData {
   // A Document object containing a pre-operation document snapshot.
   // This is only populated for update and delete events.
   Document old_value = 1;

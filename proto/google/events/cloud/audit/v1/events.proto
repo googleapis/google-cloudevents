@@ -22,19 +22,13 @@ import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
-// The CloudEvent raised when an audit log entry is written.
-message AuditLogWrittenEvent {
-  option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
-
-  // The data associated with the event.
-  AuditLogData data = 1;
-}
-
 // Common audit log format for Google Cloud Platform API operations.
 // Copied from
 // https://github.com/googleapis/googleapis/blob/master/google/cloud/audit/audit_log.proto,
 // but changing service_data from Any to Struct.
 message AuditLogData {
+  option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
+
   // The name of the API service performing the operation. For example,
   // `"datastore.googleapis.com"`.
   string service_name = 7;

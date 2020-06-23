@@ -21,48 +21,17 @@ import "google/protobuf/struct.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.V1";
 
-// The CloudEvent raised when a document is created in the Firebase
-// Real Time Database.
-message DocumentCreated {
+// The data within all Firebase Real Time Database document events.
+message DocumentEventData {
   option (google.events.cloud_event_type) =
     "google.cloud.firebase.database.document.v1.created";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;
-}
-
-// The CloudEvent raised when a document is created in the Firebase
-// Real Time Database.
-message DocumentUpdated {
-  option (google.events.cloud_event_type) =
-    "google.cloud.firebase.database.document.v1.updated";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;
-}
-
-// The CloudEvent raised when a document is created in the Firebase
-// Real Time Database.
-message DocumentDeleted {
   option (google.events.cloud_event_type) =
     "google.cloud.firebase.database.document.v1.deleted";
-
-  // The data associated with the event.
-  DocumentEventData data = 1;
-}
-
-// The CloudEvent raised when a document is written (created, updated
-// or deleted) in the Firebase Real Time Database.
-message DocumentWritten {
+  option (google.events.cloud_event_type) =
+    "google.cloud.firebase.database.document.v1.updated";
   option (google.events.cloud_event_type) =
     "google.cloud.firebase.database.document.v1.written";
 
-  // The data associated with the event.
-  DocumentEventData data = 1;
-}
-
-// The data within all Firebase Real Time Database document events.
-message DocumentEventData {
   // The original data for the document.
   google.protobuf.Value data = 1;
   // The change in the document data.
@@ -77,4 +46,3 @@ message DocumentEventData {
   // would result in a mapping of `'username': 'marie'`.
   map<string, string> wildcards = 3;
 }
-

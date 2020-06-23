@@ -10,19 +10,10 @@ created to make it easier to consume events.
 
 ## Relationship between protobuf messages and CloudEvent types
 
-There are two protobuf messages that are relevant for any given CloudEvent
-type:
-
-- The "envelope" message (e.g. `ObjectFinalizedEvent`)
-- The "data" message (e.g. `StorageObjectData`)
-
-There is a 1:1 relationship between CloudEvent types and envelope
-messages, but a many:1 relationship between CloudEvent types and
-data messages. In other words, many CloudEvent types can use the
-same data message. For example, every event associated with
-something happening to a Cloud Storage object uses `StorageObjectData`
-as the data message. Each envelope message specifies the CloudEvent
-type it's associated with via a proto annotation.
+Each CloudEvent type is associated with an event data message, but multiple
+CloudEvent types may use the same event data message. Each event data message
+lists the CloudEvent types for which it provides data using the
+`cloud_event_type` message annotation.
 
 Note that each proto package is versioned, but this version is
 independent of any API version. It would be possible for a single
@@ -48,7 +39,6 @@ event that is created when a Google Cloud Storage object is
 finalized:
 
 - Proto file: `google/events/cloud/storage/v1/events.proto`
-- Envelope message: `google.events.cloud.storage.v1.ObjectFinalizedEvent`
 - Data message: `google.events.cloud.storage.v1.StorageObjectData`
 - Event type: `google.cloud.storage.object.v1.finalized`
 
@@ -65,15 +55,11 @@ definitions.
 
 ## Message naming conventions
 
-While not required for technical correctness, we use a suffix of "Event"
-for all envelope messages, and a suffix of "Data" for all event data messages.
-Sometimes it can be convenient to combine the two suffixes. For example,
-`DocumentEventData` in the Firestore package is used as the event data
-message for all document events. This approach should only be taken
-when it is required for clarity.
+While not required for technical correctness, we use a suffix of "Data"
+for all event data messages.
 
-We avoid the use either "Event" or "Data" as a suffix for messages which
-aren't envelope messages or event data messages.
+We avoid the use either "Data" as a suffix for messages which
+aren't event data messages, to avoid confusion.
 
 ## Versioning governance
 

@@ -21,17 +21,11 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
 import "google/events/cloudevent.proto";
 import "google/protobuf/timestamp.proto";
 
-// The CloudEvent raised when a Scheduler job is executed.
-message JobExecutedEvent {
+// Scheduler event data.
+message SchedulerData {
   option (google.events.cloud_event_type) =
       "google.cloud.scheduler.job.v1.executed";
 
-  // The data associated with the event.
-  SchedulerData data = 1;
-}
-
-// Scheduler event data.
-message SchedulerData {
   // The custom data the user specified when creating the scheduler source.
   bytes custom_data = 1;
 }

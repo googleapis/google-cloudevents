@@ -21,7 +21,8 @@ import "google/protobuf/descriptor.proto";
 option csharp_namespace = "Google.Events.Protobuf";
 
 extend google.protobuf.MessageOptions {
-  // FIXME: Determine the right field number to use
-  // TODO: Use a message instead of just a string?
-  string cloud_event_type = 20000;
+  // The CloudEvent type (e.g. "google.cloud.storage.object.v1.finalized")
+  // that relates to this message. For event data messages, this extension
+  // may be applied multiple times.
+  string cloud_event_type = 311716486;
 }
