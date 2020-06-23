@@ -30,20 +30,26 @@ message MessagePublishedEvent {
   PubsubMessageData data = 1;
 }
 
+// The data received in an event when a message is published to a topic.
+message MessagePublishedData {
+  // The message that was published.
+  PubsubMessage message = 1;
+
+  // The resource name of the subscription for which this event was
+  // generated. The format of the value is
+  // `projects/{project-id}/subscriptions/{subscription-id}`.
+  string subscription = 2;
+}
+
 // A message published to a topic.
-message PubsubMessageData {
-  // The message data field. If this field is empty, the message must contain
-  // at least one attribute.
+message PubsubMessage {
+  // The binary data in the message.
   bytes data = 1;
 
-  // Attributes for this message. If this field is empty, the message must
-  // contain non-empty data.
+  // Attributes for this message.
   map<string, string> attributes = 2;
 
   // ID of this message, assigned by the server when the message is published.
   // Guaranteed to be unique within the topic.
   string message_id = 3;
-
-  // The time at which the message was published, populated by the server.
-  google.protobuf.Timestamp publish_time = 4;
 }
