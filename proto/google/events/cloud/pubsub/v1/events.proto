@@ -19,7 +19,6 @@ package google.events.cloud.pubsub.v1;
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
 
 import "google/events/cloudevent.proto";
-import "google/protobuf/timestamp.proto";
 
 // The CloudEvent raised when a PubSub message is published for a topic.
 message MessagePublishedEvent {

@@ -1,5 +1,7 @@
 # Google Events
 
+[![Build Status](https://travis-ci.org/googleapis/google-cloudevents.svg?branch=master)](https://travis-ci.org/googleapis/google-cloudevents)
+
 This repository contains types for
 [CloudEvents](https://cloudevents.io) issued by Google.
 
