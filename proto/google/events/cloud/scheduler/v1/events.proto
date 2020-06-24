@@ -19,7 +19,6 @@ package google.events.cloud.scheduler.v1;
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
 
 import "google/events/cloudevent.proto";
-import "google/protobuf/timestamp.proto";
 
 // The CloudEvent raised when a Scheduler job is executed.
 message JobExecutedEvent {
