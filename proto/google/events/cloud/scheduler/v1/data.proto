@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,12 @@
 
 syntax = "proto3";
 
-package google.events.cloud.audit.v1;
+package google.events.cloud.scheduler.v1;
 
-import "google/events/cloud/audit/v1/data.proto";
-import "google/events/cloudevent.proto";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
-
-// The CloudEvent raised when an audit log entry is written.
-message AuditLogWrittenEvent {
-  option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
-
-  // The data associated with the event.
-  AuditLogData data = 1;
+// Scheduler event data.
+message SchedulerData {
+  // The custom data the user specified when creating the scheduler source.
+  bytes custom_data = 1;
 }

@@ -18,14 +18,26 @@ package google.events.cloud.pubsub.v1;
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
 
-import "google/events/cloud/pubsub/v1/data.proto";
-import "google/events/cloudevent.proto";
+// The data received in an event when a message is published to a topic.
+message MessagePublishedData {
+  // The message that was published.
+  PubsubMessage message = 1;
 
-// The CloudEvent raised when a PubSub message is published for a topic.
-message MessagePublishedEvent {
-  option (google.events.cloud_event_type) =
-      "google.cloud.pubsub.topic.v1.messagePublished";
+  // The resource name of the subscription for which this event was
+  // generated. The format of the value is
+  // `projects/{project-id}/subscriptions/{subscription-id}`.
+  string subscription = 2;
+}
 
-  // The data associated with the event.
-  MessagePublishedData data = 1;
+// A message published to a topic.
+message PubsubMessage {
+  // The binary data in the message.
+  bytes data = 1;
+
+  // Attributes for this message.
+  map<string, string> attributes = 2;
+
+  // ID of this message, assigned by the server when the message is published.
+  // Guaranteed to be unique within the topic.
+  string message_id = 3;
 }

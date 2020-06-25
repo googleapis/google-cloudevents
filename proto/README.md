@@ -13,7 +13,8 @@ created to make it easier to consume events.
 There are two protobuf messages that are relevant for any given CloudEvent
 type:
 
-- The "envelope" message (e.g. `ObjectFinalizedEvent`)
+- The "envelope" message (e.g. `ObjectFinalizedEvent`) representing
+  the complete CloudEvent, including any extension attributes.
 - The "data" message (e.g. `StorageObjectData`)
 
 There is a 1:1 relationship between CloudEvent types and envelope
@@ -23,6 +24,11 @@ same data message. For example, every event associated with
 something happening to a Cloud Storage object uses `StorageObjectData`
 as the data message. Each envelope message specifies the CloudEvent
 type it's associated with via a proto annotation.
+
+Initially we will generate libraries that only contain the data
+messages. The event messages serve as useful documentation for the
+event type strings and extension attributes. They will be included
+in the libraries at a later date if that proves useful.
 
 Note that each proto package is versioned, but this version is
 independent of any API version. It would be possible for a single
@@ -40,14 +46,21 @@ the following values, in the order:
 The "action" is the action that causes the event to be emitted.
 
 The proto package (in the `package` part of each .proto file) must
-be `google.events.`*product*`.`*version*`. The .proto file should be
+be `google.events.`*product*`.`*version*. The .proto files should be
 in a directory structure where each element of the package name
-corresponds to a directory. A file name of `events.proto` is
-conventional but not required. As a complete example, consider the
+corresponds to a directory. The envelope messages must be in a file
+named `events.proto`, and the data messages (including any messages
+they refer to) must be in a file named `data.proto`. The purpose of
+this separation is to allow the envelope and data messages to coexist,
+but for consumer libraries to be generated that only contain the data
+messages.
+
+As a complete example, consider the
 event that is created when a Google Cloud Storage object is
 finalized:
 
-- Proto file: `google/events/cloud/storage/v1/events.proto`
+- Proto files: `google/events/cloud/storage/v1/events.proto` and
+  `google/events/cloud/storage/v1/data.proto`
 - Envelope message: `google.events.cloud.storage.v1.ObjectFinalizedEvent`
 - Data message: `google.events.cloud.storage.v1.StorageObjectData`
 - Event type: `google.cloud.storage.object.v1.finalized`
