@@ -17,7 +17,6 @@ syntax = "proto3";
 package google.events.cloud.storage.v1;
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Storage.V1";
 
@@ -118,7 +117,7 @@ message StorageObjectData {
   map<string, string> metadata = 21;
 
   // Whether an object is under event-based hold.
-  google.protobuf.BoolValue event_based_hold = 29;
+  bool event_based_hold = 29;
 
   // The name of the object.
   string name = 23;
