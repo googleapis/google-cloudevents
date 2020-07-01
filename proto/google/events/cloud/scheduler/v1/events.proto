@@ -27,5 +27,5 @@ message JobExecutedEvent {
       "google.cloud.scheduler.job.v1.executed";
 
   // The data associated with the event.
-  SchedulerData data = 1;
+  SchedulerJobData data = 1;
 }

@@ -18,8 +18,8 @@ package google.events.cloud.scheduler.v1;
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
 
-// Scheduler event data.
-message SchedulerData {
+// Scheduler job data.
+message SchedulerJobData {
   // The custom data the user specified when creating the scheduler source.
   bytes custom_data = 1;
 }
