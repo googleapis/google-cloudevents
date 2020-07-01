@@ -24,17 +24,17 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
 
 // The data within all Firestore document events.
 message DocumentEventData {
+  // A Document object containing a post-operation document snapshot.
+  // This is not populated for delete events. (TODO: check this!)
+  Document value = 1;
+
   // A Document object containing a pre-operation document snapshot.
   // This is only populated for update and delete events.
-  Document old_value = 1;
+  Document old_value = 2;
 
   // A DocumentMask object that lists changed fields.
   // This is only populated for update events.
-  DocumentMask update_mask = 2;
-
-  // A Document object containing a post-operation document snapshot.
-  // This is not populated for delete events. (TODO: check this!)
-  Document value = 3;
+  DocumentMask update_mask = 3;
 
   // The matches from wildcards specified in the event subscription, to the
   // values of those wildcards in the document name. For example,
