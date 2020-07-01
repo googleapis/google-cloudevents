@@ -23,5 +23,5 @@ option csharp_namespace = "Google.Events.Protobuf";
 extend google.protobuf.MessageOptions {
   // The CloudEvent type (e.g. "google.cloud.storage.object.v1.finalized")
   // that relates to this message.
-  string cloud_event_type = 311716486;
+  string cloud_event_type = 11716486;
 }
