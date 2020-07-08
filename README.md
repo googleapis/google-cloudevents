@@ -1,4 +1,4 @@
-# Google Events
+# Google CloudEvents
 
 [![Build Status](https://travis-ci.org/googleapis/google-cloudevents.svg?branch=master)](https://travis-ci.org/googleapis/google-cloudevents)
 
@@ -21,3 +21,10 @@ may change. Even the core `cloud_event_type` annotation may change.
 # CloudEvent Types
 
 The following list is generated from the contents in the `proto/` directory.
+
+- [Google.Events.Protobuf.Firebase.V1](./proto/google/events/firebase/v1/data.proto)
+- [Google.Events.Protobuf.Cloud.Firestore.V1](./proto/google/events/cloud/firestore/v1/data.proto)
+- [Google.Events.Protobuf.Cloud.Scheduler.V1](./proto/google/events/cloud/scheduler/v1/data.proto)
+- [Google.Events.Protobuf.Cloud.Storage.V1](./proto/google/events/cloud/storage/v1/data.proto)
+- [Google.Events.Protobuf.Cloud.Audit.V1](./proto/google/events/cloud/audit/v1/data.proto)
+- [Google.Events.Protobuf.Cloud.PubSub.V1](./proto/google/events/cloud/pubsub/v1/data.proto)
