@@ -17,3 +17,7 @@ The entire content of this repository should be regarded as highly
 unstable until this warning is removed. The schema may change, the
 CloudEvent "type" attribute values may change, the protobuf message
 may change. Even the core `cloud_event_type` annotation may change.
+
+# CloudEvent Types
+
+The following list is generated from the contents in the `proto/` directory.
