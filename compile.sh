@@ -15,6 +15,10 @@ case "$OSTYPE" in
     PROTOBUF_PLATFORM=win64
     PROTOC=tmp/bin/protoc.exe
     ;;
+  darwin*)
+    PROTOBUF_PLATFORM=osx-x86_64
+    PROTOC=tmp/protobuf/bin/protoc
+    ;;
   *)
     echo "Unknown OSTYPE: $OSTYPE"
     exit 1
