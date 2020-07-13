@@ -34,7 +34,7 @@ curl -sSL \
 unzip -q protobuf.zip
 cd ..
 
-echo "Compiling"
+echo "Compiling protos as a descriptor set"
 chmod +x $PROTOC
 
 $PROTOC \
