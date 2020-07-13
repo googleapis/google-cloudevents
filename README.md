@@ -17,3 +17,33 @@ The entire content of this repository should be regarded as highly
 unstable until this warning is removed. The schema may change, the
 CloudEvent "type" attribute values may change, the protobuf message
 may change. Even the core `cloud_event_type` annotation may change.
+
+# CloudEvents in this repository
+
+This repository contains definitions for the following CloudEvents:
+
+|Package|Event types|Data messages|
+|-|-|-|
+|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|AuditLogData|
+|[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
+|[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
+|[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
+|[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
+|[google.events.firebase.v1](proto/google/events/firebase/v1)|google.firebase.database.document.v1.created<br/>google.firebase.database.document.v1.deleted<br/>google.firebase.database.document.v1.updated<br/>google.firebase.database.document.v1.written|DocumentEventData|
+
+# Contributing to this repository
+
+Changes to this repository are expected to be performed after
+arriving at mutual consensus within Google (although pull requests
+may be used to arrive at that consensus).
+
+Pull requests that involve a change to the event registry above must
+update this file accordingly, for consistency. This will be
+validated within the pull request checks. This can either be done by
+running the following commands below a machine with .NET Core SDK
+3.1+ installed, or by making the changes manually:
+
+```sh
+./compile.sh
+./generate-event-registry.sh tmp/protos.pb
+```
