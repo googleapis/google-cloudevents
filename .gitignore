@@ -1,1 +1,7 @@
+bin/
+obj/
 tmp/
+.vs/
+
+# Local launch settings for .NET apps
+launchSettings.json
