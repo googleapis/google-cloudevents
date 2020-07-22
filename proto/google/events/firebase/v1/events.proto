@@ -21,42 +21,42 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.V1";
 
-// The CloudEvent raised when a document is created in the Firebase
+// The CloudEvent raised when a ref is created in the Firebase
 // Real Time Database.
-message DocumentCreated {
+message ReferenceCreated {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.document.v1.created";
+    "google.firebase.database.ref.v1.created";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a document is created in the Firebase
+// The CloudEvent raised when a reference is created in the Firebase
 // Real Time Database.
-message DocumentUpdated {
+message ReferenceUpdated {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.document.v1.updated";
+    "google.firebase.database.ref.v1.updated";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a document is created in the Firebase
+// The CloudEvent raised when a reference is created in the Firebase
 // Real Time Database.
-message DocumentDeleted {
+message ReferenceDeleted {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.document.v1.deleted";
+    "google.firebase.database.ref.v1.deleted";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a document is written (created, updated
+// The CloudEvent raised when a reference is written (created, updated
 // or deleted) in the Firebase Real Time Database.
-message DocumentWritten {
+message ReferenceWritten {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.document.v1.written";
+    "google.firebase.database.ref.v1.written";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  ReferenceEventData data = 1;
 }
