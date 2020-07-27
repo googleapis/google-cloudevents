@@ -87,3 +87,11 @@ message AuthUserDeleted {
   // The data associated with the event.
   AuthEventData data = 1;
 }
+
+message AnalyticsLogWritten {
+  option (google.events.cloud_event_type) =
+    "google.firebase.analytics.log.v1.written";
+
+  // The data associated with the event.
+  AnalyticsLogData data = 1;  
+}
