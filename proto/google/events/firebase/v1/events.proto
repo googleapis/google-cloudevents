@@ -60,3 +60,12 @@ message ReferenceWritten {
   // The data associated with the event.
   ReferenceEventData data = 1;
 }
+
+// The CloudEvent raised when a Remote Config is updated
+message RemoteConfigUpdated {
+  option (google.events.cloud_event_type) =
+    "google.firebase.remoteConfig.v1.updated";
+
+  // The data associated with the event.
+  RemoteConfigEventData data = 1;
+}
