@@ -98,3 +98,40 @@ enum RemoteConfigUpdateType {
   // A rollback to a previous Remote Config template.
   ROLLBACK = 3;
 }
+
+message AuthEventData {
+  // The user identifier in the Firebase app.
+  string uid = 1;
+
+  // The user's primary email, if set.
+  string email = 2;
+
+  // Additional metadata about the user.
+  UserMetadata metadata = 7;
+
+  // User's info at the providers
+  repeated UserInfo provider_data = 8;
+}
+
+// Additional metadata about the user.
+message UserMetadata {
+  // The date the user was created.
+  google.protobuf.Timestamp created_at = 1;
+
+  // The date the user last signed in.
+  google.protobuf.Timestamp last_signed_in_at = 2;
+}
+
+// User's info at the identity provider
+message UserInfo {
+  // The user identifier for the linked provider.
+  string uid = 1;
+
+  // The email for the linked provider.
+  string email = 2;
+
+  // The linked provider ID (e.g. "google.com" for the Google provider).
+  string provider_id = 5;
+}
+
+}

@@ -69,3 +69,21 @@ message RemoteConfigUpdated {
   // The data associated with the event.
   RemoteConfigEventData data = 1;
 }
+
+// The CloudEvent raised when a Firebase user is created.
+message AuthUserCreated {
+  option (google.events.cloud_event_type) =
+    "google.firebase.auth.user.v1.updated";
+
+  // The data associated with the event.
+  AuthEventData data = 1;
+}
+
+// The CloudEvent raised when a Firebase user is deleted.
+message AuthUserDeleted {
+  option (google.events.cloud_event_type) =
+    "google.firebase.auth.user.v1.deleted";
+
+  // The data associated with the event.
+  AuthEventData data = 1;
+}
