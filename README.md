@@ -11,14 +11,14 @@ The "source of truth" for the event data format is in the form of
 See [proto/README.md](proto/README.md) for more
 information about the messages used to describe CloudEvents.
 
-# Stability warning
+## Stability warning
 
 The entire content of this repository should be regarded as highly
 unstable until this warning is removed. The schema may change, the
 CloudEvent "type" attribute values may change, the protobuf message
 may change. Even the core `cloud_event_type` annotation may change.
 
-# CloudEvents in this repository
+## CloudEvents in this repository
 
 This repository contains definitions for the following CloudEvents:
 
@@ -43,7 +43,7 @@ The following repositories contain data structures per language for types define
 - [Ruby](https://github.com/googleapis/google-cloudevents-ruby)
 - [.NET](https://github.com/googleapis/google-cloudevents-dotnet)
 
-# Contributing to this repository
+## Contributing to this repository
 
 Changes to this repository are expected to be performed after
 arriving at mutual consensus within Google (although pull requests
