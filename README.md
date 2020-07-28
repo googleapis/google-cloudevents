@@ -11,14 +11,14 @@ The "source of truth" for the event data format is in the form of
 See [proto/README.md](proto/README.md) for more
 information about the messages used to describe CloudEvents.
 
-# Stability warning
+## Stability warning
 
 The entire content of this repository should be regarded as highly
 unstable until this warning is removed. The schema may change, the
 CloudEvent "type" attribute values may change, the protobuf message
 may change. Even the core `cloud_event_type` annotation may change.
 
-# CloudEvents in this repository
+## CloudEvents in this repository
 
 This repository contains definitions for the following CloudEvents:
 
@@ -31,7 +31,7 @@ This repository contains definitions for the following CloudEvents:
 |[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
 |[google.events.firebase.v1](proto/google/events/firebase/v1)|google.firebase.database.document.v1.created<br/>google.firebase.database.document.v1.deleted<br/>google.firebase.database.document.v1.updated<br/>google.firebase.database.document.v1.written|DocumentEventData|
 
-# Contributing to this repository
+## Contributing to this repository
 
 Changes to this repository are expected to be performed after
 arriving at mutual consensus within Google (although pull requests
