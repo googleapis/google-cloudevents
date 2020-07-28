@@ -31,6 +31,18 @@ This repository contains definitions for the following CloudEvents:
 |[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
 |[google.events.firebase.v1](proto/google/events/firebase/v1)|google.firebase.database.document.v1.created<br/>google.firebase.database.document.v1.deleted<br/>google.firebase.database.document.v1.updated<br/>google.firebase.database.document.v1.written|DocumentEventData|
 
+## CloudEvent Type Repos
+
+The following repositories contain data structures per language for types defined in this repo:
+
+- [Node.js](https://github.com/googleapis/google-cloudevents-nodejs)
+- [Python](https://github.com/googleapis/google-cloudevents-python)
+- [Go](https://github.com/googleapis/google-cloudevents-go)
+- [Java](https://github.com/googleapis/google-cloudevents-java)
+- [PHP](https://github.com/googleapis/google-cloudevents-php)
+- [Ruby](https://github.com/googleapis/google-cloudevents-ruby)
+- [.NET](https://github.com/googleapis/google-cloudevents-dotnet)
+
 ## Contributing to this repository
 
 Changes to this repository are expected to be performed after
