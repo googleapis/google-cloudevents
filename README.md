@@ -29,7 +29,7 @@ This repository contains definitions for the following CloudEvents:
 |[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
 |[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
 |[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
-|[google.events.firebase.v1](proto/google/events/firebase/v1)|google.firebase.database.document.v1.created<br/>google.firebase.database.document.v1.deleted<br/>google.firebase.database.document.v1.updated<br/>google.firebase.database.document.v1.written|DocumentEventData|
+|[google.events.firebase.v1](proto/google/events/firebase/v1)|google.firebase.analytics.log.v1.written<br/>google.firebase.auth.user.v1.deleted<br/>google.firebase.auth.user.v1.updated<br/>google.firebase.database.ref.v1.created<br/>google.firebase.database.ref.v1.deleted<br/>google.firebase.database.ref.v1.updated<br/>google.firebase.database.ref.v1.written<br/>google.firebase.remoteConfig.v1.updated|AnalyticsLogData<br/>AuthEventData<br/>ReferenceEventData<br/>RemoteConfigEventData|
 
 # Contributing to this repository
 
