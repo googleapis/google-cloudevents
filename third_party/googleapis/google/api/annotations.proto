@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright (c) 2015, Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
 
 syntax = "proto3";
 
-package google.events.cloud.build.v1;
+package google.api;
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Build.V1";
+import "google/api/http.proto";
+import "google/protobuf/descriptor.proto";
 
-import "google/events/cloud/build/v1/data.proto";
-import "google/events/cloudevent.proto";
+option go_package = "google.golang.org/genproto/googleapis/api/annotations;annotations";
+option java_multiple_files = true;
+option java_outer_classname = "AnnotationsProto";
+option java_package = "com.google.api";
+option objc_class_prefix = "GAPI";
 
-// The CloudEvent raised when your build's state changes.
-message CloudBuildEvent {
-  option (google.events.cloud_event_type) =
-      "google.cloud.build.v1.event";
-
-  // The data associated with the event.
-  BuildEventData data = 1;
+extend google.protobuf.MethodOptions {
+  // See `HttpRule`.
+  HttpRule http = 72295728;
 }
