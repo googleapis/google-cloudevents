@@ -17,7 +17,7 @@ case "$OSTYPE" in
     ;;
   darwin*)
     PROTOBUF_PLATFORM=osx-x86_64
-    PROTOC=tmp/protobuf/bin/protoc
+    PROTOC=tmp/bin/protoc
     ;;
   *)
     echo "Unknown OSTYPE: $OSTYPE"
