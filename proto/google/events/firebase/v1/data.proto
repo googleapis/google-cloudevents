@@ -64,7 +64,7 @@ message RemoteConfigUser {
   string email = 2;
   
   // Image URL.
-  string imageUrl = 3;
+  string image_url = 3;
 }
 
 // What type of update was associated with the Remote Config template version.
