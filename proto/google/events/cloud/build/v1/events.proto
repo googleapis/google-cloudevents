@@ -24,7 +24,7 @@ import "google/events/cloudevent.proto";
 // The CloudEvent raised when your build's state changes.
 message CloudBuildEvent {
   option (google.events.cloud_event_type) =
-      "google.cloud.cloudbuild.build.v1.statusChanged";
+      "google.cloud.build.build.v1.statusChanged";
 
   // The data associated with the event.
   BuildEventData data = 1;
