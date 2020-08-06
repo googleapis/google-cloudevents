@@ -22,7 +22,7 @@ import "google/events/cloudevent.proto";
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
 
 // The CloudEvent raised when a Firebase user is created.
-message AuthUserCreated {
+message UserCreatedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.auth.user.v1.updated";
 
@@ -31,7 +31,7 @@ message AuthUserCreated {
 }
 
 // The CloudEvent raised when a Firebase user is deleted.
-message AuthUserDeleted {
+message UserDeletedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.auth.user.v1.deleted";
 

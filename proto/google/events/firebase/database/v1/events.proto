@@ -23,7 +23,7 @@ option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
 
 // The CloudEvent raised when a ref is created in the Firebase
 // Real Time Database.
-message ReferenceCreated {
+message ReferenceCreatedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.database.ref.v1.created";
 
@@ -33,7 +33,7 @@ message ReferenceCreated {
 
 // The CloudEvent raised when a reference is created in the Firebase
 // Real Time Database.
-message ReferenceUpdated {
+message ReferenceUpdatedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.database.ref.v1.updated";
 
@@ -43,7 +43,7 @@ message ReferenceUpdated {
 
 // The CloudEvent raised when a reference is created in the Firebase
 // Real Time Database.
-message ReferenceDeleted {
+message ReferenceDeletedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.database.ref.v1.deleted";
 
@@ -53,7 +53,7 @@ message ReferenceDeleted {
 
 // The CloudEvent raised when a reference is written (created, updated
 // or deleted) in the Firebase Real Time Database.
-message ReferenceWritten {
+message ReferenceWrittenEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.database.ref.v1.written";
 
