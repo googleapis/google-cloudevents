@@ -22,7 +22,7 @@ import "google/events/cloudevent.proto";
 option csharp_namespace = "Google.Events.Protobuf.Firebase.RemoteConfig.V1";
 
 // The CloudEvent raised when a Remote Config is updated
-message RemoteConfigUpdated {
+message RemoteConfigUpdatedEvent {
   option (google.events.cloud_event_type) =
     "google.firebase.remoteconfig.remoteConfig.v1.updated";
 
