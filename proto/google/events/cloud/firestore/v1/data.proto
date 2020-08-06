@@ -35,15 +35,6 @@ message DocumentEventData {
   // A DocumentMask object that lists changed fields.
   // This is only populated for update events.
   DocumentMask update_mask = 3;
-
-  // The matches from wildcards specified in the event subscription, to the
-  // values of those wildcards in the document name. For example,
-  // a subscription to
-  // `/projects/my_project/databases/(default)/documents/users/{username}`
-  // matching a document with name
-  // `/projects/my_project/databases/(default)/documents/users/marie`
-  // would result in a mapping of `'username': 'marie'`.
-  map<string, string> wildcards = 4;
 }
 
 // A set of field paths on a document.
