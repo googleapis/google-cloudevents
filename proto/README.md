@@ -38,7 +38,7 @@ Our convention for event types is to have a dot-separated list of
 the following values, in the order:
 
 - `google` (always)
-- product (e.g. `firebase` or `cloud.storage`)
+- product (e.g. `firebase.auth` or `cloud.storage`)
 - resource (e.g. `object` or `document`)
 - version (e.g. `v1`)
 - action (e.g. `finalized` or `deleted`)
