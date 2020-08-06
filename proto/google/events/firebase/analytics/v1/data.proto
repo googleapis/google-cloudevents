@@ -1,0 +1,228 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.firebase.analytics.v1;
+
+option csharp_namespace = "Google.Events.Protobuf.Firebase.Analytics.V1";
+
+// The data within Firebase Analytics log events.
+message AnalyticsLogData {
+  // User related dimensions.
+  UserDimensions user_dim = 1;
+
+  // A repeated record of event related dimensions.
+  repeated EventDimensions event_dim = 2;
+}
+
+// Message containing information about the user associated with the event.
+message UserDimensions {
+  // The user ID set via the setUserId API.
+  string user_id = 1;
+
+  // The time (in microseconds) at which the user first opened the app.
+  int64 first_open_timestamp_micros = 2;
+
+  // A repeated record of user properties set with the setUserProperty API.
+  // https://firebase.google.com/docs/analytics/android/properties
+  map<string, UserPropertyValue> user_properties = 3;
+
+  // Device information.
+  DeviceInfo device_info = 4;
+
+  // User's geographic information.
+  GeoInfo geo_info = 5;
+
+  // App information.
+  AppInfo app_info = 6;
+
+  // Information about marketing campaign which acquired the user.
+  TrafficSource traffic_source = 7;
+
+  // Information regarding the bundle in which these events were uploaded.
+  ExportBundleInfo bundle_info = 8;
+
+  // Lifetime Value information about this user.
+  LtvInfo ltv_info = 9;
+}
+
+// Predefined (eg: LTV) or custom properties (eg: birthday) stored on client
+// side and associated with subsequent HitBundles.
+message UserPropertyValue {
+  // Last set value of user property.
+  AnalyticsValue value = 1;
+
+  // UTC client time when user property was last set.
+  int64 set_timestamp_usec = 2;
+
+  // Index for user property (one-based).
+  int32 index = 3;
+}
+
+// Value for Event Params and UserProperty can be of type string or int or
+// float or double.
+message AnalyticsValue {
+  oneof param_value {
+    string string_value = 1;
+    int64 int_value = 2;
+    float float_value = 3;
+    double double_value = 4;
+  }
+}
+
+// Message containing device informations.
+message DeviceInfo {
+  // Device category.
+  // Eg. tablet or mobile.
+  string device_category = 1;
+
+  // Device brand name.
+  // Eg. Samsung, HTC, etc.
+  string mobile_brand_name = 2;
+
+  // Device model name.
+  // Eg. GT-I9192
+  string mobile_model_name = 3;
+
+  // Device marketing name.
+  // Eg. Galaxy S4 Mini
+  string mobile_marketing_name = 4;
+
+  // Device model.
+  // Eg. GT-I9192
+  string device_model = 12;
+
+  // Device OS version when data capture ended.
+  // Eg. 4.4.2
+  string platform_version = 6;
+
+  // Vendor specific device identifier. This is IDFV on iOS. Not used for
+  // Android.
+  // Example: "599F9C00-92DC-4B5C-9464-7971F01F8370"
+  string device_id = 7;
+
+  // The type of the resettable_device_id is always IDFA on iOS and AdId
+  // on Android.
+  // Example: "71683BF9-FA3B-4B0D-9535-A1F05188BAF3"
+  string resettable_device_id = 8;
+
+  // The user language.
+  // Eg. "en-us", "en-za", "zh-tw", "jp"
+  string user_default_language = 9;
+
+  // The timezone of the device when data was uploaded as seconds skew from UTC.
+  int32 device_time_zone_offset_seconds = 10;
+
+  // The device's Limit Ad Tracking setting.
+  // When true, we cannot use device_id for remarketing, demographics or
+  // influencing ads serving behaviour. However, we can use device_id for
+  // conversion tracking and campaign attribution.
+  bool limited_ad_tracking = 11;
+}
+
+// Message which contains App Information.
+message AppInfo {
+  // The app's version name
+  // Examples: "1.0", "4.3.1.1.213361", "2.3 (1824253)", "v1.8b22p6"
+  string app_version = 1;
+
+  // Unique id for this instance of the app.
+  // Example: "71683BF9FA3B4B0D9535A1F05188BAF3"
+  string app_instance_id = 2;
+
+  // The identifier of the store that installed the app.
+  // Eg. "com.sec.android.app.samsungapps", "com.amazon.venezia",
+  // "com.nokia.nstore"
+  string app_store = 3;
+
+  // The app platform.
+  // Eg "ANDROID", "IOS".
+  string app_platform = 4;
+
+  // Unique application identifier within an app store.
+  string app_id = 5;
+}
+
+// User's geographic informaiton.
+message GeoInfo {
+  // The geographic continent.
+  // Eg. Americas
+  string continent = 1;
+
+  // The geographic country.
+  // Eg. Brazil
+  string country = 2;
+
+  // The geographic region.
+  // Eg. State of Sao Paulo
+  string region = 3;
+
+  // The geographic city.
+  // Eg. Sao Paulo
+  string city = 4;
+}
+
+// Mesage containing marketing campaign information which acquired the user.
+message TrafficSource {
+  // The name of the campaign which acquired the user.
+  string user_acquired_campaign = 2;
+
+  // The name of the network which acquired the user.
+  string user_acquired_source = 3;
+
+  // The name of the medium which acquired the user.
+  string user_acquired_medium = 4;
+}
+
+// Message containing information regarding the bundle in which these
+// events were uploaded.
+message ExportBundleInfo {
+  // Monotonically increasing index for each bundle set by SDK.
+  int32 bundle_sequence_id = 1;
+
+  // Timestamp offset between collection time and upload time.
+  int64 server_timestamp_offset_micros = 2;
+}
+
+// Lifetime Value information about this user.
+message LtvInfo {
+  // The Lifetime Value revenue of this user.
+  double revenue = 1;
+
+  // The currency corresponding to the revenue.
+  string currency = 2;
+}
+
+// Message containing information pertaining to the event.
+message EventDimensions {
+  // The date on which this event was logged.
+  // (YYYYMMDD format in the registered timezone of your app.)
+  string date = 6;
+
+  // The name of this event.
+  string name = 1;
+
+  // A repeated record of the parameters associated with this event.
+  map<string, AnalyticsValue> params = 2;
+
+  // UTC client time when the event happened.
+  int64 timestamp_micros = 4;
+
+  // UTC client time when the previous event happened.
+  int64 previous_timestamp_micros = 5;
+
+  // Value param in USD.
+  double value_in_usd = 7;
+}
