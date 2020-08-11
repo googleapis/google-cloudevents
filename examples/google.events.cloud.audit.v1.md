@@ -3,8 +3,7 @@
 Example cURL request with headers and data format seen by Cloud Run:
 
 ```sh
-curl localhost:8080 \
--0 -v -XPOST \
+curl localhost:8080 -XPOST \
 -H "host: my-run-url-uc.a.run.app" \
 -H "content-type: application/json" \
 -H "accept: application/json" \
