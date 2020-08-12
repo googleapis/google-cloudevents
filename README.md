@@ -11,9 +11,6 @@ The "source of truth" for the event data format is in the form of
 See [proto/README.md](proto/README.md) for more
 information about the messages used to describe CloudEvents.
 
-See [examples/README.md](proto/README.md) for examples of
-`cURL` requests with HTTP headers and CloudEvent data payloads.
-
 ## Stability warning
 
 The entire content of this repository should be regarded as highly

@@ -1,4 +1,4 @@
-## google.events.cloud.audit.v1
+## google.events.cloud.pubsub.v1
 
 Example cURL request with headers and data format seen by Cloud Run:
 
@@ -19,16 +19,5 @@ curl localhost:8080 -XPOST \
 -H "ce-specversion: 1.0" \
 -H "ce-type: com.google.cloud.pubsub.topic.publish" \
 -H "ce-time: 2020-12-08T20:03:19.162Z" \
---data-binary @- << EOF
-{
-  "data": {
-    "message": {
-      "data": "SGVsbG8gdGhlcmU=", 
-      "messageId": "1408577928008405", 
-      "publishTime": "2020-08-06T22:31:14.536Z"
-    },
-    "subscription": "projects/MY-PROJECT/subscriptions/MY-SUB"
-  } 
-}
-EOF
+--data-binary @data.json
 ```
