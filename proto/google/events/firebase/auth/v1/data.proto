@@ -16,6 +16,7 @@ syntax = "proto3";
 
 package google.events.firebase.auth.v1;
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
@@ -28,11 +29,30 @@ message AuthEventData {
   // The user's primary email, if set.
   string email = 2;
 
+  // Whether or not the user's primary email is verified.
+  bool email_verified = 3;
+
+  // The user's display name.
+  string display_name = 4;
+
+  // The user's photo URL.
+  string photo_URL = 5;
+
+  // Whether the user is disabled.
+  bool disabled = 6;
+
   // Additional metadata about the user.
   UserMetadata metadata = 7;
 
   // User's info at the providers
   repeated UserInfo provider_data = 8;
+
+  // The user's phone number.
+  string phone_number = 9;
+
+  // User's custom claims, typically used to define user roles and propagated
+  // to an authenticated user's ID token.
+  google.protobuf.Struct custom_claims = 10;
 }
 
 // Additional metadata about the user.
@@ -51,6 +71,12 @@ message UserInfo {
 
   // The email for the linked provider.
   string email = 2;
+
+  // The display name for the linked provider.
+  string display_name = 3;
+
+  // The photo URL for the linked provider.
+  string photo_URL = 4;
 
   // The linked provider ID (e.g. "google.com" for the Google provider).
   string provider_id = 5;
