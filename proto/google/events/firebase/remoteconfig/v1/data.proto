@@ -41,7 +41,6 @@ message RemoteConfigEventData {
   RemoteConfigUpdateType update_type = 6;
   
   // Only present if this version is the result of a rollback, and will be the
-  // Only present if this version is the result of a rollback, and will be the
   // version number of the Remote Config template that was rolled-back to.
   int64 rollback_source = 7;
 }
