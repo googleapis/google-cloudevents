@@ -23,7 +23,7 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Build.V1";
 // Build event data
 // Common build format for Google Cloud Platform API operations.
 // Copied from
-// https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto,
+// https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.
 message BuildEventData {
   // Possible status of a build or build step.
   enum Status {
@@ -70,7 +70,7 @@ message BuildEventData {
   // The location of the source files to build.
   Source source = 3;
 
-  // Required. The operations to be performed on the workspace.
+  // The operations to be performed on the workspace.
   repeated BuildStep steps = 11;
 
   // Results of the build.
@@ -91,8 +91,6 @@ message BuildEventData {
   // Amount of time that this build should be allowed to run, to second
   // granularity. If this amount of time elapses, work on the build will cease
   // and the build status will be `TIMEOUT`.
-  //
-  // Default time is ten minutes.
   google.protobuf.Duration timeout = 12;
 
   // A list of images to be pushed upon the successful completion of all build
@@ -178,9 +176,6 @@ message StorageSource {
   string bucket = 1;
 
   // Google Cloud Storage object containing the source.
-  //
-  // This object must be a gzipped archive file (`.tar.gz`) containing source to
-  // build.
   string object = 2;
 
   // Google Cloud Storage generation for the object. If the generation is
@@ -190,11 +185,10 @@ message StorageSource {
 
 // Location of the source in a Google Cloud Source Repository.
 message RepoSource {
-  // ID of the project that owns the Cloud Source Repository. If omitted, the
-  // project ID requesting the build is assumed.
+  // ID of the project that owns the Cloud Source Repository.
   string project_id = 1;
 
-  // Required. Name of the Cloud Source Repository.
+  // Name of the Cloud Source Repository.
   string repo_name = 2;
 
   // A revision within the Cloud Source Repository must be specified in
@@ -233,7 +227,7 @@ message RepoSource {
 
 // A step in the build pipeline.
 message BuildStep {
-  // Required. The name of the container image that will run this particular
+  // The name of the container image that will run this particular
   // build step.
   //
   // If the image is available in the host's Docker daemon's cache, it
@@ -590,8 +584,6 @@ message BuildOptions {
 
   // Option to specify a `WorkerPool` for the build.
   // Format: projects/{project}/locations/{location}/workerPools/{workerPool}
-  //
-  // This field is experimental.
   string worker_pool = 7;
 
   // Option to specify the logging mode, which determines where the logs are
