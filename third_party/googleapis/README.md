@@ -9,8 +9,12 @@ These files, and *only* these files, can be imported from event
 types defined in the `proto` directory.
 
 Initially, this consists of just the `google.type` and `google.rpc`
-packages; other proto packages could potentially be added later, but
-these are likely to cover the majority of use cases.
+packages, along with `google.api.MonitoredResource`. Other proto
+packages could potentially be added later, but these are likely to
+cover the majority of use cases.
+
+This directory should be carefully and consciously curated too avoid
+events depending on too much other Google infrastructure.
 
 We could potentially use a submodule for this, but explicitly
 copying a subset of the protos allows for simpler governance over
