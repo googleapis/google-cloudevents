@@ -137,9 +137,12 @@ message StorageObjectData {
   // such a key.
   CustomerEncryption customer_encryption = 28;
 
-  // The link to this object.
+  // Media download link.
   string media_link = 100;
 
-  // Media download link.
+  // The link to this object.
   string self_link = 101;
+
+  // The kind of item this is. For objects, this is always "storage#object".
+  string kind = 102;
 }
