@@ -16,17 +16,124 @@ syntax = "proto3";
 
 package google.events.cloud.audit.v1;
 
+import "google/api/monitored_resource.proto";
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 import "google/rpc/context/attribute_context.proto";
 import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
+// Generic log entry, used as a wrapper for Cloud Audit Logs in events.
+// This is copied from
+// https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto
+// and adapted appropriately.
+message LogEntryData {
+  // The resource name of the log to which this log entry belongs.
+  string log_name = 12;
+
+  // The monitored resource that produced this log entry.
+  //
+  // Example: a log entry that reports a database error would be associated with
+  // the monitored resource designating the particular database that reported
+  // the error.
+  google.api.MonitoredResource resource = 8;
+
+  // The log entry payload, which is always an AuditLog for Cloud Audit Log events.
+  AuditLog proto_payload = 2;
+
+  // A unique identifier for the log entry. 
+  string insert_id = 4;
+
+  // A set of user-defined (key, value) data that provides additional
+  // information about the log entry.
+  map<string, string> labels = 11;
+
+  // Information about an operation associated with the log entry, if applicable.
+  LogEntryOperation operation = 15;
+
+  // The time the event described by the log entry occurred.
+  google.protobuf.Timestamp timestamp = 9;
+
+  // The time the log entry was received by Logging.
+  google.protobuf.Timestamp receive_timestamp = 24;
+
+  // The severity of the log entry.
+  LogSeverity severity = 10;
+
+  // Resource name of the trace associated with the log entry, if any. If it
+  // contains a relative resource name, the name is assumed to be relative to
+  // `//tracing.googleapis.com`. Example:
+  // `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`
+  string trace = 22;
+
+  // The span ID within the trace associated with the log entry, if any.
+  //
+  // For Trace spans, this is the same format that the Trace API v2 uses: a
+  // 16-character hexadecimal encoding of an 8-byte array, such as
+  // `000000000000004a`.
+  string span_id = 27;
+}
+
+// Additional information about a potentially long-running operation with which
+// a log entry is associated.
+message LogEntryOperation {
+  // An arbitrary operation identifier. Log entries with the same
+  // identifier are assumed to be part of the same operation.
+  string id = 1;
+
+  // An arbitrary producer identifier. The combination of `id` and
+  // `producer` must be globally unique. Examples for `producer`:
+  // `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`.
+  string producer = 2;
+
+  // True if this is the first log entry in the operation.
+  bool first = 3;
+
+  // True if this is the last log entry in the operation.
+  bool last = 4;
+}
+
+// The severity of the event described in a log entry, expressed as one of the
+// standard severity levels listed below.  For your reference, the levels are
+// assigned the listed numeric values. The effect of using numeric values other
+// than those listed is undefined.
+// Copied from https://github.com/googleapis/googleapis/blob/master/google/logging/type/log_severity.proto
+enum LogSeverity {
+  // (0) The log entry has no assigned severity level.
+  DEFAULT = 0;
+
+  // (100) Debug or trace information.
+  DEBUG = 100;
+
+  // (200) Routine information, such as ongoing status or performance.
+  INFO = 200;
+
+  // (300) Normal but significant events, such as start up, shut down, or
+  // a configuration change.
+  NOTICE = 300;
+
+  // (400) Warning events might cause problems.
+  WARNING = 400;
+
+  // (500) Error events are likely to cause problems.
+  ERROR = 500;
+
+  // (600) Critical events cause more severe problems or outages.
+  CRITICAL = 600;
+
+  // (700) A person must take an action immediately.
+  ALERT = 700;
+
+  // (800) One or more systems are unusable.
+  EMERGENCY = 800;
+}
+
 // Common audit log format for Google Cloud Platform API operations.
 // Copied from
 // https://github.com/googleapis/googleapis/blob/master/google/cloud/audit/audit_log.proto,
 // but changing service_data from Any to Struct.
-message AuditLogData {
+message AuditLog {
   // The name of the API service performing the operation. For example,
   // `"datastore.googleapis.com"`.
   string service_name = 7;

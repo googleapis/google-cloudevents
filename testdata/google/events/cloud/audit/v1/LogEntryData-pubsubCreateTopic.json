@@ -1,0 +1,93 @@
+{
+  "insertId": "9frck8cf9j",
+  "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
+  "protoPayload": {
+    "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+    "authenticationInfo": {
+      "principalEmail": "robot@test-project.iam.gserviceaccount.com",
+      "principalSubject": "user:robot@test-project.iam.gserviceaccount.com",
+      "serviceAccountKeyName": "//iam.googleapis.com/projects/test-project/serviceAccounts/robot@test-project.iam.gserviceaccount.com/keys/90f662482321f1ca8e82ea675b1a1c30c1fe681f"
+    },
+    "authorizationInfo": [
+      {
+        "granted": true,
+        "permission": "pubsub.topics.create",
+        "resource": "projects/test-project",
+        "resourceAttributes": {}
+      }
+    ],
+    "methodName": "google.pubsub.v1.Publisher.CreateTopic",
+    "request": {
+      "@type": "type.googleapis.com/google.pubsub.v1.Topic",
+      "name": "projects/test-project/topics/test-auditlogs-source"
+    },
+    "requestMetadata": {
+      "callerIp": "192.168.0.1",
+      "callerNetwork": "//compute.googleapis.com/projects/google.com:my-laptop/global/networks/__unknown__",
+      "callerSuppliedUserAgent": "google-cloud-sdk",
+      "destinationAttributes": {},
+      "requestAttributes": {
+        "auth": {},
+        "time": "2020-06-30T16:14:47.600710407Z"
+      }
+    },
+    "resourceLocation": {
+      "currentLocations": [
+        "asia-east1",
+        "asia-northeast1",
+        "asia-southeast1",
+        "australia-southeast1",
+        "europe-north1",
+        "europe-west1",
+        "europe-west2",
+        "europe-west3",
+        "europe-west4",
+        "us-central1",
+        "us-central2",
+        "us-east1",
+        "us-east4",
+        "us-west1",
+        "us-west2",
+        "us-west3",
+        "us-west4"
+      ]
+    },
+    "resourceName": "projects/test-project/topics/test-auditlogs-source",
+    "response": {
+      "@type": "type.googleapis.com/google.pubsub.v1.Topic",
+      "messageStoragePolicy": {
+        "allowedPersistenceRegions": [
+          "asia-east1",
+          "asia-northeast1",
+          "asia-southeast1",
+          "australia-southeast1",
+          "europe-north1",
+          "europe-west1",
+          "europe-west2",
+          "europe-west3",
+          "europe-west4",
+          "us-central1",
+          "us-central2",
+          "us-east1",
+          "us-east4",
+          "us-west1",
+          "us-west2",
+          "us-west3",
+          "us-west4"
+        ]
+      },
+      "name": "projects/test-project/topics/test-auditlogs-source"
+    },
+    "serviceName": "pubsub.googleapis.com"
+  },
+  "receiveTimestamp": "2020-06-30T16:14:48.401489148Z",
+  "resource": {
+    "labels": {
+      "project_id": "test-project",
+      "topic_id": "projects/test-project/topics/test-auditlogs-source"
+    },
+    "type": "pubsub_topic"
+  },
+  "severity": "NOTICE",
+  "timestamp": "2020-06-30T16:14:47.593398572Z"
+}

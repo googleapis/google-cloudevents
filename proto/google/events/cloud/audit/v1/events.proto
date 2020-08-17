@@ -26,5 +26,5 @@ message AuditLogWrittenEvent {
   option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
 
   // The data associated with the event.
-  AuditLogData data = 1;
+  LogEntryData data = 1;
 }
