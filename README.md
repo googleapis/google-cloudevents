@@ -24,8 +24,22 @@ This repository contains definitions for the following CloudEvents:
 
 |Package|Event types|Data messages|
 |-|-|-|
+|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
+|[google.events.cloud.build.v1](proto/google/events/cloud/build/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
+|[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
+|[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
+|[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
+|[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
+|[google.events.firebase.analytics.v1](proto/google/events/firebase/analytics/v1)|google.firebase.analytics.log.v1.written|AnalyticsLogData|
+|[google.events.firebase.auth.v1](proto/google/events/firebase/auth/v1)|google.firebase.auth.user.v1.deleted<br/>google.firebase.auth.user.v1.updated|AuthEventData|
+|[google.events.firebase.database.v1](proto/google/events/firebase/database/v1)|google.firebase.database.ref.v1.created<br/>google.firebase.database.ref.v1.deleted<br/>google.firebase.database.ref.v1.updated<br/>google.firebase.database.ref.v1.written|ReferenceEventData|
+|[google.events.firebase.remoteconfig.v1](proto/google/events/firebase/remoteconfig/v1)|google.firebase.remoteconfig.remoteConfig.v1.updated|RemoteConfigEventData|
+<<<<<<< HEAD
 |[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|AuditLogData|
 |[google.events.cloud.build.v1](proto/google/events/cloud/build/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
+=======
+|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
+>>>>>>> Wrap Cloud Audit Log event data in a log entry, to match reality on Cloud Run
 |[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
 |[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
 |[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
