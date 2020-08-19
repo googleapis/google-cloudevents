@@ -1,0 +1,52 @@
+name: Build and test
+
+on: [push, pull_request]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      DOTNET_NOLOGO: true
+    steps:
+    - name: Check out our repo
+      uses: actions/checkout@v2
+
+    # We use .NET Core for the event registry generation
+    - name: Setup .NET Core 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - run: |
+        # Compile the protos to make sure they're valid
+        ./compile.sh
+        
+        # Generate the event registry so we can make sure
+        # it's up-to-date
+        ./generate-event-registry.sh tmp/protos.pb
+
+        git diff --exit-code README.md
+
+  # When other languages support schema validation too, we can
+  # have a separate job per language
+  validate-schema-dotnet:
+    runs-on: ubuntu-18.04
+    env:
+      DOTNET_NOLOGO: true
+    steps:
+    - name: Check out our repo
+      uses: actions/checkout@v2
+      
+    - name: Check out google-cloudevents-dotnet
+      uses: actions/checkout@v2
+      with:
+        repository: googleapis/google-cloudevents-dotnet
+        path: google-cloudevents-dotnet
+      
+    - name: Setup .NET Core 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+   
+    - run: |
+        google-cloudevents-dotnet/validate-schema.sh .
