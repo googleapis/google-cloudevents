@@ -24,7 +24,7 @@ option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
 // The CloudEvent raised when a Firebase user is created.
 message UserCreatedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.auth.user.v1.updated";
+    "google.firebase.auth.user.v1.created";
 
   // The data associated with the event.
   AuthEventData data = 1;
