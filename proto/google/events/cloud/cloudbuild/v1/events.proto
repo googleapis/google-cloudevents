@@ -14,11 +14,11 @@
 
 syntax = "proto3";
 
-package google.events.cloud.build.v1;
+package google.events.cloud.cloudbuild.v1;
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Build.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudBuild.V1";
 
-import "google/events/cloud/build/v1/data.proto";
+import "google/events/cloud/cloudbuild/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 // The CloudEvent raised when your build's state changes.

@@ -25,7 +25,7 @@ This repository contains definitions for the following CloudEvents:
 |Package|Event types|Data messages|
 |-|-|-|
 |[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
-|[google.events.cloud.build.v1](proto/google/events/cloud/build/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
+|[google.events.cloud.cloudbuild.v1](proto/google/events/cloud/cloudbuild/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
 |[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
 |[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
 |[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
