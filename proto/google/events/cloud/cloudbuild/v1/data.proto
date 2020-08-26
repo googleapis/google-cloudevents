@@ -14,12 +14,13 @@
 
 syntax = "proto3";
 
-package google.events.cloud.build.v1;
+package google.events.cloud.cloudbuild.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Build.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudBuild.V1";
+
 // Build event data
 // Common build format for Google Cloud Platform API operations.
 // Copied from
