@@ -1,6 +1,8 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "title": "google.events.cloud.audit.v1",
+    "$id": "google.events.cloud.audit.v1",
+    "title": "Cloud Audit Log LogEntry v1",
+    "name": "LogEntryData",
     "goPackage": "auditv1",
     "properties": {
         "AuditLogWrittenEvent": {

@@ -1,6 +1,8 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "title": "google.events.cloud.pubsub.v1",
+    "$id": "google.events.cloud.pubsub.v1",
+    "title": "Cloud Pub/Sub Message v1",
+    "name": "MessagePublishedData",
     "goPackage": "pubsubv1",
     "properties": {
         "MessagePublishedEvent": {
