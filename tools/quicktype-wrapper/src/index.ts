@@ -11,8 +11,8 @@ const HOMEDIR = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOM
  * @param {string} OUT The directory for generated output. Must have trailing /.
  * @param {string} L The target language
  */
-const IN = process.env.IN || `${HOMEDIR}/Documents/github/googleapis/google-cloudevents/proto/`;
-const OUT = process.env.OUT || `${HOMEDIR}/Documents/out`;
+const IN = process.env.IN;
+const OUT = process.env.OUT;
 const L = (process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
 
 console.log(
@@ -45,6 +45,11 @@ async function getJSONSchemasPaths(directory: string) {
 // Start the program
 (async () => {
   console.log('== START ==');
+  // Validate configuration
+  if (!IN) console.error('Error: Environment variable `IN` not set');
+  if (!OUT) console.error('Error: Environment variable `OUT` not set');
+  if (!IN || !OUT) return;
+
   // Get all paths for input.
   const absPaths = await getJSONSchemasPaths(IN);
   const relPaths = absPaths.map((p: string) => {

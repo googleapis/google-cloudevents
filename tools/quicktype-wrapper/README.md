@@ -11,12 +11,12 @@ This tool can be installed as a global CLI or run as a Node script. Requires Nod
 Install the CLI globally:
 
 ```sh
-sudo npm run cli
+npm run cli
 ```
 
-Then type `qt` to run the generator.
+This will install a `qt` CLI globally.
 
-### Node Script
+### RunNode Script
 
 You can also run as a script. Build then run:
 
@@ -25,12 +25,19 @@ npm run compile
 npm run start
 ```
 
-## Run
+## Configure
 
-const IN = process.env.IN || `${HOMEDIR}/Documents/github/googleapis/google-cloudevents/proto/`;
-const OUT = process.env.OUT || `${HOMEDIR}/Documents/out`;
-const L = (process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
+To configure the script, set required environment variables. (Command-line flags aren't supported yet.)
 
+Here's an example:
+
+```sh
+IN=~/Documents/github/googleapis/google-cloudevents/proto
+OUT=~/Documents/out
+L=typescript
+```
+
+Then run `qt`, which will pick up these environment variables.
 
 ## Develop/Watch
 
@@ -43,7 +50,7 @@ npm run watch
 
 ## Lint/Fix
 
-To fix style/lint mistakes, run:
+To fix style/lint mistakes in this generator, run:
 
 ```sh
 npm run fix
