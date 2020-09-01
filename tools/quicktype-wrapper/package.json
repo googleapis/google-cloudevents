@@ -1,0 +1,31 @@
+{
+  "name": "qt",
+  "version": "1.0.0",
+  "description": "A little tool to generate libraries using Quicktype",
+  "bin": "build/src/index.js",
+  "main": "build/src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "node build/src",
+    "check": "gts check",
+    "clean": "gts clean",
+    "build": "tsc --skipLibCheck",
+    "watch": "tsc --watch --skipLibCheck",
+    "fix": "gts fix src/**/*.ts",
+    "prepare": "npm run build",
+    "pretest": "npm run build",
+    "posttest": "npm run check",
+    "cli": "npm run build && npm i -g --loglevel=error"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "gts": "^2.0.2",
+    "typescript": "^3.8.3",
+    "@types/node": "^13.11.1"
+  },
+  "dependencies": {
+    "mkdirp": "^1.0.4",
+    "quicktype-core": "^6.0.68",
+    "recursive-readdir": "^2.2.2"
+  }
+}

@@ -9,10 +9,16 @@ build and run, this is purely incidental. Pull requests to rewrite
 the tools in languages more commonly used at Google (e.g. Java, Go
 or Python) are welcome.
 
-## Google.Events.Tools.GenerateRegistry
+## registry
 
 This tool edits the top-level [README](../README.md) to maintain the
 event registry. It requires that the protobuf descriptor set (a
 protobuf representation of all the .proto files) is already
 compiled via protoc. (The [root compile.sh script](../compile.sh)
 does this.)
+
+## quicktype-wrapper
+
+This tool wraps the quicktype tool to generate code using JSON Schema.
+
+See [`quicktype-wrapper/`](./quicktype-wrapper/README.md).
