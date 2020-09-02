@@ -6,7 +6,7 @@
   "main": "build/src/index.js",
   "private": true,
   "scripts": {
-    "start": "node build/src --in foo --out bar",
+    "start": "node build/src",
     "check": "gts check",
     "clean": "gts clean",
     "build": "tsc --skipLibCheck",
