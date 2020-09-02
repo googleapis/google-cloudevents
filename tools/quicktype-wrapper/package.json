@@ -6,7 +6,7 @@
   "main": "build/src/index.js",
   "private": true,
   "scripts": {
-    "start": "node build/src",
+    "start": "node build/src --in foo --out bar",
     "check": "gts check",
     "clean": "gts clean",
     "build": "tsc --skipLibCheck",
@@ -26,6 +26,7 @@
   "dependencies": {
     "mkdirp": "^1.0.4",
     "quicktype-core": "^6.0.68",
-    "recursive-readdir": "^2.2.2"
+    "recursive-readdir": "^2.2.2",
+    "yargs": "^15.4.1"
   }
 }

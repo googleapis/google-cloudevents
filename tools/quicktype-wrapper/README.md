@@ -27,17 +27,26 @@ npm run start
 
 ## Configure
 
-To configure the script, set required environment variables. (Command-line flags aren't supported yet.)
+To configure the script, use _environment variables_ or _command-line flags_:
 
-Here's an example:
+### Environment Variables
 
 ```sh
 IN=~/Documents/github/googleapis/google-cloudevents/proto
 OUT=~/Documents/out
 L=typescript
+
+qt
 ```
 
-Then run `qt`, which will pick up these environment variables.
+### Command-line Flags
+
+```sh
+qt \
+--in=~/Documents/github/googleapis/google-cloudevents/proto \
+--out=~/Documents/out \
+--l=typescript
+```
 
 ## Develop/Watch
 
