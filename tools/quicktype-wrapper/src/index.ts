@@ -2,18 +2,21 @@
 
 import { readFileSync, writeFileSync } from "fs";
 import {jsonschema2language, LANGUAGE, LANGUAGE_EXT, TARGET_LANGUAGE} from './quickstype';
+const {argv} = require('yargs')
 const mkdirp = require('mkdirp');
 const HOMEDIR = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 
 /**
  * A simple tool that generates code using quicktype.
+ * 
+ * Configuration (via environment variables or command-line flags):
  * @param {string} IN The directory for JSON Schema input. Must have trailing /.
  * @param {string} OUT The directory for generated output. Must have trailing /.
  * @param {string} L The target language
  */
-const IN = process.env.IN;
-const OUT = process.env.OUT;
-const L = (process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
+const IN = argv.in || process.env.IN;
+const OUT = argv.out || process.env.OUT;
+const L = (argv.l || process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
 
 console.log(
 `***********************
@@ -21,7 +24,7 @@ console.log(
 ***********************
 * Valid Languages (L): ${Object.values(LANGUAGE)}
 ***********************
-* Environment Variables:
+* Config:
 - IN=${IN}
 - OUT=${OUT}
 - L=${L}
@@ -46,8 +49,8 @@ async function getJSONSchemasPaths(directory: string) {
 (async () => {
   console.log('== START ==');
   // Validate configuration
-  if (!IN) console.error('Error: Environment variable `IN` not set');
-  if (!OUT) console.error('Error: Environment variable `OUT` not set');
+  if (!IN) console.error('Error in config: `IN` not set');
+  if (!OUT) console.error('Error in config: `OUT` not set');
   if (!IN || !OUT) return;
 
   // Get all paths for input.
