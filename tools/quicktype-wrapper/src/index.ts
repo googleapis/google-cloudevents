@@ -14,9 +14,9 @@ const HOMEDIR = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOM
  * @param {string} OUT The directory for generated output. Must have trailing /.
  * @param {string} L The target language
  */
-const IN = process.env.IN || argv.in;
-const OUT = process.env.OUT || argv.out;
-const L = (process.env.L || argv.l || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
+const IN = argv.in || process.env.IN;
+const OUT = argv.out || process.env.OUT;
+const L = (argv.l || process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
 
 console.log(
 `***********************
