@@ -19,7 +19,7 @@
                         "attributes": {
                             "type": "object"
                         },
-                        "message_id": {
+                        "messageId": {
                             "type": "string"
                         }
                     }
