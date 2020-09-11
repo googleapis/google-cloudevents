@@ -22,17 +22,30 @@
                 },
                 "ResourceLocation": {
                     "type": "object",
+                    "$comment": "https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.cloud.audit?hl=en#resourcelocation",
                     "properties": {
                         "current_locations": {
+                            "description": "The locations of a resource after the execution of the operation. Requests to create or delete a location based resource must populate the 'current_locations' field and not the 'original_locations' field.",
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "examples": [
+                                    "europe-west1-a",
+                                    "us-east1",
+                                    "nam3"
+                                ]
                             }
                         },
                         "original_locations": {
+                            "description": "The locations of a resource prior to the execution of the operation. Requests that mutate the resource's location must populate both the 'original_locations' as well as the 'current_locations' fields. For example:",
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "examples": [
+                                    "europe-west1-a",
+                                    "us-east1",
+                                    "nam3"
+                                ]
                             }
                         }
                     }
@@ -50,6 +63,8 @@
                     }
                 },
                 "ServiceAccountDelegationInfo": {
+                    "description": "Identity delegation history of an authenticated service account",
+                    "$comment": "https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.cloud.audit?hl=en#serviceaccountdelegationinfo",
                     "type": "object",
                     "oneOf": [
                         {
@@ -73,27 +88,38 @@
                 },
                 "AuthenticationInfo": {
                     "type": "object",
+                    "description": "Authentication information for the operation.",
+                    "$comment": "https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.cloud.audit?hl=en#google.cloud.audit.AuthenticationInfo",
                     "properties": {
                         "principal_email": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The email address of the authenticated user (or service account on behalf of third party principal) making the request. For privacy reasons, the principal email address is redacted for all read-only operations that fail with a \"permission denied\" error."
                         },
                         "authority_selector": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The authority selector specified by the requestor, if any. It is not guaranteed that the principal was allowed to use this authority."
                         },
                         "third_party_principal": {
-                            "type": "object"
+                            "type": "object",
+                            "description": "The third party identification (if any) of the authenticated user making the request. When the JSON object represented here has a proto equivalent, the proto name will be indicated in the @type property."
                         },
                         "service_account_key_name": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The name of the service account key used to create or exchange credentials for authenticating the service account making the request. This is a scheme-less URI full resource name.",
+                            "examples": [
+                                "//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}"
+                            ]
                         },
                         "service_account_delegation_info": {
                             "type": "array",
+                            "description": "Identity delegation history of an authenticated service account that makes the request. It contains information on the real authorities that try to access GCP resources by delegating on a service account. When multiple authorities present, they are guaranteed to be sorted based on the original ordering of the identity delegation events.",
                             "items": {
                                 "$ref": "#/properties/AuditLogWrittenEvent/definitions/ServiceAccountDelegationInfo"
                             }
                         },
                         "principal_subject": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "String representation of identity of requesting party. Populated for both first and third party identities."
                         }
                     }
                 },
@@ -116,18 +142,26 @@
                 },
                 "AuthorizationInfo": {
                     "type": "object",
+                    "$comment": "https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.cloud.audit?hl=en#authorizationinfo",
                     "properties": {
                         "resource": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The resource being accessed, as a REST-style string.",
+                            "examples": [
+                                "bigquery.googleapis.com/projects/PROJECTID/datasets/DATASETID"
+                            ]
                         },
                         "permission": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "The required IAM permission."
                         },
                         "granted": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "Whether or not authorization for resource and permission was granted."
                         },
                         "resource_attributes": {
-                            "$ref": "#/properties/AuditLogWrittenEvent/definitions/Resource"
+                            "$ref": "#/properties/AuditLogWrittenEvent/definitions/Resource",
+                            "description": "Resource attributes used in IAM condition evaluation. This field contains resource attributes like resource type and resource name. To get the whole view of the attributes used in IAM condition evaluation, the user must also look into AuditLog.request_metadata.request_attributes."
                         }
                     }
                 },
