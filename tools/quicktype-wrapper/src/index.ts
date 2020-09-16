@@ -32,6 +32,11 @@ async function getJSONSchemasPaths(directory: string) {
   return paths;
 }
 
+/**
+ * Gets a list of tuples of all JSON schemas and code generated from them
+ * @param directory The path to the directory with schemas.
+ * @param language The language of the code.
+ */
 export async function getJSONSchemasAndGenFiles(directory: string, language: string) {
   const absPaths = await getJSONSchemasPaths(directory);
 
