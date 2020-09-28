@@ -1,10 +1,8 @@
 {
-    "data": {
-        "message": {
-            "data": "SGVsbG8gdGhlcmU=",
-            "messageId": "1408577928008405",
-            "publishTime": "2020-08-06T22:31:14.536Z"
-        },
-        "subscription": "projects/MY-PROJECT/subscriptions/MY-SUB"
-    }
+    "message": {
+        "data": "SGVsbG8gdGhlcmU=",
+        "messageId": "1408577928008405",
+        "publishTime": "2020-08-06T22:31:14.536Z"
+    },
+    "subscription": "projects/MY-PROJECT/subscriptions/MY-SUB"
 }
