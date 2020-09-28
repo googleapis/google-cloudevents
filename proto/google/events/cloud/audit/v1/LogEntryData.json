@@ -112,7 +112,7 @@
                     "type": "array",
                     "description": "Identity delegation history of an authenticated service account that makes the request. It contains information on the real authorities that try to access GCP resources by delegating on a service account. When multiple authorities present, they are guaranteed to be sorted based on the original ordering of the identity delegation events.",
                     "items": {
-                        "$ref": "#/properties/AuditLogWrittenEvent/definitions/ServiceAccountDelegationInfo"
+                        "$ref": "#/properties/ServiceAccountDelegationInfo"
                     }
                 },
                 "principal_subject": {
@@ -158,7 +158,7 @@
                     "description": "Whether or not authorization for resource and permission was granted."
                 },
                 "resource_attributes": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/Resource",
+                    "$ref": "#/properties/Resource",
                     "description": "Resource attributes used in IAM condition evaluation. This field contains resource attributes like resource type and resource name. To get the whole view of the attributes used in IAM condition evaluation, the user must also look into AuditLog.request_metadata.request_attributes."
                 }
             }
@@ -226,7 +226,7 @@
                     "type": "string"
                 },
                 "auth": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/Auth"
+                    "$ref": "#/properties/Auth"
                 }
             }
         },
@@ -263,10 +263,10 @@
                     "type": "string"
                 },
                 "request_attributes": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/Request"
+                    "$ref": "#/properties/Request"
                 },
                 "destination_attributes": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/Peer"
+                    "$ref": "#/properties/Peer"
                 }
             }
         },
@@ -283,7 +283,7 @@
                     "type": "string"
                 },
                 "resource_location": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/ResourceLocation"
+                    "$ref": "#/properties/ResourceLocation"
                 },
                 "resource_original_state": {
                     "type": "object"
@@ -292,19 +292,19 @@
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/Status"
+                    "$ref": "#/properties/Status"
                 },
                 "authentication_info": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/AuthenticationInfo"
+                    "$ref": "#/properties/AuthenticationInfo"
                 },
                 "authorization_info": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/properties/AuditLogWrittenEvent/definitions/AuthorizationInfo"
+                        "$ref": "#/properties/AuthorizationInfo"
                     }
                 },
                 "request_metadata": {
-                    "$ref": "#/properties/AuditLogWrittenEvent/definitions/RequestMetadata"
+                    "$ref": "#/properties/RequestMetadata"
                 },
                 "request": {
                     "type": "object"
@@ -343,10 +343,10 @@
             "type": "string"
         },
         "resource": {
-            "$ref": "#/properties/AuditLogWrittenEvent/definitions/MonitoredResource"
+            "$ref": "#/properties/MonitoredResource"
         },
         "proto_payload": {
-            "$ref": "#/properties/AuditLogWrittenEvent/definitions/AuditLog"
+            "$ref": "#/properties/AuditLog"
         },
         "insert_id": {
             "type": "string"
@@ -355,7 +355,7 @@
             "type": "object"
         },
         "operation": {
-            "$ref": "#/properties/AuditLogWrittenEvent/definitions/LogEntryOperation"
+            "$ref": "#/properties/LogEntryOperation"
         },
         "timestamp": {
             "type": "string"

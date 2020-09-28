@@ -30,8 +30,7 @@
     },
     "properties": {
         "message": {
-            "description": "The message that was published.",
-            "$ref": "#/properties/MessagePublishedEvent/definitions/PubsubMessage"
+            "$ref": "#/definitions/PubsubMessage"
         },
         "subscription": {
             "description": "The resource name of the subscription for which this event was generated. The format of the value is `projects/{project-id}/subscriptions/{subscription-id}`.",
