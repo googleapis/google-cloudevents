@@ -1,40 +1,40 @@
 {
-    "$id": "google.events.cloud.pubsub.v1",
-    "$schema": "http://json-schema.org/schema",
-    "title": "Cloud Pub/Sub Message v1",
-    "name": "MessagePublishedData",
-    "description": "A message that is published by publishers and consumed by subscribers.",
-    "type": "object",
-    "goPackage": "pubsubv1",
-    "definitions": {
-        "PubsubMessage": {
-            "type": "object",
-            "$comment": "https://cloud.google.com/pubsub/docs/reference/rest/v1/PubsubMessage",
-            "description": "A message published to a topic.",
-            "properties": {
-                "data": {
-                    "description": "The message data field. If this field is empty, the message must contain at least one attribute. A base64-encoded string.",
-                    "type": "string",
-                    "format": "binary"
-                },
-                "attributes": {
-                    "description": "Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription.",
-                    "type": "object"
-                },
-                "messageId": {
-                    "description": "ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a PubsubMessage via a subscriptions.pull call or a push delivery. It must not be populated by the publisher in a topics.publish call.",
-                    "type": "string"
-                }
-            }
-        }
-    },
-    "properties": {
-        "message": {
-            "$ref": "#/definitions/PubsubMessage"
+  "$id": "google.events.cloud.pubsub.v1",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Cloud Pub/Sub Message v1",
+  "name": "MessagePublishedData",
+  "description": "A message that is published by publishers and consumed by subscribers.",
+  "type": "object",
+  "goPackage": "pubsubv1",
+  "definitions": {
+    "PubsubMessage": {
+      "type": "object",
+      "$comment": "https://cloud.google.com/pubsub/docs/reference/rest/v1/PubsubMessage",
+      "description": "A message published to a topic.",
+      "properties": {
+        "data": {
+          "description": "The message data field. If this field is empty, the message must contain at least one attribute. A base64-encoded string.",
+          "type": "string",
+          "format": "binary"
         },
-        "subscription": {
-            "description": "The resource name of the subscription for which this event was generated. The format of the value is `projects/{project-id}/subscriptions/{subscription-id}`.",
-            "type": "string"
+        "attributes": {
+          "description": "Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription.",
+          "type": "object"
+        },
+        "messageId": {
+          "description": "ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a PubsubMessage via a subscriptions.pull call or a push delivery. It must not be populated by the publisher in a topics.publish call.",
+          "type": "string"
         }
+      }
     }
+  },
+  "properties": {
+    "message": {
+      "$ref": "#/definitions/PubsubMessage"
+    },
+    "subscription": {
+      "description": "The resource name of the subscription for which this event was generated. The format of the value is `projects/{project-id}/subscriptions/{subscription-id}`.",
+      "type": "string"
+    }
+  }
 }
