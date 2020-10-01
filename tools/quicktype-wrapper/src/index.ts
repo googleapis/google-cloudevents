@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from "fs";
 import {jsonschema2language, LANGUAGE, LANGUAGE_EXT, TARGET_LANGUAGE} from './quickstype';
 const {argv} = require('yargs')
 const mkdirp = require('mkdirp');
-const HOMEDIR = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+const recursive = require("recursive-readdir");
 
 /**
  * A simple tool that generates code using quicktype.
@@ -18,17 +18,18 @@ const IN = argv.in || process.env.IN;
 const OUT = argv.out || process.env.OUT;
 const L = (argv.l || process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
 
-// The name of the JSON Schema file
-const SCHEMA_FILE = 'schema.json';
-
 /**
  * Gets a list of all JSON Schema paths (absolute paths)
  * @param directory The path to the directory with schemas.
  */
 async function getJSONSchemasPaths(directory: string) {
-  console.log(`- Finding all JSON Schemas (${SCHEMA_FILE})...`);
-  const recursive = require("recursive-readdir");
-  const paths: string[] = await recursive(directory, [`!${SCHEMA_FILE}`])
+  // The name of the JSON Schema file
+  const SCHEMA_PATTERN = '*.json';
+  // Ignore all files that don't match the SCHEMA_PATTERN.
+  const IGNORE_PATTERN = [`!${SCHEMA_PATTERN}`];
+
+  console.log(`- Finding all JSON Schemas (${SCHEMA_PATTERN})...`);
+  const paths: string[] = await recursive(directory, IGNORE_PATTERN);
   return paths;
 }
 
@@ -62,18 +63,17 @@ export async function getJSONSchemasAndGenFiles(directory: string, language: str
 // Start the program
 if (!module.parent) {
   (async () => {
-    console.log(
-    `***********************
-    ** Quicktype Wrapper **
-    ***********************
-    * Valid Languages (L): ${Object.values(LANGUAGE)}
-    ***********************
-    * Config:
-    - IN=${IN}
-    - OUT=${OUT}
-    - L=${L}
-    ***********************
-    `);
+    console.log(`***********************
+** Quicktype Wrapper **
+***********************
+* Valid Languages (L): ${Object.values(LANGUAGE)}
+***********************
+* Config:
+- IN=${IN}
+- OUT=${OUT}
+- L=${L}
+***********************
+`);
 
     console.log('== START ==');
     // Validate configuration
@@ -91,27 +91,29 @@ if (!module.parent) {
     // Loop through every path
     const pathPromises = absPaths.map(async (f: string, i: number) => {
       const file = await readFileSync(f) + '';
-      const relPath = relPaths[i];
-      const typeName = JSON.parse(file).name;
+      const pathToSchema = relPaths[i]; // e.g. /google/events/cloud/pubsub/MessagePublishedData.json
+      const typeName = JSON.parse(file).name; // e.g. MessagePublishedData
 
-      // Gather the file paths
-      const mkdirpRelPath = relPath.substr(0, relPath.length - SCHEMA_FILE.length); // contains '/'
-      const outFolder = `${OUT}/${mkdirpRelPath}`; // foo/bar/
-      const outFile = `${typeName}.${LANGUAGE_EXT[L]}`; // PubSubData.java
-      const outPath = `${outFolder}${outFile}`; // foo/bar/PubSubData.java
-
-      console.log(`- ${typeName.padEnd(40, ' ')}: ${mkdirpRelPath}${outFile}`);
-
-      // Generate language using quicktype
+      // Generate language file using quicktype
       const genFile = await jsonschema2language({
         jsonSchema: file,
         language: L,
         typeName,
       });
       
-      // Make the directory
-      await mkdirp(outFolder);
-      writeFileSync(outPath, genFile);
+      // Save the language file with the right filename.
+      // fullPathTargetFile: /google/events/cloud/pubsub/MessagePublishedData.ts 
+      const fullPathTargetFile = pathToSchema.replace('.json', `.${LANGUAGE_EXT[L]}`);
+      // relativePathTargetFile: cloud/pubsub/MessagePublishedData.ts 
+      const relativePathTargetFile = fullPathTargetFile.substr('/google/events/'.length);
+      // relativePathTargetDirectory: cloud/pubsub/
+      const relativePathTargetDirectory = relativePathTargetFile.substring(
+        0, relativePathTargetFile.lastIndexOf('/'));
+
+      // Create the directory
+      await mkdirp(relativePathTargetDirectory);
+      writeFileSync(relativePathTargetFile, genFile);
+      console.log(`- ${typeName.padEnd(40, ' ')}: ${relativePathTargetFile}`);
     });
     await Promise.all(pathPromises);
     console.log('== END ==');
