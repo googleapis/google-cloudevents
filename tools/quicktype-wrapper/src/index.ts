@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from "fs";
 import {jsonschema2language, LANGUAGE, LANGUAGE_EXT, TARGET_LANGUAGE} from './quickstype';
 const {argv} = require('yargs')
 const mkdirp = require('mkdirp');
-const HOMEDIR = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+const recursive = require("recursive-readdir");
 
 /**
  * A simple tool that generates code using quicktype.
@@ -18,17 +18,18 @@ const IN = argv.in || process.env.IN;
 const OUT = argv.out || process.env.OUT;
 const L = (argv.l || process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
 
-// The name of the JSON Schema file
-const SCHEMA_PATTERN = '*.json';
-
 /**
  * Gets a list of all JSON Schema paths (absolute paths)
  * @param directory The path to the directory with schemas.
  */
 async function getJSONSchemasPaths(directory: string) {
+  // The name of the JSON Schema file
+  const SCHEMA_PATTERN = '*.json';
+  // Ignore all files that don't match the SCHEMA_PATTERN.
+  const IGNORE_PATTERN = [`!${SCHEMA_PATTERN}`];
+
   console.log(`- Finding all JSON Schemas (${SCHEMA_PATTERN})...`);
-  const recursive = require("recursive-readdir");
-  const paths: string[] = await recursive(directory, [`!${SCHEMA_PATTERN}`]);
+  const paths: string[] = await recursive(directory, IGNORE_PATTERN);
   return paths;
 }
 
@@ -90,7 +91,7 @@ if (!module.parent) {
     // Loop through every path
     const pathPromises = absPaths.map(async (f: string, i: number) => {
       const file = await readFileSync(f) + '';
-      const relPath = relPaths[i]; // e.g. /google/events/cloud/pubsub/MessagePublishedData.json
+      const pathToSchema = relPaths[i]; // e.g. /google/events/cloud/pubsub/MessagePublishedData.json
       const typeName = JSON.parse(file).name; // e.g. MessagePublishedData
 
       // Generate language file using quicktype
@@ -102,7 +103,7 @@ if (!module.parent) {
       
       // Save the language file with the right filename.
       // fullPathTargetFile: /google/events/cloud/pubsub/MessagePublishedData.ts 
-      const fullPathTargetFile = relPath.replace('.json', `.${LANGUAGE_EXT[L]}`);
+      const fullPathTargetFile = pathToSchema.replace('.json', `.${LANGUAGE_EXT[L]}`);
       // relativePathTargetFile: cloud/pubsub/MessagePublishedData.ts 
       const relativePathTargetFile = fullPathTargetFile.substr('/google/events/'.length);
       // relativePathTargetDirectory: cloud/pubsub/
