@@ -1,10 +1,12 @@
 import {
-  quicktype,
   InputData,
-    // jsonInputForTargetLanguage,
+  quicktypeMultiFile,
   JSONSchemaInput,
+  SerializedRenderResult,
   FetchingJSONSchemaStore,
 } from 'quicktype-core';
+// Interface not exported in top-level 'quicktype-core': https://github.com/quicktype/quicktype/pull/1565
+import {MultiFileRenderResult} from '../node_modules/quicktype-core/dist/TargetLanguage'
 
 /**
  * A list of supported Quicktype languages.
@@ -57,33 +59,37 @@ export const LANGUAGE_EXT = {
  * @param jsonSchemaString The JSON Schema as a string.
  * @see https://github.com/quicktype/quicktype#calling-quicktype-from-javascript
  */
-async function quicktypeJSONSchema(
+async function quicktypeJSONSchemaToMultiFile(
   targetLanguage: TARGET_LANGUAGE | string,
   typeName: string,
   jsonSchemaString: string
-) {
+): Promise<MultiFileRenderResult> {
   const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
+  const lang = targetLanguage.toLowerCase(); // must be lowercase for quicktype
 
   // We could add multiple schemas for multiple types,
   // but here we're just making one type from JSON schema.
   await schemaInput.addSource({name: typeName, schema: jsonSchemaString});
-
   const inputData = new InputData();
   inputData.addInput(schemaInput);
 
-  return await quicktype({
+  // Quicktype's API: Return a Promise of the multi-file results
+  return await quicktypeMultiFile({
     inputData,
-    lang: targetLanguage.toLowerCase(), // must be lowercase for quicktype
+    lang,
   });
 }
 
+// A simple map from filename to file contents.
+export type QtMultifileResult = { [filename: string]: string };
+
 /**
- * Converts a JSON Schema file (string) to a language file (string).
+ * Converts a JSON Schema file (string) to a set of langauge files.
  * @param jsonSchema The JSON Schema as a string
  * @param typeName The name of the type
  * @param language The target language to generate
  */
-export async function jsonschema2language({
+export async function jsonschema2languageFiles({
   jsonSchema, // '{"$schema":...}'
   typeName, // 'AuditLogWrittenEvent'
   language, // 'typescript'
@@ -91,12 +97,21 @@ export async function jsonschema2language({
   jsonSchema: string;
   typeName: string;
   language: TARGET_LANGUAGE | string;
-}) {
-  const {lines: languageType} = await quicktypeJSONSchema(
+}): Promise<QtMultifileResult> {
+  // Run quicktype tooling
+  const multifileResult: MultiFileRenderResult = await quicktypeJSONSchemaToMultiFile(
     language,
     typeName,
     jsonSchema
   );
-  const generatedFile = languageType.join('\n');
-  return generatedFile;
+  const multifileResultList: [string, SerializedRenderResult][] = Array.from(multifileResult.entries());
+
+  // Transform result to a map of filepath : file contents
+  const multifileResultMap: QtMultifileResult = {};
+  multifileResultList.forEach((singleFile => {
+    const [filename, renderResult] = singleFile;
+    const fileContents = renderResult.lines.join('\n');
+    multifileResultMap[filename] = fileContents;
+  }));
+  return multifileResultMap;
 }
