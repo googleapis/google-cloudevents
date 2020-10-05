@@ -6,50 +6,50 @@ import {
   FetchingJSONSchemaStore,
 } from 'quicktype-core';
 // Interface not exported in top-level 'quicktype-core': https://github.com/quicktype/quicktype/pull/1565
-import {MultiFileRenderResult} from '../node_modules/quicktype-core/dist/TargetLanguage'
+import {MultiFileRenderResult} from '../node_modules/quicktype-core/dist/TargetLanguage';
 
 /**
  * A list of supported Quicktype languages.
  * @see https://github.com/quicktype/quicktype/tree/master/src/quicktype-core/language
  */
 export const LANGUAGE = {
-  CSHARP: "csharp",
-  JAVA: "java",
-  PYTHON: "python",
-  RUST: "rust",
-  CRYSTAL: "crystal",
-  RUBY: "ruby",
-  GOLANG: "golang",
-  CPLUSPLUS: "cplusplus",
-  ELM: "elm",
-  SWIFT: "swift",
-  OBJECTIVEC: "objective-c",
-  TYPESCRIPT: "typescript",
-  JAVASCRIPT: "javascript",
-  KOTLIN: "kotlin",
-  DART: "dart",
-  PIKE: "pike",
-  HASKELL: "haskell",
+  CSHARP: 'csharp',
+  JAVA: 'java',
+  PYTHON: 'python',
+  RUST: 'rust',
+  CRYSTAL: 'crystal',
+  RUBY: 'ruby',
+  GOLANG: 'golang',
+  CPLUSPLUS: 'cplusplus',
+  ELM: 'elm',
+  SWIFT: 'swift',
+  OBJECTIVEC: 'objective-c',
+  TYPESCRIPT: 'typescript',
+  JAVASCRIPT: 'javascript',
+  KOTLIN: 'kotlin',
+  DART: 'dart',
+  PIKE: 'pike',
+  HASKELL: 'haskell',
 };
 export type TARGET_LANGUAGE = keyof typeof LANGUAGE;
 export const LANGUAGE_EXT = {
-  CSHARP: "cs",
-  JAVA: "java",
-  PYTHON: "py",
-  RUST: "rs",
-  CRYSTAL: "cr",
-  RUBY: "rb",
-  GOLANG: "go",
-  CPLUSPLUS: "cpp",
-  ELM: "elm",
-  SWIFT: "swift",
-  OBJECTIVEC: "m",
-  TYPESCRIPT: "ts",
-  JAVASCRIPT: "js",
-  KOTLIN: "kt",
-  DART: "dart",
-  PIKE: "pike",
-  HASKELL: "hs",
+  CSHARP: 'cs',
+  JAVA: 'java',
+  PYTHON: 'py',
+  RUST: 'rs',
+  CRYSTAL: 'cr',
+  RUBY: 'rb',
+  GOLANG: 'go',
+  CPLUSPLUS: 'cpp',
+  ELM: 'elm',
+  SWIFT: 'swift',
+  OBJECTIVEC: 'm',
+  TYPESCRIPT: 'ts',
+  JAVASCRIPT: 'js',
+  KOTLIN: 'kt',
+  DART: 'dart',
+  PIKE: 'pike',
+  HASKELL: 'hs',
 };
 
 /**
@@ -77,11 +77,15 @@ async function quicktypeJSONSchemaToMultiFile(
   return await quicktypeMultiFile({
     inputData,
     lang,
+    rendererOptions: {
+      // Don't generate Jackson types
+      'just-types': 'true',
+    },
   });
 }
 
 // A simple map from filename to file contents.
-export type QtMultifileResult = { [filename: string]: string };
+export type QtMultifileResult = {[filename: string]: string};
 
 /**
  * Converts a JSON Schema file (string) to a set of langauge files.
@@ -104,14 +108,16 @@ export async function jsonschema2languageFiles({
     typeName,
     jsonSchema
   );
-  const multifileResultList: [string, SerializedRenderResult][] = Array.from(multifileResult.entries());
+  const multifileResultList: [string, SerializedRenderResult][] = Array.from(
+    multifileResult.entries()
+  );
 
   // Transform result to a map of filepath : file contents
   const multifileResultMap: QtMultifileResult = {};
-  multifileResultList.forEach((singleFile => {
+  multifileResultList.forEach(singleFile => {
     const [filename, renderResult] = singleFile;
     const fileContents = renderResult.lines.join('\n');
     multifileResultMap[filename] = fileContents;
-  }));
+  });
   return multifileResultMap;
 }

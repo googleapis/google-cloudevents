@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from "fs";
+import {readFileSync, writeFileSync} from 'fs';
 import {
   jsonschema2languageFiles,
   LANGUAGE,
@@ -8,13 +8,13 @@ import {
   TARGET_LANGUAGE,
   QtMultifileResult,
 } from './quickstype';
-const {argv} = require('yargs')
+const {argv} = require('yargs');
 const mkdirp = require('mkdirp');
-const recursive = require("recursive-readdir");
+const recursive = require('recursive-readdir');
 
 /**
  * A simple tool that generates code using quicktype.
- * 
+ *
  * Configuration (via environment variables or command-line flags):
  * @param {string} IN The directory for JSON Schema input. Must have trailing /.
  * @param {string} OUT The directory for generated output. Must have trailing /.
@@ -22,7 +22,11 @@ const recursive = require("recursive-readdir");
  */
 const IN = argv.in || process.env.IN;
 const OUT = argv.out || process.env.OUT;
-const L = (argv.l || process.env.L || LANGUAGE.TYPESCRIPT).toUpperCase() as TARGET_LANGUAGE;
+const L = (
+  argv.l ||
+  process.env.L ||
+  LANGUAGE.TYPESCRIPT
+).toUpperCase() as TARGET_LANGUAGE;
 
 /**
  * Gets a list of all JSON Schema paths (absolute paths)
@@ -37,6 +41,36 @@ async function getJSONSchemasPaths(directory: string) {
   console.log(`- Finding all JSON Schemas (${SCHEMA_PATTERN})...`);
   const paths: string[] = await recursive(directory, IGNORE_PATTERN);
   return paths;
+}
+
+/**
+ * Gets a list of tuples of all JSON schemas and code generated from them
+ * @param directory The path to the directory with schemas.
+ * @param language The language of the code.
+ */
+export async function getJSONSchemasAndGenFiles(
+  directory: string,
+  language: string
+) {
+  const absPaths = await getJSONSchemasPaths(directory);
+
+  const schemasAndGenFiles: Array<[object, string]> = [];
+
+  const promises = absPaths.map(async (f: string) => {
+    const file = readFileSync(f) + '';
+    const schema = JSON.parse(file);
+    const genFile = await jsonschema2languageFiles({
+      jsonSchema: file,
+      language: language,
+      typeName: 'Event',
+    });
+
+    schemasAndGenFiles.push([schema, genFile[0]]);
+  });
+
+  await Promise.all(promises);
+
+  return schemasAndGenFiles;
 }
 
 // Start the program
@@ -87,11 +121,13 @@ if (!module.parent) {
       // For each type file...
       // Keep a stdout buffer per type to not intertwine output
       const bufferedOutput: string[] = [
-        `## Generating files for ${typeName}...`
+        `## Generating files for ${typeName}...`,
       ];
       for (const [filename, filecontents] of Object.entries(genFiles)) {
         const relativePathTargetDirectory = pathToSchema.substring(
-          0, pathToSchema.lastIndexOf('/'));
+          0,
+          pathToSchema.lastIndexOf('/')
+        );
 
         // This next if statement handles if Quicktype generated one or many files
         if (filename === 'stdout') {
@@ -106,25 +142,35 @@ if (!module.parent) {
           const typeFilename = `${typeName}.${LANGUAGE_EXT[L]}`;
           const absFilePath = `${absFilePathDir}/${typeFilename}`;
           writeFileSync(absFilePath, filecontents);
-          bufferedOutput.push(`- ${typeFilename.padEnd(40, ' ')}: ${relativeFilePath}/${typeFilename}`);
+          bufferedOutput.push(
+            `- ${typeFilename.padEnd(
+              40,
+              ' '
+            )}: ${relativeFilePath}/${typeFilename}`
+          );
         } else {
           // Otherwise, the Quicktype result produced multiple type files from the schema.
           const relativeFilePath = `${relativePathTargetDirectory}/${filename}`;
           const absFilePath = `${OUT}/${relativeFilePath}`;
 
           // Create dir
-          const absFilePathDir = absFilePath.substring(0, absFilePath.lastIndexOf('/'));
+          const absFilePathDir = absFilePath.substring(
+            0,
+            absFilePath.lastIndexOf('/')
+          );
           await mkdirp(absFilePathDir);
 
           // For languages that just produce N files, quicktype output is (filename, filecontents).
           // Write file
           writeFileSync(absFilePath, filecontents);
-          bufferedOutput.push(`- ${filename.padEnd(40, ' ')}: ${relativeFilePath}`);
+          bufferedOutput.push(
+            `- ${filename.padEnd(40, ' ')}: ${relativeFilePath}`
+          );
         }
       }
 
       // Write all of the output in order.
-      bufferedOutput.forEach((s) => console.log(s));
+      bufferedOutput.forEach(s => console.log(s));
     });
 
     // Await all promises to resolve and write "END" when the program is done.
