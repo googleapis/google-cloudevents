@@ -49,7 +49,7 @@ export async function getJSONSchemasAndGenFiles(directory: string, language: str
     const genFile = await jsonschema2language({
       jsonSchema: file,
       language: language,
-      typeName: "Event"
+      typeName: schema.name,
     })
 
     schemasAndGenFiles.push([schema, genFile]);
