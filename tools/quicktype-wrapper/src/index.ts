@@ -62,8 +62,8 @@ export async function getJSONSchemasAndGenFiles(
     const genFile = await jsonschema2languageFiles({
       jsonSchema: file,
       language: language,
-      typeName: 'Event',
-    });
+      typeName: schema.name,
+    })
 
     schemasAndGenFiles.push([schema, genFile[0]]);
   });
