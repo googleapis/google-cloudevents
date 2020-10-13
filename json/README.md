@@ -1,4 +1,4 @@
-# Test data
+# JSON Example Data
 
 The JSON files within this directory hiearchy represent test data
 for the schema in the repository. The directory structure matches
