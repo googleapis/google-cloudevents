@@ -66,5 +66,5 @@ running the following commands below a machine with .NET Core SDK
 
 Non-trivial changes to the schema should also include a suitable
 test data file (or a change to an existing test data file) to
-validate the change. See [testdata/README.md](testdata/README.md)
+validate the change. See [json/README.md](json/README.md)
 for details.
