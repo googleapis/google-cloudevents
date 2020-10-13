@@ -1,6 +1,21 @@
 #!/usr/bin/env node
 
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import {readFileSync, writeFileSync} from 'fs';
+import {HEADER} from './license';
 import {
   jsonschema2languageFiles,
   LANGUAGE,
@@ -19,6 +34,7 @@ const recursive = require('recursive-readdir');
  * @param {string} IN The directory for JSON Schema input. Must have trailing /.
  * @param {string} OUT The directory for generated output. Must have trailing /.
  * @param {string} L The target language
+ * @param {boolean} NO_LICENSE 'true' if we want to add a license header
  */
 const IN = argv.in || process.env.IN;
 const OUT = argv.out || process.env.OUT;
@@ -27,6 +43,7 @@ const L = (
   process.env.L ||
   LANGUAGE.TYPESCRIPT
 ).toUpperCase() as TARGET_LANGUAGE;
+const NO_LICENSE = (argv['no-license'] || process.env.NO_LICENSE) === 'true';
 
 /**
  * Gets a list of all JSON Schema paths (absolute paths)
@@ -123,7 +140,14 @@ if (!module.parent) {
       const bufferedOutput: string[] = [
         `## Generating files for ${typeName}...`,
       ];
-      for (const [filename, filecontents] of Object.entries(genFiles)) {
+      for (const [filename, genFileContents] of Object.entries(genFiles)) {
+        let fileContentsMaybeWithLicenseHeader = genFileContents;
+        // Optionally add license headers
+        if (!NO_LICENSE) {
+          fileContentsMaybeWithLicenseHeader = `${HEADER}\n${fileContentsMaybeWithLicenseHeader}`;
+        }
+
+        // Find the relative path
         const relativePathTargetDirectory = pathToSchema.substring(
           0,
           pathToSchema.lastIndexOf('/')
@@ -141,7 +165,7 @@ if (!module.parent) {
           // Write file
           const typeFilename = `${typeName}.${LANGUAGE_EXT[L]}`;
           const absFilePath = `${absFilePathDir}/${typeFilename}`;
-          writeFileSync(absFilePath, filecontents);
+          writeFileSync(absFilePath, fileContentsMaybeWithLicenseHeader);
           bufferedOutput.push(
             `- ${typeFilename.padEnd(
               40,
@@ -162,7 +186,7 @@ if (!module.parent) {
 
           // For languages that just produce N files, quicktype output is (filename, filecontents).
           // Write file
-          writeFileSync(absFilePath, filecontents);
+          writeFileSync(absFilePath, fileContentsMaybeWithLicenseHeader);
           bufferedOutput.push(
             `- ${filename.padEnd(40, ' ')}: ${relativeFilePath}`
           );

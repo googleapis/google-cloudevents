@@ -29,11 +29,16 @@ npm run start
 
 To configure the script, use _environment variables_ or _command-line flags_:
 
+- (REQUIRED) `IN`: Input directory path.
+- (REQUIRED) `OUT`: Output directory path.
+- (NOT REQUIRED) `NO_LICENSE`: Set to `true` to skip adding license headers to source files.
+
 ### Environment Variables
 
 ```sh
 IN=~/Documents/github/googleapis/google-cloudevents/proto
 OUT=~/Documents/out
+NO_LICENSE=true # optional
 L=typescript
 
 qt
@@ -45,6 +50,7 @@ qt
 qt \
 --in=~/Documents/github/googleapis/google-cloudevents/proto \
 --out=~/Documents/out \
+--no-license=true \ # optional
 --l=typescript
 ```
 
