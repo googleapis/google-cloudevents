@@ -29,9 +29,9 @@ npm run start
 
 To configure the script, use _environment variables_ or _command-line flags_:
 
-- (REQUIRED) `IN`: Input directory path
-- (REQUIRED) `OUT`: Output directory path
-- (NOT REQUIRED) `NO_LICENSE`: Adds a license header to source files
+- (REQUIRED) `IN`: Input directory path.
+- (REQUIRED) `OUT`: Output directory path.
+- (NOT REQUIRED) `NO_LICENSE`: Set to `true` to skip adding license headers to source files.
 
 ### Environment Variables
 
