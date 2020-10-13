@@ -1,6 +1,6 @@
-# JSON Example Data
+# JSON Data
 
-The JSON files within this directory hiearchy represent test data
+The JSON files within this directory hiearchy represent data
 for the schema in the repository. The directory structure matches
 that in the [proto](../proto) directory, namely the protobuf package
 hierarchy.
