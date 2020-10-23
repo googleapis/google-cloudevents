@@ -4,5 +4,7 @@ tmp/
 .vs/
 .idea/
 
+proto/googleapis
+
 # Local launch settings for .NET apps
 launchSettings.json
