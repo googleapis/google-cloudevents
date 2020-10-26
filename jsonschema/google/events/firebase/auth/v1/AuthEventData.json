@@ -1,6 +1,6 @@
 {
   "name": "AuthEventData",
-  "$id": "google.events/firebase/auth/v1",
+  "$id": "google.events.firebase.auth.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "uid": {

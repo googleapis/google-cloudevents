@@ -1,6 +1,6 @@
 {
   "name": "MessagePublishedData",
-  "$id": "google.events/cloud/pubsub/v1",
+  "$id": "google.events.cloud.pubsub.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "message": {

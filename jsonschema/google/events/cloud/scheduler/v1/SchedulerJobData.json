@@ -1,6 +1,6 @@
 {
   "name": "SchedulerJobData",
-  "$id": "google.events/cloud/scheduler/v1",
+  "$id": "google.events.cloud.scheduler.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "customData": {

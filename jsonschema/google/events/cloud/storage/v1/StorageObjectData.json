@@ -1,6 +1,6 @@
 {
   "name": "StorageObjectData",
-  "$id": "google.events/cloud/storage/v1",
+  "$id": "google.events.cloud.storage.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "contentEncoding": {

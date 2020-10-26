@@ -42,5 +42,5 @@ console.log(`Fixing paths in dir: ${ROOT}`);
 function getId(filepath) {
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
-  return removeSuffix.replace('/', '.');
+  return removeSuffix.replace(/\//g, '.');
 }
