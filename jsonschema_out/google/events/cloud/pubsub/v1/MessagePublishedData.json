@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "message": {
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "description": "The binary data in the message."
+                },
+                "attributes": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Attributes for this message."
+                },
+                "message_id": {
+                    "type": "string",
+                    "description": "ID of this message, assigned by the server when the message is published.\n Guaranteed to be unique within the topic."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The message that was published."
+        },
+        "subscription": {
+            "type": "string",
+            "description": "The resource name of the subscription for which this event was\n generated. The format of the value is\n `projects/{project-id}/subscriptions/{subscription-id}`."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "The data received in an event when a message is published to a topic."
+}

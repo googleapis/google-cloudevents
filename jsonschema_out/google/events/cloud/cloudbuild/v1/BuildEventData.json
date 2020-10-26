@@ -1,0 +1,1333 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "Unique identifier of the build."
+        },
+        "project_id": {
+            "type": "string",
+            "description": "ID of the project."
+        },
+        "projectId": {
+            "type": "string",
+            "description": "ID of the project."
+        },
+        "status": {
+            "enum": [
+                "STATUS_UNKNOWN",
+                0,
+                "QUEUED",
+                1,
+                "WORKING",
+                2,
+                "SUCCESS",
+                3,
+                "FAILURE",
+                4,
+                "INTERNAL_ERROR",
+                5,
+                "TIMEOUT",
+                6,
+                "CANCELLED",
+                7,
+                "EXPIRED",
+                9
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "Status of the build."
+        },
+        "status_detail": {
+            "type": "string",
+            "description": "Customer-readable message about the current status."
+        },
+        "statusDetail": {
+            "type": "string",
+            "description": "Customer-readable message about the current status."
+        },
+        "source": {
+            "properties": {
+                "storage_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If provided, get the source from this location in Google Cloud Storage."
+                },
+                "storageSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If provided, get the source from this location in Google Cloud Storage."
+                },
+                "repo_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If provided, get the source from this location in a Cloud Source\n Repository."
+                },
+                "repoSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If provided, get the source from this location in a Cloud Source\n Repository."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The location of the source files to build."
+        },
+        "steps": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the container image that will run this particular\n build step.\n\n If the image is available in the host's Docker daemon's cache, it\n will be run directly. If not, the host will attempt to pull the image\n first, using the builder service account's credentials if necessary.\n\n The Docker daemon's cache will already have the latest versions of all of\n the officially supported build steps\n ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).\n The Docker daemon will also have cached many of the layers for some popular\n images, like \"ubuntu\", \"debian\", but they will be refreshed at the time you\n attempt to use them.\n\n If you built an image in a previous build step, it will be stored in the\n host's Docker daemon's cache and is available to use as the name for a\n later build step."
+                    },
+                    "env": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "A list of environment variable definitions to be used when running a step.\n\n The elements are of the form \"KEY=VALUE\" for the environment variable \"KEY\"\n being given the value \"VALUE\"."
+                    },
+                    "args": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "A list of arguments that will be presented to the step when it is started.\n\n If the image used to run the step's container has an entrypoint, the `args`\n are used as arguments to that entrypoint. If the image does not define\n an entrypoint, the first element in args is used as the entrypoint,\n and the remainder will be used as arguments."
+                    },
+                    "dir": {
+                        "type": "string",
+                        "description": "Working directory to use when running this step's container.\n\n If this value is a relative path, it is relative to the build's working\n directory. If this value is absolute, it may be outside the build's working\n directory, in which case the contents of the path may not be persisted\n across build step executions, unless a `volume` for that path is specified.\n\n If the build specifies a `RepoSource` with `dir` and a step with a `dir`,\n which specifies an absolute path, the `RepoSource` `dir` is ignored for\n the step's execution."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for this build step, used in `wait_for` to\n reference this build step as a dependency."
+                    },
+                    "wait_for": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "The ID(s) of the step(s) that this build step depends on.\n This build step will not start until all the build steps in `wait_for`\n have completed successfully. If `wait_for` is empty, this build step will\n start when all previous build steps in the `Build.Steps` list have\n completed successfully."
+                    },
+                    "waitFor": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "The ID(s) of the step(s) that this build step depends on.\n This build step will not start until all the build steps in `wait_for`\n have completed successfully. If `wait_for` is empty, this build step will\n start when all previous build steps in the `Build.Steps` list have\n completed successfully."
+                    },
+                    "entrypoint": {
+                        "type": "string",
+                        "description": "Entrypoint to be used instead of the build step image's default entrypoint.\n If unset, the image's default entrypoint is used."
+                    },
+                    "secret_env": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "A list of environment variables which are encrypted using a Cloud Key\n Management Service crypto key. These values must be specified in the\n build's `Secret`."
+                    },
+                    "secretEnv": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "A list of environment variables which are encrypted using a Cloud Key\n Management Service crypto key. These values must be specified in the\n build's `Secret`."
+                    },
+                    "volumes": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+                        },
+                        "type": "array",
+                        "description": "List of volumes to mount into the build step.\n\n Each volume is created as an empty volume prior to execution of the\n build step. Upon completion of the build, volumes and their contents are\n discarded.\n\n Using a named volume in only one step is not valid as it is indicative\n of a build request with an incorrect configuration."
+                    },
+                    "timing": {
+                        "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Stores timing information for executing this build step."
+                    },
+                    "pull_timing": {
+                        "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Stores timing information for pulling this build step's\n builder image only."
+                    },
+                    "pullTiming": {
+                        "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Stores timing information for pulling this build step's\n builder image only."
+                    },
+                    "timeout": {
+                        "properties": {
+                            "seconds": {
+                                "oneOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ],
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Time limit for executing this build step. If not defined, the step has no\n time limit and will be allowed to continue to run until either it completes\n or the build itself times out."
+                    },
+                    "status": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "description": "Status of the build step. At this time, build step status is\n only updated on build completion; step status is not updated in real-time\n as the build progresses."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "A step in the build pipeline."
+            },
+            "type": "array",
+            "description": "The operations to be performed on the workspace."
+        },
+        "results": {
+            "properties": {
+                "images": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name used to push the container image to Google Container Registry, as\n presented to `docker push`."
+                            },
+                            "digest": {
+                                "type": "string",
+                                "description": "Docker Registry 2.0 digest."
+                            },
+                            "push_timing": {
+                                "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Stores timing information for pushing the specified image."
+                            },
+                            "pushTiming": {
+                                "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Stores timing information for pushing the specified image."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "An image built by the pipeline."
+                    },
+                    "type": "array",
+                    "description": "Container images that were built as a part of the build."
+                },
+                "build_step_images": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "List of build step digests, in the order corresponding to build step\n indices."
+                },
+                "buildStepImages": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "List of build step digests, in the order corresponding to build step\n indices."
+                },
+                "artifact_manifest": {
+                    "type": "string",
+                    "description": "Path to the artifact manifest. Only populated when artifacts are uploaded."
+                },
+                "artifactManifest": {
+                    "type": "string",
+                    "description": "Path to the artifact manifest. Only populated when artifacts are uploaded."
+                },
+                "num_artifacts": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Number of artifacts uploaded. Only populated when artifacts are uploaded."
+                },
+                "numArtifacts": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Number of artifacts uploaded. Only populated when artifacts are uploaded."
+                },
+                "build_step_outputs": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored."
+                },
+                "buildStepOutputs": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored."
+                },
+                "artifact_timing": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Time to push all non-container artifacts."
+                },
+                "artifactTiming": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Time to push all non-container artifacts."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Results of the build."
+        },
+        "create_time": {
+            "type": "string",
+            "description": "Time at which the request to create the build was received.",
+            "format": "date-time"
+        },
+        "createTime": {
+            "type": "string",
+            "description": "Time at which the request to create the build was received.",
+            "format": "date-time"
+        },
+        "start_time": {
+            "type": "string",
+            "description": "Time at which execution of the build was started.",
+            "format": "date-time"
+        },
+        "startTime": {
+            "type": "string",
+            "description": "Time at which execution of the build was started.",
+            "format": "date-time"
+        },
+        "finish_time": {
+            "type": "string",
+            "description": "Time at which execution of the build was finished.\n\n The difference between finish_time and start_time is the duration of the\n build's execution.",
+            "format": "date-time"
+        },
+        "finishTime": {
+            "type": "string",
+            "description": "Time at which execution of the build was finished.\n\n The difference between finish_time and start_time is the duration of the\n build's execution.",
+            "format": "date-time"
+        },
+        "timeout": {
+            "properties": {
+                "seconds": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Amount of time that this build should be allowed to run, to second\n granularity. If this amount of time elapses, work on the build will cease\n and the build status will be `TIMEOUT`."
+        },
+        "images": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images are pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the `Build` resource's\n results field.\n\n If any of the images fail to be pushed, the build status is marked\n `FAILURE`."
+        },
+        "queue_ttl": {
+            "properties": {
+                "seconds": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time."
+        },
+        "queueTtl": {
+            "properties": {
+                "seconds": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time."
+        },
+        "artifacts": {
+            "properties": {
+                "images": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images will be pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the Build resource's\n results field.\n\n If any of the images fail to be pushed, the build is marked FAILURE."
+                },
+                "objects": {
+                    "properties": {
+                        "location": {
+                            "type": "string",
+                            "description": "Cloud Storage bucket and optional object path, in the form\n \"gs://bucket/path/to/somewhere/\". (see [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n\n Files in the workspace matching any path pattern will be uploaded to\n Cloud Storage with this location as a prefix."
+                        },
+                        "paths": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array",
+                            "description": "Path globs used to match files in the build's workspace."
+                        },
+                        "timing": {
+                            "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "Stores timing information for pushing all artifact objects."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A list of objects to be uploaded to Cloud Storage upon successful\n completion of all build steps.\n\n Files in the workspace matching specified paths globs will be uploaded to\n the specified Cloud Storage location using the builder service account's\n credentials.\n\n The location and generation of the uploaded objects will be stored in the\n Build resource's results field.\n\n If any objects fail to be pushed, the build is marked FAILURE."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Artifacts produced by the build that should be uploaded upon\n successful completion of all build steps."
+        },
+        "logs_bucket": {
+            "type": "string",
+            "description": "Google Cloud Storage bucket where logs should be written (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`."
+        },
+        "logsBucket": {
+            "type": "string",
+            "description": "Google Cloud Storage bucket where logs should be written (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`."
+        },
+        "source_provenance": {
+            "properties": {
+                "resolved_storage_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+                },
+                "resolvedStorageSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+                },
+                "resolved_repo_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
+                },
+                "resolvedRepoSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
+                },
+                "file_hashes": {
+                    "additionalProperties": {
+                        "properties": {
+                            "file_hash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            },
+                            "fileHash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+                },
+                "fileHashes": {
+                    "additionalProperties": {
+                        "properties": {
+                            "file_hash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            },
+                            "fileHash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A permanent fixed identifier for source."
+        },
+        "sourceProvenance": {
+            "properties": {
+                "resolved_storage_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+                },
+                "resolvedStorageSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+                },
+                "resolved_repo_source": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
+                },
+                "resolvedRepoSource": {
+                    "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
+                },
+                "file_hashes": {
+                    "additionalProperties": {
+                        "properties": {
+                            "file_hash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            },
+                            "fileHash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+                },
+                "fileHashes": {
+                    "additionalProperties": {
+                        "properties": {
+                            "file_hash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            },
+                            "fileHash": {
+                                "items": {
+                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "NONE",
+                                                0,
+                                                "SHA256",
+                                                1,
+                                                "MD5",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "The type of hash that was performed."
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The hash value."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Container message for hash values."
+                                },
+                                "type": "array",
+                                "description": "Collection of file hashes."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A permanent fixed identifier for source."
+        },
+        "build_trigger_id": {
+            "type": "string",
+            "description": "The ID of the `BuildTrigger` that triggered this build, if it\n was triggered automatically."
+        },
+        "buildTriggerId": {
+            "type": "string",
+            "description": "The ID of the `BuildTrigger` that triggered this build, if it\n was triggered automatically."
+        },
+        "options": {
+            "properties": {
+                "source_provenance_hash": {
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "type": "array",
+                    "description": "Requested hash for SourceProvenance."
+                },
+                "sourceProvenanceHash": {
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "type": "array",
+                    "description": "Requested hash for SourceProvenance."
+                },
+                "requested_verify_option": {
+                    "enum": [
+                        "NOT_VERIFIED",
+                        0,
+                        "VERIFIED",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Requested verifiability options."
+                },
+                "requestedVerifyOption": {
+                    "enum": [
+                        "NOT_VERIFIED",
+                        0,
+                        "VERIFIED",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Requested verifiability options."
+                },
+                "machine_type": {
+                    "enum": [
+                        "UNSPECIFIED",
+                        0,
+                        "N1_HIGHCPU_8",
+                        1,
+                        "N1_HIGHCPU_32",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Compute Engine machine type on which to run the build."
+                },
+                "machineType": {
+                    "enum": [
+                        "UNSPECIFIED",
+                        0,
+                        "N1_HIGHCPU_8",
+                        1,
+                        "N1_HIGHCPU_32",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Compute Engine machine type on which to run the build."
+                },
+                "disk_size_gb": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Requested disk size for the VM that runs the build. Note that this is *NOT*\n \"disk free\"; some of the space will be used by the operating system and\n build utilities. Also note that this is the minimum disk size that will be\n allocated for the build -- the build may run with a larger disk than\n requested. At present, the maximum disk size is 1000GB; builds that request\n more than the maximum are rejected with an error."
+                },
+                "diskSizeGb": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Requested disk size for the VM that runs the build. Note that this is *NOT*\n \"disk free\"; some of the space will be used by the operating system and\n build utilities. Also note that this is the minimum disk size that will be\n allocated for the build -- the build may run with a larger disk than\n requested. At present, the maximum disk size is 1000GB; builds that request\n more than the maximum are rejected with an error."
+                },
+                "substitution_option": {
+                    "enum": [
+                        "MUST_MATCH",
+                        0,
+                        "ALLOW_LOOSE",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Option to specify behavior when there is an error in the substitution\n checks."
+                },
+                "substitutionOption": {
+                    "enum": [
+                        "MUST_MATCH",
+                        0,
+                        "ALLOW_LOOSE",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Option to specify behavior when there is an error in the substitution\n checks."
+                },
+                "log_streaming_option": {
+                    "enum": [
+                        "STREAM_DEFAULT",
+                        0,
+                        "STREAM_ON",
+                        1,
+                        "STREAM_OFF",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Option to define build log streaming behavior to Google Cloud\n Storage."
+                },
+                "logStreamingOption": {
+                    "enum": [
+                        "STREAM_DEFAULT",
+                        0,
+                        "STREAM_ON",
+                        1,
+                        "STREAM_OFF",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Option to define build log streaming behavior to Google Cloud\n Storage."
+                },
+                "worker_pool": {
+                    "type": "string",
+                    "description": "Option to specify a `WorkerPool` for the build.\n Format: projects/{project}/locations/{location}/workerPools/{workerPool}"
+                },
+                "workerPool": {
+                    "type": "string",
+                    "description": "Option to specify a `WorkerPool` for the build.\n Format: projects/{project}/locations/{location}/workerPools/{workerPool}"
+                },
+                "logging": {
+                    "enum": [
+                        "LOGGING_UNSPECIFIED",
+                        0,
+                        "LEGACY",
+                        1,
+                        "GCS_ONLY",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Option to specify the logging mode, which determines where the logs are\n stored."
+                },
+                "env": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "A list of global environment variable definitions that will exist for all\n build steps in this build. If a variable is defined in both globally and in\n a build step, the variable will use the build step value.\n\n The elements are of the form \"KEY=VALUE\" for the environment variable \"KEY\"\n being given the value \"VALUE\"."
+                },
+                "secret_env": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "A list of global environment variables, which are encrypted using a Cloud\n Key Management Service crypto key. These values must be specified in the\n build's `Secret`. These variables will be available to all build steps\n in this build."
+                },
+                "secretEnv": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "A list of global environment variables, which are encrypted using a Cloud\n Key Management Service crypto key. These values must be specified in the\n build's `Secret`. These variables will be available to all build steps\n in this build."
+                },
+                "volumes": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+                    },
+                    "type": "array",
+                    "description": "Global list of volumes to mount for ALL build steps\n\n Each volume is created as an empty volume prior to starting the build\n process. Upon completion of the build, volumes and their contents are\n discarded. Global volume names and paths cannot conflict with the volumes\n defined a build step.\n\n Using a global volume in a build with only one step is not valid as\n it is indicative of a build request with an incorrect configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Special options for this build."
+        },
+        "log_url": {
+            "type": "string",
+            "description": "URL to logs for this build in Google Cloud Console."
+        },
+        "logUrl": {
+            "type": "string",
+            "description": "URL to logs for this build in Google Cloud Console."
+        },
+        "substitutions": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object",
+            "description": "Substitutions data for `Build` resource."
+        },
+        "tags": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "Tags for annotation of a `Build`. These are not docker tags."
+        },
+        "secrets": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "kms_key_name": {
+                        "type": "string",
+                        "description": "Cloud KMS key name to use to decrypt these envs."
+                    },
+                    "kmsKeyName": {
+                        "type": "string",
+                        "description": "Cloud KMS key name to use to decrypt these envs."
+                    },
+                    "secret_env": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."
+                    },
+                    "secretEnv": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "Pairs a set of secret environment variables containing encrypted\n values with the Cloud KMS key to use to decrypt the value."
+            },
+            "type": "array",
+            "description": "Secrets to decrypt using Cloud Key Management Service."
+        },
+        "timing": {
+            "additionalProperties": {
+                "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "object",
+            "description": "Stores timing information for phases of the build. Valid keys\n are:\n\n * BUILD: time to execute all build steps\n * PUSH: time to push all specified images.\n * FETCHSOURCE: time to fetch source.\n\n If the build does not specify source or images,\n these keys will not be included."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
+    "definitions": {
+        "google.events.cloud.cloudbuild.v1.RepoSource": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "project_id": {
+                    "type": "string",
+                    "description": "ID of the project that owns the Cloud Source Repository."
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project that owns the Cloud Source Repository."
+                },
+                "repo_name": {
+                    "type": "string",
+                    "description": "Name of the Cloud Source Repository."
+                },
+                "repoName": {
+                    "type": "string",
+                    "description": "Name of the Cloud Source Repository."
+                },
+                "branch_name": {
+                    "type": "string",
+                    "description": "Regex matching branches to build.\n\n The syntax of the regular expressions accepted is the syntax accepted by\n RE2 and described at https://github.com/google/re2/wiki/Syntax"
+                },
+                "branchName": {
+                    "type": "string",
+                    "description": "Regex matching branches to build.\n\n The syntax of the regular expressions accepted is the syntax accepted by\n RE2 and described at https://github.com/google/re2/wiki/Syntax"
+                },
+                "tag_name": {
+                    "type": "string",
+                    "description": "Regex matching tags to build.\n\n The syntax of the regular expressions accepted is the syntax accepted by\n RE2 and described at https://github.com/google/re2/wiki/Syntax"
+                },
+                "tagName": {
+                    "type": "string",
+                    "description": "Regex matching tags to build.\n\n The syntax of the regular expressions accepted is the syntax accepted by\n RE2 and described at https://github.com/google/re2/wiki/Syntax"
+                },
+                "commit_sha": {
+                    "type": "string",
+                    "description": "Explicit commit SHA to build."
+                },
+                "commitSha": {
+                    "type": "string",
+                    "description": "Explicit commit SHA to build."
+                },
+                "dir": {
+                    "type": "string",
+                    "description": "Directory, relative to the source root, in which to run the build.\n\n This must be a relative path. If a step's `dir` is specified and is an\n absolute path, this value is ignored for that step's execution."
+                },
+                "invert_regex": {
+                    "type": "boolean",
+                    "description": "Only trigger a build if the revision regex does NOT match the revision\n regex."
+                },
+                "invertRegex": {
+                    "type": "boolean",
+                    "description": "Only trigger a build if the revision regex does NOT match the revision\n regex."
+                },
+                "substitutions": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Substitutions to use in a triggered build.\n Should only be used with RunBuildTrigger"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Location of the source in a Google Cloud Source Repository.",
+            "id": "google.events.cloud.cloudbuild.v1.RepoSource"
+        },
+        "google.events.cloud.cloudbuild.v1.StorageSource": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "bucket": {
+                    "type": "string",
+                    "description": "Google Cloud Storage bucket containing the source (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements))."
+                },
+                "object": {
+                    "type": "string",
+                    "description": "Google Cloud Storage object containing the source."
+                },
+                "generation": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Google Cloud Storage generation for the object. If the generation is\n omitted, the latest generation will be used."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Location of the source in an archive file in Google Cloud Storage.",
+            "id": "google.events.cloud.cloudbuild.v1.StorageSource"
+        },
+        "google.events.cloud.cloudbuild.v1.TimeSpan": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "start_time": {
+                    "type": "string",
+                    "description": "Start of time span.",
+                    "format": "date-time"
+                },
+                "startTime": {
+                    "type": "string",
+                    "description": "Start of time span.",
+                    "format": "date-time"
+                },
+                "end_time": {
+                    "type": "string",
+                    "description": "End of time span.",
+                    "format": "date-time"
+                },
+                "endTime": {
+                    "type": "string",
+                    "description": "End of time span.",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Start and end times for a build execution phase.",
+            "id": "google.events.cloud.cloudbuild.v1.TimeSpan"
+        },
+        "google.events.cloud.cloudbuild.v1.Volume": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the volume to mount.\n\n Volume names must be unique per build step and must be valid names for\n Docker volumes. Each named volume must be used by at least two build steps."
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Path at which to mount the volume.\n\n Paths must be absolute and cannot conflict with other volume paths on the\n same build step or with certain reserved volume paths."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Volume describes a Docker container volume which is mounted into build steps\n in order to persist files across build step execution.",
+            "id": "google.events.cloud.cloudbuild.v1.Volume"
+        }
+    }
+}

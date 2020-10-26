@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "custom_data": {
+            "type": "string",
+            "description": "The custom data the user specified when creating the scheduler source."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Scheduler job data."
+}

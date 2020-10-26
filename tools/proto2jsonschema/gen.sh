@@ -50,37 +50,85 @@ cd ..
 
 # Generate JSON Schemas
 
-# Pub/Sub – WORKS
-# mkdir -p jsonschema_out/google/events/cloud/pubsub/v1/
-# $PROTOC \
-# --jsonschema_out=jsonschema_out/google/events/cloud/pubsub/v1/ \
-# --proto_path=proto/ \
-# --proto_path=proto/googleapis \
-# google/events/cloud/pubsub/v1/data.proto
-
-# CAL – HANGS
+# CAL
 mkdir -p jsonschema_out/google/events/cloud/audit/v1/
-
 $PROTOC \
 --jsonschema_out=jsonschema_out/google/events/cloud/audit/v1/ \
 --proto_path=third_party/googleapis \
-google/api/monitored_resource.proto \
 --proto_path=proto/ \
-google/events/cloud/audit/v1/events.proto
+google/events/cloud/audit/v1/data.proto
 
-# HANGS
-# mkdir -p jsonschema_out/google/events/cloud/audit/v1/
-# $PROTOC \
-# --jsonschema_out=jsonschema_out/google/events/cloud/audit/v1/ \
-# --proto_path=proto/google \
-# --proto_path=proto/googleapis \
-# proto/google/events/cloud/audit/v1/data.proto
+# Build
+mkdir -p jsonschema_out/google/events/cloud/cloudbuild/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/cloudbuild/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/cloud/cloudbuild/v1/data.proto
 
-# $PROTOC \
-# --jsonschema_out=jsonschema_out \
-# --proto_path=proto/google \
-# --proto_path=proto/googleapis \
-# proto/google/events/cloud/storage/v1/data.proto
+# Firestore
+mkdir -p jsonschema_out/google/events/cloud/firestore/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/firestore/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/cloud/firestore/v1/data.proto
+
+# Pub/Sub
+mkdir -p jsonschema_out/google/events/cloud/pubsub/v1/
+$PROTOC \
+--jsonschema_out=jsonschema_out/google/events/cloud/pubsub/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+google/events/cloud/pubsub/v1/data.proto
+
+# Scheduler
+mkdir -p jsonschema_out/google/events/cloud/scheduler/v1/
+$PROTOC \
+--jsonschema_out=jsonschema_out/google/events/cloud/scheduler/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+google/events/cloud/scheduler/v1/data.proto
+
+# Storage
+mkdir -p jsonschema_out/google/events/cloud/storage/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/storage/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/cloud/storage/v1/data.proto
+
+# Firebase Analytics
+mkdir -p jsonschema_out/google/events/firebase/analytics/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/analytics/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/firebase/analytics/v1/data.proto
+
+# Firebase Auth
+mkdir -p jsonschema_out/google/events/firebase/auth/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/auth/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/firebase/auth/v1/data.proto
+
+# Firebase Database
+mkdir -p jsonschema_out/google/events/firebase/database/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/database/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/firebase/database/v1/data.proto
+
+# Firebase RC
+mkdir -p jsonschema_out/google/events/firebase/remoteconfig/v1/
+$PROTOC \
+--jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/remoteconfig/v1/ \
+--proto_path=proto/ \
+--proto_path=proto/googleapis \
+proto/google/events/firebase/remoteconfig/v1/data.proto
 
 # Cleanup
 
