@@ -1,72 +1,30 @@
 # proto2jsonschema
 
-This tool convers proto event definitions to JSON Schemas.
+This tool converts proto event definitions to JSON Schemas.
 
-## Install
+## Requirements
 
-This tool can be installed as a global CLI or run as a Node script. Requires Node 8+.
+This tool requires the following languages:
 
-### CLI (Recommended)
+- `go version`: `1.13+`
+- `node -v`: `v10+`
 
-Install the CLI globally:
+### Run
 
-```sh
-npm run cli
-```
-
-This will install a `qt` CLI globally.
-
-### RunNode Script
-
-You can also run as a script. Build then run:
+From the root directory of this repo, run this script:
 
 ```sh
-npm run compile
-npm run start
+./tools/proto2jsonschema/gen.sh
 ```
+
+This script:
+- Installs protobuf tools: `protoc`
+- Installs protobuf extension for JSON Schemas: `chrusty/protoc-gen-jsonschema`
+- Clones `googlapis/googleapis`
+- For every `data.proto` file, runs `protoc` to generate JSON schemas
+  - Outputs generated JSON schemas in the `jsonschema` folder
+- Runs a postgen script to clean up the outputted schemas
 
 ## Configure
 
-To configure the script, use _environment variables_ or _command-line flags_:
-
-- (REQUIRED) `IN`: Input directory path.
-- (REQUIRED) `OUT`: Output directory path.
-- (NOT REQUIRED) `NO_LICENSE`: Set to `true` to skip adding license headers to source files.
-
-### Environment Variables
-
-```sh
-IN=~/Documents/github/googleapis/google-cloudevents/proto
-OUT=~/Documents/out
-NO_LICENSE=true # optional
-L=typescript
-
-qt
-```
-
-### Command-line Flags
-
-```sh
-qt \
---in=~/Documents/github/googleapis/google-cloudevents/proto \
---out=~/Documents/out \
---no-license=true \ # optional
---l=typescript
-```
-
-## Develop/Watch
-
-To continually watch the script insead of building after every change,
-run this command in a separate terminal:
-
-```sh
-npm run watch
-```
-
-## Lint/Fix
-
-To fix style/lint mistakes in this generator, run:
-
-```sh
-npm run fix
-```
+There are no configuration options.

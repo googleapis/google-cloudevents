@@ -1,0 +1,10 @@
+{
+  "main": "postgen.js",
+  "scripts": {
+    "postgen": "node postgen.js"
+  },
+  "dependencies": {
+    "camelcase-keys": "^6.2.2",
+    "recursive-readdir": "^2.2.2"
+  }
+}

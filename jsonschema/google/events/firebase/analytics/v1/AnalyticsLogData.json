@@ -1,0 +1,305 @@
+{
+  "name": "AnalyticsLogData",
+  "$id": "google.events/firebase/analytics/v1",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "properties": {
+    "userDim": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The user ID set via the setUserId API."
+        },
+        "firstOpenTimestampMicros": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The time (in microseconds) at which the user first opened the app."
+        },
+        "userProperties": {
+          "additionalProperties": {
+            "properties": {
+              "value": {
+                "$ref": "google.events.firebase.analytics.v1.AnalyticsValue",
+                "additionalProperties": true,
+                "type": "object",
+                "description": "Last set value of user property."
+              },
+              "setTimestampUsec": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "description": "UTC client time when user property was last set."
+              },
+              "index": {
+                "type": "integer",
+                "description": "Index for user property (one-based)."
+              }
+            },
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "object",
+          "description": "A repeated record of user properties set with the setUserProperty API.\n https://firebase.google.com/docs/analytics/android/properties"
+        },
+        "deviceInfo": {
+          "properties": {
+            "deviceCategory": {
+              "type": "string",
+              "description": "Device category.\n Eg. tablet or mobile."
+            },
+            "mobileBrandName": {
+              "type": "string",
+              "description": "Device brand name.\n Eg. Samsung, HTC, etc."
+            },
+            "mobileModelName": {
+              "type": "string",
+              "description": "Device model name.\n Eg. GT-I9192"
+            },
+            "mobileMarketingName": {
+              "type": "string",
+              "description": "Device marketing name.\n Eg. Galaxy S4 Mini"
+            },
+            "deviceModel": {
+              "type": "string",
+              "description": "Device model.\n Eg. GT-I9192"
+            },
+            "platformVersion": {
+              "type": "string",
+              "description": "Device OS version when data capture ended.\n Eg. 4.4.2"
+            },
+            "deviceId": {
+              "type": "string",
+              "description": "Vendor specific device identifier. This is IDFV on iOS. Not used for\n Android.\n Example: \"599F9C00-92DC-4B5C-9464-7971F01F8370\""
+            },
+            "resettableDeviceId": {
+              "type": "string",
+              "description": "The type of the resettable_device_id is always IDFA on iOS and AdId\n on Android.\n Example: \"71683BF9-FA3B-4B0D-9535-A1F05188BAF3\""
+            },
+            "userDefaultLanguage": {
+              "type": "string",
+              "description": "The user language.\n Eg. \"en-us\", \"en-za\", \"zh-tw\", \"jp\""
+            },
+            "deviceTimeZoneOffsetSeconds": {
+              "type": "integer",
+              "description": "The timezone of the device when data was uploaded as seconds skew from UTC."
+            },
+            "limitedAdTracking": {
+              "type": "boolean",
+              "description": "The device's Limit Ad Tracking setting.\n When true, we cannot use device_id for remarketing, demographics or\n influencing ads serving behaviour. However, we can use device_id for\n conversion tracking and campaign attribution."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Device information."
+        },
+        "geoInfo": {
+          "properties": {
+            "continent": {
+              "type": "string",
+              "description": "The geographic continent.\n Eg. Americas"
+            },
+            "country": {
+              "type": "string",
+              "description": "The geographic country.\n Eg. Brazil"
+            },
+            "region": {
+              "type": "string",
+              "description": "The geographic region.\n Eg. State of Sao Paulo"
+            },
+            "city": {
+              "type": "string",
+              "description": "The geographic city.\n Eg. Sao Paulo"
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "User's geographic information."
+        },
+        "appInfo": {
+          "properties": {
+            "appVersion": {
+              "type": "string",
+              "description": "The app's version name\n Examples: \"1.0\", \"4.3.1.1.213361\", \"2.3 (1824253)\", \"v1.8b22p6\""
+            },
+            "appInstanceId": {
+              "type": "string",
+              "description": "Unique id for this instance of the app.\n Example: \"71683BF9FA3B4B0D9535A1F05188BAF3\""
+            },
+            "appStore": {
+              "type": "string",
+              "description": "The identifier of the store that installed the app.\n Eg. \"com.sec.android.app.samsungapps\", \"com.amazon.venezia\",\n \"com.nokia.nstore\""
+            },
+            "appPlatform": {
+              "type": "string",
+              "description": "The app platform.\n Eg \"ANDROID\", \"IOS\"."
+            },
+            "appId": {
+              "type": "string",
+              "description": "Unique application identifier within an app store."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "App information."
+        },
+        "trafficSource": {
+          "properties": {
+            "userAcquiredCampaign": {
+              "type": "string",
+              "description": "The name of the campaign which acquired the user."
+            },
+            "userAcquiredSource": {
+              "type": "string",
+              "description": "The name of the network which acquired the user."
+            },
+            "userAcquiredMedium": {
+              "type": "string",
+              "description": "The name of the medium which acquired the user."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Information about marketing campaign which acquired the user."
+        },
+        "bundleInfo": {
+          "properties": {
+            "bundleSequenceId": {
+              "type": "integer",
+              "description": "Monotonically increasing index for each bundle set by SDK."
+            },
+            "serverTimestampOffsetMicros": {
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "Timestamp offset between collection time and upload time."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Information regarding the bundle in which these events were uploaded."
+        },
+        "ltvInfo": {
+          "properties": {
+            "revenue": {
+              "type": "number",
+              "description": "The Lifetime Value revenue of this user."
+            },
+            "currency": {
+              "type": "string",
+              "description": "The currency corresponding to the revenue."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Lifetime Value information about this user."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "User related dimensions."
+    },
+    "eventDim": {
+      "items": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date on which this event was logged.\n (YYYYMMDD format in the registered timezone of your app.)"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of this event."
+          },
+          "params": {
+            "additionalProperties": {
+              "$ref": "google.events.firebase.analytics.v1.AnalyticsValue",
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "object",
+            "description": "A repeated record of the parameters associated with this event."
+          },
+          "timestampMicros": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "UTC client time when the event happened."
+          },
+          "previousTimestampMicros": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "UTC client time when the previous event happened."
+          },
+          "valueInUsd": {
+            "type": "number",
+            "description": "Value param in USD."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "description": "Message containing information pertaining to the event."
+      },
+      "type": "array",
+      "description": "A repeated record of event related dimensions."
+    }
+  },
+  "additionalProperties": true,
+  "type": "object",
+  "description": "The data within Firebase Analytics log events.",
+  "definitions": {
+    "googleEventsFirebaseAnalyticsV1AnalyticsValue": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "properties": {
+        "stringValue": {
+          "type": "string"
+        },
+        "intValue": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "floatValue": {
+          "type": "number"
+        },
+        "doubleValue": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Value for Event Params and UserProperty can be of type string or int or\n float or double.",
+      "id": "google.events.firebase.analytics.v1.AnalyticsValue"
+    }
+  }
+}

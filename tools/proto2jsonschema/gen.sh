@@ -2,10 +2,15 @@
 
 set -e
 
-PROTOBUF_VERSION=3.12.3
+# Only run in repo root
+currentDir=${PWD##*/}
 
-# Validates that the protos in this repo can be compiled.
+if [ "$currentDir" != "google-cloudevents" ] ; then
+  echo "Error: Script must be run in google-cloudevents root.";
+  exit 1;
+fi
 
+# Install protoc
 case "$OSTYPE" in
   linux*)
     PROTOBUF_PLATFORM=linux-x86_64
@@ -27,18 +32,19 @@ esac
 rm -rf tmp
 mkdir tmp
 cd tmp
-echo "Downloading protobuf tools"
+echo "- Downloading protobuf tools"
+PROTOBUF_VERSION=3.12.3
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
   --output protobuf.zip
 unzip -q protobuf.zip
 cd ..
 
-echo "Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
+echo "- Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
 go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
-echo "Converting Protos to JSON Schemas"
+echo "- Converting protos to JSON Schemas"
 chmod +x $PROTOC
 
 # Clone googleapis dependency
@@ -49,93 +55,52 @@ fi
 cd ..
 
 # Generate JSON Schemas
+OUT_DIR="jsonschema"
 
-# CAL
-mkdir -p jsonschema_out/google/events/cloud/audit/v1/
-$PROTOC \
---jsonschema_out=jsonschema_out/google/events/cloud/audit/v1/ \
---proto_path=third_party/googleapis \
---proto_path=proto/ \
-google/events/cloud/audit/v1/data.proto
+## Get all data.proto files
+DATA_PROTOS=$(find proto/google/events -name "data.proto")
+for proto in $DATA_PROTOS; do
+  ## For each data.proto file, generate the jsonschema
+  # proto e.g. proto/google/events/cloud/pubsub/v1/data.proto
 
-# Build
-mkdir -p jsonschema_out/google/events/cloud/cloudbuild/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/cloudbuild/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/cloud/cloudbuild/v1/data.proto
+  # Cut proto/ prefix
+  PATH_PREFIX="proto/"
+  PATH_PREFIX_LEN=$((1 + $(echo ${#PATH_PREFIX})))
 
-# Firestore
-mkdir -p jsonschema_out/google/events/cloud/firestore/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/firestore/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/cloud/firestore/v1/data.proto
+  # e.g. google/events/cloud/pubsub/v1/data.proto
+  CUT_PROTO=$(echo "$proto" | cut -c $PATH_PREFIX_LEN-)
 
-# Pub/Sub
-mkdir -p jsonschema_out/google/events/cloud/pubsub/v1/
-$PROTOC \
---jsonschema_out=jsonschema_out/google/events/cloud/pubsub/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-google/events/cloud/pubsub/v1/data.proto
+  # e.g. google/events/cloud/pubsub/v1/
+  PATH_POSTFIX="/data.proto"
+  PATH_POSTFIX_LEN=$((1 + $(echo ${#PATH_POSTFIX})))
+  CUT_PROTO_DIR=$(echo "$CUT_PROTO" | rev | cut -c $PATH_POSTFIX_LEN- | rev)
+  echo "  - $CUT_PROTO_DIR"
 
-# Scheduler
-mkdir -p jsonschema_out/google/events/cloud/scheduler/v1/
-$PROTOC \
---jsonschema_out=jsonschema_out/google/events/cloud/scheduler/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-google/events/cloud/scheduler/v1/data.proto
-
-# Storage
-mkdir -p jsonschema_out/google/events/cloud/storage/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/cloud/storage/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/cloud/storage/v1/data.proto
-
-# Firebase Analytics
-mkdir -p jsonschema_out/google/events/firebase/analytics/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/analytics/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/firebase/analytics/v1/data.proto
-
-# Firebase Auth
-mkdir -p jsonschema_out/google/events/firebase/auth/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/auth/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/firebase/auth/v1/data.proto
-
-# Firebase Database
-mkdir -p jsonschema_out/google/events/firebase/database/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/database/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/firebase/database/v1/data.proto
-
-# Firebase RC
-mkdir -p jsonschema_out/google/events/firebase/remoteconfig/v1/
-$PROTOC \
---jsonschema_out=proto_and_json_fieldnames:jsonschema_out/google/events/firebase/remoteconfig/v1/ \
---proto_path=proto/ \
---proto_path=proto/googleapis \
-proto/google/events/firebase/remoteconfig/v1/data.proto
+  OUT_PROTO_DIR="$OUT_DIR"/"$CUT_PROTO_DIR"
+  mkdir -p $OUT_PROTO_DIR
+  
+  # Run protoc
+  # - Option: proto_and_json_fieldnames – use JSON field names (camelCase)
+  # - Input: proto/ – our CloudEvent protos
+  # - Input: googlapis/ – common googleapis protos
+  $PROTOC \
+  --jsonschema_out=proto_and_json_fieldnames:$OUT_PROTO_DIR \
+  --proto_path=proto/ \
+  --proto_path=third_party/googleapis \
+  "$proto"
+done
 
 # Cleanup
 
 ## Rename .jsonschema output to .json
-find jsonschema_out -name '*.jsonschema' -exec sh -c 'mv "$0" "${0%.jsonschema}.json"' {} \;
+find $OUT_DIR -name '*.jsonschema' -exec sh -c 'mv "$0" "${0%.jsonschema}.json"' {} \;
 
 ## Remove all non *Data.json files
-find jsonschema_out -type f ! -name "*Data.json" -exec rm {} \;
+find $OUT_DIR -type f ! -name "*Data.json" -exec rm {} \;
+echo "- Done with gen."
 
-echo "Done"
+# Postgen
+echo "- Postgen"
+cd $(dirname $0)
+npm i
+node postgen.js

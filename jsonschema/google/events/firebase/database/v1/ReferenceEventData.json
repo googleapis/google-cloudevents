@@ -1,0 +1,30 @@
+{
+  "name": "ReferenceEventData",
+  "$id": "google.events/firebase/database/v1",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "properties": {
+    "data": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "delta": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "additionalProperties": true,
+  "type": "object",
+  "description": "The data within all Firebase Real Time Database reference events."
+}
