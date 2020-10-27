@@ -1,0 +1,8 @@
+{
+  "subscription": "projects/my-project/subscriptions/my-subscription",
+  "message": {
+    "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
+    "data": "AQIDBA==",
+    "messageId": "message-id"
+  }
+}
