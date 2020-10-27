@@ -47,7 +47,6 @@
     },
     "providerData": {
       "items": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
         "properties": {
           "uid": {
             "type": "string",

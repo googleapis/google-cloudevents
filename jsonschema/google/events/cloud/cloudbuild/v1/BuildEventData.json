@@ -50,13 +50,13 @@
     "source": {
       "properties": {
         "storageSource": {
-          "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+          "$ref": "#/definitions/googleEventsCloudCloudbuildV1StorageSource",
           "additionalProperties": true,
           "type": "object",
           "description": "If provided, get the source from this location in Google Cloud Storage."
         },
         "repoSource": {
-          "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+          "$ref": "#/definitions/googleEventsCloudCloudbuildV1RepoSource",
           "additionalProperties": true,
           "type": "object",
           "description": "If provided, get the source from this location in a Cloud Source\n Repository."
@@ -68,7 +68,6 @@
     },
     "steps": {
       "items": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
         "properties": {
           "name": {
             "type": "string",
@@ -116,20 +115,19 @@
           },
           "volumes": {
             "items": {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+              "$ref": "#/definitions/googleEventsCloudCloudbuildV1Volume"
             },
             "type": "array",
             "description": "List of volumes to mount into the build step.\n\n Each volume is created as an empty volume prior to execution of the\n build step. Upon completion of the build, volumes and their contents are\n discarded.\n\n Using a named volume in only one step is not valid as it is indicative\n of a build request with an incorrect configuration."
           },
           "timing": {
-            "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+            "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
             "additionalProperties": true,
             "type": "object",
             "description": "Stores timing information for executing this build step."
           },
           "pullTiming": {
-            "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+            "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
             "additionalProperties": true,
             "type": "object",
             "description": "Stores timing information for pulling this build step's\n builder image only."
@@ -179,7 +177,6 @@
       "properties": {
         "images": {
           "items": {
-            "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
               "name": {
                 "type": "string",
@@ -190,7 +187,7 @@
                 "description": "Docker Registry 2.0 digest."
               },
               "pushTiming": {
-                "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+                "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
                 "additionalProperties": true,
                 "type": "object",
                 "description": "Stores timing information for pushing the specified image."
@@ -233,7 +230,7 @@
           "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored."
         },
         "artifactTiming": {
-          "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+          "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
           "additionalProperties": true,
           "type": "object",
           "description": "Time to push all non-container artifacts."
@@ -332,7 +329,7 @@
               "description": "Path globs used to match files in the build's workspace."
             },
             "timing": {
-              "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+              "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
               "additionalProperties": true,
               "type": "object",
               "description": "Stores timing information for pushing all artifact objects."
@@ -354,13 +351,13 @@
     "sourceProvenance": {
       "properties": {
         "resolvedStorageSource": {
-          "$ref": "google.events.cloud.cloudbuild.v1.StorageSource",
+          "$ref": "#/definitions/googleEventsCloudCloudbuildV1StorageSource",
           "additionalProperties": true,
           "type": "object",
           "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
         },
         "resolvedRepoSource": {
-          "$ref": "google.events.cloud.cloudbuild.v1.RepoSource",
+          "$ref": "#/definitions/googleEventsCloudCloudbuildV1RepoSource",
           "additionalProperties": true,
           "type": "object",
           "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
@@ -370,7 +367,6 @@
             "properties": {
               "fileHash": {
                 "items": {
-                  "$schema": "http://json-schema.org/draft-04/schema#",
                   "properties": {
                     "type": {
                       "enum": [
@@ -557,8 +553,7 @@
         },
         "volumes": {
           "items": {
-            "$schema": "http://json-schema.org/draft-04/schema#",
-            "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+            "$ref": "#/definitions/googleEventsCloudCloudbuildV1Volume"
           },
           "type": "array",
           "description": "Global list of volumes to mount for ALL build steps\n\n Each volume is created as an empty volume prior to starting the build\n process. Upon completion of the build, volumes and their contents are\n discarded. Global volume names and paths cannot conflict with the volumes\n defined a build step.\n\n Using a global volume in a build with only one step is not valid as\n it is indicative of a build request with an incorrect configuration."
@@ -588,7 +583,6 @@
     },
     "secrets": {
       "items": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
         "properties": {
           "kmsKeyName": {
             "type": "string",
@@ -611,7 +605,7 @@
     },
     "timing": {
       "additionalProperties": {
-        "$ref": "google.events.cloud.cloudbuild.v1.TimeSpan",
+        "$ref": "#/definitions/googleEventsCloudCloudbuildV1TimeSpan",
         "additionalProperties": true,
         "type": "object"
       },
@@ -624,7 +618,6 @@
   "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
   "definitions": {
     "googleEventsCloudCloudbuildV1RepoSource": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "projectId": {
           "type": "string",
@@ -668,7 +661,6 @@
       "id": "google.events.cloud.cloudbuild.v1.RepoSource"
     },
     "googleEventsCloudCloudbuildV1StorageSource": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "bucket": {
           "type": "string",
@@ -696,7 +688,6 @@
       "id": "google.events.cloud.cloudbuild.v1.StorageSource"
     },
     "googleEventsCloudCloudbuildV1TimeSpan": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "startTime": {
           "type": "string",
@@ -715,7 +706,6 @@
       "id": "google.events.cloud.cloudbuild.v1.TimeSpan"
     },
     "googleEventsCloudCloudbuildV1Volume": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "name": {
           "type": "string",
