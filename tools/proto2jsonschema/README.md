@@ -20,7 +20,6 @@ From the root directory of this repo, run this script:
 This script:
 - Installs protobuf tools: `protoc`
 - Installs protobuf extension for JSON Schemas: `chrusty/protoc-gen-jsonschema`
-- Clones `googlapis/googleapis`
 - For every `data.proto` file, runs `protoc` to generate JSON schemas
   - Outputs generated JSON schemas in the `jsonschema` folder
 - Runs a postgen script to clean up the outputted schemas
