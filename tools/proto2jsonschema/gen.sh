@@ -47,13 +47,6 @@ go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 echo "- Converting protos to JSON Schemas"
 chmod +x $PROTOC
 
-# Clone googleapis dependency
-cd proto
-if [ ! -d "googleapis" ] ; then
-  git clone https://github.com/googleapis/googleapis
-fi
-cd ..
-
 # Generate JSON Schemas
 OUT_DIR="jsonschema"
 
