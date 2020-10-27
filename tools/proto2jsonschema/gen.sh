@@ -41,7 +41,8 @@ unzip -q protobuf.zip
 cd ..
 
 echo "- Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
-go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+# Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
+GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@0.9.4
 go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
 echo "- Converting protos to JSON Schemas"
@@ -56,17 +57,13 @@ for proto in $DATA_PROTOS; do
   ## For each data.proto file, generate the jsonschema
   # proto e.g. proto/google/events/cloud/pubsub/v1/data.proto
 
-  # Cut proto/ prefix
+  # Remove proto/ prefix
   PATH_PREFIX="proto/"
-  PATH_PREFIX_LEN=$((1 + $(echo ${#PATH_PREFIX})))
-
-  # e.g. google/events/cloud/pubsub/v1/data.proto
-  CUT_PROTO=$(echo "$proto" | cut -c $PATH_PREFIX_LEN-)
+  CUT_PROTO=${proto#"$PATH_PREFIX"}
 
   # e.g. google/events/cloud/pubsub/v1/
   PATH_POSTFIX="/data.proto"
-  PATH_POSTFIX_LEN=$((1 + $(echo ${#PATH_POSTFIX})))
-  CUT_PROTO_DIR=$(echo "$CUT_PROTO" | rev | cut -c $PATH_POSTFIX_LEN- | rev)
+  CUT_PROTO_DIR=${CUT_PROTO%"$PATH_POSTFIX"}
   echo "  - $CUT_PROTO_DIR"
 
   OUT_PROTO_DIR="$OUT_DIR"/"$CUT_PROTO_DIR"
