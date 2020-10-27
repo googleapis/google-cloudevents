@@ -22,9 +22,10 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
     const resultJSON = {
-      // Add the name and $id first
-      name: dataName,
+      // Add the $id and name first
       $id: getId(filePath),
+      name: dataName,
+      cloudevent: getCloudEventType(filePath),
       // Add all other fields. Convert keys to camelCase (i.e. remove snake_case keys)
       ...camelcaseKeys(json, {deep: true})
     };

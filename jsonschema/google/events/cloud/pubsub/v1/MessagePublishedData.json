@@ -1,6 +1,7 @@
 {
-  "name": "MessagePublishedData",
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
+  "name": "MessagePublishedData",
+  "cloudevent": "google.events.cloud.pubsub.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "message": {

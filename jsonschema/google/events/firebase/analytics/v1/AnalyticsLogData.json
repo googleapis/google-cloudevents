@@ -1,6 +1,7 @@
 {
-  "name": "AnalyticsLogData",
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/analytics/v1/AnalyticsLogData.json",
+  "name": "AnalyticsLogData",
+  "cloudevent": "google.events.firebase.analytics.v1",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "userDim": {
