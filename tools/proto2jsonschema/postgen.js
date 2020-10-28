@@ -30,6 +30,37 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       ...camelcaseKeys(json, {deep: true})
     };
 
+    /**
+     * Clean the schema output:
+     * - Fix generated "$ref" keys. i.e.
+     *   - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+     *   - TO: "$ref": "#/definitions/googleEventsCloudCloudbuildV1Volume"
+     * - Remove useless generated "$schema" keys (unless top-level/root key).
+     * @param {boolean} isRoot if the traversal is starting at the root.
+     * @todo Update crusty tool to not produce these artifacts.
+     */
+    const cleanSchema = (obj, isRoot = false) => {
+      for (const prop in obj) {
+        const isRef = (prop === '$ref');
+        const isNestedSchema = (prop === '$schema');
+        if (isNestedSchema && !isRoot) {
+          // Delete these keys from object
+          delete obj[prop];
+        } else if (isRef) {
+          const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);
+          const lcfirst = (w) => w.charAt(0).toLowerCase() + w.slice(1);
+
+          // Fix the $ref prop
+          const uri = lcfirst(obj[prop].split('.').map(ucfirst).join(''));
+          obj[prop] = `#/definitions/${uri}`;
+        } else if (typeof obj[prop] === 'object') {
+          // Recursive case
+          cleanSchema(obj[prop]);
+        }
+      }
+    };
+    cleanSchema(resultJSON, true);
+
     // Write back file with formatting
     fs.writeFileSync(filePath, JSON.stringify(resultJSON, null, 2));
   });

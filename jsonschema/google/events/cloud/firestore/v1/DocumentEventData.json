@@ -5,13 +5,13 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "value": {
-      "$ref": "google.events.cloud.firestore.v1.Document",
+      "$ref": "#/definitions/googleEventsCloudFirestoreV1Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events. (TODO: check this!)"
     },
     "oldValue": {
-      "$ref": "google.events.cloud.firestore.v1.Document",
+      "$ref": "#/definitions/googleEventsCloudFirestoreV1Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
@@ -36,7 +36,6 @@
   "description": "The data within all Firestore document events.",
   "definitions": {
     "googleEventsCloudFirestoreV1Document": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "name": {
           "type": "string",
@@ -44,7 +43,7 @@
         },
         "fields": {
           "additionalProperties": {
-            "$ref": "google.events.cloud.firestore.v1.Value",
+            "$ref": "#/definitions/googleEventsCloudFirestoreV1Value",
             "additionalProperties": true,
             "type": "object"
           },
@@ -68,7 +67,6 @@
       "id": "google.events.cloud.firestore.v1.Document"
     },
     "googleEventsCloudFirestoreV1Value": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "nullValue": {
           "oneOf": [
@@ -136,8 +134,7 @@
           "properties": {
             "values": {
               "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "$ref": "google.events.cloud.firestore.v1.Value"
+                "$ref": "#/definitions/googleEventsCloudFirestoreV1Value"
               },
               "type": "array",
               "description": "Values in the array."
@@ -151,7 +148,7 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "$ref": "google.events.cloud.firestore.v1.Value",
+                "$ref": "#/definitions/googleEventsCloudFirestoreV1Value",
                 "additionalProperties": true,
                 "type": "object"
               },
