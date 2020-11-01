@@ -21,7 +21,7 @@
   "devDependencies": {
     "gts": "2.0.2",
     "typescript": "3.9.7",
-    "@types/node": "13.13.15"
+    "@types/node": "13.13.30"
   },
   "dependencies": {
     "mkdirp": "1.0.4",
