@@ -123,6 +123,7 @@ if (!module.parent) {
     console.log();
 
     // Loop through every path
+    console.log(`Generating ${L} files:`);
     const pathPromises = absPaths.map(async (f: string, i: number) => {
       const file = readFileSync(f) + '';
       const pathToSchema = relPaths[i]; // e.g. /google/events/cloud/pubsub/MessagePublishedData.json
@@ -137,9 +138,7 @@ if (!module.parent) {
 
       // For each type file...
       // Keep a stdout buffer per type to not intertwine output
-      const bufferedOutput: string[] = [
-        `## Generating files for ${typeName}...`,
-      ];
+      const bufferedOutput: string[] = [];
       for (const [filename, genFileContents] of Object.entries(genFiles)) {
         let fileContentsMaybeWithLicenseHeader = genFileContents;
         // Optionally add license headers
@@ -156,7 +155,7 @@ if (!module.parent) {
         // This next if statement handles if Quicktype generated one or many files
         if (filename === 'stdout') {
           // For languages that just produce one file, Quicktype output filename is 'stdout'.
-          const relativeFilePath = `${relativePathTargetDirectory}/${filename}`;
+          const relativeFilePath = relativePathTargetDirectory;
           const absFilePathDir = `${OUT}/${relativePathTargetDirectory}`;
 
           // Create dir
