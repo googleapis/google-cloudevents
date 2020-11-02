@@ -15,12 +15,12 @@
 // limitations under the License.
 
 import {readFileSync, writeFileSync} from 'fs';
-import {HEADER} from './license';
 import {
   jsonschema2languageFiles,
   LANGUAGE,
   LANGUAGE_EXT,
   TARGET_LANGUAGE,
+  LANGUAGE_LICENSE_HEADER,
   QtMultifileResult,
 } from './quickstype';
 const {argv} = require('yargs');
@@ -144,7 +144,7 @@ if (!module.parent) {
         let fileContentsMaybeWithLicenseHeader = genFileContents;
         // Optionally add license headers
         if (!NO_LICENSE) {
-          fileContentsMaybeWithLicenseHeader = `${HEADER}\n${fileContentsMaybeWithLicenseHeader}`;
+          fileContentsMaybeWithLicenseHeader = `${LANGUAGE_LICENSE_HEADER[L]}\n${fileContentsMaybeWithLicenseHeader}`;
         }
 
         // Find the relative path
