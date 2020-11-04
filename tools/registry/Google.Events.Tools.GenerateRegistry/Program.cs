@@ -38,7 +38,7 @@ namespace Google.Events.Tools.GenerateRegistry
         /// The Markdown header for the table at the start of the event registry. This string is used
         /// to find the table within the README.
         /// </summary>
-        private const string TableHeader = "|Package|Event types|Data messages|";
+        private const string TableHeader = "|Product|Package|Event types|Data messages|";
 
         /// <summary>
         /// The line between the table header and the table content. This is the same number of | characters
@@ -159,6 +159,39 @@ namespace Google.Events.Tools.GenerateRegistry
     class TableRow
     {
         /// <summary>
+        /// The product represented in this row.
+        /// </summary>
+        public string Product {
+            get {
+                switch (Package)
+                {
+                    case "google.events.cloud.audit.v1":
+                        return "Cloud Audit Logs";
+                    case "google.events.cloud.cloudbuild.v1":
+                        return "Cloud Build";
+                    case "google.events.cloud.firestore.v1":
+                        return "Cloud Firestore";
+                    case "google.events.cloud.pubsub.v1":
+                        return "Cloud Pub/Sub";
+                    case "google.events.cloud.scheduler.v1":
+                        return "Cloud Scheduler";
+                    case "google.events.cloud.storage.v1":
+                        return "Cloud Storage";
+                    case "google.events.firebase.analytics.v1":
+                        return "Google Analytics for Firebase";
+                    case "google.events.firebase.auth.v1":
+                        return "Firebase Authentication";
+                    case "google.events.firebase.database.v1":
+                        return "Firebase Realtime Database";
+                    case "google.events.firebase.remoteconfig.v1":
+                        return "Firebase Remote Config";
+                    default:
+                        throw new ArgumentException("Unknown product. Please add corresponding product name.");
+                }
+            }
+        }
+
+        /// <summary>
         /// The protobuf package represented in this row.
         /// </summary>
         public string Package { get; }
@@ -183,17 +216,20 @@ namespace Google.Events.Tools.GenerateRegistry
         /// </summary>
         public string ToMarkdown()
         {
-            // The first column is the package name, with a link to the directory containing the protos.
+            // Product name / API name
+            var productColumn = Product;
+
+            // Package name with a link to the directory containing the protos.
             var packageColumn = $"[{Package}](proto/{string.Join("/", Package.Split('.'))})";
 
-            // The second column is the event types, in lexicographic order, separated by HTML line breaks.
+            // Event types in lexicographic order, separated by HTML line breaks.
             var eventTypesColumn = string.Join("<br/>", EventTypes.OrderBy(type => type, StringComparer.Ordinal));
 
-            // The third column is the data messages, in lexicographic order, separated by HTML line breaks.
+            // Data messages, in lexicographic order, separated by HTML line breaks.
             var dataMessagesColumn = string.Join("<br/>", DataMessages.OrderBy(type => type, StringComparer.Ordinal));
 
             // Join the columns together, using | as the delimiter.
-            return $"|{packageColumn}|{eventTypesColumn}|{dataMessagesColumn}|";
+            return $"|{productColumn}|{packageColumn}|{eventTypesColumn}|{dataMessagesColumn}|";
         }
     }
 }
