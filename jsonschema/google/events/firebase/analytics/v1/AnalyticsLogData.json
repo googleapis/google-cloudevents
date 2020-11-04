@@ -25,7 +25,7 @@
           "additionalProperties": {
             "properties": {
               "value": {
-                "$ref": "#/definitions/googleEventsFirebaseAnalyticsV1AnalyticsValue",
+                "$ref": "#/definitions/AnalyticsValue",
                 "additionalProperties": true,
                 "type": "object",
                 "description": "Last set value of user property."
@@ -227,7 +227,7 @@
           },
           "params": {
             "additionalProperties": {
-              "$ref": "#/definitions/googleEventsFirebaseAnalyticsV1AnalyticsValue",
+              "$ref": "#/definitions/AnalyticsValue",
               "additionalProperties": true,
               "type": "object"
             },
@@ -273,7 +273,7 @@
   "type": "object",
   "description": "The data within Firebase Analytics log events.",
   "definitions": {
-    "googleEventsFirebaseAnalyticsV1AnalyticsValue": {
+    "AnalyticsValue": {
       "properties": {
         "stringValue": {
           "type": "string"

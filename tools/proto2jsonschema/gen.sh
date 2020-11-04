@@ -42,7 +42,7 @@ cd ..
 
 echo "- Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
-GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@0.9.4
+GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@0.9.5
 go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
 echo "- Converting protos to JSON Schemas"
@@ -70,11 +70,11 @@ for proto in $DATA_PROTOS; do
   mkdir -p $OUT_PROTO_DIR
   
   # Run protoc
-  # - Option: proto_and_json_fieldnames – use JSON field names (camelCase)
+  # - Option: json_fieldnames – use JSON field names (camelCase)
   # - Input: proto/ – our CloudEvent protos
   # - Input: googlapis/ – common googleapis protos
   $PROTOC \
-  --jsonschema_out=proto_and_json_fieldnames:$OUT_PROTO_DIR \
+  --jsonschema_out=json_fieldnames:$OUT_PROTO_DIR \
   --proto_path=proto/ \
   --proto_path=third_party/googleapis \
   "$proto"
@@ -90,7 +90,8 @@ find $OUT_DIR -type f ! -name "*Data.json" -exec rm {} \;
 echo "- Done with gen."
 
 # Postgen
-echo "- Postgen"
+echo "- Postgen: Start"
 cd $(dirname $0)
 npm i
 node postgen.js
+echo "- Postgen: End"
