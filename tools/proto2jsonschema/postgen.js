@@ -47,10 +47,6 @@ console.log(`Fixing paths in dir: ${ROOT}`);
           // Delete these keys from object
           delete obj[prop];
         } else if (isRef) {
-          const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);
-          const lcfirst = (w) => w.charAt(0).toLowerCase() + w.slice(1);
-
-          // Fix the $ref prop
           const uri = lcfirst(obj[prop].split('.').map(ucfirst).join(''));
           obj[prop] = `#/definitions/${uri}`;
         } else if (typeof obj[prop] === 'object') {
@@ -61,9 +57,54 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     };
     cleanSchema(resultJSON, true);
 
-    // Write back file with formatting
-    fs.writeFileSync(filePath, JSON.stringify(resultJSON, null, 2));
+    /**
+     * Simplify the $ref tags. Used in some languages like Java.
+     *
+     * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
+     * Now the $refs are correct (but long).
+     *
+     * We need to change the $ref name and definition.
+     *
+     * We do so by:
+     * - traversing the json, getting all refs
+     * - getting the simplified replacement $ref without the prefix
+     * - replaceAll ref ids (fixes "definition" and corresponding "$ref" tags)
+     */
+    const allRefs = [];
+    const traverseObjAndGatherRefs = (obj) => {
+      for (const prop in obj) {
+        if (prop === "$ref") {
+          allRefs.push(obj[prop]);
+        } else if (typeof obj[prop] === 'object') {
+          // Recursive case
+          traverseObjAndGatherRefs(obj[prop]);
+        }
+      }
+    };
+    traverseObjAndGatherRefs(resultJSON);
+
+    // Replace all complex $refs
+    const refReplacementList = []; // a list of [before, after] strings
+    const typePrefix = lcfirst(getCloudEventType(filePath).split('.').map(ucfirst).join(''));
+    const unnecessaryTypePrefix = `#/definitions/${typePrefix}`;
+    // Go through all $refs
+    const uniqueRefs = [...new Set(allRefs)];
+    uniqueRefs.forEach((ref) => {
+      const replacementType = ref.substring(unnecessaryTypePrefix.length);
+      refReplacementList.push([`${typePrefix}${replacementType}`, replacementType]);
+    });
+
+    // Format JSON
+    let jsonString = JSON.stringify(resultJSON, null, 2);
+    // Replace all $refs and definitions with simpler $refs
+    refReplacementList.forEach(([before, after]) => {
+      jsonString = jsonString.split(before).join(after);
+    });
+
+    // Write back JSON Schema
+    fs.writeFileSync(filePath, jsonString);
   });
+  console.log(`Fixed ${filePaths.length} schemas!`);
 })();
 
 /**
@@ -90,3 +131,6 @@ function getCloudEventType(filepath) {
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
   return removeSuffix.replace(/\//g, '.');
 }
+
+const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);
+const lcfirst = (w) => w.charAt(0).toLowerCase() + w.slice(1);
