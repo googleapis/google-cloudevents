@@ -61,6 +61,22 @@ async function getJSONSchemasPaths(directory: string) {
 }
 
 /**
+ * Gets a filename from a type (proto message *Data name)
+ * @param {string} typeName The type, like DocumentEventData
+ * @param {string} lang The language, like golang
+ * @returns {string} The filename, like document_event_data
+ */
+function getFilename(typeName: string, lang: string) {
+  if (lang === 'GOLANG') {
+    // Snake case
+    return typeName.split(/(?=[A-Z])/).join('_').toLowerCase();
+  } else {
+    // Pascal case (default)
+    return typeName;
+  }
+}
+
+/**
  * Gets a list of tuples of all JSON schemas and code generated from them
  * @param directory The path to the directory with schemas.
  * @param language The language of the code.
@@ -162,7 +178,7 @@ if (!module.parent) {
           await mkdirp(absFilePathDir);
 
           // Write file
-          const typeFilename = `${typeName}.${LANGUAGE_EXT[L]}`;
+          const typeFilename = `${getFilename(typeName, L)}.${LANGUAGE_EXT[L]}`;
           const absFilePath = `${absFilePathDir}/${typeFilename}`;
           writeFileSync(absFilePath, fileContentsMaybeWithLicenseHeader);
           bufferedOutput.push(
