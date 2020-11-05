@@ -22,18 +22,18 @@ may change. Even the core `cloud_event_type` annotation may change.
 
 This repository contains definitions for the following CloudEvents:
 
-|Package|Event types|Data messages|
-|-|-|-|
-|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
-|[google.events.cloud.cloudbuild.v1](proto/google/events/cloud/cloudbuild/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
-|[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
-|[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
-|[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
-|[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
-|[google.events.firebase.analytics.v1](proto/google/events/firebase/analytics/v1)|google.firebase.analytics.log.v1.written|AnalyticsLogData|
-|[google.events.firebase.auth.v1](proto/google/events/firebase/auth/v1)|google.firebase.auth.user.v1.created<br/>google.firebase.auth.user.v1.deleted|AuthEventData|
-|[google.events.firebase.database.v1](proto/google/events/firebase/database/v1)|google.firebase.database.ref.v1.created<br/>google.firebase.database.ref.v1.deleted<br/>google.firebase.database.ref.v1.updated<br/>google.firebase.database.ref.v1.written|ReferenceEventData|
-|[google.events.firebase.remoteconfig.v1](proto/google/events/firebase/remoteconfig/v1)|google.firebase.remoteconfig.remoteConfig.v1.updated|RemoteConfigEventData|
+|Product|Package|Event types|Data messages|
+|-|-|-|-|
+|Cloud Audit Logs|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
+|Cloud Build|[google.events.cloud.cloudbuild.v1](proto/google/events/cloud/cloudbuild/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
+|Cloud Firestore|[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
+|Cloud Pub/Sub|[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
+|Cloud Scheduler|[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
+|Cloud Storage|[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
+|Google Analytics for Firebase|[google.events.firebase.analytics.v1](proto/google/events/firebase/analytics/v1)|google.firebase.analytics.log.v1.written|AnalyticsLogData|
+|Firebase Authentication|[google.events.firebase.auth.v1](proto/google/events/firebase/auth/v1)|google.firebase.auth.user.v1.created<br/>google.firebase.auth.user.v1.deleted|AuthEventData|
+|Firebase Realtime Database|[google.events.firebase.database.v1](proto/google/events/firebase/database/v1)|google.firebase.database.ref.v1.created<br/>google.firebase.database.ref.v1.deleted<br/>google.firebase.database.ref.v1.updated<br/>google.firebase.database.ref.v1.written|ReferenceEventData|
+|Firebase Remote Config|[google.events.firebase.remoteconfig.v1](proto/google/events/firebase/remoteconfig/v1)|google.firebase.remoteconfig.remoteConfig.v1.updated|RemoteConfigEventData|
 
 ## CloudEvent Type Repos
 
