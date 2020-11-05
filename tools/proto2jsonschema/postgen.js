@@ -58,7 +58,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     cleanSchema(resultJSON, true);
 
     /**
-     * Simplify the $ref tags. Used in some languagues like Java.
+     * Simplify the $ref tags. Used in some languages like Java.
      *
      * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
      * Now the $refs are correct (but long).
