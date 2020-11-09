@@ -19,6 +19,7 @@ import {
   SerializedRenderResult,
   FetchingJSONSchemaStore,
 } from 'quicktype-core';
+import {HASH_HEADER, DASH_LINE_HEADER, MULTI_LINE_HEADER, SINGLE_LINE_HEADER} from './license';
 // Interface not exported in top-level 'quicktype-core': https://github.com/quicktype/quicktype/pull/1565
 import {MultiFileRenderResult} from '../node_modules/quicktype-core/dist/TargetLanguage';
 
@@ -64,6 +65,26 @@ export const LANGUAGE_EXT = {
   DART: 'dart',
   PIKE: 'pike',
   HASKELL: 'hs',
+};
+// Expected license reference: https://github.com/google/addlicense/tree/master/testdata/expected
+export const LANGUAGE_LICENSE_HEADER = {
+  CSHARP: SINGLE_LINE_HEADER,
+  JAVA: MULTI_LINE_HEADER,
+  PYTHON: HASH_HEADER,
+  RUST: SINGLE_LINE_HEADER,
+  CRYSTAL: HASH_HEADER,
+  RUBY: HASH_HEADER,
+  GOLANG: SINGLE_LINE_HEADER,
+  CPLUSPLUS: SINGLE_LINE_HEADER,
+  ELM: DASH_LINE_HEADER,
+  SWIFT: SINGLE_LINE_HEADER,
+  OBJECTIVEC: SINGLE_LINE_HEADER,
+  TYPESCRIPT: MULTI_LINE_HEADER,
+  JAVASCRIPT: MULTI_LINE_HEADER,
+  KOTLIN: MULTI_LINE_HEADER,
+  DART: SINGLE_LINE_HEADER,
+  PIKE: SINGLE_LINE_HEADER,
+  HASKELL: DASH_LINE_HEADER,
 };
 
 /**

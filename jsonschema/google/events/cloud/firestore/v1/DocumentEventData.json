@@ -5,13 +5,13 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "value": {
-      "$ref": "#/definitions/googleEventsCloudFirestoreV1Document",
+      "$ref": "#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events. (TODO: check this!)"
     },
     "oldValue": {
-      "$ref": "#/definitions/googleEventsCloudFirestoreV1Document",
+      "$ref": "#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
@@ -35,7 +35,7 @@
   "type": "object",
   "description": "The data within all Firestore document events.",
   "definitions": {
-    "googleEventsCloudFirestoreV1Document": {
+    "Document": {
       "properties": {
         "name": {
           "type": "string",
@@ -43,7 +43,7 @@
         },
         "fields": {
           "additionalProperties": {
-            "$ref": "#/definitions/googleEventsCloudFirestoreV1Value",
+            "$ref": "#/definitions/Value",
             "additionalProperties": true,
             "type": "object"
           },
@@ -66,7 +66,7 @@
       "description": "A Firestore document.",
       "id": "google.events.cloud.firestore.v1.Document"
     },
-    "googleEventsCloudFirestoreV1Value": {
+    "Value": {
       "properties": {
         "nullValue": {
           "oneOf": [
@@ -134,7 +134,7 @@
           "properties": {
             "values": {
               "items": {
-                "$ref": "#/definitions/googleEventsCloudFirestoreV1Value"
+                "$ref": "#/definitions/Value"
               },
               "type": "array",
               "description": "Values in the array."
@@ -148,7 +148,7 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "$ref": "#/definitions/googleEventsCloudFirestoreV1Value",
+                "$ref": "#/definitions/Value",
                 "additionalProperties": true,
                 "type": "object"
               },

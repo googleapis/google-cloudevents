@@ -15,12 +15,12 @@
 // limitations under the License.
 
 import {readFileSync, writeFileSync} from 'fs';
-import {HEADER} from './license';
 import {
   jsonschema2languageFiles,
   LANGUAGE,
   LANGUAGE_EXT,
   TARGET_LANGUAGE,
+  LANGUAGE_LICENSE_HEADER,
   QtMultifileResult,
 } from './quickstype';
 const {argv} = require('yargs');
@@ -58,6 +58,22 @@ async function getJSONSchemasPaths(directory: string) {
   console.log(`- Finding all JSON Schemas (${SCHEMA_PATTERN})...`);
   const paths: string[] = await recursive(directory, IGNORE_PATTERN);
   return paths;
+}
+
+/**
+ * Gets a filename from a type (proto message *Data name)
+ * @param {string} typeName The type, like DocumentEventData
+ * @param {string} lang The language, like golang
+ * @returns {string} The filename, like document_event_data
+ */
+function getFilename(typeName: string, lang: string) {
+  if (lang === 'GOLANG') {
+    // Snake case
+    return typeName.split(/(?=[A-Z])/).join('_').toLowerCase();
+  } else {
+    // Pascal case (default)
+    return typeName;
+  }
 }
 
 /**
@@ -123,6 +139,7 @@ if (!module.parent) {
     console.log();
 
     // Loop through every path
+    console.log(`Generating ${L} files:`);
     const pathPromises = absPaths.map(async (f: string, i: number) => {
       const file = readFileSync(f) + '';
       const pathToSchema = relPaths[i]; // e.g. /google/events/cloud/pubsub/MessagePublishedData.json
@@ -137,14 +154,12 @@ if (!module.parent) {
 
       // For each type file...
       // Keep a stdout buffer per type to not intertwine output
-      const bufferedOutput: string[] = [
-        `## Generating files for ${typeName}...`,
-      ];
+      const bufferedOutput: string[] = [];
       for (const [filename, genFileContents] of Object.entries(genFiles)) {
         let fileContentsMaybeWithLicenseHeader = genFileContents;
         // Optionally add license headers
         if (!NO_LICENSE) {
-          fileContentsMaybeWithLicenseHeader = `${HEADER}\n${fileContentsMaybeWithLicenseHeader}`;
+          fileContentsMaybeWithLicenseHeader = `${LANGUAGE_LICENSE_HEADER[L]}\n${fileContentsMaybeWithLicenseHeader}`;
         }
 
         // Find the relative path
@@ -156,14 +171,14 @@ if (!module.parent) {
         // This next if statement handles if Quicktype generated one or many files
         if (filename === 'stdout') {
           // For languages that just produce one file, Quicktype output filename is 'stdout'.
-          const relativeFilePath = `${relativePathTargetDirectory}/${filename}`;
+          const relativeFilePath = relativePathTargetDirectory;
           const absFilePathDir = `${OUT}/${relativePathTargetDirectory}`;
 
           // Create dir
           await mkdirp(absFilePathDir);
 
           // Write file
-          const typeFilename = `${typeName}.${LANGUAGE_EXT[L]}`;
+          const typeFilename = `${getFilename(typeName, L)}.${LANGUAGE_EXT[L]}`;
           const absFilePath = `${absFilePathDir}/${typeFilename}`;
           writeFileSync(absFilePath, fileContentsMaybeWithLicenseHeader);
           bufferedOutput.push(
