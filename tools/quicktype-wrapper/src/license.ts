@@ -42,4 +42,9 @@ export const MULTI_LINE_HEADER =
 ${HEADER(' *')}
  */
 `;
+export const MULTI_LINE_HEADER_JAVA =
+`/*
+${HEADER(' *')}
+ */
+`;
 // Note, newline is important here.

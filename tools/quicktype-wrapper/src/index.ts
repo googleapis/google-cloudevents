@@ -67,7 +67,7 @@ async function getJSONSchemasPaths(directory: string) {
  * @returns {string} The filename, like document_event_data
  */
 function getFilename(typeName: string, lang: string) {
-  if (lang === 'GOLANG') {
+  if (lang === 'GOLANG' || lang === 'RUBY') {
     // Snake case
     return typeName.split(/(?=[A-Z])/).join('_').toLowerCase();
   } else {
