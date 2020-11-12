@@ -3,6 +3,6 @@
     "config:base"
   ],
   "schedule": [
-    "monthly"
+    "every 6 months"
   ]
 }
