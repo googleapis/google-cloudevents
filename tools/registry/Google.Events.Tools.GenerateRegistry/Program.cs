@@ -32,7 +32,14 @@ namespace Google.Events.Tools.GenerateRegistry
         /// This is hard-coded to avoid the relatively longwinded code required to find it within the
         /// descriptor file.
         /// </summary>
-        private const int ExtensionField = 11716486;
+        private const int CloudEventTypeExtensionField = 11716486;
+
+        /// <summary>
+        /// The field number of the cloud_event_product field in google/events/cloudevent.proto.
+        /// This is hard-coded to avoid the relatively longwinded code required to find it within the
+        /// descriptor file.
+        /// </summary>
+        private const int CloudEventProductExtensionField = 11716487;
 
         /// <summary>
         /// The Markdown header for the table at the start of the event registry. This string is used
@@ -98,9 +105,11 @@ namespace Google.Events.Tools.GenerateRegistry
         static IEnumerable<TableRow> CreateTableRows(string descriptorFile)
         {
             // We need to load the descriptor file with an extension registry containing the cloud_event_type extension.
-            var fieldCodec = FieldCodec.ForString(WireFormat.MakeTag(ExtensionField, WireFormat.WireType.LengthDelimited), "");
-            var eventTypeExtension = new Extension<MessageOptions, string>(ExtensionField, fieldCodec);
-            var extensionRegistry = new ExtensionRegistry { eventTypeExtension };
+            var typeFieldCodec = FieldCodec.ForString(WireFormat.MakeTag(CloudEventTypeExtensionField, WireFormat.WireType.LengthDelimited), "");
+            var productFieldCodec = FieldCodec.ForString(WireFormat.MakeTag(CloudEventTypeExtensionField, WireFormat.WireType.LengthDelimited), "");
+            var eventTypeExtension = new Extension<MessageOptions, string>(CloudEventTypeExtensionField, typeFieldCodec);
+            var productExtension = new Extension<Google.Protobuf.Reflection.FileOptions, string>(CloudEventProductExtensionField, productFieldCodec);
+            var extensionRegistry = new ExtensionRegistry { eventTypeExtension, productExtension };
 
             var bytes = File.ReadAllBytes(descriptorFile);
             var descriptorSet = FileDescriptorSet.Parser.WithExtensionRegistry(extensionRegistry).ParseFrom(bytes);
@@ -115,8 +124,10 @@ namespace Google.Events.Tools.GenerateRegistry
                 // rows based on the package.
                 var package = protoFile.Package;
 
+                var product = protoFile.Options?.GetExtension(productExtension);
+
                 // Speculatively create a row in which to store any event types and data message names we find.
-                var row = new TableRow(package);
+                var row = new TableRow(package, product);
                 foreach (var message in protoFile.MessageType)
                 {
                     // We only care about messages that have the cloud_event_type extension.
@@ -124,6 +135,11 @@ namespace Google.Events.Tools.GenerateRegistry
                     if (string.IsNullOrWhiteSpace(eventType))
                     {
                         continue;
+                    }
+
+                    if (string.IsNullOrEmpty(product))
+                    {
+                        throw new InvalidOperationException($"File {protoFile.Name} contains event types but does not specify a product");
                     }
 
                     // Remember the event type specified in this message.
@@ -161,35 +177,7 @@ namespace Google.Events.Tools.GenerateRegistry
         /// <summary>
         /// The product represented in this row.
         /// </summary>
-        public string Product {
-            get {
-                switch (Package)
-                {
-                    case "google.events.cloud.audit.v1":
-                        return "Cloud Audit Logs";
-                    case "google.events.cloud.cloudbuild.v1":
-                        return "Cloud Build";
-                    case "google.events.cloud.firestore.v1":
-                        return "Cloud Firestore";
-                    case "google.events.cloud.pubsub.v1":
-                        return "Cloud Pub/Sub";
-                    case "google.events.cloud.scheduler.v1":
-                        return "Cloud Scheduler";
-                    case "google.events.cloud.storage.v1":
-                        return "Cloud Storage";
-                    case "google.events.firebase.analytics.v1":
-                        return "Google Analytics for Firebase";
-                    case "google.events.firebase.auth.v1":
-                        return "Firebase Authentication";
-                    case "google.events.firebase.database.v1":
-                        return "Firebase Realtime Database";
-                    case "google.events.firebase.remoteconfig.v1":
-                        return "Firebase Remote Config";
-                    default:
-                        throw new ArgumentException("Unknown product. Please add corresponding product name.");
-                }
-            }
-        }
+        public string Product { get; }
 
         /// <summary>
         /// The protobuf package represented in this row.
@@ -208,8 +196,8 @@ namespace Google.Events.Tools.GenerateRegistry
         /// </summary>
         public HashSet<string> DataMessages { get; } = new HashSet<string>();
 
-        public TableRow(string package) =>
-            Package = package;
+        public TableRow(string package, string product) =>
+            (Package, Product) = (package, product);
 
         /// <summary>
         /// Converts the table row to markdown, ready for inclusion in the README file.
