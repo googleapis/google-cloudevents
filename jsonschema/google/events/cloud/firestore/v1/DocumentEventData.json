@@ -39,7 +39,7 @@
   "type": "object",
   "description": "The data within all Firestore document events.",
   "definitions": {
-    "document": {
+    "Document": {
       "properties": {
         "name": {
           "type": "string",
@@ -70,7 +70,7 @@
       "description": "A Firestore document.",
       "id": "google.events.cloud.firestore.v1.Document"
     },
-    "value": {
+    "Value": {
       "properties": {
         "nullValue": {
           "oneOf": [
