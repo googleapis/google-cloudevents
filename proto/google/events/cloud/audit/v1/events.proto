@@ -21,6 +21,8 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
+option (google.events.cloud_event_product) = "Cloud Audit Logs";
+
 // The CloudEvent raised when an audit log entry is written.
 message AuditLogWrittenEvent {
   option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";

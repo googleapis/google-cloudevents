@@ -25,3 +25,9 @@ extend google.protobuf.MessageOptions {
   // that relates to this message.
   string cloud_event_type = 11716486;
 }
+
+extend google.protobuf.FileOptions {
+  // The product (e.g. "Cloud Firestore") that owns the CloudEvents described
+  // in this file.
+  string cloud_event_product = 11716487;
+}

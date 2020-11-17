@@ -21,6 +21,8 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Analytics.V1";
 
+option (google.events.cloud_event_product) = "Google Analytics for Firebase";
+
 // The CloudEvent raised when a Firebase Analytics log is written.
 message AnalyticsLogWrittenEvent {
   option (google.events.cloud_event_type) =
