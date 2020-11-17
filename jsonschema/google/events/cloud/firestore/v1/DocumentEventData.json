@@ -9,13 +9,13 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "value": {
-      "$ref": "#/definitions/#/definitions/Document",
+      "$ref": "#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events. (TODO: check this!)"
     },
     "oldValue": {
-      "$ref": "#/definitions/#/definitions/Document",
+      "$ref": "#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
@@ -47,7 +47,7 @@
         },
         "fields": {
           "additionalProperties": {
-            "$ref": "#/definitions/#/definitions/Value",
+            "$ref": "#/definitions/Value",
             "additionalProperties": true,
             "type": "object"
           },
@@ -138,7 +138,7 @@
           "properties": {
             "values": {
               "items": {
-                "$ref": "#/definitions/#/definitions/Value"
+                "$ref": "#/definitions/Value"
               },
               "type": "array",
               "description": "Values in the array."
@@ -152,7 +152,7 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "$ref": "#/definitions/#/definitions/Value",
+                "$ref": "#/definitions/Value",
                 "additionalProperties": true,
                 "type": "object"
               },

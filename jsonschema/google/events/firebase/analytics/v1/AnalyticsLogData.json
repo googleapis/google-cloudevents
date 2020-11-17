@@ -26,7 +26,7 @@
           "additionalProperties": {
             "properties": {
               "value": {
-                "$ref": "#/definitions/#/definitions/AnalyticsValue",
+                "$ref": "#/definitions/AnalyticsValue",
                 "additionalProperties": true,
                 "type": "object",
                 "description": "Last set value of user property."
@@ -228,7 +228,7 @@
           },
           "params": {
             "additionalProperties": {
-              "$ref": "#/definitions/#/definitions/AnalyticsValue",
+              "$ref": "#/definitions/AnalyticsValue",
               "additionalProperties": true,
               "type": "object"
             },
