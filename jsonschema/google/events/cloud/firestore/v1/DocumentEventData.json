@@ -2,16 +2,20 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json",
   "name": "DocumentEventData",
   "cloudevent": "google.events.cloud.firestore.v1",
+  "examples": [
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-complex.json",
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-simple.json"
+  ],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "value": {
-      "$ref": "#/definitions/Document",
+      "$ref": "#/definitions/#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events. (TODO: check this!)"
     },
     "oldValue": {
-      "$ref": "#/definitions/Document",
+      "$ref": "#/definitions/#/definitions/Document",
       "additionalProperties": true,
       "type": "object",
       "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
@@ -35,7 +39,7 @@
   "type": "object",
   "description": "The data within all Firestore document events.",
   "definitions": {
-    "Document": {
+    "document": {
       "properties": {
         "name": {
           "type": "string",
@@ -43,7 +47,7 @@
         },
         "fields": {
           "additionalProperties": {
-            "$ref": "#/definitions/Value",
+            "$ref": "#/definitions/#/definitions/Value",
             "additionalProperties": true,
             "type": "object"
           },
@@ -66,7 +70,7 @@
       "description": "A Firestore document.",
       "id": "google.events.cloud.firestore.v1.Document"
     },
-    "Value": {
+    "value": {
       "properties": {
         "nullValue": {
           "oneOf": [
@@ -134,7 +138,7 @@
           "properties": {
             "values": {
               "items": {
-                "$ref": "#/definitions/Value"
+                "$ref": "#/definitions/#/definitions/Value"
               },
               "type": "array",
               "description": "Values in the array."
@@ -148,7 +152,7 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "$ref": "#/definitions/Value",
+                "$ref": "#/definitions/#/definitions/Value",
                 "additionalProperties": true,
                 "type": "object"
               },

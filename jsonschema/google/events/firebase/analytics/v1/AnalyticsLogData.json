@@ -2,6 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/analytics/v1/AnalyticsLogData.json",
   "name": "AnalyticsLogData",
   "cloudevent": "google.events.firebase.analytics.v1",
+  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "userDim": {
@@ -25,7 +26,7 @@
           "additionalProperties": {
             "properties": {
               "value": {
-                "$ref": "#/definitions/AnalyticsValue",
+                "$ref": "#/definitions/#/definitions/AnalyticsValue",
                 "additionalProperties": true,
                 "type": "object",
                 "description": "Last set value of user property."
@@ -227,7 +228,7 @@
           },
           "params": {
             "additionalProperties": {
-              "$ref": "#/definitions/AnalyticsValue",
+              "$ref": "#/definitions/#/definitions/AnalyticsValue",
               "additionalProperties": true,
               "type": "object"
             },
@@ -273,7 +274,7 @@
   "type": "object",
   "description": "The data within Firebase Analytics log events.",
   "definitions": {
-    "AnalyticsValue": {
+    "analyticsValue": {
       "properties": {
         "stringValue": {
           "type": "string"
