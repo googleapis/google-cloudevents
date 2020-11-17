@@ -1,7 +1,8 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json",
   "name": "RemoteConfigEventData",
-  "cloudevent": "google.events.firebase.remoteconfig.v1",
+  "package": "google.events.firebase.remoteconfig.v1",
+  "datatype": "google.events.firebase.remoteconfig.v1.RemoteConfigEventData",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "versionNumber": {

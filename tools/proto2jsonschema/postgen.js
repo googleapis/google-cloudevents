@@ -17,15 +17,19 @@ console.log(`Fixing paths in dir: ${ROOT}`);
   const filePaths = await recursive(ROOT);
   // For every file
   filePaths.map(filePath => {
-    const dataName = path.basename(filePath,  path.extname(filePath)); // i.e. LogEntryData
+    const name = path.basename(filePath,  path.extname(filePath)); // i.e. LogEntryData
     
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
+    const $id = getId(filePath);
+    const cloudeventPackage = getCloudEventType(filePath);
+    // console.log(filePath);
+    // Add additional metadata to the JSON schema
     const resultJSON = {
-      // Add the $id and name first
-      $id: getId(filePath),
-      name: dataName,
-      cloudevent: getCloudEventType(filePath),
+      $id,
+      name,
+      package: cloudeventPackage,
+      datatype: `${cloudeventPackage}.${name}`,
       // Add all other fields. Convert keys to camelCase (i.e. remove snake_case keys)
       ...camelcaseKeys(json, {deep: true})
     };

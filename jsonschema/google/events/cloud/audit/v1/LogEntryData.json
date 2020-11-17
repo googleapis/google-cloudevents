@@ -1,7 +1,8 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
   "name": "LogEntryData",
-  "cloudevent": "google.events.cloud.audit.v1",
+  "package": "google.events.cloud.audit.v1",
+  "datatype": "google.events.cloud.audit.v1.LogEntryData",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "logName": {
