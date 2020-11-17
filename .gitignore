@@ -3,6 +3,7 @@ obj/
 tmp/
 .vs/
 .idea/
+.cr/
 
 # Local launch settings for .NET apps
 launchSettings.json
