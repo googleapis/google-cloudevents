@@ -274,7 +274,7 @@
   "type": "object",
   "description": "The data within Firebase Analytics log events.",
   "definitions": {
-    "analyticsValue": {
+    "AnalyticsValue": {
       "properties": {
         "stringValue": {
           "type": "string"

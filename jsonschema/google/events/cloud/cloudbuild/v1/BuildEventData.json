@@ -618,7 +618,7 @@
   "type": "object",
   "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
   "definitions": {
-    "repoSource": {
+    "RepoSource": {
       "properties": {
         "projectId": {
           "type": "string",
@@ -661,7 +661,7 @@
       "description": "Location of the source in a Google Cloud Source Repository.",
       "id": "google.events.cloud.cloudbuild.v1.RepoSource"
     },
-    "storageSource": {
+    "StorageSource": {
       "properties": {
         "bucket": {
           "type": "string",
@@ -688,7 +688,7 @@
       "description": "Location of the source in an archive file in Google Cloud Storage.",
       "id": "google.events.cloud.cloudbuild.v1.StorageSource"
     },
-    "timeSpan": {
+    "TimeSpan": {
       "properties": {
         "startTime": {
           "type": "string",
@@ -706,7 +706,7 @@
       "description": "Start and end times for a build execution phase.",
       "id": "google.events.cloud.cloudbuild.v1.TimeSpan"
     },
-    "volume": {
+    "Volume": {
       "properties": {
         "name": {
           "type": "string",
