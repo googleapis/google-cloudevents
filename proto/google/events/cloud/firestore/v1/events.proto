@@ -21,6 +21,8 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
 
+option (google.events.cloud_event_product) = "Cloud Firestore";
+
 // The CloudEvent raised when a Firestore document is created.
 message DocumentCreatedEvent {
   option (google.events.cloud_event_type) =

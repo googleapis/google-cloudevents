@@ -21,6 +21,8 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
 
+option (google.events.cloud_event_product) = "Firebase Realtime Database";
+
 // The CloudEvent raised when a ref is created in the Firebase
 // Real Time Database.
 message ReferenceCreatedEvent {

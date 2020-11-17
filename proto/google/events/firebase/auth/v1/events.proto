@@ -21,6 +21,8 @@ import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
 
+option (google.events.cloud_event_product) = "Firebase Authentication";
+
 // The CloudEvent raised when a Firebase user is created.
 message UserCreatedEvent {
   option (google.events.cloud_event_type) =
