@@ -146,3 +146,15 @@ message StorageObjectData {
   // The kind of item this is. For objects, this is always "storage#object".
   string kind = 102;
 }
+
+// A bucket within Google Cloud Storage.
+message StorageBucketData {
+  // The bucket name
+  string name = 1;
+
+  // The project number of the project the bucket belongs to.
+  int64 project_number = 2;
+
+  // The metadata generation of this bucket.
+  int64 metageneration = 3;
+}

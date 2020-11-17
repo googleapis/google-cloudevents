@@ -57,3 +57,21 @@ message ObjectMetadataUpdatedEvent {
   // The data associated with the event.
   StorageObjectData data = 1;
 }
+
+// The CloudEvent raised when a bucket is created in Google Cloud Storage.
+message BucketCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.storage.bucket.v1.created";
+
+  // The data associated with the event.
+  StorageBucketData data = 1;
+}
+
+// The CloudEvent raised when a bucket is deleted in Google Cloud Storage.
+message BucketDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.storage.bucket.v1.deleted";
+
+  // The data associated with the event.
+  StorageBucketData data = 1;
+}
