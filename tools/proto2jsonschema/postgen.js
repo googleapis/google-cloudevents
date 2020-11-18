@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const recursive = require("recursive-readdir");
 const camelcaseKeys = require('camelcase-keys');
+const protobufjs = require('protobufjs');
+const flatten = require('flat');
 
 /**
  * This tool polishes the JSON schemas with a few modifications:
@@ -21,11 +23,15 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
+    const packageName = getCloudEventPackage(filePath);
+
     const resultJSON = {
       // Add the $id and name first
       $id: getId(filePath),
       name: dataName,
-      cloudevent: getCloudEventType(filePath),
+      package: packageName,
+      datatype: `${packageName}.${dataName}`,
+      ...getCloudEventProperties(packageName),
       // Add all other fields. Convert keys to camelCase (i.e. remove snake_case keys)
       ...camelcaseKeys(json, {deep: true})
     };
@@ -85,7 +91,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
 
     // Replace all complex $refs
     const refReplacementList = []; // a list of [before, after] strings
-    const typePrefix = lcfirst(getCloudEventType(filePath).split('.').map(ucfirst).join(''));
+    const typePrefix = lcfirst(getCloudEventPackage(filePath).split('.').map(ucfirst).join(''));
     const unnecessaryTypePrefix = `#/definitions/${typePrefix}`;
     // Go through all $refs
     const uniqueRefs = [...new Set(allRefs)];
@@ -120,16 +126,54 @@ function getId(filepath) {
 }
 
 /**
- * Gets the CloudEvent#type represented in the JSON schema.
+ * Gets the cloudevent package represented in the JSON schema.
  * @param {string} filepath The input file path
  * @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
+ * @returns {string} The CloudEvent package for this file represents.
  * @example out: google.events.cloud.audit.v1
- * @returns {string} The CloudEvent ID for this file represents.
  */
-function getCloudEventType(filepath) {
+function getCloudEventPackage(filepath) {
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
   return removeSuffix.replace(/\//g, '.');
+}
+
+/**
+ * Gets the CloudEvent properties from the corresponding `events.proto` file.
+ * @param {string} packageName The package name of the CloudEvent.
+ * @return {object} cloudevent The CloudEvent properties object.
+ * @return {string[]} cloudevent.types The CloudEvent type strings.
+ * @return {string} cloudevent.product The CloudEvent product.
+ */
+function getCloudEventProperties(packageName) {
+  const protoPath = packageName.split('.').join('/');
+  const eventPath = path.resolve(`${__dirname}/../../proto/${protoPath}/events.proto`);
+  const proto = protobufjs.loadSync(eventPath);
+  const protoAsJSON = proto.toJSON();
+
+  // Flatten the protobuf representation and look directly for these keys:
+  const CLOUD_EVENT_TYPE = '(google.events.cloud_event_type)';
+  const CLOUD_EVENT_PRODUCT = '(google.events.cloud_event_product)';
+  const flattenedProtoValueMap = flatten(protoAsJSON);
+  const flattenedProtoValueMapEntries = Object.entries(flattenedProtoValueMap);
+  
+  // Go through all the keys, add the type or product if found.
+  const types = [];
+  let product = '';
+  for (const [k, v] of flattenedProtoValueMapEntries) {
+    if (k.endsWith(CLOUD_EVENT_TYPE)) {
+      types.push(v);
+    }
+    if (k.endsWith(CLOUD_EVENT_PRODUCT)) {
+      product = v;
+    }
+  }
+
+  // Return types and product.
+  return {
+    types,
+    product,
+  };
 }
 
 const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);

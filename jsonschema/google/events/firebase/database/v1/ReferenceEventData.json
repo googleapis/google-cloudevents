@@ -1,7 +1,15 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/database/v1/ReferenceEventData.json",
   "name": "ReferenceEventData",
-  "cloudevent": "google.events.firebase.database.v1",
+  "package": "google.events.firebase.database.v1",
+  "datatype": "google.events.firebase.database.v1.ReferenceEventData",
+  "types": [
+    "google.firebase.database.ref.v1.created",
+    "google.firebase.database.ref.v1.updated",
+    "google.firebase.database.ref.v1.deleted",
+    "google.firebase.database.ref.v1.written"
+  ],
+  "product": "Firebase Realtime Database",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "data": {
