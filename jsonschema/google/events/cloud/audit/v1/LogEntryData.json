@@ -3,7 +3,7 @@
   "name": "LogEntryData",
   "package": "google.events.cloud.audit.v1",
   "datatype": "google.events.cloud.audit.v1.LogEntryData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.audit.log.v1.written"
   ],
   "product": "Cloud Audit Logs",

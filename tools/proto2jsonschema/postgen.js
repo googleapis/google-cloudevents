@@ -158,11 +158,11 @@ function getCloudEventProperties(packageName) {
   const flattenedProtoValueMapEntries = Object.entries(flattenedProtoValueMap);
   
   // Go through all the keys, add the type or product if found.
-  const types = [];
+  const cloudeventTypes = [];
   let product = '';
   for (const [k, v] of flattenedProtoValueMapEntries) {
     if (k.endsWith(CLOUD_EVENT_TYPE)) {
-      types.push(v);
+      cloudeventTypes.push(v);
     }
     if (k.endsWith(CLOUD_EVENT_PRODUCT)) {
       product = v;
@@ -171,7 +171,7 @@ function getCloudEventProperties(packageName) {
 
   // Return types and product.
   return {
-    types,
+    cloudeventTypes,
     product,
   };
 }

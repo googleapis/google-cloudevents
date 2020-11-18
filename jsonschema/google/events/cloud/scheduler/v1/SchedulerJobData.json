@@ -3,7 +3,7 @@
   "name": "SchedulerJobData",
   "package": "google.events.cloud.scheduler.v1",
   "datatype": "google.events.cloud.scheduler.v1.SchedulerJobData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.scheduler.job.v1.executed"
   ],
   "product": "Cloud Scheduler",

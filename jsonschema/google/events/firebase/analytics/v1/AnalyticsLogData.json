@@ -3,7 +3,7 @@
   "name": "AnalyticsLogData",
   "package": "google.events.firebase.analytics.v1",
   "datatype": "google.events.firebase.analytics.v1.AnalyticsLogData",
-  "types": [
+  "cloudeventTypes": [
     "google.firebase.analytics.log.v1.written"
   ],
   "product": "Google Analytics for Firebase",

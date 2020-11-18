@@ -3,7 +3,7 @@
   "name": "MessagePublishedData",
   "package": "google.events.cloud.pubsub.v1",
   "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.pubsub.topic.v1.messagePublished"
   ],
   "product": "Cloud Pub/Sub",

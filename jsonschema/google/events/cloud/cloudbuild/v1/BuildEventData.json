@@ -3,7 +3,7 @@
   "name": "BuildEventData",
   "package": "google.events.cloud.cloudbuild.v1",
   "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.cloudbuild.build.v1.statusChanged"
   ],
   "product": "Cloud Build",

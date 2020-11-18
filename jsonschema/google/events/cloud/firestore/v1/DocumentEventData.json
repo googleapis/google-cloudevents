@@ -3,7 +3,7 @@
   "name": "DocumentEventData",
   "package": "google.events.cloud.firestore.v1",
   "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.firestore.document.v1.created",
     "google.cloud.firestore.document.v1.updated",
     "google.cloud.firestore.document.v1.deleted",

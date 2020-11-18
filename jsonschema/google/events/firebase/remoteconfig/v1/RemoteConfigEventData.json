@@ -3,7 +3,7 @@
   "name": "RemoteConfigEventData",
   "package": "google.events.firebase.remoteconfig.v1",
   "datatype": "google.events.firebase.remoteconfig.v1.RemoteConfigEventData",
-  "types": [
+  "cloudeventTypes": [
     "google.firebase.remoteconfig.remoteConfig.v1.updated"
   ],
   "product": "Firebase Remote Config",

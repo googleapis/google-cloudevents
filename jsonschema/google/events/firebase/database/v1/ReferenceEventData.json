@@ -3,7 +3,7 @@
   "name": "ReferenceEventData",
   "package": "google.events.firebase.database.v1",
   "datatype": "google.events.firebase.database.v1.ReferenceEventData",
-  "types": [
+  "cloudeventTypes": [
     "google.firebase.database.ref.v1.created",
     "google.firebase.database.ref.v1.updated",
     "google.firebase.database.ref.v1.deleted",

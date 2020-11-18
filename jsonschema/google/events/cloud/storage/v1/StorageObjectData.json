@@ -3,7 +3,7 @@
   "name": "StorageObjectData",
   "package": "google.events.cloud.storage.v1",
   "datatype": "google.events.cloud.storage.v1.StorageObjectData",
-  "types": [
+  "cloudeventTypes": [
     "google.cloud.storage.object.v1.finalized",
     "google.cloud.storage.object.v1.archived",
     "google.cloud.storage.object.v1.deleted",
