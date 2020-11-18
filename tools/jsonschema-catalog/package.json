@@ -1,0 +1,10 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "camelcase-keys": "^6.2.2",
+    "recursive-readdir": "^2.2.2"
+  }
+}
