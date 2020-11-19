@@ -22,9 +22,9 @@ console.log(`Iterating through JSON schemas:`);
     cloudeventJSONSchemas.push({
       url: json.$id,
       name: json.name,
+      description: json.description,
       datatype: json.datatype,
       cloudeventTypes: json.cloudeventTypes,
-      description: json.description,
     });
   });
   // Sort by URL (to prevent random ordering)
