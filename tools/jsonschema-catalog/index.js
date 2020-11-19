@@ -12,7 +12,7 @@ console.log(`Iterating through JSON schemas:`);
   const filePaths = await recursive(ROOT);
   
   // For every JSON schema file, besides the catalog, read the file and gather data.
-  const cloudeventJSONSchemas = [];
+  let cloudeventJSONSchemas = [];
   filePaths.map(filePath => {
     if (filePath.includes('catalog.json')) return; // don't include self
     const json = JSON.parse(fs.readFileSync(filePath).toString());
@@ -22,11 +22,13 @@ console.log(`Iterating through JSON schemas:`);
     cloudeventJSONSchemas.push({
       url: json.$id,
       name: json.name,
-      description: json.description,
-      package: json.package,
       datatype: json.datatype,
+      cloudeventTypes: json.cloudeventTypes,
+      description: json.description,
     });
   });
+  // Sort by URL (to prevent random ordering)
+  cloudeventJSONSchemas = cloudeventJSONSchemas.sort((s1, s2) => s1.package < s2.package);
 
   // Create the catalog file that follows the schema-catalog.
   const catalog = {
