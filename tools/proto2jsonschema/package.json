@@ -5,6 +5,8 @@
   },
   "dependencies": {
     "camelcase-keys": "^6.2.2",
+    "flat": "^5.0.2",
+    "protobufjs": "^6.10.2",
     "recursive-readdir": "^2.2.2"
   }
 }

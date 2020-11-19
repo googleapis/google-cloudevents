@@ -1,7 +1,13 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json",
   "name": "AuthEventData",
-  "cloudevent": "google.events.firebase.auth.v1",
+  "package": "google.events.firebase.auth.v1",
+  "datatype": "google.events.firebase.auth.v1.AuthEventData",
+  "cloudeventTypes": [
+    "google.firebase.auth.user.v1.created",
+    "google.firebase.auth.user.v1.deleted"
+  ],
+  "product": "Firebase Authentication",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "uid": {
