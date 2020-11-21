@@ -62,8 +62,7 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
   const replacementTable =
     `|Product|Schemas|Data Type|CloudEvent Types|
 |-|-|-|-|
-${CATALOG.schemas.map(replacementTableRow).join('\n')}
-||||`;
+${CATALOG.schemas.map(replacementTableRow).join('\n')}`;
 
   // Update README
   const README_PATH = `${__dirname}/../../README.md`;
