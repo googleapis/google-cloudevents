@@ -57,10 +57,10 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
     const SCHEMAS = getSchemaLinkMarkdown(schemaEntry);
     const DATA_TYPE = `\`${schemaEntry.datatype}\``;
     const CLOUDEVENT_TYPE = schemaEntry.cloudeventTypes.map(t => `\`${t}\``).join('<br/>');
-    return `|${PRODUCT}|${SCHEMAS}|${DATA_TYPE}|${CLOUDEVENT_TYPE}|`;
+    return `|${PRODUCT}|${SCHEMAS}|<br>Data Type:<br>${DATA_TYPE}<br>CloudEvent Type(s):<br>${CLOUDEVENT_TYPE}|`;
   };
   const replacementTable =
-    `|Product|Schemas|Data Type|CloudEvent Types|
+    `|Product|Schemas|Types|
 |-|-|-|-|
 ${CATALOG.schemas.map(replacementTableRow).join('\n')}`;
 
