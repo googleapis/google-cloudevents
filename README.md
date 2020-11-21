@@ -22,20 +22,27 @@ may change. Even the core `cloud_event_type` annotation may change.
 
 This repository contains definitions for the following CloudEvents:
 
-|Product|Package|Event types|Data messages|
+<!-- GENERATED START -->
+|Product|Schemas|Data Type|CloudEvent Types|
 |-|-|-|-|
-|Cloud Audit Logs|[google.events.cloud.audit.v1](proto/google/events/cloud/audit/v1)|google.cloud.audit.log.v1.written|LogEntryData|
-|Cloud Build|[google.events.cloud.cloudbuild.v1](proto/google/events/cloud/cloudbuild/v1)|google.cloud.cloudbuild.build.v1.statusChanged|BuildEventData|
-|Cloud Firestore|[google.events.cloud.firestore.v1](proto/google/events/cloud/firestore/v1)|google.cloud.firestore.document.v1.created<br/>google.cloud.firestore.document.v1.deleted<br/>google.cloud.firestore.document.v1.updated<br/>google.cloud.firestore.document.v1.written|DocumentEventData|
-|Cloud Pub/Sub|[google.events.cloud.pubsub.v1](proto/google/events/cloud/pubsub/v1)|google.cloud.pubsub.topic.v1.messagePublished|MessagePublishedData|
-|Cloud Scheduler|[google.events.cloud.scheduler.v1](proto/google/events/cloud/scheduler/v1)|google.cloud.scheduler.job.v1.executed|SchedulerJobData|
-|Cloud Storage|[google.events.cloud.storage.v1](proto/google/events/cloud/storage/v1)|google.cloud.storage.object.v1.archived<br/>google.cloud.storage.object.v1.deleted<br/>google.cloud.storage.object.v1.finalized<br/>google.cloud.storage.object.v1.metadataUpdated|StorageObjectData|
-|Google Analytics for Firebase|[google.events.firebase.analytics.v1](proto/google/events/firebase/analytics/v1)|google.firebase.analytics.log.v1.written|AnalyticsLogData|
-|Firebase Authentication|[google.events.firebase.auth.v1](proto/google/events/firebase/auth/v1)|google.firebase.auth.user.v1.created<br/>google.firebase.auth.user.v1.deleted|AuthEventData|
-|Firebase Realtime Database|[google.events.firebase.database.v1](proto/google/events/firebase/database/v1)|google.firebase.database.ref.v1.created<br/>google.firebase.database.ref.v1.deleted<br/>google.firebase.database.ref.v1.updated<br/>google.firebase.database.ref.v1.written|ReferenceEventData|
-|Firebase Remote Config|[google.events.firebase.remoteconfig.v1](proto/google/events/firebase/remoteconfig/v1)|google.firebase.remoteconfig.remoteConfig.v1.updated|RemoteConfigEventData|
+|Cloud Audit Logs|[Proto](proto/google/events/cloud/audit/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json)|`google.events.cloud.audit.v1.LogEntryData`|`google.cloud.audit.log.v1.written`|
+|Cloud Build|[Proto](proto/google/events/cloud/cloudbuild/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json)|`google.events.cloud.cloudbuild.v1.BuildEventData`|`google.cloud.cloudbuild.build.v1.statusChanged`|
+|Cloud Firestore|[Proto](proto/google/events/cloud/firestore/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json)|`google.events.cloud.firestore.v1.DocumentEventData`|`google.cloud.firestore.document.v1.created`<br/>`google.cloud.firestore.document.v1.updated`<br/>`google.cloud.firestore.document.v1.deleted`<br/>`google.cloud.firestore.document.v1.written`|
+|Cloud Pub/Sub|[Proto](proto/google/events/cloud/pubsub/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json)|`google.events.cloud.pubsub.v1.MessagePublishedData`|`google.cloud.pubsub.topic.v1.messagePublished`|
+|Cloud Scheduler|[Proto](proto/google/events/cloud/scheduler/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/scheduler/v1/SchedulerJobData.json)|`google.events.cloud.scheduler.v1.SchedulerJobData`|`google.cloud.scheduler.job.v1.executed`|
+|Cloud Storage|[Proto](proto/google/events/cloud/storage/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/storage/v1/StorageObjectData.json)|`google.events.cloud.storage.v1.StorageObjectData`|`google.cloud.storage.object.v1.finalized`<br/>`google.cloud.storage.object.v1.archived`<br/>`google.cloud.storage.object.v1.deleted`<br/>`google.cloud.storage.object.v1.metadataUpdated`|
+|Google Analytics for Firebase|[Proto](proto/google/events/firebase/analytics/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/analytics/v1/AnalyticsLogData.json)|`google.events.firebase.analytics.v1.AnalyticsLogData`|`google.firebase.analytics.log.v1.written`|
+|Firebase Authentication|[Proto](proto/google/events/firebase/auth/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json)|`google.events.firebase.auth.v1.AuthEventData`|`google.firebase.auth.user.v1.created`<br/>`google.firebase.auth.user.v1.deleted`|
+|Firebase Realtime Database|[Proto](proto/google/events/firebase/database/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/database/v1/ReferenceEventData.json)|`google.events.firebase.database.v1.ReferenceEventData`|`google.firebase.database.ref.v1.created`<br/>`google.firebase.database.ref.v1.updated`<br/>`google.firebase.database.ref.v1.deleted`<br/>`google.firebase.database.ref.v1.written`|
+|Firebase Remote Config|[Proto](proto/google/events/firebase/remoteconfig/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json)|`google.events.firebase.remoteconfig.v1.RemoteConfigEventData`|`google.firebase.remoteconfig.remoteConfig.v1.updated`|
+||||
+<!-- GENERATED END -->
 
-## CloudEvent Type Repos
+A registry of athe JSON schema catalog is located here:
+
+JSON schema catalog: https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json
+
+## Google CloudEvent Type Libraries
 
 The following repositories contain data structures per language for types defined in this repo:
 
@@ -46,25 +53,3 @@ The following repositories contain data structures per language for types define
 - [PHP](https://github.com/googleapis/google-cloudevents-php)
 - [Ruby](https://github.com/googleapis/google-cloudevents-ruby)
 - [.NET](https://github.com/googleapis/google-cloudevents-dotnet)
-
-## Contributing to this repository
-
-Changes to this repository are expected to be performed after
-arriving at mutual consensus within Google (although pull requests
-may be used to arrive at that consensus).
-
-Pull requests that involve a change to the event registry above must
-update this file accordingly, for consistency. This will be
-validated within the pull request checks. This can either be done by
-running the following commands below a machine with .NET Core SDK
-3.1+ installed, or by making the changes manually:
-
-```sh
-./compile.sh
-./generate-event-registry.sh tmp/protos.pb
-```
-
-Non-trivial changes to the schema should also include a suitable
-test data file (or a change to an existing test data file) to
-validate the change. See [testdata/README.md](testdata/README.md)
-for details.

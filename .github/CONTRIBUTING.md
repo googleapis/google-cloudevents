@@ -3,6 +3,17 @@
 We'd love to accept your patches and contributions to this project. There are
 just a few small guidelines you need to follow.
 
+## Changes within the Proto Folder
+
+Changes within the `proto` folder are expected to be performed after
+arriving at mutual consensus within Google (although pull requests
+may be used to arrive at that consensus).
+
+Non-trivial changes to the schema should also include a suitable
+test data file (or a change to an existing test data file) to
+validate the change. See [testdata/README.md](../testdata/README.md)
+for details.
+
 ## Contributor License Agreement
 
 Contributions to this project must be accompanied by a Contributor License
