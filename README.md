@@ -24,7 +24,7 @@ This repository contains definitions for the following CloudEvents:
 
 <!-- GENERATED START -->
 |Product|Schemas|Types|
-|-|-|-|-|
+|-|-|-|
 |Cloud Audit Logs|[Proto](proto/google/events/cloud/audit/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json)|<br>Data Type:<br>`google.events.cloud.audit.v1.LogEntryData`<br>CloudEvent Type(s):<br>`google.cloud.audit.log.v1.written`|
 |Cloud Build|[Proto](proto/google/events/cloud/cloudbuild/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json)|<br>Data Type:<br>`google.events.cloud.cloudbuild.v1.BuildEventData`<br>CloudEvent Type(s):<br>`google.cloud.cloudbuild.build.v1.statusChanged`|
 |Cloud Firestore|[Proto](proto/google/events/cloud/firestore/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json)|<br>Data Type:<br>`google.events.cloud.firestore.v1.DocumentEventData`<br>CloudEvent Type(s):<br>`google.cloud.firestore.document.v1.created`<br/>`google.cloud.firestore.document.v1.updated`<br/>`google.cloud.firestore.document.v1.deleted`<br/>`google.cloud.firestore.document.v1.written`|
