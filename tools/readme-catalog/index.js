@@ -61,7 +61,7 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
   };
   const replacementTable =
     `|Product|Schemas|Types|
-|-|-|-|-|
+|-|-|-|
 ${CATALOG.schemas.map(replacementTableRow).join('\n')}`;
 
   // Update README
