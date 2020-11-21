@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
   "name": "MessagePublishedData",
   "package": "google.events.cloud.pubsub.v1",
-  "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
+  "datatype": "google.cloud.pubsub.v1.MessagePublishedData",
   "cloudeventTypes": [
     "google.cloud.pubsub.topic.v1.messagePublished"
   ],

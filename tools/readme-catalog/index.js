@@ -32,7 +32,7 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
   // Get the path the to the data from the datatype.
   // in: "google.events.cloud.audit.v1.LogEntryData"
   // out: "cloud/audit/v1"
-  const prefix = 'google.events.';
+  const prefix = 'google.';
   const schemaPath = schemaEntry.datatype.substring(
     schemaEntry.datatype.indexOf(prefix) + prefix.length,
     schemaEntry.datatype.indexOf(`.${schemaEntry.name}`),

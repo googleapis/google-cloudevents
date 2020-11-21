@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json",
   "name": "AuthEventData",
   "package": "google.events.firebase.auth.v1",
-  "datatype": "google.events.firebase.auth.v1.AuthEventData",
+  "datatype": "google.firebase.auth.v1.AuthEventData",
   "cloudeventTypes": [
     "google.firebase.auth.user.v1.created",
     "google.firebase.auth.user.v1.deleted"
