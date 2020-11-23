@@ -1,0 +1,11 @@
+name: Compile
+on: [push, pull_request]
+jobs:
+  compile:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out our repo
+      uses: actions/checkout@v2
+    - run: |
+        # Compile the protos to make sure they're valid
+        ./compile.sh

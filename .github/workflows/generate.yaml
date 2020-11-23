@@ -1,4 +1,4 @@
-name: Build
+name: Generate
 on: [push, pull_request]
 jobs:
   build:
@@ -16,7 +16,10 @@ jobs:
         node-version: '12'
     - run: |
         # Compile the protos to make sure they're valid
-        ./build.sh
-
+        ./generate.sh
+  validate:
+    runs-on: ubuntu-18.04
+    steps:
+    - run: |
         # Ensure no diff
         git diff --exit-code README.md
