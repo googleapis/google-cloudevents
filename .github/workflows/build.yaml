@@ -20,10 +20,6 @@ jobs:
     - run: |
         # Compile the protos to make sure they're valid
         ./compile.sh
-        
-        # Generate the event registry so we can make sure
-        # it's up-to-date
-        ./generate-event-registry.sh tmp/protos.pb
 
         git diff --exit-code README.md
 
