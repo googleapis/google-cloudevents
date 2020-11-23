@@ -1,4 +1,4 @@
-name: Validates schema against clients
+name: Validate Schema Against Clients
 on: [push, pull_request]
 jobs:
   # When other languages support schema validation too, we can
