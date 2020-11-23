@@ -34,7 +34,7 @@ dotnet build -nologo -clp:NoSummary -v quiet tools/registry/Google.Events.Tools.
 
 echo "Running event registry generator"
 # Command line arguments to the registry generator:
-# - Path to the protobuf file descriptor set (created in compile.sh)
+# - Path to the protobuf file descriptor set (created in build.sh)
 # - Path to the README.md to update
 dotnet run --no-build -p tools/registry/Google.Events.Tools.GenerateRegistry \
   -- $PROTO_DESCRIPTOR_SET README.md

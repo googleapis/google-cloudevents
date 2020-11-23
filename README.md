@@ -60,7 +60,7 @@ running the following commands below a machine with .NET Core SDK
 3.1+ installed, or by making the changes manually:
 
 ```sh
-./compile.sh
+./build.sh
 ./generate-event-registry.sh tmp/protos.pb
 ```
 
