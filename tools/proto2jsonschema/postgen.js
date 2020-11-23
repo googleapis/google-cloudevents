@@ -30,7 +30,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       $id: getId(filePath),
       name: dataName,
       package: packageName,
-      datatype: getDataType(packageName, dataName),
+      datatype: `${packageName}.${dataName}`,
       ...getCloudEventProperties(packageName),
       // Add all other fields. Convert keys to camelCase (i.e. remove snake_case keys)
       ...camelcaseKeys(json, {deep: true})
@@ -174,17 +174,6 @@ function getCloudEventProperties(packageName) {
     cloudeventTypes,
     product,
   };
-}
-
-/**
- * Gets the data name given the package and data names.
- * i.e. google.cloud.audit.v1.LogEntryData
- * @param {string} packageName The proto package, i.e. google.events.cloud.audit.v1
- * @param {string} dataName The data message name, i.e. LogEntryData
- * @return {string} The data type, i.e. google.cloud.audit.v1.LogEntryData
- */
-const getDataType = (packageName, dataName) => {
-  return `${packageName.split('.events').join('')}.${dataName}`;
 }
 
 const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);

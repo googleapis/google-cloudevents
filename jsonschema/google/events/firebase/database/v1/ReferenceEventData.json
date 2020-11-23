@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/database/v1/ReferenceEventData.json",
   "name": "ReferenceEventData",
   "package": "google.events.firebase.database.v1",
-  "datatype": "google.firebase.database.v1.ReferenceEventData",
+  "datatype": "google.events.firebase.database.v1.ReferenceEventData",
   "cloudeventTypes": [
     "google.firebase.database.ref.v1.created",
     "google.firebase.database.ref.v1.updated",

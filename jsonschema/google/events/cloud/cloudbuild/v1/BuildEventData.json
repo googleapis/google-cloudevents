@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json",
   "name": "BuildEventData",
   "package": "google.events.cloud.cloudbuild.v1",
-  "datatype": "google.cloud.cloudbuild.v1.BuildEventData",
+  "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
   "cloudeventTypes": [
     "google.cloud.cloudbuild.build.v1.statusChanged"
   ],

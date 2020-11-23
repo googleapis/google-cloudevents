@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/storage/v1/StorageObjectData.json",
   "name": "StorageObjectData",
   "package": "google.events.cloud.storage.v1",
-  "datatype": "google.cloud.storage.v1.StorageObjectData",
+  "datatype": "google.events.cloud.storage.v1.StorageObjectData",
   "cloudeventTypes": [
     "google.cloud.storage.object.v1.finalized",
     "google.cloud.storage.object.v1.archived",

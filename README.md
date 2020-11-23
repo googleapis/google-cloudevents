@@ -37,9 +37,7 @@ This repository contains definitions for the following CloudEvents:
 |Firebase Remote Config|[Proto](proto/google/events/firebase/remoteconfig/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json)|<br>Data Type:<br>`google.firebase.remoteconfig.v1.RemoteConfigEventData`<br>CloudEvent Type(s):<br>`google.firebase.remoteconfig.remoteConfig.v1.updated`|
 <!-- GENERATED END -->
 
-A registry of athe JSON schema catalog is located here:
-
-JSON schema catalog: https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json
+A [registry of the JSON schema catalog](https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json) is also available.
 
 ## Google CloudEvent Type Libraries
 

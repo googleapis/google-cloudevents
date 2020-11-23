@@ -2,7 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/analytics/v1/AnalyticsLogData.json",
   "name": "AnalyticsLogData",
   "package": "google.events.firebase.analytics.v1",
-  "datatype": "google.firebase.analytics.v1.AnalyticsLogData",
+  "datatype": "google.events.firebase.analytics.v1.AnalyticsLogData",
   "cloudeventTypes": [
     "google.firebase.analytics.log.v1.written"
   ],
