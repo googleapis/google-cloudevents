@@ -19,10 +19,7 @@
       "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
       "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
       "cloudeventTypes": [
-        "google.cloud.firestore.document.v1.created",
-        "google.cloud.firestore.document.v1.updated",
-        "google.cloud.firestore.document.v1.deleted",
-        "google.cloud.firestore.document.v1.written"
+        "google.cloud.cloudbuild.build.v1.statusChanged"
       ]
     },
     {
@@ -59,24 +56,6 @@
       ]
     },
     {
-      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json",
-      "name": "BuildEventData",
-      "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
-      "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
-      "cloudeventTypes": [
-        "google.cloud.cloudbuild.build.v1.statusChanged"
-      ]
-    },
-    {
-      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
-      "name": "MessagePublishedData",
-      "description": "The data received in an event when a message is published to a topic.",
-      "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
-      "cloudeventTypes": [
-        "google.cloud.pubsub.topic.v1.messagePublished"
-      ]
-    },
-    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/storage/v1/StorageObjectData.json",
       "product": "Cloud Storage",
       "name": "StorageObjectData",
@@ -97,15 +76,6 @@
       "datatype": "google.events.firebase.analytics.v1.AnalyticsLogData",
       "cloudeventTypes": [
         "google.firebase.analytics.log.v1.written"
-      ]
-    },
-    {
-      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json",
-      "name": "RemoteConfigEventData",
-      "description": "The data within all Firebase Remote Config events.",
-      "datatype": "google.events.firebase.remoteconfig.v1.RemoteConfigEventData",
-      "cloudeventTypes": [
-        "google.firebase.remoteconfig.remoteConfig.v1.updated"
       ]
     },
     {
