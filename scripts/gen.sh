@@ -8,7 +8,6 @@ set -e
 ./tools/jsonschema-catalog/gen.sh
 
 ## Generate README catalog
-## TODO: Wait for https://github.com/googleapis/google-cloudevents/pull/115 to be merged.
-# cd ./tools/readme-catalog && npm start
+cd ./tools/readme-catalog && npm start
 
 echo "Done"
