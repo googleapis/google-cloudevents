@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-    - name: Check out our repo
+    - name: Check out repo
       uses: actions/checkout@v2
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v1
@@ -15,10 +15,11 @@ jobs:
       with:
         go-version: '1.14'
     # Compile the protos to make sure they're valid
-    - run: ./generate.sh
+    - run: ./scripts/generate.sh
   validate:
     runs-on: ubuntu-18.04
     steps:
-    - run: |
-        # Ensure no diff
-        git diff --exit-code README.md
+    - name: Check out our repo
+      uses: actions/checkout@v2
+    # Ensure no diff
+    - run: git diff --exit-code README.md

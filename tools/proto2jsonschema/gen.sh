@@ -33,6 +33,8 @@ rm -rf tmp
 mkdir tmp
 cd tmp
 echo "- Downloading protobuf tools"
+go version
+echo "start"
 PROTOBUF_VERSION=3.12.3
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
@@ -42,6 +44,7 @@ cd ..
 
 echo "- Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
+go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@0.9.5
 go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 

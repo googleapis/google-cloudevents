@@ -4,8 +4,7 @@ jobs:
   compile:
     runs-on: ubuntu-18.04
     steps:
-    - name: Check out our repo
+    - name: Check out repo
       uses: actions/checkout@v2
-    - run: |
-        # Compile the protos to make sure they're valid
-        ./compile.sh
+    # Compile the protos to make sure they're valid
+    - run: ./scripts/compile.sh

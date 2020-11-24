@@ -19,5 +19,4 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-    - run: |
-        google-cloudevents-dotnet/validate-schema.sh .
+    - run: google-cloudevents-dotnet/validate-schema.sh .
