@@ -9,6 +9,19 @@ Changes within the `proto` folder are expected to be performed after
 arriving at mutual consensus within Google (although pull requests
 may be used to arrive at that consensus).
 
+Pull requests that involve a change to the following folders:
+- `proto` folder
+- `tools/jsonschema-catalog` folder
+- `tools/proto2jsonschema` folder
+- `tools/readme-catalog` folder
+must re-run the generators, for consistency. This will be
+validated within the pull request checks. This can be done by
+running the following command below on a machine with Node 12+ and Go 1.14+:
+
+```sh
+./scripts/gen.sh
+```
+
 Non-trivial changes to the schema should also include a suitable
 test data file (or a change to an existing test data file) to
 validate the change. See [testdata/README.md](../testdata/README.md)
