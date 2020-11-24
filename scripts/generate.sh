@@ -5,7 +5,7 @@ set -e
 ./tools/proto2jsonschema/gen.sh
 
 ## Generate JSON schema catalog
-cd ./tools/jsonschema-catalog && npm start
+./tools/jsonschema-catalog/gen.sh
 
 ## TODO: Generate README catalog
 ## TODO: Wait for https://github.com/googleapis/google-cloudevents/pull/115 to be merged.

@@ -33,8 +33,6 @@ rm -rf tmp
 mkdir tmp
 cd tmp
 echo "- Downloading protobuf tools"
-go version
-echo "start"
 PROTOBUF_VERSION=3.12.3
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
