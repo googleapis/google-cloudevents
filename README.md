@@ -55,13 +55,13 @@ may be used to arrive at that consensus).
 
 Pull requests that involve a change to the event registry above must
 update this file accordingly, for consistency. This will be
-validated within the pull request checks. This can either be done by
-running the following commands below a machine with .NET Core SDK
-3.1+ installed, or by making the changes manually:
+validated within the pull request checks.
+
+This can either be done by running the following command below a
+machine with Go 1.14+ and Node 12+:
 
 ```sh
-./build.sh
-./generate-event-registry.sh tmp/protos.pb
+./scripts/gen.sh
 ```
 
 Non-trivial changes to the schema should also include a suitable
