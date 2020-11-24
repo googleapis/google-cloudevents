@@ -14,12 +14,12 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: '1.14'
-    # Compile the protos to make sure they're valid
-    - run: ./scripts/generate.sh
+    # Run the generators
+    - run: ./scripts/gen.sh
   validate:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out our repo
       uses: actions/checkout@v2
-    # Ensure no diff
-    - run: git diff --exit-code README.md
+    # Ensure there is no diff, otherwise we need to run the generator.
+    - run: git diff --exit-code .
