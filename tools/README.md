@@ -4,14 +4,18 @@ The tools in this directory are not required in order to *use* the
 rest of the content of this repository. They are present to help
 create or maintain the content.
 
-## [registry](./registry/readme.md)
+## [jsonschema-catalog](./jsonschema-catalog/readme.md)
 
-This tool edits the top-level [README](../README.md) event list.
-
-## [quicktype-wrapper](./quicktype-wrapper/README.md)
-
-This tool wraps the `quicktype` tool to generate any language using JSON schemas.
+Generates a catalog for all JSON schemas.
 
 ## [proto2jsonschema](./proto2jsonschema/README.md)
 
-This tool converts protobufs to JSON schemas.
+Generates JSON schema files from proto files.
+
+## [quicktype-wrapper](./quicktype-wrapper/README.md)
+
+Generates language libraries using JSON schemas using `quicktype`.
+
+## [readme-catalog](./readme-catalog/readme.md)
+
+Edits the top-level [README](../README.md) event catalog.

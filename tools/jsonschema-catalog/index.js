@@ -21,6 +21,7 @@ console.log(`Iterating through JSON schemas:`);
     // Add schema catalog entry with specific fields.
     cloudeventJSONSchemas.push({
       url: json.$id,
+      product: json.product,
       name: json.name,
       description: json.description,
       datatype: json.datatype,
@@ -28,7 +29,9 @@ console.log(`Iterating through JSON schemas:`);
     });
   });
   // Sort by URL (to prevent random ordering)
-  cloudeventJSONSchemas = cloudeventJSONSchemas.sort((s1, s2) => s1.package < s2.package);
+  cloudeventJSONSchemas = cloudeventJSONSchemas.sort((s1, s2) => {
+    return s1.url.localeCompare(s2.url);
+  });
 
   // Create the catalog file that follows the schema-catalog.
   const catalog = {
