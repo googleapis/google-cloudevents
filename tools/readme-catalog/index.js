@@ -39,11 +39,11 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
   ).replace(/\./g, '/');
 
   // Proto link is the path + data.proto
-  const protoLink = `proto/google/events/${schemaPath}/data.proto`;
+  const protoLink = `proto/google/${schemaPath}/data.proto`;
 
   // JSON schema path is the URL + jsonschema path + {name}.json
   const jsonschemaPath = `${schemaPath}/${schemaEntry.name}`;
-  const jsonLink = `https://googleapis.github.io/google-cloudevents/jsonschema/google/events/${jsonschemaPath}.json`;
+  const jsonLink = `https://googleapis.github.io/google-cloudevents/jsonschema/google/${jsonschemaPath}.json`;
   return `[Proto](${protoLink}) / [JSON](${jsonLink})`;
 }
 
