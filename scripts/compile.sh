@@ -1,11 +1,8 @@
 #!/bin/bash
-
 set -e
-
 PROTOBUF_VERSION=3.12.3
 
 # Validates that the protos in this repo can be compiled.
-
 case "$OSTYPE" in
   linux*)
     PROTOBUF_PLATFORM=linux-x86_64
@@ -44,4 +41,4 @@ $PROTOC \
   $(find proto -name '*.proto') \
   --descriptor_set_out=tmp/protos.pb
 
-echo "Done"
+echo "Successfully compiled."

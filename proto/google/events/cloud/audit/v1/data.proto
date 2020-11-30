@@ -24,10 +24,7 @@ import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
-// Generic log entry, used as a wrapper for Cloud Audit Logs in events.
-// This is copied from
-// https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto
-// and adapted appropriately.
+// The data within all Cloud Audit Logs log entry events.
 message LogEntryData {
   // The resource name of the log to which this log entry belongs.
   string log_name = 12;
