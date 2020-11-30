@@ -1,24 +1,21 @@
-# Tools
+# Google CloudEvent Repo Tools
 
 The tools in this directory are not required in order to *use* the
 rest of the content of this repository. They are present to help
 create or maintain the content.
 
-While they are *currently* written in C#, requiring .NET Core 3.1 to
-build and run, this is purely incidental. Pull requests to rewrite
-the tools in languages more commonly used at Google (e.g. Java, Go
-or Python) are welcome.
+## [jsonschema-catalog](./jsonschema-catalog/readme.md)
 
-## registry
+Generates a catalog for all JSON schemas.
 
-This tool edits the top-level [README](../README.md) to maintain the
-event registry. It requires that the protobuf descriptor set (a
-protobuf representation of all the .proto files) is already
-compiled via protoc. (The [root compile.sh script](../compile.sh)
-does this.)
+## [proto2jsonschema](./proto2jsonschema/README.md)
 
-## quicktype-wrapper
+Generates JSON schema files from proto files.
 
-This tool wraps the quicktype tool to generate code using JSON Schema.
+## [quicktype-wrapper](./quicktype-wrapper/README.md)
 
-See [`quicktype-wrapper/`](./quicktype-wrapper/README.md).
+Generates language libraries using JSON schemas using `quicktype`.
+
+## [readme-catalog](./readme-catalog/readme.md)
+
+Edits the top-level [README](../README.md) event catalog.
