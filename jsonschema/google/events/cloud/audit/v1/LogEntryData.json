@@ -619,5 +619,5 @@
   },
   "additionalProperties": true,
   "type": "object",
-  "description": "Generic log entry, used as a wrapper for Cloud Audit Logs in events.\n This is copied from\n https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto\n and adapted appropriately."
+  "description": "The data within all Cloud Audit Logs log entry events."
 }

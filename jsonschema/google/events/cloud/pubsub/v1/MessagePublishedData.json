@@ -38,5 +38,5 @@
   },
   "additionalProperties": true,
   "type": "object",
-  "description": "The data received in an event when a message is published to a topic."
+  "description": "The event data when a message is published to a topic."
 }
