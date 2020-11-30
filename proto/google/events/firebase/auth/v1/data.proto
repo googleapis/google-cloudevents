@@ -21,7 +21,7 @@ import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
 
-// The data within all Firebase Auth events
+// The data within all Firebase Auth events.
 message AuthEventData {
   // The user identifier in the Firebase app.
   string uid = 1;
