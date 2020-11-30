@@ -18,7 +18,7 @@ package google.events.cloud.pubsub.v1;
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
 
-// The data received in an event when a message is published to a topic.
+// The event data when a message is published to a topic.
 message MessagePublishedData {
   // The message that was published.
   PubsubMessage message = 1;

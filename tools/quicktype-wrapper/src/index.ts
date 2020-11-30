@@ -99,7 +99,7 @@ export async function getJSONSchemasAndGenFiles(
       typeName: schema.name,
     })
 
-    schemasAndGenFiles.push([schema, genFile[0]]);
+    schemasAndGenFiles.push([schema, Object.keys(genFile)[0]]);
   });
 
   await Promise.all(promises);
