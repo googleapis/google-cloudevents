@@ -620,7 +620,7 @@
   },
   "additionalProperties": true,
   "type": "object",
-  "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
+  "description": "Build event data for Google Cloud Platform API operations.",
   "definitions": {
     "RepoSource": {
       "properties": {

@@ -6,7 +6,7 @@
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
       "product": "Cloud Audit Logs",
       "name": "LogEntryData",
-      "description": "Generic log entry, used as a wrapper for Cloud Audit Logs in events.\n This is copied from\n https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto\n and adapted appropriately.",
+      "description": "The data within all Cloud Audit Logs log entry events.",
       "datatype": "google.events.cloud.audit.v1.LogEntryData",
       "cloudeventTypes": [
         "google.cloud.audit.log.v1.written"
@@ -16,7 +16,7 @@
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json",
       "product": "Cloud Build",
       "name": "BuildEventData",
-      "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
+      "description": "Build event data for Google Cloud Platform API operations.",
       "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
       "cloudeventTypes": [
         "google.cloud.cloudbuild.build.v1.statusChanged"
@@ -39,7 +39,7 @@
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
       "product": "Cloud Pub/Sub",
       "name": "MessagePublishedData",
-      "description": "The data received in an event when a message is published to a topic.",
+      "description": "The event data when a message is published to a topic.",
       "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
       "cloudeventTypes": [
         "google.cloud.pubsub.topic.v1.messagePublished"
@@ -82,7 +82,7 @@
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json",
       "product": "Firebase Authentication",
       "name": "AuthEventData",
-      "description": "The data within all Firebase Auth events",
+      "description": "The data within all Firebase Auth events.",
       "datatype": "google.events.firebase.auth.v1.AuthEventData",
       "cloudeventTypes": [
         "google.firebase.auth.user.v1.created",
