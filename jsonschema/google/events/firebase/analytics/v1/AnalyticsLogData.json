@@ -16,14 +16,7 @@
           "description": "The user ID set via the setUserId API."
         },
         "firstOpenTimestampMicros": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "The time (in microseconds) at which the user first opened the app."
         },
         "userProperties": {
@@ -36,14 +29,7 @@
                 "description": "Last set value of user property."
               },
               "setTimestampUsec": {
-                "oneOf": [
-                  {
-                    "type": "integer"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ],
+                "type": "string",
                 "description": "UTC client time when user property was last set."
               },
               "index": {
@@ -184,14 +170,7 @@
               "description": "Monotonically increasing index for each bundle set by SDK."
             },
             "serverTimestampOffsetMicros": {
-              "oneOf": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "string"
-                }
-              ],
+              "type": "string",
               "description": "Timestamp offset between collection time and upload time."
             }
           },
@@ -240,25 +219,11 @@
             "description": "A repeated record of the parameters associated with this event."
           },
           "timestampMicros": {
-            "oneOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "string"
-              }
-            ],
+            "type": "string",
             "description": "UTC client time when the event happened."
           },
           "previousTimestampMicros": {
-            "oneOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "string"
-              }
-            ],
+            "type": "string",
             "description": "UTC client time when the previous event happened."
           },
           "valueInUsd": {
@@ -284,14 +249,7 @@
           "type": "string"
         },
         "intValue": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "type": "string"
         },
         "floatValue": {
           "type": "number"
