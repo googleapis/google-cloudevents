@@ -11,14 +11,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "versionNumber": {
-      "oneOf": [
-        {
-          "type": "integer"
-        },
-        {
-          "type": "string"
-        }
-      ],
+      "type": "string",
       "description": "The version number of the version's corresponding Remote Config template."
     },
     "updateTime": {
@@ -72,14 +65,7 @@
       "description": "What type of update was made."
     },
     "rollbackSource": {
-      "oneOf": [
-        {
-          "type": "integer"
-        },
-        {
-          "type": "string"
-        }
-      ],
+      "type": "string",
       "description": "Only present if this version is the result of a rollback, and will be the\n version number of the Remote Config template that was rolled-back to."
     }
   },

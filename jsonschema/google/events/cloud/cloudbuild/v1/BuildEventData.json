@@ -141,14 +141,7 @@
           "timeout": {
             "properties": {
               "seconds": {
-                "oneOf": [
-                  {
-                    "type": "integer"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ],
+                "type": "string",
                 "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
               },
               "nanos": {
@@ -218,14 +211,7 @@
           "description": "Path to the artifact manifest. Only populated when artifacts are uploaded."
         },
         "numArtifacts": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "Number of artifacts uploaded. Only populated when artifacts are uploaded."
         },
         "buildStepOutputs": {
@@ -264,14 +250,7 @@
     "timeout": {
       "properties": {
         "seconds": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
         },
         "nanos": {
@@ -293,14 +272,7 @@
     "queueTtl": {
       "properties": {
         "seconds": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
         },
         "nanos": {
@@ -474,14 +446,7 @@
           "description": "Compute Engine machine type on which to run the build."
         },
         "diskSizeGb": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "Requested disk size for the VM that runs the build. Note that this is *NOT*\n \"disk free\"; some of the space will be used by the operating system and\n build utilities. Also note that this is the minimum disk size that will be\n allocated for the build -- the build may run with a larger disk than\n requested. At present, the maximum disk size is 1000GB; builds that request\n more than the maximum are rejected with an error."
         },
         "substitutionOption": {
@@ -621,7 +586,7 @@
   },
   "additionalProperties": true,
   "type": "object",
-  "description": "Build event data\n Common build format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.",
+  "description": "Build event data for Google Cloud Platform API operations.",
   "definitions": {
     "RepoSource": {
       "properties": {
@@ -677,14 +642,7 @@
           "description": "Google Cloud Storage object containing the source."
         },
         "generation": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "Google Cloud Storage generation for the object. If the generation is\n omitted, the latest generation will be used."
         }
       },

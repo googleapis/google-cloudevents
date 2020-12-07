@@ -111,5 +111,5 @@
   },
   "additionalProperties": true,
   "type": "object",
-  "description": "The data within all Firebase Auth events"
+  "description": "The data within all Firebase Auth events."
 }

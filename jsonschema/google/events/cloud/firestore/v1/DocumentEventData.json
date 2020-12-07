@@ -96,14 +96,7 @@
           "description": "A boolean value."
         },
         "integerValue": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            }
-          ],
+          "type": "string",
           "description": "An integer value."
         },
         "doubleValue": {
