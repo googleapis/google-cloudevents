@@ -7,6 +7,7 @@
     "google.firebase.analytics.log.v1.written"
   ],
   "product": "Google Analytics for Firebase",
+  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "userDim": {

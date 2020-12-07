@@ -8,6 +8,7 @@
     "google.firebase.auth.user.v1.deleted"
   ],
   "product": "Firebase Authentication",
+  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "uid": {

@@ -9,11 +9,14 @@ const flatten = require('flat');
  * This tool polishes the JSON schemas with a few modifications:
  * - Adds "$id" – "." delimited ID – e.g. "google.events.cloud.audit.v1.LogEntryData"
  * - Adds "name" – The name for the JSON schema – e.g. "LogEntryData"
+ * - Adds "examples" - A list of paths to the test event data associated with the schema
+ *   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
  * - Removes snake_case fields that are duplicative of camelCase fields that are seen in JSON payloads
  * @todo Removing snake_case fields is a feature request for the proto2jsonschema generator.
  * @see https://github.com/chrusty/protoc-gen-jsonschema/issues/38
  */
 const ROOT = path.resolve(`${__dirname}/../../jsonschema`);
+const TESTDATA = path.resolve(`${__dirname}/../../testdata`);
 console.log(`Fixing paths in dir: ${ROOT}`);
 (async () => {
   const filePaths = await recursive(ROOT);
@@ -29,6 +32,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       // Add the $id and name first
       $id: getId(filePath),
       name: dataName,
+      examples: getExamples(filePath),
       package: packageName,
       datatype: `${packageName}.${dataName}`,
       ...getCloudEventProperties(packageName),
@@ -136,6 +140,32 @@ function getCloudEventPackage(filepath) {
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
   return removeSuffix.replace(/\//g, '.');
+}
+
+/**
+ * Gets the paths to test event data associated with the schema.
+ * @param {string} filepath The input file path
+ * @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
+ * @example out: ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
+ * @returns {array[string]} An array of paths to the test event data.
+ */
+function getExamples(filepath) {
+  const removePrefix = filepath.split('jsonschema/')[1];
+  const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
+  const testDataPath = TESTDATA + '/' + removeSuffix;
+  var filesAndDirs;
+  try {
+    filesAndDirs = fs.readdirSync(testDataPath, { withFileTypes: true });
+  } catch (err) {
+    return [];
+  }
+
+  return filesAndDirs
+    .map((value) => {
+      const isJSONFile = value.isFile() && value.name.endsWith('.json');
+      return isJSONFile ? `https://googleapis.github.io/google-cloudevents/testdata/${removeSuffix}/${value.name}` : null;
+    })
+    .filter((value) => !value);
 }
 
 /**
