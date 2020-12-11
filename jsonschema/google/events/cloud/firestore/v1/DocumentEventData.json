@@ -1,6 +1,7 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json",
   "name": "DocumentEventData",
+  "examples": [],
   "package": "google.events.cloud.firestore.v1",
   "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
   "cloudeventTypes": [
@@ -10,10 +11,6 @@
     "google.cloud.firestore.document.v1.written"
   ],
   "product": "Cloud Firestore",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-complex.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-simple.json"
-  ],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "value": {
@@ -96,7 +93,7 @@
           "description": "A boolean value."
         },
         "integerValue": {
-          "type": "string",
+          "type": "integer",
           "description": "An integer value."
         },
         "doubleValue": {

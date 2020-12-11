@@ -150,22 +150,32 @@ function getCloudEventPackage(filepath) {
  * @returns {array[string]} An array of paths to the test event data.
  */
 function getExamples(filepath) {
+  const fullPath = filepath.replace('jsonschema', 'testdata');
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
   const testDataPath = TESTDATA + '/' + removeSuffix;
-  var filesAndDirs;
+  console.log(1);
+  console.log(filepath);
+  console.log(fullPath);
+  console.log(removePrefix);
+  console.log(removeSuffix);
+  console.log(testDataPath);
+  let filesAndDirs;
   try {
-    filesAndDirs = fs.readdirSync(testDataPath, { withFileTypes: true });
+    const type = fs.readdirSync(testDataPath, { withFileTypes: true }) + '';
+    console.log(testDataPath);
+    if (type) filesAndDirs.push(type);
   } catch (err) {
     return [];
   }
 
-  return filesAndDirs
+  const examples = filesAndDirs
     .map((value) => {
       const isJSONFile = value.isFile() && value.name.endsWith('.json');
       return isJSONFile ? `https://googleapis.github.io/google-cloudevents/testdata/${removeSuffix}/${value.name}` : null;
     })
     .filter((value) => !value);
+  return examples;
 }
 
 /**

@@ -1,13 +1,13 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/scheduler/v1/SchedulerJobData.json",
   "name": "SchedulerJobData",
+  "examples": [],
   "package": "google.events.cloud.scheduler.v1",
   "datatype": "google.events.cloud.scheduler.v1.SchedulerJobData",
   "cloudeventTypes": [
     "google.cloud.scheduler.job.v1.executed"
   ],
   "product": "Cloud Scheduler",
-  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "customData": {

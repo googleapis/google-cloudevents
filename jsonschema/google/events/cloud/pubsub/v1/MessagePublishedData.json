@@ -1,16 +1,13 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
   "name": "MessagePublishedData",
+  "examples": [],
   "package": "google.events.cloud.pubsub.v1",
   "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
   "cloudeventTypes": [
     "google.cloud.pubsub.topic.v1.messagePublished"
   ],
   "product": "Cloud Pub/Sub",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-binary.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-text.json"
-  ],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "message": {
