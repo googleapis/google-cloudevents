@@ -32,7 +32,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       // Add the $id and name first
       $id: getId(filePath),
       name: dataName,
-      examples: getExamples(filePath),
+      // examples: getExamples(filePath),
       package: packageName,
       datatype: `${packageName}.${dataName}`,
       ...getCloudEventProperties(packageName),
