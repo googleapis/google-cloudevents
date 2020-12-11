@@ -16,10 +16,5 @@ jobs:
         go-version: '1.14'
     # Run the generators
     - run: ./scripts/gen.sh
-  validate:
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Check out our repo
-      uses: actions/checkout@v2
     # Ensure there is no diff, otherwise we need to run the generator.
     - run: git diff --exit-code .
