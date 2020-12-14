@@ -10,9 +10,6 @@
     "google.cloud.storage.object.v1.metadataUpdated"
   ],
   "product": "Cloud Storage",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/storage/v1/StorageObjectData-simple.json"
-  ],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "contentEncoding": {
@@ -32,7 +29,7 @@
       "description": "Content-Language of the object data, matching\n [https://tools.ietf.org/html/rfc7231#section-3.1.3.2][RFC 7231 §3.1.3.2]."
     },
     "metageneration": {
-      "type": "string",
+      "type": "integer",
       "description": "The version of the metadata for this object at this generation. Used for\n preconditions and for detecting changes in metadata. A metageneration\n number is only meaningful in the context of a particular generation of a\n particular object."
     },
     "timeDeleted": {
@@ -45,7 +42,7 @@
       "description": "Content-Type of the object data, matching\n [https://tools.ietf.org/html/rfc7231#section-3.1.1.5][RFC 7231 §3.1.1.5].\n If an object is stored without a Content-Type, it is served as\n `application/octet-stream`."
     },
     "size": {
-      "type": "string",
+      "type": "integer",
       "description": "Content-Length of the object data in bytes, matching\n [https://tools.ietf.org/html/rfc7230#section-3.3.2][RFC 7230 §3.3.2]."
     },
     "timeCreated": {
@@ -120,7 +117,7 @@
       "description": "The name of the bucket containing this object."
     },
     "generation": {
-      "type": "string",
+      "type": "integer",
       "description": "The content generation of this object. Used for object versioning.\n Attempting to set this field will result in an error."
     },
     "customerEncryption": {

@@ -7,7 +7,6 @@
     "google.firebase.analytics.log.v1.written"
   ],
   "product": "Google Analytics for Firebase",
-  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "userDim": {
@@ -17,7 +16,7 @@
           "description": "The user ID set via the setUserId API."
         },
         "firstOpenTimestampMicros": {
-          "type": "string",
+          "type": "integer",
           "description": "The time (in microseconds) at which the user first opened the app."
         },
         "userProperties": {
@@ -30,7 +29,7 @@
                 "description": "Last set value of user property."
               },
               "setTimestampUsec": {
-                "type": "string",
+                "type": "integer",
                 "description": "UTC client time when user property was last set."
               },
               "index": {
@@ -171,7 +170,7 @@
               "description": "Monotonically increasing index for each bundle set by SDK."
             },
             "serverTimestampOffsetMicros": {
-              "type": "string",
+              "type": "integer",
               "description": "Timestamp offset between collection time and upload time."
             }
           },
@@ -220,11 +219,11 @@
             "description": "A repeated record of the parameters associated with this event."
           },
           "timestampMicros": {
-            "type": "string",
+            "type": "integer",
             "description": "UTC client time when the event happened."
           },
           "previousTimestampMicros": {
-            "type": "string",
+            "type": "integer",
             "description": "UTC client time when the previous event happened."
           },
           "valueInUsd": {
@@ -250,7 +249,7 @@
           "type": "string"
         },
         "intValue": {
-          "type": "string"
+          "type": "integer"
         },
         "floatValue": {
           "type": "number"

@@ -7,11 +7,10 @@
     "google.firebase.remoteconfig.remoteConfig.v1.updated"
   ],
   "product": "Firebase Remote Config",
-  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "versionNumber": {
-      "type": "string",
+      "type": "integer",
       "description": "The version number of the version's corresponding Remote Config template."
     },
     "updateTime": {
@@ -65,7 +64,7 @@
       "description": "What type of update was made."
     },
     "rollbackSource": {
-      "type": "string",
+      "type": "integer",
       "description": "Only present if this version is the result of a rollback, and will be the\n version number of the Remote Config template that was rolled-back to."
     }
   },

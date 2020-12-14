@@ -10,7 +10,6 @@
     "google.firebase.database.ref.v1.written"
   ],
   "product": "Firebase Realtime Database",
-  "examples": [],
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "data": {
