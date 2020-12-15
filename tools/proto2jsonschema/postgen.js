@@ -165,7 +165,7 @@ function getExamples(filepath) {
       const isJSONFile = value.isFile() && value.name.endsWith('.json');
       return isJSONFile ? `https://googleapis.github.io/google-cloudevents/testdata/${removeSuffix}/${value.name}` : null;
     })
-    .filter((value) => !value);
+    .filter((value) => value != null);
 }
 
 /**
