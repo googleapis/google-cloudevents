@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Clean directory and cache
+go clean -cache
+rm -rf $GOPATH/src/github.com/
+
 ## Generate JSON schemas
 ./tools/proto2jsonschema/gen.sh
 

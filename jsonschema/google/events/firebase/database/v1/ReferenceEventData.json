@@ -14,24 +14,14 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "data": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object"
-        }
-      ]
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The original data for the reference."
     },
     "delta": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object"
-        }
-      ]
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The change in the reference data."
     }
   },
   "additionalProperties": true,

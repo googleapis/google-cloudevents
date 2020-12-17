@@ -58,13 +58,11 @@
         "storageSource": {
           "$ref": "#/definitions/StorageSource",
           "additionalProperties": true,
-          "type": "object",
           "description": "If provided, get the source from this location in Google Cloud Storage."
         },
         "repoSource": {
           "$ref": "#/definitions/RepoSource",
           "additionalProperties": true,
-          "type": "object",
           "description": "If provided, get the source from this location in a Cloud Source\n Repository."
         }
       },
@@ -129,13 +127,11 @@
           "timing": {
             "$ref": "#/definitions/TimeSpan",
             "additionalProperties": true,
-            "type": "object",
             "description": "Stores timing information for executing this build step."
           },
           "pullTiming": {
             "$ref": "#/definitions/TimeSpan",
             "additionalProperties": true,
-            "type": "object",
             "description": "Stores timing information for pulling this build step's\n builder image only."
           },
           "timeout": {
@@ -154,6 +150,26 @@
             "description": "Time limit for executing this build step. If not defined, the step has no\n time limit and will be allowed to continue to run until either it completes\n or the build itself times out."
           },
           "status": {
+            "enum": [
+              "STATUS_UNKNOWN",
+              0,
+              "QUEUED",
+              1,
+              "WORKING",
+              2,
+              "SUCCESS",
+              3,
+              "FAILURE",
+              4,
+              "INTERNAL_ERROR",
+              5,
+              "TIMEOUT",
+              6,
+              "CANCELLED",
+              7,
+              "EXPIRED",
+              9
+            ],
             "oneOf": [
               {
                 "type": "string"
@@ -188,7 +204,6 @@
               "pushTiming": {
                 "$ref": "#/definitions/TimeSpan",
                 "additionalProperties": true,
-                "type": "object",
                 "description": "Stores timing information for pushing the specified image."
               }
             },
@@ -224,7 +239,6 @@
         "artifactTiming": {
           "$ref": "#/definitions/TimeSpan",
           "additionalProperties": true,
-          "type": "object",
           "description": "Time to push all non-container artifacts."
         }
       },
@@ -309,7 +323,6 @@
             "timing": {
               "$ref": "#/definitions/TimeSpan",
               "additionalProperties": true,
-              "type": "object",
               "description": "Stores timing information for pushing all artifact objects."
             }
           },
@@ -331,13 +344,11 @@
         "resolvedStorageSource": {
           "$ref": "#/definitions/StorageSource",
           "additionalProperties": true,
-          "type": "object",
           "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
         },
         "resolvedRepoSource": {
           "$ref": "#/definitions/RepoSource",
           "additionalProperties": true,
-          "type": "object",
           "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
         },
         "fileHashes": {
@@ -397,13 +408,13 @@
       "properties": {
         "sourceProvenanceHash": {
           "items": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "integer"
-              }
+            "enum": [
+              "NONE",
+              0,
+              "SHA256",
+              1,
+              "MD5",
+              2
             ]
           },
           "type": "array",
@@ -577,8 +588,7 @@
     "timing": {
       "additionalProperties": {
         "$ref": "#/definitions/TimeSpan",
-        "additionalProperties": true,
-        "type": "object"
+        "additionalProperties": true
       },
       "type": "object",
       "description": "Stores timing information for phases of the build. Valid keys\n are:\n\n * BUILD: time to execute all build steps\n * PUSH: time to push all specified images.\n * FETCHSOURCE: time to fetch source.\n\n If the build does not specify source or images,\n these keys will not be included."
