@@ -29,21 +29,22 @@ case "$OSTYPE" in
     exit 1
 esac
 
+PROTOBUF_VERSION=3.12.3
 rm -rf tmp
 mkdir tmp
 cd tmp
-echo "- Downloading protobuf tools"
-PROTOBUF_VERSION=3.12.3
+echo "- Downloading protobuf@$PROTOBUF_VERSION"
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
   --output protobuf.zip
 unzip -q protobuf.zip
 cd ..
 
-echo "- Setting up protoc plugin (chrusty/protoc-gen-jsonschema)"
+PROTOC_PLUGING_VERSION=0.9.7
+echo "- Setting up protoc plugin: chrusty/protoc-gen-jsonschema@$PROTOC_PLUGING_VERSION"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
 go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
-GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@0.9.7
+GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@$PROTOC_PLUGING_VERSION
 go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
 echo "- Converting protos to JSON Schemas"
