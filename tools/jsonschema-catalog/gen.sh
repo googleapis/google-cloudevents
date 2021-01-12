@@ -2,8 +2,8 @@
 
 set -e
 
-echo "- Gen catalog"
+echo "- Catalog: Gen start"
 cd $(dirname $0)
 npm i
 node .
-echo "- End"
+echo "- Catalog: Gen end"
