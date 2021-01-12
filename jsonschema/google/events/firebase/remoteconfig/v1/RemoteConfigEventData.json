@@ -1,6 +1,7 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json",
   "name": "RemoteConfigEventData",
+  "examples": [],
   "package": "google.events.firebase.remoteconfig.v1",
   "datatype": "google.events.firebase.remoteconfig.v1.RemoteConfigEventData",
   "cloudeventTypes": [
@@ -42,6 +43,16 @@
       "description": "The user-provided description of the corresponding Remote Config template."
     },
     "updateOrigin": {
+      "enum": [
+        "REMOTE_CONFIG_UPDATE_ORIGIN_UNSPECIFIED",
+        0,
+        "CONSOLE",
+        1,
+        "REST_API",
+        2,
+        "ADMIN_SDK_NODE",
+        3
+      ],
       "oneOf": [
         {
           "type": "string"
@@ -53,6 +64,16 @@
       "description": "Where the update action originated."
     },
     "updateType": {
+      "enum": [
+        "REMOTE_CONFIG_UPDATE_TYPE_UNSPECIFIED",
+        0,
+        "INCREMENTAL_UPDATE",
+        1,
+        "FORCED_UPDATE",
+        2,
+        "ROLLBACK",
+        3
+      ],
       "oneOf": [
         {
           "type": "string"
