@@ -1,7 +1,10 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json",
   "name": "DocumentEventData",
-  "examples": [],
+  "examples": [
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-complex.json",
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-simple.json"
+  ],
   "package": "google.events.cloud.firestore.v1",
   "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
   "cloudeventTypes": [
