@@ -24,14 +24,14 @@ esac
 rm -rf tmp
 mkdir tmp
 cd tmp
-echo "Downloading protobuf tools"
+echo "- Downloading protobuf@$PROTOBUF_VERSION"
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
   --output protobuf.zip
 unzip -q protobuf.zip
 cd ..
 
-echo "Compiling protos as a descriptor set"
+echo "- Compiling protos as a descriptor set"
 chmod +x $PROTOC
 
 $PROTOC \

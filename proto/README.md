@@ -76,6 +76,23 @@ events for multiple resources in the same product (e.g. buckets and
 objects within Cloud Storage) can use common messages in their
 definitions.
 
+The product and version parts must be all lower-case to conform with
+proto package naming conventions. A product may consist of multiple
+segments (e.g. `cloud.storage`) but if a single segment consists of
+multiple words, they should be simply lower-cased. For example,
+`firebase.remoteconfig` is the product name for Firebase Remote
+Config. In this case, the `csharp_namespace` option (and similar for
+other languages that generate code from the protos) should be set to
+indicate the correct word separation via casing.
+
+The resource and action parts are not included in the proto package,
+so have more flexibility. Multi-word segments should be camel-cased.
+Full examples of CloudEvent types that involve camel-cased segments
+include:
+
+- `google.cloud.storage.object.v1.metadataUpdated`
+- `google.firebase.remoteconfig.remoteConfig.v1.updated`
+
 ## Message naming conventions
 
 While not required for technical correctness, we use a suffix of "Event"

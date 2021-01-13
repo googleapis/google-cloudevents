@@ -91,14 +91,8 @@
       "properties": {
         "fields": {
           "additionalProperties": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "type": "object"
-              }
-            ]
+            "additionalProperties": true,
+            "type": "object"
           },
           "type": "object",
           "description": "Unordered map of dynamically typed values."

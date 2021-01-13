@@ -26,7 +26,6 @@
               "value": {
                 "$ref": "#/definitions/AnalyticsValue",
                 "additionalProperties": true,
-                "type": "object",
                 "description": "Last set value of user property."
               },
               "setTimestampUsec": {
@@ -213,8 +212,7 @@
           "params": {
             "additionalProperties": {
               "$ref": "#/definitions/AnalyticsValue",
-              "additionalProperties": true,
-              "type": "object"
+              "additionalProperties": true
             },
             "type": "object",
             "description": "A repeated record of the parameters associated with this event."
