@@ -38,7 +38,7 @@ message DocumentUpdatedEvent {
     "google.cloud.firestore.document.v1.updated";
 
   // The data associated with the event.
-  DocumentEventData data = 1;	
+  DocumentEventData data = 1;
 }
 
 // The CloudEvent raised when a Firestore document is deleted.
@@ -47,7 +47,7 @@ message DocumentDeletedEvent {
     "google.cloud.firestore.document.v1.deleted";
 
   // The data associated with the event.
-  DocumentEventData data = 1;	
+  DocumentEventData data = 1;
 }
 
 // The CloudEvent raised when a Firestore document is created, updated or deleted.
@@ -56,5 +56,5 @@ message DocumentWrittenEvent {
     "google.cloud.firestore.document.v1.written";
 
   // The data associated with the event.
-  DocumentEventData data = 1;	
+  DocumentEventData data = 1;
 }

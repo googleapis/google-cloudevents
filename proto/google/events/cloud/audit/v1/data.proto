@@ -39,7 +39,7 @@ message LogEntryData {
   // The log entry payload, which is always an AuditLog for Cloud Audit Log events.
   AuditLog proto_payload = 2;
 
-  // A unique identifier for the log entry. 
+  // A unique identifier for the log entry.
   string insert_id = 4;
 
   // A set of user-defined (key, value) data that provides additional
@@ -95,7 +95,8 @@ message LogEntryOperation {
 // standard severity levels listed below.  For your reference, the levels are
 // assigned the listed numeric values. The effect of using numeric values other
 // than those listed is undefined.
-// Copied from https://github.com/googleapis/googleapis/blob/master/google/logging/type/log_severity.proto
+// Copied from
+// https://github.com/googleapis/googleapis/blob/master/google/logging/type/log_severity.proto
 enum LogSeverity {
   // (0) The log entry has no assigned severity level.
   DEFAULT = 0;

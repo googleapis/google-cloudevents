@@ -24,22 +24,22 @@ option csharp_namespace = "Google.Events.Protobuf.Firebase.RemoteConfig.V1";
 message RemoteConfigEventData {
   // The version number of the version's corresponding Remote Config template.
   int64 version_number = 1;
-  
+
   // When the Remote Config template was written to the Remote Config server.
   google.protobuf.Timestamp update_time = 2;
-  
+
   //  Aggregation of all metadata fields about the account that performed the update.
   RemoteConfigUser update_user = 3;
-  
+
   // The user-provided description of the corresponding Remote Config template.
   string description = 4;
-  
+
   // Where the update action originated.
   RemoteConfigUpdateOrigin update_origin = 5;
-  
+
   // What type of update was made.
   RemoteConfigUpdateType update_type = 6;
-  
+
   // Only present if this version is the result of a rollback, and will be the
   // version number of the Remote Config template that was rolled-back to.
   int64 rollback_source = 7;
@@ -50,10 +50,10 @@ message RemoteConfigEventData {
 message RemoteConfigUser {
   // Display name.
   string name = 1;
-  
+
   // Email address.
   string email = 2;
-  
+
   // Image URL.
   string image_url = 3;
 }
@@ -62,10 +62,10 @@ message RemoteConfigUser {
 enum RemoteConfigUpdateOrigin {
   // Catch-all for unrecognized values.
   REMOTE_CONFIG_UPDATE_ORIGIN_UNSPECIFIED = 0;
-  
+
   // The update came from the Firebase UI.
   CONSOLE = 1;
-  
+
   // The update came from the Remote Config REST API.
   REST_API = 2;
 
@@ -77,15 +77,15 @@ enum RemoteConfigUpdateOrigin {
 enum RemoteConfigUpdateType {
   // Catch-all for unrecognized enum values.
   REMOTE_CONFIG_UPDATE_TYPE_UNSPECIFIED = 0;
-  
+
   // A regular incremental update.
   INCREMENTAL_UPDATE = 1;
-  
+
   // A forced update.
   // The ETag was specified as "*" in an UpdateRemoteConfigRequest
   // request or the "Force Update" button was pressed on the console.
   FORCED_UPDATE = 2;
-  
+
   // A rollback to a previous Remote Config template.
   ROLLBACK = 3;
 }
