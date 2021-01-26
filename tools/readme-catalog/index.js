@@ -48,7 +48,7 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
 }
 
 (async () => {
-  console.log('Updating README...');
+  console.log('- Updating README...');
 
   // Generate table
   const replacementTableRow = (schemaEntry) => {
@@ -71,5 +71,5 @@ ${CATALOG.schemas.map(replacementTableRow).join('\n')}`;
 
   // Save updated README
   fs.writeFileSync(README_PATH, updatedReadmeContents);
-  console.log('Updated README.');
+  console.log('- Updated README.');
 })();
