@@ -53,7 +53,7 @@ async function getJSONSchemasPaths(directory: string) {
   // The name of the JSON Schema file
   const SCHEMA_PATTERN = '*.json';
   // Ignore all files that don't match the SCHEMA_PATTERN.
-  const IGNORE_PATTERN = [`!${SCHEMA_PATTERN}`];
+  const IGNORE_PATTERN = [`!${SCHEMA_PATTERN}`, 'catalog.json'];
 
   console.log(`- Finding all JSON Schemas (${SCHEMA_PATTERN})...`);
   const paths: string[] = await recursive(directory, IGNORE_PATTERN);

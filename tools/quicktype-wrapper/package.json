@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "mkdirp": "1.0.4",
-    "quicktype-core": "6.0.69",
+    "quicktype-core": "^6.0.69",
     "recursive-readdir": "2.2.2",
     "yargs": "16.1.0"
   }
