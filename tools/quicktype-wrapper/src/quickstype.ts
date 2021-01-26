@@ -137,7 +137,10 @@ export async function jsonschema2languageFiles({
   typeName: string;
   language: TARGET_LANGUAGE | string;
 }): Promise<QtMultifileResult> {
-  // Run quicktype tooling
+  if (!jsonSchema) throw console.error('ERROR: jsonschema2languageFiles(): jsonSchema undefined');
+  if (!language) throw console.error('ERROR: jsonschema2languageFiles(): language undefined');
+  if (!typeName) throw console.error('ERROR: jsonschema2languageFiles(): typeName undefined');
+
   const multifileResult: MultiFileRenderResult = await quicktypeJSONSchemaToMultiFile(
     language,
     typeName,
