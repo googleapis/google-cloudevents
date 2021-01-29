@@ -24,7 +24,7 @@ import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
-// The data within all Cloud Audit Logs log entry events.
+// The data within all Cloud Audit Logs log entry events testing.
 message LogEntryData {
   // The resource name of the log to which this log entry belongs.
   string log_name = 12;
