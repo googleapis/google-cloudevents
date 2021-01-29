@@ -1,0 +1,6 @@
+syntax = "proto2";
+
+package third_party.google_cloudevents.proto.google.events.firebase.testlab.v1;
+
+option java_multiple_files = true;
+option jspb_use_correct_proto2_semantics = true;
