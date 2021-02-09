@@ -29,6 +29,11 @@
         "messageId": {
           "type": "string",
           "description": "ID of this message, assigned by the server when the message is published.\n Guaranteed to be unique within the topic."
+        },
+        "publishTime": {
+          "type": "string",
+          "description": "The time at which the message was published, populated by the server when\n it receives the `Publish` call.",
+          "format": "date-time"
         }
       },
       "additionalProperties": true,
