@@ -37,12 +37,12 @@
     },
     "metadata": {
       "properties": {
-        "createdAt": {
+        "createTime": {
           "type": "string",
           "description": "The date the user was created.",
           "format": "date-time"
         },
-        "lastSignedInAt": {
+        "lastSignInTime": {
           "type": "string",
           "description": "The date the user last signed in.",
           "format": "date-time"
