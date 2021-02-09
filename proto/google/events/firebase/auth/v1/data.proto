@@ -58,10 +58,10 @@ message AuthEventData {
 // Additional metadata about the user.
 message UserMetadata {
   // The date the user was created.
-  google.protobuf.Timestamp created_at = 1;
+  google.protobuf.Timestamp create_time = 1;
 
   // The date the user last signed in.
-  google.protobuf.Timestamp last_signed_in_at = 2;
+  google.protobuf.Timestamp last_sign_in_time = 2;
 }
 
 // User's info at the identity provider
