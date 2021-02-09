@@ -118,3 +118,21 @@ code to handle all events for a single resource, without creating
 unnecessary churn when only an unrelated resource type needs
 a new version. (If your code only consumes `bucket.v1` events, the
 introduction of `object.v2` events should not affect you.)
+
+## Unexpected fields
+
+CloudEvent providers may include additional data fields beyond those
+documented here. In particular:
+
+- Some events may include fields with legacy names such as
+  `message_id` for compatibility purposes.
+- Event providers using proto3 JSON formatting of protobuf `Any`
+  messages may include a field called `@type` as a natural artifact
+  of that formatting process.
+
+Neither of these should concern consumers: it's always possible that
+new fields will have been added to CloudEvents between the time at
+which the code was built and deployed, and the time at which the
+CloudEvent is received. Consumers must therefore handle unexpected
+data fields. This note is primarily to expain some likely causes of
+unexpected fields to avoid developer confusion.
