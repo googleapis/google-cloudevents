@@ -16,6 +16,8 @@ syntax = "proto3";
 
 package google.events.cloud.pubsub.v1;
 
+import "google/protobuf/timestamp.proto";
+
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
 
 // The event data when a message is published to a topic.
@@ -40,4 +42,8 @@ message PubsubMessage {
   // ID of this message, assigned by the server when the message is published.
   // Guaranteed to be unique within the topic.
   string message_id = 3;
+
+  // The time at which the message was published, populated by the server when
+  // it receives the `Publish` call.
+  google.protobuf.Timestamp publish_time = 4;
 }
