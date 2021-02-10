@@ -36,7 +36,8 @@ message LogEntryData {
   // the error.
   google.api.MonitoredResource resource = 8;
 
-  // The log entry payload, which is always an AuditLog for Cloud Audit Log events.
+  // The log entry payload, which is always an AuditLog for Cloud Audit Log
+  // events.
   AuditLog proto_payload = 2;
 
   // A unique identifier for the log entry.
@@ -46,7 +47,8 @@ message LogEntryData {
   // information about the log entry.
   map<string, string> labels = 11;
 
-  // Information about an operation associated with the log entry, if applicable.
+  // Information about an operation associated with the log entry, if
+  // applicable.
   LogEntryOperation operation = 15;
 
   // The time the event described by the log entry occurred.

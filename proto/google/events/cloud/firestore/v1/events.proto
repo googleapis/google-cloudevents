@@ -20,13 +20,12 @@ import "google/events/cloud/firestore/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
-
 option (google.events.cloud_event_product) = "Cloud Firestore";
 
 // The CloudEvent raised when a Firestore document is created.
 message DocumentCreatedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.firestore.document.v1.created";
+      "google.cloud.firestore.document.v1.created";
 
   // The data associated with the event.
   DocumentEventData data = 1;
@@ -35,7 +34,7 @@ message DocumentCreatedEvent {
 // The CloudEvent raised when a Firestore document is updated.
 message DocumentUpdatedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.firestore.document.v1.updated";
+      "google.cloud.firestore.document.v1.updated";
 
   // The data associated with the event.
   DocumentEventData data = 1;
@@ -44,16 +43,17 @@ message DocumentUpdatedEvent {
 // The CloudEvent raised when a Firestore document is deleted.
 message DocumentDeletedEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.firestore.document.v1.deleted";
+      "google.cloud.firestore.document.v1.deleted";
 
   // The data associated with the event.
   DocumentEventData data = 1;
 }
 
-// The CloudEvent raised when a Firestore document is created, updated or deleted.
+// The CloudEvent raised when a Firestore document is created, updated or
+// deleted.
 message DocumentWrittenEvent {
   option (google.events.cloud_event_type) =
-    "google.cloud.firestore.document.v1.written";
+      "google.cloud.firestore.document.v1.written";
 
   // The data associated with the event.
   DocumentEventData data = 1;

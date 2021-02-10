@@ -16,17 +16,16 @@ syntax = "proto3";
 
 package google.events.firebase.analytics.v1;
 
-import "google/events/firebase/analytics/v1/data.proto";
 import "google/events/cloudevent.proto";
+import "google/events/firebase/analytics/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Analytics.V1";
-
 option (google.events.cloud_event_product) = "Google Analytics for Firebase";
 
 // The CloudEvent raised when a Firebase Analytics log is written.
 message AnalyticsLogWrittenEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.analytics.log.v1.written";
+      "google.firebase.analytics.log.v1.written";
 
   // The data associated with the event.
   AnalyticsLogData data = 1;
