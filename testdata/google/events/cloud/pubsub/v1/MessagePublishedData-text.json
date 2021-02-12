@@ -5,6 +5,8 @@
     "attributes": {
       "attr1":"attr1-value"
     },
-    "data": "dGVzdCBtZXNzYWdlIDM="
+    "data": "dGVzdCBtZXNzYWdlIDM=",
+    "messageId": "message-id",
+    "publishTime":"2021-02-05T04:06:14.109Z"
   }
 }
