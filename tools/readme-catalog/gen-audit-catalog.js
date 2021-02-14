@@ -23,6 +23,9 @@ import { getGeneratedStringWithReplacement } from './common.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CATALOG = JSON.parse(fs.readFileSync(`${__dirname}/../../json/audit/service_catalog.json`));
 
+/**
+ * Generates the Cloud Audit Log discovery documentation at AUDIT_CATALOG.md.
+ */
 export const genAuditCatalog = () => {
   // Update README
   const AUDIT_CATALOG_PATH = `${__dirname}/../../AUDIT_CATALOG.md`;

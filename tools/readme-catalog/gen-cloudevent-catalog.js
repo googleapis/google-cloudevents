@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { getGeneratedStringWithReplacement } from './common.js';
 
 /**
- * Generates a catalog for the README.
+ * Generates a CloudEvent catalog for the README.
  */
 
 /**
@@ -32,7 +32,7 @@ const getSchemaLinkMarkdown = (schemaEntry) => {
 };
 
 /**
- * Updates the main README.
+ * Updates the main README with a CloudEvent catalog.
  */
 export const genCloudEventCatalog = () => {
   console.log('- Updating README...');

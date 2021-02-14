@@ -39,9 +39,12 @@ This repository contains definitions for the following CloudEvents:
 
 ## Google CloudEvent Catalogs
 
-### todo
+This repository contains a couple catalogs supporting Google CloudEvent event discovery:
 
-A [registry of the JSON schema catalog](https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json) is also available.
+- [JSON Schema catalog](https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json)
+  - Metadata containing a list of JSON schemas for Google CloudEvents.
+- [Cloud Audit Log catalog](AUDIT_CATALOG.md)
+  - For the type `google.cloud.audit.log.v1.written`, a list of possible values for `methodName` and `serviceName`.
 
 ## Google CloudEvent Type Libraries
 
