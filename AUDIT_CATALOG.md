@@ -4,12 +4,20 @@ This file includes a directory of Cloud Audit Log `serviceName` and `methodName`
 
 ## Example usage
 
+These Cloud Audit Log values can be used to create Eventarc triggers for Audit Log events like such:
+
 ```sh
+# Get the current project number:
+PROJECT_NUMBER=$(gcloud projects describe $(gcloud config get-value project) --format='value(projectNumber)')
+
+# Replace "my-run-service" with your Run service.
+# Replace "serviceName"  and "methodName" values:
 gcloud eventarc triggers create my-trigger \
 --destination-run-service=my-run-service \
+--service-account=${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
 --event-filters="type=google.cloud.audit.log.v1.written" \
---event-filters="serviceName=storage.googleapis.com" \ # serviceName here!
---event-filters="methodName=storage.objects.create" # methodName here!
+--event-filters="serviceName=storage.googleapis.com" \
+--event-filters="methodName=storage.objects.create"
 ```
 
 ## Cloud Audit Log Types
