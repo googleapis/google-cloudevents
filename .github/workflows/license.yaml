@@ -12,16 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rebaseMergeAllowed: true
-squashMergeAllowed: true
-mergeCommitAllowed: false
-branchProtectionRules:
-- pattern: master
-  requiredStatusCheckContexts:
-    - 'cla/google'
-  requiredApprovingReviewCount: 1
-  requiresCodeOwnerReviews: true
-  requiresStrictStatusChecks: true
-permissionRules:
-  - team: cloudevents-admins
-    permission: admin
+name: Generate
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+    - name: Setup Go for https://github.com/google/addlicense
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.14'
+    # Get the license tool
+    - run: go get -u github.com/google/addlicense
+    # Run the license tool
+    - run: addlicense .
+    # Ensure there is no diff, otherwise we need to run the generator.
+    - run: git diff --exit-code .
