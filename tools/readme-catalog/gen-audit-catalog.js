@@ -7,12 +7,12 @@ import { getGeneratedStringWithReplacement } from './common.js';
  * Generates a Cloud Audit Log catalog markdown for the README.
  * @example Example input:
  * [{
- *   serviceName: 'workflows.googleapis.com',
- *   displayName: 'Workflows',
- *   methods: [
+ *   "serviceName": "workflows.googleapis.com",
+ *   "displayName": "Workflows",
+ *   "methods": [
  *     {
- *       methodName: 'google.cloud.workflows.v1.Workflows.CreateWorkflow',
- *       lastAdded: '1607367890'
+ *       "methodName": "google.cloud.workflows.v1.Workflows.CreateWorkflow",
+ *       "lastAdded": "1607367890"
  *     },
  *   ]
  * },
