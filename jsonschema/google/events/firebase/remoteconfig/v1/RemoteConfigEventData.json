@@ -36,7 +36,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Aggregation of all metadata fields about the account that performed the update."
+      "description": "Aggregation of all metadata fields about the account that performed the\n  update."
     },
     "description": {
       "type": "string",
