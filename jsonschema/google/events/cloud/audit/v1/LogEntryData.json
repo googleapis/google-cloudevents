@@ -85,7 +85,7 @@
           "description": "The resource's original state before mutation. Present only for\n operations which have successfully modified the targeted resource(s).\n In general, this field should contain all changed fields, except those\n that are already been included in `request`, `response`, `metadata` or\n `service_data` fields.\n When the JSON object represented here has a proto equivalent,\n the proto name will be indicated in the `@type` property."
         },
         "numResponseItems": {
-          "type": "integer",
+          "type": "string",
           "description": "The number of items returned from a List or Query API method,\n if applicable."
         },
         "status": {
@@ -321,7 +321,7 @@
                   "format": "date-time"
                 },
                 "size": {
-                  "type": "integer",
+                  "type": "string",
                   "description": "The HTTP request size in bytes. If unknown, it must be -1."
                 },
                 "protocol": {
@@ -388,7 +388,7 @@
                   "description": "The IP address of the peer."
                 },
                 "port": {
-                  "type": "integer",
+                  "type": "string",
                   "description": "The network port of the peer."
                 },
                 "labels": {
@@ -479,7 +479,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log events."
+      "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log\n events."
     },
     "insertId": {
       "type": "string",
@@ -513,7 +513,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Information about an operation associated with the log entry, if applicable."
+      "description": "Information about an operation associated with the log entry, if\n applicable."
     },
     "timestamp": {
       "type": "string",

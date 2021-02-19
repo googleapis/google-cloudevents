@@ -97,7 +97,7 @@
           "description": "A boolean value."
         },
         "integerValue": {
-          "type": "integer",
+          "type": "string",
           "description": "An integer value."
         },
         "doubleValue": {
