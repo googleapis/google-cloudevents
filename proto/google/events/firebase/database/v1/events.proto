@@ -16,18 +16,17 @@ syntax = "proto3";
 
 package google.events.firebase.database.v1;
 
-import "google/events/firebase/database/v1/data.proto";
 import "google/events/cloudevent.proto";
+import "google/events/firebase/database/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
-
 option (google.events.cloud_event_product) = "Firebase Realtime Database";
 
 // The CloudEvent raised when a ref is created in the Firebase
 // Real Time Database.
 message ReferenceCreatedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.ref.v1.created";
+      "google.firebase.database.ref.v1.created";
 
   // The data associated with the event.
   ReferenceEventData data = 1;
@@ -37,7 +36,7 @@ message ReferenceCreatedEvent {
 // Real Time Database.
 message ReferenceUpdatedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.ref.v1.updated";
+      "google.firebase.database.ref.v1.updated";
 
   // The data associated with the event.
   ReferenceEventData data = 1;
@@ -47,7 +46,7 @@ message ReferenceUpdatedEvent {
 // Real Time Database.
 message ReferenceDeletedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.ref.v1.deleted";
+      "google.firebase.database.ref.v1.deleted";
 
   // The data associated with the event.
   ReferenceEventData data = 1;
@@ -57,7 +56,7 @@ message ReferenceDeletedEvent {
 // or deleted) in the Firebase Real Time Database.
 message ReferenceWrittenEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.database.ref.v1.written";
+      "google.firebase.database.ref.v1.written";
 
   // The data associated with the event.
   ReferenceEventData data = 1;

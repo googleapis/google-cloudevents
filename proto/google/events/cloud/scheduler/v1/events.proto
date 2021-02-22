@@ -20,7 +20,6 @@ import "google/events/cloud/scheduler/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Scheduler.V1";
-
 option (google.events.cloud_event_product) = "Cloud Scheduler";
 
 // The CloudEvent raised when a Scheduler job is executed.
