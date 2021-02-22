@@ -16,17 +16,16 @@ syntax = "proto3";
 
 package google.events.firebase.remoteconfig.v1;
 
-import "google/events/firebase/remoteconfig/v1/data.proto";
 import "google/events/cloudevent.proto";
+import "google/events/firebase/remoteconfig/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.RemoteConfig.V1";
-
 option (google.events.cloud_event_product) = "Firebase Remote Config";
 
 // The CloudEvent raised when a Remote Config is updated
 message RemoteConfigUpdatedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.remoteconfig.remoteConfig.v1.updated";
+      "google.firebase.remoteconfig.remoteConfig.v1.updated";
 
   // The data associated with the event.
   RemoteConfigEventData data = 1;

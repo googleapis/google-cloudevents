@@ -16,17 +16,16 @@ syntax = "proto3";
 
 package google.events.firebase.auth.v1;
 
-import "google/events/firebase/auth/v1/data.proto";
 import "google/events/cloudevent.proto";
+import "google/events/firebase/auth/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
-
 option (google.events.cloud_event_product) = "Firebase Authentication";
 
 // The CloudEvent raised when a Firebase user is created.
 message UserCreatedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.auth.user.v1.created";
+      "google.firebase.auth.user.v1.created";
 
   // The data associated with the event.
   AuthEventData data = 1;
@@ -35,7 +34,7 @@ message UserCreatedEvent {
 // The CloudEvent raised when a Firebase user is deleted.
 message UserDeletedEvent {
   option (google.events.cloud_event_type) =
-    "google.firebase.auth.user.v1.deleted";
+      "google.firebase.auth.user.v1.deleted";
 
   // The data associated with the event.
   AuthEventData data = 1;
