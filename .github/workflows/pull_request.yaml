@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Generate
-on: [push, pull_request]
+name: Run Generator and Create Pull Request
+on:
+  push:
+    branches:
+      - "main"
 jobs:
-  build:
+  create_pr:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
@@ -24,10 +27,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '12'
-    - name: Setup Go for proto2jsonschema script
-      uses: actions/setup-go@v2
-      with:
-        go-version: '1.14'
     - name: Run the generators
       run: ./scripts/gen.sh
     - name: Commit changelog and manifest files
