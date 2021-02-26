@@ -32,4 +32,3 @@ jobs:
     - run: ./scripts/gen.sh
     # Ensure there is no diff, otherwise we need to run the generator.
     - run: git diff --exit-code .
-
