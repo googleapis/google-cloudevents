@@ -16,7 +16,7 @@ name: Run Generator and Create Pull Request
 on:
   push:
     branches:
-      - "main"
+      - "master"
 jobs:
   create_pr:
     runs-on: ubuntu-18.04
