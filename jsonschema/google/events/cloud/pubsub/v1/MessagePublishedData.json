@@ -17,7 +17,9 @@
       "properties": {
         "data": {
           "type": "string",
-          "description": "The binary data in the message."
+          "description": "The binary data in the message.",
+          "format": "binary",
+          "binaryEncoding": "base64"
         },
         "attributes": {
           "additionalProperties": {
