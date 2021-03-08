@@ -3,9 +3,11 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { getGeneratedStringWithReplacement } from './common.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 /**
- * Generates a Cloud Audit Log catalog markdown for the README.
- * @example Example input:
+ * The const `CATALOG` contains an object with a Cloud Audit Log catalog.
+ * This data is used for generating the audit log catalog.
+ * @example
  * [{
  *   "serviceName": "workflows.googleapis.com",
  *   "displayName": "Workflows",
@@ -20,11 +22,11 @@ import { getGeneratedStringWithReplacement } from './common.js';
  * ]
  * {@link ../../json/audit/service_catalog.json}
  */
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const CATALOG = JSON.parse(fs.readFileSync(`${__dirname}/../../json/audit/service_catalog.json`));
 
 /**
- * Generates the Cloud Audit Log discovery documentation at AUDIT_CATALOG.md.
+ * Generates markdown containing a Cloud Audit Log catalog
+ * and saves the markdown in the file called `AUDIT_CATALOG.md`.
  */
 export const genAuditCatalog = () => {
   // Update README
@@ -42,8 +44,8 @@ export const genAuditCatalog = () => {
 
 /**
  * Gets markdown for a CAL service catalog entry.
- * @param {object} calEntry A single 
- * @returns {string} Markdown with info about this CAL entry
+ * @param {object} calEntry A single Cloud Audit Log entry.
+ * @returns {string} Markdown with info about this CAL entry.
  */
 const getServiceCatalogEntryMarkdown = (calEntry) => {
   return `### ${calEntry.displayName}
