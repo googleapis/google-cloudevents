@@ -6,7 +6,7 @@
     "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-simple.json"
   ],
   "package": "google.events.cloud.firestore.v1",
-  "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
+  "datatype": "DocumentEventData",
   "cloudeventTypes": [
     "google.cloud.firestore.document.v1.created",
     "google.cloud.firestore.document.v1.updated",
@@ -73,7 +73,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "A Firestore document.",
-      "id": "google.events.cloud.firestore.v1.Document"
+      "id": "Document"
     },
     "Value": {
       "properties": {
@@ -171,7 +171,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "A message that can hold any of the supported value types.",
-      "id": "google.events.cloud.firestore.v1.Value"
+      "id": "Value"
     }
   }
 }

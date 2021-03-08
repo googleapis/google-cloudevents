@@ -260,7 +260,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Value for Event Params and UserProperty can be of type string or int or\n float or double.",
-      "id": "google.events.firebase.analytics.v1.AnalyticsValue"
+      "id": "AnalyticsValue"
     }
   }
 }
