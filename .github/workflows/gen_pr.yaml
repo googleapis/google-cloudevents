@@ -37,8 +37,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        # If there is a non-zero diff after running generator
         if [[ `git status --porcelain` ]]; then
-          # Changes after running generator
           git config --global user.email "yoshi-code-bot@google.com"
           git config --global user.name "Google Bot"
           git checkout -b "pr_bot-$GITHUB_RUN_ID"
@@ -47,7 +47,9 @@ jobs:
           git commit --message "feat: run generator (${NOW})"
           git push origin "pr_bot-$GITHUB_RUN_ID"
           echo "Created commit: $(git rev-parse HEAD)"
-          gh pr create --title "Run the generator (${NOW})" --body "AUTOMATED PR! This PR was created from a recent push to the default branch."
+          gh pr create \
+            --title "Run the generator (${NOW})" \
+            --body "AUTOMATED PR! This PR was created from a recent push to the default branch. Please check to ensure there are no CI failures or unexpected generated results."
         else
           # No changes after running generator
           echo "No PR to create."
