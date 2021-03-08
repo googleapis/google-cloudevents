@@ -114,7 +114,8 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     let jsonString = JSON.stringify(resultJSON, null, 2);
     // Replace all $refs and definitions with simpler $refs
     Object.entries(replacementMap).forEach(([before, after]) => {
-      jsonString = jsonString.split(before).join(after);
+      // Only replace direct quoted strings
+      jsonString = jsonString.split(`"${before}"`).join(`"${after}"`);
     });
 
     // Write back JSON Schema

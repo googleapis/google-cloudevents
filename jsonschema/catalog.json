@@ -27,7 +27,7 @@
       "product": "Cloud Firestore",
       "name": "DocumentEventData",
       "description": "The data within all Firestore document events.",
-      "datatype": "DocumentEventData",
+      "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
       "cloudeventTypes": [
         "google.cloud.firestore.document.v1.created",
         "google.cloud.firestore.document.v1.updated",
