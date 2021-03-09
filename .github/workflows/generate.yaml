@@ -16,7 +16,7 @@ name: Generate
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, ubuntu-18.04, windows-2019]
     steps:
     - name: Check out repo
       uses: actions/checkout@v2
