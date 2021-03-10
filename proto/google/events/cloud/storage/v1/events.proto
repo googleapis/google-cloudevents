@@ -20,7 +20,6 @@ import "google/events/cloud/storage/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Storage.V1";
-
 option (google.events.cloud_event_product) = "Cloud Storage";
 
 // The CloudEvent raised when an object is finalized in Google Cloud Storage.

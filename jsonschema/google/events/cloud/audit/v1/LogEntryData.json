@@ -107,7 +107,9 @@
                   },
                   "value": {
                     "type": "string",
-                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                    "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
                   }
                 },
                 "additionalProperties": true,
@@ -479,7 +481,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log events."
+      "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log\n events."
     },
     "insertId": {
       "type": "string",
@@ -513,7 +515,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Information about an operation associated with the log entry, if applicable."
+      "description": "Information about an operation associated with the log entry, if\n applicable."
     },
     "timestamp": {
       "type": "string",

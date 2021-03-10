@@ -1,4 +1,3 @@
-#!/bin/bash
 # Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-set -e
-
-echo "- Catalog: Gen start"
-cd $(dirname $0)
-npm i
-node .
-echo "- Catalog: Gen end"
+name: License Check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+    - name: Setup Go for https://github.com/google/addlicense
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.14'
+    # Get the license tool
+    - run: go get -u github.com/google/addlicense
+    # Run the license tool
+    - run: addlicense .
+    # Ensure there is no diff, otherwise we need to run the generator.
+    - run: git diff --exit-code .
