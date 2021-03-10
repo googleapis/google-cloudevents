@@ -73,7 +73,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "A Firestore document.",
-      "id": "Document"
+      "id": "google.events.cloud.firestore.v1.Document"
     },
     "Value": {
       "properties": {
@@ -171,7 +171,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "A message that can hold any of the supported value types.",
-      "id": "Value"
+      "id": "google.events.cloud.firestore.v1.Value"
     }
   }
 }

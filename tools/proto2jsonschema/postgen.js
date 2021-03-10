@@ -103,20 +103,23 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     const allRefs = getAllRefs(resultJSON);
 
     // Map of strings to strings.
-    // i.e. "google.events.cloud.cloudbuild.v1.RepoSource" -> "RepoSource"
     const replacementMap = {};
     allRefs.map(ref => {
       const shorthandFromDotNotation = ref.split('.').reverse()[0];
       replacementMap[ref] = shorthandFromDotNotation;
     });
 
+    // Simplify the JSON schema definition names (if applicable)
+    if (resultJSON.definitions) {
+      Object.keys(resultJSON.definitions).forEach(d => {
+        const shorthandDefinition = d.split('.').reverse()[0];
+        resultJSON.definitions[shorthandDefinition] = resultJSON.definitions[d];
+        delete resultJSON.definitions[d];
+      });
+    }
+
     // Format JSON
     let jsonString = JSON.stringify(resultJSON, null, 2);
-    // Replace all $refs and definitions with simpler $refs
-    Object.entries(replacementMap).forEach(([before, after]) => {
-      // Only replace direct quoted strings
-      jsonString = jsonString.split(`"${before}"`).join(`"${after}"`);
-    });
 
     // Write back JSON Schema
     fs.writeFileSync(filePath, jsonString);

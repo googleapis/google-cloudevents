@@ -645,7 +645,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Location of the source in a Google Cloud Source Repository.",
-      "id": "RepoSource"
+      "id": "google.events.cloud.cloudbuild.v1.RepoSource"
     },
     "StorageSource": {
       "properties": {
@@ -665,7 +665,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Location of the source in an archive file in Google Cloud Storage.",
-      "id": "StorageSource"
+      "id": "google.events.cloud.cloudbuild.v1.StorageSource"
     },
     "TimeSpan": {
       "properties": {
@@ -683,7 +683,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Start and end times for a build execution phase.",
-      "id": "TimeSpan"
+      "id": "google.events.cloud.cloudbuild.v1.TimeSpan"
     },
     "Volume": {
       "properties": {
@@ -699,7 +699,7 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Volume describes a Docker container volume which is mounted into build steps\n in order to persist files across build step execution.",
-      "id": "Volume"
+      "id": "google.events.cloud.cloudbuild.v1.Volume"
     }
   }
 }
