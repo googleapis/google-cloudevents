@@ -38,6 +38,11 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
+
+    // Replace backslashes with forward-slashes to allow the script
+    // to work on Windows.
+    filePath = filePath.replace(/\\/g, '/');
+
     const packageName = getCloudEventPackage(filePath);
 
     const resultJSON = {
