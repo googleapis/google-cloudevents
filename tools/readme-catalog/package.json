@@ -3,6 +3,7 @@
   "scripts": {
     "start": "node ."
   },
+  "type": "module",
   "dependencies": {
   }
 }

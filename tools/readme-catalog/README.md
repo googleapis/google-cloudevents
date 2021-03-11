@@ -1,6 +1,11 @@
 # readme-catalog
 
-Edits the top-level [`README.md`](../../README.md) event catalog.
+Edits README catalog markdown files using a generator.
+
+The following files are generated:
+
+- The top-level [`README.md`](../../README.md) – CloudEvent catalog
+- The [`AUDIT_CATALOG.md`](../../AUDIT_CATALOG.md) – Cloud Audit Log catalog
 
 ## Requirements
 

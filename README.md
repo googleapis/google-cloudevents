@@ -37,7 +37,23 @@ This repository contains definitions for the following CloudEvents:
 |Firebase Remote Config|[Proto](proto/google/events/firebase/remoteconfig/v1/data.proto) / [JSON](https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json)|<br>Data Type:<br>`google.events.firebase.remoteconfig.v1.RemoteConfigEventData`<br>CloudEvent Type(s):<br>`google.firebase.remoteconfig.remoteConfig.v1.updated`|
 <!-- GENERATED END -->
 
-A [registry of the JSON schema catalog](https://googleapis.github.io/google-cloudevents/jsonschema/catalog.json) is also available.
+## Google CloudEvent Catalogs
+
+This repository contains catalogs for Google CloudEvent event discovery:
+
+### Google CloudEvent JSON Schema catalog
+
+Link: [`catalog.json`](./jsonschema/catalog.json)
+
+A machine-readable list of Google CloudEvent JSON schemas. In the format of a [JSON Schema catalog](https://json.schemastore.org/schema-catalog).
+
+### Cloud Audit Log catalog
+
+Link: [`AUDIT_CATALOG.md`](./AUDIT_CATALOG.md)
+
+A human-readable list of Audit Log `methodName` and `serviceName` event filters.
+
+Used for filtering events of type `google.cloud.audit.log.v1.written`.
 
 ## Google CloudEvent Type Libraries
 
