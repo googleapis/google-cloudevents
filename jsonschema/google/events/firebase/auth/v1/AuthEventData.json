@@ -27,7 +27,7 @@
       "type": "string",
       "description": "The user's display name."
     },
-    "photoUrl": {
+    "photoURL": {
       "type": "string",
       "description": "The user's photo URL."
     },
@@ -67,7 +67,7 @@
             "type": "string",
             "description": "The display name for the linked provider."
           },
-          "photoUrl": {
+          "photoURL": {
             "type": "string",
             "description": "The photo URL for the linked provider."
           },
