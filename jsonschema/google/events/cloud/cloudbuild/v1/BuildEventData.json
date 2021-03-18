@@ -644,7 +644,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": {},
+      "description": "Location of the source in a Google Cloud Source Repository.",
       "id": "google.events.cloud.cloudbuild.v1.RepoSource"
     },
     "StorageSource": {
