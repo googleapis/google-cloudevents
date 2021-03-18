@@ -204,7 +204,7 @@ message AuditLog {
   // information associated with the current audited event.
   google.protobuf.Struct metadata = 18;
 
-  // Deprecated, use `metadata` field instead.
+  // Deprecated: Use `metadata` field instead.
   // Other service-specific data about the request, response, and other
   // activities.
   // When the JSON object represented here has a proto equivalent, the proto
