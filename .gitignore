@@ -7,3 +7,6 @@ tmp/
 
 # Local launch settings for .NET apps
 launchSettings.json
+
+# Ignore downloads of the jsonschema schema.
+jsonschema-schema.json
