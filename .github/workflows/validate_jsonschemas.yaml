@@ -26,7 +26,7 @@ jobs:
         node-version: '12'
     - name: Install JSON schema schema
       run: |
-        curl -O http://json-schema.org/draft-04/schema > jsonschema-schema.json
+        curl -o jsonschema-schema.json http://json-schema.org/draft-04/schema
     - name: Validate every schema
       run: |
         JSON_SCHEMAS=$(find ./jsonschema/google/events -name "*.json")
