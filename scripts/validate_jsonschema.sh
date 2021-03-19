@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Validate JSON Schemas
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Check out repo
-      uses: actions/checkout@v2
-    - name: Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '12'
-    - name: Run Validate JSON Schema Script
-      run: |
-        ./scripts/validat_jsonschema.sh
+# Validates the JSON Schemas are valid.
+# Must be run from the repo's root folder.
+
+# Install JSON schema schema
+curl -o jsonschema-schema.json http://json-schema.org/draft-04/schema
+
+# Validate every schema
+JSON_SCHEMAS=$(find ./jsonschema/google/events -name "*.json")
+while IFS= read -r line ; do
+  npx ajv-cli@v3.0.0 validate -s jsonschema-schema.json -d $line;
+done <<< "$JSON_SCHEMAS"
+
+# Cleanup
+rm jsonschema-schema.json
