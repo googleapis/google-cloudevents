@@ -17,7 +17,7 @@
 # Must be run from the repo's root folder.
 
 # Install JSON schema schema
-mkdir tmp
+mkdir -p tmp
 curl -o tmp/jsonschema-schema.json http://json-schema.org/draft-04/schema
 
 # Validate every schema
