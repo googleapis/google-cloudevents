@@ -17,13 +17,11 @@
 # Must be run from the repo's root folder.
 
 # Install JSON schema schema
-curl -o jsonschema-schema.json http://json-schema.org/draft-04/schema
+mkdir tmp
+curl -o tmp/jsonschema-schema.json http://json-schema.org/draft-04/schema
 
 # Validate every schema
 JSON_SCHEMAS=$(find ./jsonschema/google/events -name "*.json")
 while IFS= read -r line ; do
-  npx ajv-cli@v3.0.0 validate -s jsonschema-schema.json -d $line;
+  npx ajv-cli@v3.0.0 validate -s tmp/jsonschema-schema.json -d $line;
 done <<< "$JSON_SCHEMAS"
-
-# Cleanup
-rm jsonschema-schema.json

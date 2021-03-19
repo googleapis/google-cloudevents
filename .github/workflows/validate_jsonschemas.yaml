@@ -26,4 +26,4 @@ jobs:
         node-version: '12'
     - name: Run Validate JSON Schema Script
       run: |
-        ./scripts/validat_jsonschema.sh
+        ./scripts/validate_jsonschema.sh
