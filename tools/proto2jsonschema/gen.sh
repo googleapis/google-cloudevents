@@ -90,7 +90,7 @@ for proto in $DATA_PROTOS; do
   # - Input: proto/ – our CloudEvent protos
   # - Input: googlapis/ – common googleapis protos
   $PROTOC \
-  --jsonschema_out=json_fieldnames,disallow_bigints_as_strings:$OUT_PROTO_DIR \
+  --jsonschema_out=disallow_bigints_as_strings:$OUT_PROTO_DIR \
   --proto_path=proto/ \
   --proto_path=third_party/googleapis \
   "$proto"
