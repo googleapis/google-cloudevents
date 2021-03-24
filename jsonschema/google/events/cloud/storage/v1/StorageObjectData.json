@@ -53,7 +53,7 @@
       "description": "The creation time of the object.\n Attempting to set this field will result in an error.",
       "format": "date-time"
     },
-    "crc32c": {
+    "crc32C": {
       "type": "string",
       "description": "CRC32c checksum. For more information about using the CRC32c\n checksum, see\n [https://cloud.google.com/storage/docs/hashes-etags#_JSONAPI][Hashes and\n ETags: Best Practices]."
     },

@@ -17,6 +17,7 @@
 const path = require('path');
 const fs = require('fs');
 const recursive = require("recursive-readdir");
+const camelcaseKeys = require('camelcase-keys');
 const protobufjs = require('protobufjs');
 const flatten = require('flat');
 
@@ -26,6 +27,9 @@ const flatten = require('flat');
  * - Adds "name" – The name for the JSON schema – e.g. "LogEntryData"
  * - Adds "examples" - A list of paths to the test event data associated with the schema
  *   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
+ * - Removes snake_case fields that are duplicative of camelCase fields that are seen in JSON payloads
+ * @todo Removing snake_case fields is a feature request for the proto2jsonschema generator.
+ * @see https://github.com/chrusty/protoc-gen-jsonschema/issues/38
  */
 const ROOT = path.resolve(`${__dirname}/../../jsonschema`);
 const TESTDATA = path.resolve(`${__dirname}/../../testdata`);
@@ -38,11 +42,6 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
-
-    // Replace backslashes with forward-slashes to allow the script
-    // to work on Windows.
-    filePath = filePath.replace(/\\/g, '/');
-
     const packageName = getCloudEventPackage(filePath);
 
     const resultJSON = {
@@ -53,7 +52,8 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       package: packageName,
       datatype: `${packageName}.${dataName}`,
       ...getCloudEventProperties(packageName),
-      ...json
+      // Add all other fields. Convert keys to camelCase (i.e. remove snake_case keys)
+      ...camelcaseKeys(json, {deep: true})
     };
 
     /**
@@ -73,7 +73,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
           // Delete these keys from object
           delete obj[prop];
         } else if (isRef) {
-          const uri = obj[prop].split('.').reverse()[0];
+          const uri = lcfirst(obj[prop].split('.').map(ucfirst).join(''));
           obj[prop] = `#/definitions/${uri}`;
         } else if (typeof obj[prop] === 'object') {
           // Recursive case
@@ -84,7 +84,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     cleanSchema(resultJSON, true);
 
     /**
-     * Simplify and fix the $ref tags. This string is used for the name of fields.
+     * Simplify the $ref tags. Used in some languages like Java.
      *
      * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
      * Now the $refs are correct (but long).
@@ -92,39 +92,40 @@ console.log(`Fixing paths in dir: ${ROOT}`);
      * We need to change the $ref name and definition.
      *
      * We do so by:
-     * - Looking at the JSON schema "definitions".
-     * - Create a map from the longhand to shortand value
-     * - replaceAll longhand to shorthand values
-     * @example "google.events.cloud.firestore.v1.Value" -> "Value"
-     * @example "google.events.cloud.cloudbuild.v1.StorageSource" -> StorageSource
-     *
-     * In terms of scale, within the original 10 CloudEvents, there are 6 fields
-     * that contain long-hand tags that are fixed with this modification.
+     * - traversing the json, getting all refs
+     * - getting the simplified replacement $ref without the prefix
+     * - replaceAll ref ids (fixes "definition" and corresponding "$ref" tags)
      */
-    const getAllRefs = (schema) => {
-      if (!schema.definitions) return [];
-      return Object.keys(schema.definitions);
+    const allRefs = [];
+    const traverseObjAndGatherRefs = (obj) => {
+      for (const prop in obj) {
+        if (prop === "$ref") {
+          allRefs.push(obj[prop]);
+        } else if (typeof obj[prop] === 'object') {
+          // Recursive case
+          traverseObjAndGatherRefs(obj[prop]);
+        }
+      }
     };
-    const allRefs = getAllRefs(resultJSON);
+    traverseObjAndGatherRefs(resultJSON);
 
-    // Map of strings to strings.
-    const replacementMap = {};
-    allRefs.map(ref => {
-      const shorthandFromDotNotation = ref.split('.').reverse()[0];
-      replacementMap[ref] = shorthandFromDotNotation;
+    // Replace all complex $refs
+    const refReplacementList = []; // a list of [before, after] strings
+    const typePrefix = lcfirst(getCloudEventPackage(filePath).split('.').map(ucfirst).join(''));
+    const unnecessaryTypePrefix = `#/definitions/${typePrefix}`;
+    // Go through all $refs
+    const uniqueRefs = [...new Set(allRefs)];
+    uniqueRefs.forEach((ref) => {
+      const replacementType = ref.substring(unnecessaryTypePrefix.length);
+      refReplacementList.push([`${typePrefix}${replacementType}`, replacementType]);
     });
-
-    // Simplify the JSON schema definition names (if applicable)
-    if (resultJSON.definitions) {
-      Object.keys(resultJSON.definitions).forEach(d => {
-        const shorthandDefinition = d.split('.').reverse()[0];
-        resultJSON.definitions[shorthandDefinition] = resultJSON.definitions[d];
-        delete resultJSON.definitions[d];
-      });
-    }
 
     // Format JSON
     let jsonString = JSON.stringify(resultJSON, null, 2);
+    // Replace all $refs and definitions with simpler $refs
+    refReplacementList.forEach(([before, after]) => {
+      jsonString = jsonString.split(before).join(after);
+    });
 
     // Write back JSON Schema
     fs.writeFileSync(filePath, jsonString);
