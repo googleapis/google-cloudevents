@@ -107,9 +107,7 @@
                   },
                   "value": {
                     "type": "string",
-                    "description": "Must be a valid serialized protocol buffer of the above specified type.",
-                    "format": "binary",
-                    "binaryEncoding": "base64"
+                    "description": "Must be a valid serialized protocol buffer of the above specified type."
                   }
                 },
                 "additionalProperties": true,
