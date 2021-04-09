@@ -50,8 +50,6 @@ export const genAuditCatalog = () => {
   const replacementString = CATALOG.services.map(getServiceCatalogEntryMarkdown).join('');
   const updatedReadmeContents = getGeneratedStringWithReplacement(auditCatalogContents, replacementString);
 
-  console.log(updatedReadmeContents);
-
   // Save updated README
   fs.writeFileSync(AUDIT_CATALOG_PATH, updatedReadmeContents);
   console.log('- Updated README.');

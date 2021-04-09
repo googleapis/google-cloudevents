@@ -234,9 +234,7 @@
             "type": "string"
           },
           "type": "array",
-          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored.",
-          "format": "binary",
-          "binaryEncoding": "base64"
+          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored."
         },
         "artifactTiming": {
           "$ref": "#/definitions/TimeSpan",
@@ -380,9 +378,7 @@
                     },
                     "value": {
                       "type": "string",
-                      "description": "The hash value.",
-                      "format": "binary",
-                      "binaryEncoding": "base64"
+                      "description": "The hash value."
                     }
                   },
                   "additionalProperties": true,
@@ -576,9 +572,7 @@
           },
           "secretEnv": {
             "additionalProperties": {
-              "type": "string",
-              "format": "binary",
-              "binaryEncoding": "base64"
+              "type": "string"
             },
             "type": "object",
             "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."
