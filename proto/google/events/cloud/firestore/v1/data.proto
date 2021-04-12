@@ -47,8 +47,8 @@ message DocumentMask {
 
 // A Firestore document.
 message Document {
-  // The resource name of the document, for example
-  // `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
+  // The resource name of the document. For example:
+  // `projects/{project_id}/databases/{database_id}/documents/{document_path}`
   string name = 1;
 
   // The document's fields.
