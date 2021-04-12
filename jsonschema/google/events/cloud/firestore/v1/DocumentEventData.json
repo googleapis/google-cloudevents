@@ -49,7 +49,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The resource name of the document, for example\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`."
+          "description": "The resource name of the document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`"
         },
         "fields": {
           "additionalProperties": {

@@ -474,7 +474,7 @@
           },
           "additionalProperties": true,
           "type": "object",
-          "description": "Deprecated, use `metadata` field instead.\n Other service-specific data about the request, response, and other\n activities.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
+          "description": "Deprecated: Use `metadata` field instead.\n Other service-specific data about the request, response, and other\n activities.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
         }
       },
       "additionalProperties": true,
