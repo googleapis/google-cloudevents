@@ -12,26 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # This script create a pull request when there is push to `copybara` branch
-
 name: Create Copybara PR
 on:
   push:
     branches:
-      - copybara
+    - copybara
 jobs:
   create_pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Checkout copybara branch and create pull request
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          git config --global user.email "yoshi-code-bot@google.com"
-          git config --global user.name "Yoshi Code Bot"
-          git checkout copybara
-          gh pr create \
-            --title "[Copybara] Update with new internal changes from Piper"
-            --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the `copybara` branch. Refer to PR commit history for more details."
+    - uses: actions/checkout@v2
+    - name: Checkout a pull request from copybara to master
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      run: |
+        git config --global user.email "yoshi-code-bot@google.com"
+        git config --global user.name "Yoshi Code Bot"
+        gh pr create \
+        --base master \
+        --head copybara \
+        --title "[Copybara] Update with new internal changes from Piper" \
+        --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details."

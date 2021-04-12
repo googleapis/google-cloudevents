@@ -13,10 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+# Validates the JSON Schemas are valid.
+# Must be run from the repo's root folder.
 
-# Clean directory and cache
-go clean -cache
-rm -rf $GOPATH/src/github.com/
+# Install JSON schema schema
+mkdir -p tmp
+curl -o tmp/jsonschema-schema.json http://json-schema.org/draft-04/schema
 
-echo "Done"
+# Validate every schema
+JSON_SCHEMAS=$(find ./jsonschema/google/events -name "*.json")
+while IFS= read -r line ; do
+  npx ajv-cli@v3.0.0 validate -s tmp/jsonschema-schema.json -d $line;
+done <<< "$JSON_SCHEMAS"

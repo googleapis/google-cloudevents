@@ -57,9 +57,7 @@ cd ..
 PROTOC_PLUGIN_VERSION=0.9.7
 echo "- Setting up protoc plugin: chrusty/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
-go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION
-go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
 echo "- Converting protos to JSON Schemas"
 chmod +x $PROTOC
