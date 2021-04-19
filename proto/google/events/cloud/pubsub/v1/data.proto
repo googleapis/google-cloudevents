@@ -46,4 +46,8 @@ message PubsubMessage {
   // The time at which the message was published, populated by the server when
   // it receives the `Publish` call.
   google.protobuf.Timestamp publish_time = 4;
+
+  // If non-empty, identifies related messages for which publish order should be
+  // respected.
+  string ordering_key = 5;
 }
