@@ -34,6 +34,10 @@
           "type": "string",
           "description": "The time at which the message was published, populated by the server when\n it receives the `Publish` call.",
           "format": "date-time"
+        },
+        "orderingKey": {
+          "type": "string",
+          "description": "If non-empty, identifies related messages for which publish order should be\n respected."
         }
       },
       "additionalProperties": true,
