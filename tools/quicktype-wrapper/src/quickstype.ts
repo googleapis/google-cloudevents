@@ -109,12 +109,14 @@ async function quicktypeJSONSchemaToMultiFile(
   inputData.addInput(schemaInput);
 
   // Quicktype's API: Return a Promise of the multi-file results
+  // Generate only types for most langauges (besides Dart).
+  const quicktypeJustTypes = !(lang === 'dart');
   return await quicktypeMultiFile({
     inputData,
     lang,
     rendererOptions: {
-      // Don't generate Jackson types
-      'just-types': 'true',
+      // Only generate types for certain languages
+      'just-types': quicktypeJustTypes + '',
     },
   });
 }
