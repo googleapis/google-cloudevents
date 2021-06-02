@@ -19,6 +19,8 @@ package google.events.firebase.remoteconfig.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.RemoteConfig.V1";
+option java_package = "com.google.events.firebase.remoteconfig.v1";
+option java_outer_classname = "DataProto";
 
 // The data within all Firebase Remote Config events.
 message RemoteConfigEventData {
