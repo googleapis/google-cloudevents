@@ -38,6 +38,8 @@ jobs:
       run: |
         cd google-cloudevents
         cd tools/quicktype-wrapper
+        npm i
+        npm run build
         npm run cli
     - name: Run the generator
       run: |
