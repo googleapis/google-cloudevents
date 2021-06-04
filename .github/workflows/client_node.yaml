@@ -51,7 +51,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # If there is a non-zero diff after running generator
+        # Go to the client
+        cd google-cloudevents-nodejs
+
+        # If there is a non-zero diff after running generator, create a PR
         if [[ `git status --porcelain` ]]; then
           git config --global user.email "yoshi-code-bot@google.com"
           git config --global user.name "Google Bot"
