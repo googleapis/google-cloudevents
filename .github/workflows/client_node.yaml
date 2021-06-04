@@ -15,8 +15,8 @@
 name: Run Node Client Generator and Create Pull Request
 on:
   push:
-    branches:
-      - "master"
+    # branches:
+    #   - "master"
 jobs:
   create_pr:
     runs-on: ubuntu-18.04
@@ -34,6 +34,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14
+    - name: Install the generator
+      run: |
+        cd google-cloudevents
+        cd tools/quicktype-wrapper
+        npm run cli
     - name: Run the generator
       run: |
         cd google-cloudevents-nodejs
