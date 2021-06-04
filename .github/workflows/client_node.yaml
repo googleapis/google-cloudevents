@@ -25,15 +25,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: google-cloudevents
-        persist-credentials: false
-        fetch-depth: 0
     - name: Checkout client repo
       uses: actions/checkout@v2
       with:
         repository: googleapis/google-cloudevents-nodejs
         path: google-cloudevents-nodejs
-        persist-credentials: false
-        fetch-depth: 0
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v1
       with:
