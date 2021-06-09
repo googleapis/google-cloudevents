@@ -31,3 +31,27 @@ extend google.protobuf.FileOptions {
   // in this file.
   string cloud_event_product = 11716487;
 }
+
+extend google.protobuf.FileOptions {
+  // An extension attribute used within the CloudEvents described in this file.
+  repeated ExtensionAttribute cloud_event_extension_attribute = 11716488;
+}
+
+extend google.protobuf.MessageOptions {
+  // The name of an extension attribute populated for this event. The extension
+  // attribute should be more fully described within the file options.
+  repeated string cloud_event_extension_name = 11716489;
+}
+
+// Description of an extension attribute.
+message ExtensionAttribute {
+  // Name of the CloudEvents attribute, e.g. "topic".
+  string name = 1;
+
+  // Description of the attribute.
+  string description = 2;
+
+  // The name of the CloudEvents attribute in title case, e.g. "FirebaseDatabaseHost".
+  // This only needs to be populated if the name would otherwise be mis-represented.
+  string title_case_name = 3;
+}
