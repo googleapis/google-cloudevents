@@ -22,9 +22,31 @@ import "google/events/cloudevent.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 option (google.events.cloud_event_product) = "Cloud Audit Logs";
 
+option (google.events.cloud_event_extension_attribute) = {
+  name: "servicename"
+  description: "The name of the service which triggered the Cloud Audit log entry."
+  title_case_name: "ServiceName"
+};
+
+option (google.events.cloud_event_extension_attribute) = {
+  name: "methodname"
+  description: "The name of the method (RPC) triggering the Cloud Audit log entry."
+  title_case_name: "MethodName"
+};
+
+option (google.events.cloud_event_extension_attribute) = {
+  name: "resourcename"
+  description: "The name of the resource that is the subject of the Cloud Audit log entry."
+  title_case_name: "ResourceName"
+};
+
 // The CloudEvent raised when an audit log entry is written.
 message AuditLogWrittenEvent {
   option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
+
+  option (google.events.cloud_event_extension_name) = "servicename";
+  option (google.events.cloud_event_extension_name) = "methodname";
+  option (google.events.cloud_event_extension_name) = "resourcename";
 
   // The data associated with the event.
   LogEntryData data = 1;

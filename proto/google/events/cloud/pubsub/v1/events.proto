@@ -22,10 +22,16 @@ import "google/events/cloudevent.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
 option (google.events.cloud_event_product) = "Cloud Pub/Sub";
 
+option (google.events.cloud_event_extension_attribute) = {
+  name: "topic"
+  description: "The Pub/Sub topic for which the message was published.",
+};
+
 // The CloudEvent raised when a PubSub message is published for a topic.
 message MessagePublishedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.pubsub.topic.v1.messagePublished";
+  option (google.events.cloud_event_extension_name) = "topic";
 
   // The data associated with the event.
   MessagePublishedData data = 1;
