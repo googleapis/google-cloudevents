@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.0.0...v1.1.0) (2021-06-03)
+
+
+### Features
+
+* enable Dart parsing methods for qt generator ([d140c1c](https://www.github.com/googleapis/google-cloudevents/commit/d140c1cbc033da488acfc7d9d3b601773c810ac6))
+* run generator (06-02-2021) ([a346fb1](https://www.github.com/googleapis/google-cloudevents/commit/a346fb11330cacc2f5dd1b12d76627854cbebd45))
+
 ## 1.0.0 (2021-05-06)
 
 
