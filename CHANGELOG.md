@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.1.0...v1.2.0) (2021-06-16)
+
+
+### Features
+
+* Add proto annotations for extension attributes. ([6b0eb9f](https://www.github.com/googleapis/google-cloudevents/commit/6b0eb9f3dbe1591664849d67b332eb43af3741c4))
+* run generator (06-16-2021) ([53db137](https://www.github.com/googleapis/google-cloudevents/commit/53db137a47468eb2827f6c14dd99e693307b614a))
+
 ## [1.1.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.0.0...v1.1.0) (2021-06-03)
 
 
