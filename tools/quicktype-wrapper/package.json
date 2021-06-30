@@ -27,6 +27,6 @@
     "mkdirp": "^1.0.4",
     "quicktype-core": "^6.0.69",
     "recursive-readdir": "^2.2.2",
-    "yargs": "^16.2.0"
+    "yargs": "^17.0.0"
   }
 }
