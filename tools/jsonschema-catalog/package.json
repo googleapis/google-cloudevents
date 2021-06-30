@@ -4,7 +4,7 @@
     "start": "node ."
   },
   "dependencies": {
-    "camelcase-keys": "^6.2.2",
+    "camelcase-keys": "^7.0.0",
     "recursive-readdir": "^2.2.2"
   }
 }
