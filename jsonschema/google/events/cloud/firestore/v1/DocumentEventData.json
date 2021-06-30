@@ -19,7 +19,7 @@
     "value": {
       "$ref": "#/definitions/Document",
       "additionalProperties": true,
-      "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events. (TODO: check this!)"
+      "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
     },
     "oldValue": {
       "$ref": "#/definitions/Document",

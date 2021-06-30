@@ -19,9 +19,15 @@ import {
   SerializedRenderResult,
   FetchingJSONSchemaStore,
 } from 'quicktype-core';
-import {HASH_HEADER, DASH_LINE_HEADER, MULTI_LINE_HEADER, MULTI_LINE_HEADER_JAVA, SINGLE_LINE_HEADER} from './license';
+import {
+  HASH_HEADER,
+  DASH_LINE_HEADER,
+  MULTI_LINE_HEADER,
+  MULTI_LINE_HEADER_JAVA,
+  SINGLE_LINE_HEADER,
+} from './license';
 // Interface not exported in top-level 'quicktype-core': https://github.com/quicktype/quicktype/pull/1565
-import {MultiFileRenderResult} from '../node_modules/quicktype-core/dist/TargetLanguage';
+import {MultiFileRenderResult} from 'quicktype-core/dist/TargetLanguage';
 
 /**
  * A list of supported Quicktype languages.
@@ -139,15 +145,21 @@ export async function jsonschema2languageFiles({
   typeName: string;
   language: TARGET_LANGUAGE | string;
 }): Promise<QtMultifileResult> {
-  if (!jsonSchema) throw console.error('ERROR: jsonschema2languageFiles(): jsonSchema undefined');
-  if (!language) throw console.error('ERROR: jsonschema2languageFiles(): language undefined');
-  if (!typeName) throw console.error('ERROR: jsonschema2languageFiles(): typeName undefined');
+  if (!jsonSchema)
+    throw console.error(
+      'ERROR: jsonschema2languageFiles(): jsonSchema undefined'
+    );
+  if (!language)
+    throw console.error(
+      'ERROR: jsonschema2languageFiles(): language undefined'
+    );
+  if (!typeName)
+    throw console.error(
+      'ERROR: jsonschema2languageFiles(): typeName undefined'
+    );
 
-  const multifileResult: MultiFileRenderResult = await quicktypeJSONSchemaToMultiFile(
-    language,
-    typeName,
-    jsonSchema
-  );
+  const multifileResult: MultiFileRenderResult =
+    await quicktypeJSONSchemaToMultiFile(language, typeName, jsonSchema);
   const multifileResultList: [string, SerializedRenderResult][] = Array.from(
     multifileResult.entries()
   );

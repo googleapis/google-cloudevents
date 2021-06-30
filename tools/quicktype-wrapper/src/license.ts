@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const YEAR = (new Date).getFullYear();
+const YEAR = new Date().getFullYear();
 
 /**
  * Gets the Apache License header with a custom character prefix.
@@ -20,7 +20,7 @@ const YEAR = (new Date).getFullYear();
  * @param {string} C The character prefix before the license.
  */
 const HEADER = (C: string) =>
-`${C} Copyright ${YEAR} Google LLC
+  `${C} Copyright ${YEAR} Google LLC
 ${C}
 ${C} Licensed under the Apache License, Version 2.0 (the "License");
 ${C} you may not use this file except in compliance with the License.
@@ -34,16 +34,14 @@ ${C} WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ${C} See the License for the specific language governing permissions and
 ${C} limitations under the License.`;
 
-export const HASH_HEADER = HEADER('#') + "\n";
-export const SINGLE_LINE_HEADER = HEADER('//') + "\n";
-export const DASH_LINE_HEADER = HEADER('--') + "\n";
-export const MULTI_LINE_HEADER =
-`/**
+export const HASH_HEADER = HEADER('#') + '\n';
+export const SINGLE_LINE_HEADER = HEADER('//') + '\n';
+export const DASH_LINE_HEADER = HEADER('--') + '\n';
+export const MULTI_LINE_HEADER = `/**
 ${HEADER(' *')}
  */
 `;
-export const MULTI_LINE_HEADER_JAVA =
-`/*
+export const MULTI_LINE_HEADER_JAVA = `/*
 ${HEADER(' *')}
  */
 `;
