@@ -2,7 +2,10 @@
   "extends": [
     "config:base"
   ],
-  "schedule": [
-    "every 6 months"
-  ]
+  "pinVersions": false,
+  "rebaseStalePrs": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "recreateClosed": true
+  }
 }
