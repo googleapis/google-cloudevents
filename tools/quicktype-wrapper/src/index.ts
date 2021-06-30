@@ -70,7 +70,10 @@ function getFilename(typeName: string, lang: string) {
   // Golang and Ruby prefer filenames to use lower snake_case instead of camelCase
   if (lang === 'GOLANG' || lang === 'RUBY') {
     // Snake case
-    return typeName.split(/(?=[A-Z])/).join('_').toLowerCase();
+    return typeName
+      .split(/(?=[A-Z])/)
+      .join('_')
+      .toLowerCase();
   } else {
     // Pascal case (default)
     return typeName;
@@ -97,7 +100,7 @@ export async function getJSONSchemasAndGenFiles(
       jsonSchema: file,
       language: language,
       typeName: schema.name,
-    })
+    });
 
     schemasAndGenFiles.push([schema, Object.keys(genFile)[0]]);
   });
