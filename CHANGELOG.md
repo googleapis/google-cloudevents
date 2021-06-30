@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.3.1](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.0...v1.3.1) (2021-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency camelcase-keys to v7 ([3e246ed](https://www.github.com/googleapis/google-cloudevents/commit/3e246ede4af7646d2e12cc1742d7d568b4ecbb80))
+* **deps:** update dependency yargs to v17 ([8cbf418](https://www.github.com/googleapis/google-cloudevents/commit/8cbf418988d0171848f0a9725233c6aa3c3d52fc))
+
 ## [1.3.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.2.0...v1.3.0) (2021-06-30)
 
 
