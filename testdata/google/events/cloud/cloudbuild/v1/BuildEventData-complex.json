@@ -22,8 +22,8 @@
     "logging": "GCS_ONLY",
     "diskSizeGb": -18311588,
     "sourceProvenanceHash": [
-      "IH75dRdeYJKd4uuQiqch",
-      "FH75dRdeYJKd4uuQiqch"
+      "SHA256",
+      "MD5"
     ],
     "secretEnv": [
       "secret"
