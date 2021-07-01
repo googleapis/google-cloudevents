@@ -32,6 +32,37 @@
     "workerPool": "cupidatat",
     "requestedVerifyOption": "NOT_VERIFIED"
   },
+  "results": {
+    "buildStepOutputs": [
+      "out1"
+    ],
+    "images": [],
+    "numArtifacts": 3306780,
+    "buildStepImages": [
+      "http://example.com"
+    ],
+    "artifactTiming": {
+      "startTime": "1995-03-02T21:38:07.876Z",
+      "endTime": "2006-06-09T14:32:38.775Z"
+    },
+    "artifactManifest": "officia aliqua mollit"
+  },
+  "artifacts": {
+    "images": [
+      "http://example.com"
+    ],
+    "objects": {
+      "timing": [],
+      "location": "laborum sunt in",
+      "paths": []
+    }
+  },
+  "status": "SUCCESS",
+  "secrets": [
+    {
+      "kmsKeyName": "ut magna velit"
+    }
+  ],
   "projectId": "quis minim est laborum ex",
   "queueTtl": "660s"
 }
