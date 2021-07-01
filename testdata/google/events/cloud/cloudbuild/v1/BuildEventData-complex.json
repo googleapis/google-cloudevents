@@ -13,7 +13,7 @@
     "http://example.com"
   ],
   "options": {
-    "substitutionOption": "1",
+    "substitutionOption": "MUST_MATCH",
     "env": [
       "string1"
     ],
