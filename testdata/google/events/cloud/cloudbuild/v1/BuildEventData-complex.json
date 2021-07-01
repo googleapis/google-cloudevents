@@ -130,6 +130,5 @@
     }
   },
   "projectId": "quis minim est laborum ex",
-  "queueTtl": "660s",
-  "substitutions": {}
+  "queueTtl": "660s"
 }
