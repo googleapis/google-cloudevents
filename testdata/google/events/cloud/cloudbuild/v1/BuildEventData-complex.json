@@ -62,6 +62,52 @@
       "kmsKeyName": "ut magna velit"
     }
   ],
+  "logsBucket": "esse sunt ex",
+  "steps": [
+    {
+      "name": "eu ea aliquip",
+      "waitFor": [],
+      "timing": [],
+      "args": [],
+      "secretEnv": [],
+      "env": [],
+      "entrypoint": "ut laborum adipisicing nulla",
+      "status": 71922776,
+      "dir": "deserunt pariatur exercitation",
+      "volumes": [],
+      "id": "Lorem"
+    },
+    {
+      "dir": "reprehenderit consequat",
+      "args": [],
+      "timing": [],
+      "secretEnv": [],
+      "volumes": [],
+      "id": "sint adipisicing dolor labore ad",
+      "waitFor": [],
+      "name": "ut nulla esse adipisicing voluptate",
+      "status": 45106300,
+      "env": [],
+      "entrypoint": "do aute est cupidatat ut"
+    }
+  ],
+  "finishTime": "1996-03-09T20:14:16.429Z",
+  "sourceProvenance": {
+    "resolvedRepoSource": {
+      "branchName": "mollit",
+      "projectId": "exercitation Duis in",
+      "tagName": "velit sunt pariatur commodo officia",
+      "dir": "aliqua",
+      "invertRegex": true,
+      "commitSha": "adipisicing ut do",
+      "repoName": "fugiat Excepteur aute deserunt"
+    },
+    "resolvedStorageSource": {
+      "bucket": "qui consequat veniam",
+      "generation": 76446237,
+      "object": "sit ea ex"
+    }
+  },
   "projectId": "quis minim est laborum ex",
   "queueTtl": "660s"
 }
