@@ -1,0 +1,48 @@
+{
+  "timeout": "660s",
+  "createTime": "1993-07-25T02:32:41.388Z",
+  "tags": [
+    "dolor exercitation",
+    "sit id consequat",
+    "dolore eu sit irure esse"
+  ],
+  "buildTriggerId": "cupidatat",
+  "logUrl": "http://example.com",
+  "images": [
+    "http://example.com",
+    "http://example.com"
+  ],
+  "results": {
+    "buildStepOutputs": [
+      "out1"
+    ],
+    "images": [],
+    "numArtifacts": 3306780,
+    "buildStepImages": [
+      "http://example.com"
+    ],
+    "artifactTiming": {
+      "startTime": "1995-03-02T21:38:07.876Z",
+      "endTime": "2006-06-09T14:32:38.775Z"
+    },
+    "artifactManifest": "officia aliqua mollit"
+  },
+  "source": {
+    "storageSource": {
+      "generation": 54818163,
+      "object": "ipsum nulla culpa",
+      "bucket": "laboris"
+    },
+    "repoSource": {
+      "repoName": "nostrud veniam nulla",
+      "invertRegex": false,
+      "dir": "sunt enim laborum",
+      "projectId": "dolor nulla sit sint minim",
+      "commitSha": "id pariatur aliquip",
+      "branchName": "officia labore esse velit Duis",
+      "tagName": "fugiat labore esse"
+    }
+  },
+  "projectId": "quis minim est laborum ex",
+  "queueTtl": "660s"
+}
