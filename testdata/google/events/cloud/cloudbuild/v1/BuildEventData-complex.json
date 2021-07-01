@@ -28,7 +28,7 @@
     "secretEnv": [
       "secret"
     ],
-    "logStreamingOption": "0",
+    "logStreamingOption": "STREAM_ON",
     "workerPool": "cupidatat",
     "requestedVerifyOption": "NOT_VERIFIED"
   },
