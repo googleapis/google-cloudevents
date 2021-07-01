@@ -63,22 +63,6 @@
     }
   ],
   "logsBucket": "esse sunt ex",
-  "steps": [
-    {
-      "name": "eu ea aliquip",
-      "entrypoint": "ut laborum adipisicing nulla",
-      "status": "QUEUED",
-      "dir": "deserunt pariatur exercitation",
-      "id": "Lorem"
-    },
-    {
-      "dir": "reprehenderit consequat",
-      "id": "sint adipisicing dolor labore ad",
-      "name": "ut nulla esse adipisicing voluptate",
-      "status": "QUEUED",
-      "entrypoint": "do aute est cupidatat ut"
-    }
-  ],
   "projectId": "quis minim est laborum ex",
   "queueTtl": "660s"
 }
