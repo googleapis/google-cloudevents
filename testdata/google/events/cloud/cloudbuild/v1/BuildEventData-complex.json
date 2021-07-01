@@ -1,8 +1,5 @@
 {
-  "timeout": {
-    "nanos": 91467792,
-    "seconds": -65889501
-  },
+  "timeout": "660s",
   "createTime": "1993-07-25T02:32:41.388Z",
   "tags": [
     "dolor exercitation",
@@ -133,9 +130,6 @@
     }
   },
   "projectId": "quis minim est laborum ex",
-  "queueTtl": {
-    "seconds": 94689305,
-    "nanos": 35515142
-  },
+  "queueTtl": "660s",
   "substitutions": {}
 }
