@@ -63,34 +63,6 @@
     }
   ],
   "logsBucket": "esse sunt ex",
-  "steps": [
-    {
-      "name": "eu ea aliquip",
-      "waitFor": [],
-      "timing": [],
-      "args": [],
-      "secretEnv": [],
-      "env": [],
-      "entrypoint": "ut laborum adipisicing nulla",
-      "status": 71922776,
-      "dir": "deserunt pariatur exercitation",
-      "volumes": [],
-      "id": "Lorem"
-    },
-    {
-      "dir": "reprehenderit consequat",
-      "args": [],
-      "timing": [],
-      "secretEnv": [],
-      "volumes": [],
-      "id": "sint adipisicing dolor labore ad",
-      "waitFor": [],
-      "name": "ut nulla esse adipisicing voluptate",
-      "status": 45106300,
-      "env": [],
-      "entrypoint": "do aute est cupidatat ut"
-    }
-  ],
   "finishTime": "1996-03-09T20:14:16.429Z",
   "sourceProvenance": {
     "resolvedRepoSource": {
