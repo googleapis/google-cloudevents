@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.4.0...v1.5.0) (2021-07-04)
+
+
+### Features
+
+* Add more CloudEvent JSON examples ([#247](https://www.github.com/googleapis/google-cloudevents/issues/247)) ([5598512](https://www.github.com/googleapis/google-cloudevents/commit/55985127083e688934ed0d0dbba41664865eb1ed))
+
 ## [1.4.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.1...v1.4.0) (2021-07-01)
 
 
