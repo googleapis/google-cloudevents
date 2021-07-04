@@ -20,7 +20,7 @@
     "volumes": [],
     "machineType": 1,
     "logging": "GCS_ONLY",
-    "diskSizeGb": -18311588,
+    "diskSizeGb": 18311588,
     "sourceProvenanceHash": [
       "SHA256",
       "MD5"
@@ -62,6 +62,13 @@
       "kmsKeyName": "ut magna velit"
     }
   ],
+  "source": {
+    "storageSource": {
+      "bucket": "sample-bucket",
+      "object": "my-object.txt",
+      "generation": "1587627537231057"
+    }
+  },
   "logsBucket": "esse sunt ex",
   "projectId": "quis minim est laborum ex",
   "queueTtl": "660s"

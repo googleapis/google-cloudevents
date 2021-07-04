@@ -14,7 +14,7 @@
   "id": "sample-bucket/MyFile/1588778055917163",
   "kind": "storage#object",
   "kmsKeyName": "nulla",
-  "md5Hash": "id eiusmod",
+  "md5Hash": "xrX0h3SqCoeoKidv+GvlBw==",
   "mediaLink": "https://www.googleapis.com/download/storage/v1/b/projectid-sample-bucket/o/MyFile?generation=1588778055917163\u0026alt=media",
   "metadata": {},
   "metageneration": 1,
