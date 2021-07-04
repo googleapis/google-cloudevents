@@ -35,6 +35,7 @@ const recursive = require('recursive-readdir');
  * @param {string} OUT The directory for generated output. Must have trailing /.
  * @param {string} L The target language
  * @param {boolean} NO_LICENSE 'true' if we want to add a license header
+ * @param {boolean} ENUM_AS_STRING 'true' if we want to parse JSON schema enum fields as strings
  */
 const IN = argv.in || process.env.IN;
 const OUT = argv.out || process.env.OUT;
@@ -44,6 +45,7 @@ const L = (
   LANGUAGE.TYPESCRIPT
 ).toUpperCase() as TARGET_LANGUAGE;
 const NO_LICENSE = (argv['no-license'] || process.env.NO_LICENSE) === 'true';
+const ENUM_AS_STRING = (argv['enum-as-string'] || process.env.ENUM_AS_STRING) === 'true';
 
 /**
  * Gets a list of all JSON Schema paths (absolute paths)
@@ -81,6 +83,42 @@ function getFilename(typeName: string, lang: string) {
 }
 
 /**
+ * Converts all enum fields to string types.
+ *
+ * BEFORE:
+ * "oneOf": [
+ *   {
+ *     "type": "string"
+ *   },
+ *   {
+ *     "type": "integer"
+ *   }
+ * ]
+ * AFTER:
+ * "type: "string"
+ * @param {JSON} json The file in json.
+ * @returns {JSON} The JSON schema with enums represented as strings.
+ */
+function convertEnumsToStrings(json: string): string {
+  function recursiveConvert(o: any) {
+    if (typeof o === 'object') {
+      // If object has oneOf field, convert
+      if (o.oneOf && o.oneOf[0].type === 'string' && o.oneOf[1].type === 'integer') {
+        delete o.oneOf;
+        o.type = 'string';
+      }
+
+      // Recurse through all values
+      Object.values(o).map(recursiveConvert);
+    }
+  }
+
+  // Recursively convert all "oneof" to "type"
+  recursiveConvert(json);
+  return json;
+}
+
+/**
  * Gets a list of tuples of all JSON schemas and code generated from them
  * @param directory The path to the directory with schemas.
  * @param language The language of the code.
@@ -96,8 +134,9 @@ export async function getJSONSchemasAndGenFiles(
   const promises = absPaths.map(async (f: string) => {
     const file = readFileSync(f) + '';
     const schema = JSON.parse(file);
+    const jsonSchemaFile = ENUM_AS_STRING ? convertEnumsToStrings(schema) : schema;
     const genFile = await jsonschema2languageFiles({
-      jsonSchema: file,
+      jsonSchema: JSON.stringify(jsonSchemaFile),
       language: language,
       typeName: schema.name,
     });
@@ -122,6 +161,7 @@ if (!module.parent) {
 - IN=${IN}
 - OUT=${OUT}
 - L=${L}
+- ENUM_AS_STRING=${ENUM_AS_STRING}
 ***********************
 `);
 
@@ -150,8 +190,10 @@ if (!module.parent) {
       const typeName = JSON.parse(file).name; // e.g. MessagePublishedData
 
       // Generate language file(s) using quicktype
+      const schema = JSON.parse(file);
+      const updatedJsonSchemaFile = ENUM_AS_STRING ? convertEnumsToStrings(schema) : schema;
       const genFiles: QtMultifileResult = await jsonschema2languageFiles({
-        jsonSchema: file,
+        jsonSchema: JSON.stringify(updatedJsonSchemaFile),
         language: L,
         typeName,
       });

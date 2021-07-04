@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.1...v1.4.0) (2021-07-01)
+
+
+### Features
+
+* Add enum to string option for qt ([9a8c8c3](https://www.github.com/googleapis/google-cloudevents/commit/9a8c8c3a7dba1d2fb76645e5d986633041b9397a))
+
 ### [1.3.1](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.0...v1.3.1) (2021-06-30)
 
 
