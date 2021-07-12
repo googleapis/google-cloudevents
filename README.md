@@ -11,12 +11,11 @@ The "source of truth" for the event data format is in the form of
 See [proto/README.md](proto/README.md) for more
 information about the messages used to describe CloudEvents.
 
-## Stability warning
+## Stability
 
-The entire content of this repository should be regarded as highly
-unstable until this warning is removed. The schema may change, the
-CloudEvent "type" attribute values may change, the protobuf message
-may change. Even the core `cloud_event_type` annotation may change.
+The protobuf files in the [proto](proto/) directory should be
+regarded as stable with no further breaking changes. Other files
+such as generated JSON schema should not be regarded as stable.
 
 ## CloudEvents in this repository
 

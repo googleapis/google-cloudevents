@@ -1,0 +1,15 @@
+{
+  "email": "test@nowhere.com",
+  "metadata": {
+    "createTime": "2020-05-26T10:42:27Z",
+    "lastSignInTime": "2020-05-29T11:00:00Z"
+  },
+  "providerData": [
+    {
+      "email": "test@nowhere.com",
+      "providerId": "password",
+      "uid": "test@nowhere.com"
+    }
+  ],
+  "uid": "UUpby3s4spZre6kHsgVSPetzQ8l2"
+}

@@ -1,0 +1,13 @@
+{
+  "updateOrigin":"CONSOLE",
+  "updateTime":"2020-11-16T16:35:33.569229Z",
+  "updateType":"INCREMENTAL_UPDATE",
+  "updateUser":{
+    "name": "Ut ad aute",
+     "email":"test@nowhere.com",
+     "imageUrl": "http://google.com/favicon.ico"
+  },
+  "versionNumber":"5",
+  "rollbackSource": 75404139,
+  "description": "minim reprehenderit Lorem qui proident"
+}

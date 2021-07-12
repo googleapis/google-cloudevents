@@ -1,7 +1,9 @@
 {
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json",
   "name": "AuthEventData",
-  "examples": [],
+  "examples": [
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/firebase/auth/v1/AuthEventData-complex.json"
+  ],
   "package": "google.events.firebase.auth.v1",
   "datatype": "google.events.firebase.auth.v1.AuthEventData",
   "cloudeventTypes": [
@@ -91,8 +93,23 @@
       "properties": {
         "fields": {
           "additionalProperties": {
-            "additionalProperties": true,
-            "type": "object"
+            "oneOf": [
+              {
+                "type": "array"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": "object",
           "description": "Unordered map of dynamically typed values."

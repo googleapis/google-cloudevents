@@ -31,6 +31,7 @@ To configure the script, use _environment variables_ or _command-line flags_:
 
 - (REQUIRED) `IN`: Input directory path.
 - (REQUIRED) `OUT`: Output directory path.
+- (NOT REQUIRED) `ENUM_AS_STRING`: Set to `true` to treat JSON schema fields with enum values as strings.
 - (NOT REQUIRED) `NO_LICENSE`: Set to `true` to skip adding license headers to source files.
 
 ### Environment Variables

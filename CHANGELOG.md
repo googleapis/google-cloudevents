@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.6.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.5.0...v1.6.0) (2021-07-12)
+
+
+### Features
+
+* improve jsonschema types for protobuf well known types ([#254](https://www.github.com/googleapis/google-cloudevents/issues/254)) ([e59a4bf](https://www.github.com/googleapis/google-cloudevents/commit/e59a4bfd8d8777a4415062533b0fc08712e0f292))
+
+## [1.5.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.4.0...v1.5.0) (2021-07-04)
+
+
+### Features
+
+* Add more CloudEvent JSON examples ([#247](https://www.github.com/googleapis/google-cloudevents/issues/247)) ([5598512](https://www.github.com/googleapis/google-cloudevents/commit/55985127083e688934ed0d0dbba41664865eb1ed))
+
+## [1.4.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.1...v1.4.0) (2021-07-01)
+
+
+### Features
+
+* Add enum to string option for qt ([9a8c8c3](https://www.github.com/googleapis/google-cloudevents/commit/9a8c8c3a7dba1d2fb76645e5d986633041b9397a))
+
+### [1.3.1](https://www.github.com/googleapis/google-cloudevents/compare/v1.3.0...v1.3.1) (2021-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency camelcase-keys to v7 ([3e246ed](https://www.github.com/googleapis/google-cloudevents/commit/3e246ede4af7646d2e12cc1742d7d568b4ecbb80))
+* **deps:** update dependency yargs to v17 ([8cbf418](https://www.github.com/googleapis/google-cloudevents/commit/8cbf418988d0171848f0a9725233c6aa3c3d52fc))
+
+## [1.3.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.2.0...v1.3.0) (2021-06-30)
+
+
+### Features
+
+* run generator (06-30-2021) ([b52b521](https://www.github.com/googleapis/google-cloudevents/commit/b52b521555e12b6110f7d2b6afcbc007ff899625))
+
 ## [1.2.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.1.0...v1.2.0) (2021-06-16)
 
 
