@@ -16,14 +16,42 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
     "data": {
-      "additionalProperties": true,
-      "type": "object",
-      "description": "The original data for the reference."
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "string"
+        }
+      ]
     },
     "delta": {
-      "additionalProperties": true,
-      "type": "object",
-      "description": "The change in the reference data."
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "string"
+        }
+      ]
     }
   },
   "additionalProperties": true,
