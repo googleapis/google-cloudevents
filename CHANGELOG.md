@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.5.0...v1.6.0) (2021-07-12)
+
+
+### Features
+
+* improve jsonschema types for protobuf well known types ([#254](https://www.github.com/googleapis/google-cloudevents/issues/254)) ([e59a4bf](https://www.github.com/googleapis/google-cloudevents/commit/e59a4bfd8d8777a4415062533b0fc08712e0f292))
+
 ## [1.5.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.4.0...v1.5.0) (2021-07-04)
 
 
