@@ -138,18 +138,8 @@
             "description": "Stores timing information for pulling this build step's\n builder image only."
           },
           "timeout": {
-            "properties": {
-              "seconds": {
-                "type": "integer",
-                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
-              },
-              "nanos": {
-                "type": "integer",
-                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
-              }
-            },
             "additionalProperties": true,
-            "type": "object",
+            "type": "string",
             "description": "Time limit for executing this build step. If not defined, the step has no\n time limit and will be allowed to continue to run until either it completes\n or the build itself times out."
           },
           "status": {
@@ -237,7 +227,9 @@
             "type": "string"
           },
           "type": "array",
-          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored."
+          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored.",
+          "format": "binary",
+          "binaryEncoding": "base64"
         },
         "artifactTiming": {
           "$ref": "#/definitions/TimeSpan",
@@ -265,18 +257,8 @@
       "format": "date-time"
     },
     "timeout": {
-      "properties": {
-        "seconds": {
-          "type": "integer",
-          "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
-        },
-        "nanos": {
-          "type": "integer",
-          "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
-        }
-      },
       "additionalProperties": true,
-      "type": "object",
+      "type": "string",
       "description": "Amount of time that this build should be allowed to run, to second\n granularity. If this amount of time elapses, work on the build will cease\n and the build status will be `TIMEOUT`."
     },
     "images": {
@@ -287,18 +269,8 @@
       "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images are pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the `Build` resource's\n results field.\n\n If any of the images fail to be pushed, the build status is marked\n `FAILURE`."
     },
     "queueTtl": {
-      "properties": {
-        "seconds": {
-          "type": "integer",
-          "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
-        },
-        "nanos": {
-          "type": "integer",
-          "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
-        }
-      },
       "additionalProperties": true,
-      "type": "object",
+      "type": "string",
       "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time."
     },
     "artifacts": {
@@ -381,7 +353,9 @@
                     },
                     "value": {
                       "type": "string",
-                      "description": "The hash value."
+                      "description": "The hash value.",
+                      "format": "binary",
+                      "binaryEncoding": "base64"
                     }
                   },
                   "additionalProperties": true,
@@ -575,7 +549,9 @@
           },
           "secretEnv": {
             "additionalProperties": {
-              "type": "string"
+              "type": "string",
+              "format": "binary",
+              "binaryEncoding": "base64"
             },
             "type": "object",
             "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."

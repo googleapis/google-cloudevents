@@ -115,7 +115,9 @@
         },
         "bytesValue": {
           "type": "string",
-          "description": "A bytes value.\n\n Must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes are considered by queries."
+          "description": "A bytes value.\n\n Must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes are considered by queries.",
+          "format": "binary",
+          "binaryEncoding": "base64"
         },
         "referenceValue": {
           "type": "string",

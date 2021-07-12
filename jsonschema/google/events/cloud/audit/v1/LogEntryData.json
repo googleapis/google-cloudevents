@@ -73,8 +73,23 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "additionalProperties": true,
-                "type": "object"
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               },
               "type": "object",
               "description": "Unordered map of dynamically typed values."
@@ -107,7 +122,9 @@
                   },
                   "value": {
                     "type": "string",
-                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                    "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
                   }
                 },
                 "additionalProperties": true,
@@ -136,8 +153,23 @@
               "properties": {
                 "fields": {
                   "additionalProperties": {
-                    "additionalProperties": true,
-                    "type": "object"
+                    "oneOf": [
+                      {
+                        "type": "array"
+                      },
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "type": "object",
                   "description": "Unordered map of dynamically typed values."
@@ -164,8 +196,23 @@
                         "properties": {
                           "fields": {
                             "additionalProperties": {
-                              "additionalProperties": true,
-                              "type": "object"
+                              "oneOf": [
+                                {
+                                  "type": "array"
+                                },
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "object"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
                             },
                             "type": "object",
                             "description": "Unordered map of dynamically typed values."
@@ -186,8 +233,23 @@
                         "properties": {
                           "fields": {
                             "additionalProperties": {
-                              "additionalProperties": true,
-                              "type": "object"
+                              "oneOf": [
+                                {
+                                  "type": "array"
+                                },
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "object"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
                             },
                             "type": "object",
                             "description": "Unordered map of dynamically typed values."
@@ -353,8 +415,23 @@
                       "properties": {
                         "fields": {
                           "additionalProperties": {
-                            "additionalProperties": true,
-                            "type": "object"
+                            "oneOf": [
+                              {
+                                "type": "array"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "object"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ]
                           },
                           "type": "object",
                           "description": "Unordered map of dynamically typed values."
@@ -420,8 +497,23 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "additionalProperties": true,
-                "type": "object"
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               },
               "type": "object",
               "description": "Unordered map of dynamically typed values."
@@ -435,8 +527,23 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "additionalProperties": true,
-                "type": "object"
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               },
               "type": "object",
               "description": "Unordered map of dynamically typed values."
@@ -450,8 +557,23 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "additionalProperties": true,
-                "type": "object"
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               },
               "type": "object",
               "description": "Unordered map of dynamically typed values."
@@ -465,8 +587,23 @@
           "properties": {
             "fields": {
               "additionalProperties": {
-                "additionalProperties": true,
-                "type": "object"
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               },
               "type": "object",
               "description": "Unordered map of dynamically typed values."

@@ -14,7 +14,9 @@
   "properties": {
     "customData": {
       "type": "string",
-      "description": "The custom data the user specified when creating the scheduler source."
+      "description": "The custom data the user specified when creating the scheduler source.",
+      "format": "binary",
+      "binaryEncoding": "base64"
     }
   },
   "additionalProperties": true,
