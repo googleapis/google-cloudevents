@@ -1,0 +1,52 @@
+// Copyright 2016 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.audit.v1;
+
+import "google/events/cloud/audit/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
+option (google.events.cloud_event_product) = "Cloud Audit Logs";
+
+option (google.events.cloud_event_extension_attribute) = {
+  name: "servicename"
+  description: "The name of the service which triggered the Cloud Audit log entry."
+  camel_case_name: "serviceName"
+};
+
+option (google.events.cloud_event_extension_attribute) = {
+  name: "methodname"
+  description: "The name of the method (RPC) triggering the Cloud Audit log entry."
+  camel_case_name: "methodName"
+};
+
+option (google.events.cloud_event_extension_attribute) = {
+  name: "resourcename"
+  description: "The name of the resource that is the subject of the Cloud Audit log entry."
+  camel_case_name: "resourceName"
+};
+// The CloudEvent raised when an audit log entry is written.
+message AuditLogWrittenEvent {
+  option (google.events.cloud_event_type) = "google.cloud.audit.log.v1.written";
+
+  option (google.events.cloud_event_extension_name) = "servicename";
+  option (google.events.cloud_event_extension_name) = "methodname";
+  option (google.events.cloud_event_extension_name) = "resourcename";
+
+  // The data associated with the event.
+  LogEntryData data = 1;
+}
