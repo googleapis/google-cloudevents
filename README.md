@@ -1,6 +1,6 @@
 # Google Events
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fgoogleapis%2Fgoogle-cloudevents%2Fbadge&style=flat)](https://actions-badge.atrox.dev/googleapis/google-cloudevents/goto)
+[![Compile](https://github.com/googleapis/google-cloudevents/actions/workflows/compile.yaml/badge.svg)](https://github.com/googleapis/google-cloudevents/actions/workflows/compile.yaml) [![Validate JSON Schemas](https://github.com/googleapis/google-cloudevents/actions/workflows/validate_jsonschemas.yaml/badge.svg)](https://github.com/googleapis/google-cloudevents/actions/workflows/validate_jsonschemas.yaml)
 
 This repository contains types for
 [CloudEvents](https://cloudevents.io) issued by Google.
