@@ -16,7 +16,7 @@ rebaseMergeAllowed: true
 squashMergeAllowed: true
 mergeCommitAllowed: false
 branchProtectionRules:
-- pattern: master
+- pattern: main
   requiredStatusCheckContexts:
     - 'cla/google'
   requiredApprovingReviewCount: 1
