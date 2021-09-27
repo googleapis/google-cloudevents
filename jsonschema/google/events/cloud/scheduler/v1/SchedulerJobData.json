@@ -1,25 +1,20 @@
 {
-  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/scheduler/v1/SchedulerJobData.json",
-  "name": "SchedulerJobData",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/scheduler/v1/SchedulerJobData-simple.json"
-  ],
-  "package": "google.events.cloud.scheduler.v1",
-  "datatype": "google.events.cloud.scheduler.v1.SchedulerJobData",
-  "cloudeventTypes": [
-    "google.cloud.scheduler.job.v1.executed"
-  ],
-  "product": "Cloud Scheduler",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "customData": {
-      "type": "string",
-      "description": "The custom data the user specified when creating the scheduler source.",
-      "format": "binary",
-      "binaryEncoding": "base64"
+    "$ref": "SchedulerJobData",
+    "definitions": {
+        "SchedulerJobData": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "customData": {
+                    "type": "string",
+                    "description": "The custom data the user specified when creating the scheduler source.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Scheduler job data.",
+            "id": "SchedulerJobData"
+        }
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "Scheduler job data."
 }

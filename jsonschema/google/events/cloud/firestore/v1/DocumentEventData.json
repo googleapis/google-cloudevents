@@ -1,177 +1,196 @@
 {
-  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json",
-  "name": "DocumentEventData",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-complex.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/firestore/v1/DocumentEventData-simple.json"
-  ],
-  "package": "google.events.cloud.firestore.v1",
-  "datatype": "google.events.cloud.firestore.v1.DocumentEventData",
-  "cloudeventTypes": [
-    "google.cloud.firestore.document.v1.created",
-    "google.cloud.firestore.document.v1.updated",
-    "google.cloud.firestore.document.v1.deleted",
-    "google.cloud.firestore.document.v1.written"
-  ],
-  "product": "Cloud Firestore",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "value": {
-      "$ref": "#/definitions/Document",
-      "additionalProperties": true,
-      "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
-    },
-    "oldValue": {
-      "$ref": "#/definitions/Document",
-      "additionalProperties": true,
-      "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
-    },
-    "updateMask": {
-      "properties": {
-        "fieldPaths": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The list of field paths in the mask.\n See [Document.fields][google.cloud.firestore.v1.events.Document.fields]\n for a field path syntax reference."
-        }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "A DocumentMask object that lists changed fields.\n This is only populated for update events."
-    }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firestore document events.",
-  "definitions": {
-    "Document": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The resource name of the document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`"
-        },
-        "fields": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Value",
-            "additionalProperties": true
-          },
-          "type": "object",
-          "description": "The document's fields.\n\n The map keys represent field names.\n\n A simple field name contains only characters `a` to `z`, `A` to `Z`,\n `0` to `9`, or `_`, and must not start with `0` to `9`. For example,\n `foo_bar_17`.\n\n Field names matching the regular expression `__.*__` are reserved. Reserved\n field names are forbidden except in certain documented contexts. The map\n keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be\n empty.\n\n Field paths may be used in other contexts to refer to structured fields\n defined here. For `map_value`, the field path is represented by the simple\n or quoted field names of the containing fields, delimited by `.`. For\n example, the structured field\n `\"foo\" : { map_value: { \"x&y\" : { string_value: \"hello\" }}}` would be\n represented by the field path `foo.x&y`.\n\n Within a field path, a quoted field name starts and ends with `` ` `` and\n may contain any character. Some characters, including `` ` ``, must be\n escaped using a `\\`. For example, `` `x&y` `` represents `x&y` and\n `` `bak\\`tik` `` represents `` bak`tik ``."
-        },
-        "createTime": {
-          "type": "string",
-          "description": "The time at which the document was created.\n\n This value increases monotonically when a document is deleted then\n recreated. It can also be compared to values from other documents and\n the `read_time` of a query.",
-          "format": "date-time"
-        },
-        "updateTime": {
-          "type": "string",
-          "description": "The time at which the document was last changed.\n\n This value is initially set to the `create_time` then increases\n monotonically with each change to the document. It can also be\n compared to values from other documents and the `read_time` of a query.",
-          "format": "date-time"
-        }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "A Firestore document.",
-      "id": "google.events.cloud.firestore.v1.Document"
-    },
-    "Value": {
-      "properties": {
-        "nullValue": {
-          "enum": [
-            "NULL_VALUE",
-            0
-          ],
-          "oneOf": [
-            {
-              "type": "string"
+    "$ref": "DocumentEventData",
+    "definitions": {
+        "DocumentEventData": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "value": {
+                    "$ref": "google.events.cloud.firestore.v1.Document",
+                    "additionalProperties": true,
+                    "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
+                },
+                "oldValue": {
+                    "$ref": "google.events.cloud.firestore.v1.Document",
+                    "additionalProperties": true,
+                    "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
+                },
+                "updateMask": {
+                    "$ref": "google.events.cloud.firestore.v1.DocumentMask",
+                    "additionalProperties": true,
+                    "description": "A DocumentMask object that lists changed fields.\n This is only populated for update events."
+                }
             },
-            {
-              "type": "integer"
-            }
-          ],
-          "description": "A null value."
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The data within all Firestore document events.",
+            "id": "DocumentEventData"
         },
-        "booleanValue": {
-          "type": "boolean",
-          "description": "A boolean value."
-        },
-        "integerValue": {
-          "type": "integer",
-          "description": "An integer value."
-        },
-        "doubleValue": {
-          "type": "number",
-          "description": "A double value."
-        },
-        "timestampValue": {
-          "type": "string",
-          "description": "A timestamp value.\n\n Precise only to microseconds. When stored, any additional precision is\n rounded down.",
-          "format": "date-time"
-        },
-        "stringValue": {
-          "type": "string",
-          "description": "A string value.\n\n The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes of the UTF-8 representation are considered by\n queries."
-        },
-        "bytesValue": {
-          "type": "string",
-          "description": "A bytes value.\n\n Must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes are considered by queries.",
-          "format": "binary",
-          "binaryEncoding": "base64"
-        },
-        "referenceValue": {
-          "type": "string",
-          "description": "A reference to a document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`."
-        },
-        "geoPointValue": {
-          "properties": {
-            "latitude": {
-              "type": "number",
-              "description": "The latitude in degrees. It must be in the range [-90.0, +90.0]."
+        "google.events.cloud.firestore.v1.ArrayValue": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "values": {
+                    "items": {
+                        "$ref": "google.events.cloud.firestore.v1.Value"
+                    },
+                    "type": "array",
+                    "description": "Values in the array."
+                }
             },
-            "longitude": {
-              "type": "number",
-              "description": "The longitude in degrees. It must be in the range [-180.0, +180.0]."
-            }
-          },
-          "additionalProperties": true,
-          "type": "object",
-          "description": "A geo point value representing a point on the surface of Earth."
+            "additionalProperties": true,
+            "type": "object",
+            "description": "An array value.",
+            "id": "google.events.cloud.firestore.v1.ArrayValue"
         },
-        "arrayValue": {
-          "properties": {
-            "values": {
-              "items": {
-                "$ref": "#/definitions/Value"
-              },
-              "type": "array",
-              "description": "Values in the array."
-            }
-          },
-          "additionalProperties": true,
-          "type": "object",
-          "description": "An array value.\n\n Cannot directly contain another array value, though can contain an\n map which contains another array."
+        "google.events.cloud.firestore.v1.Document": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The resource name of the document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`"
+                },
+                "fields": {
+                    "additionalProperties": {
+                        "$ref": "google.events.cloud.firestore.v1.Value",
+                        "additionalProperties": true
+                    },
+                    "type": "object",
+                    "description": "The document's fields.\n\n The map keys represent field names.\n\n A simple field name contains only characters `a` to `z`, `A` to `Z`,\n `0` to `9`, or `_`, and must not start with `0` to `9`. For example,\n `foo_bar_17`.\n\n Field names matching the regular expression `__.*__` are reserved. Reserved\n field names are forbidden except in certain documented contexts. The map\n keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be\n empty.\n\n Field paths may be used in other contexts to refer to structured fields\n defined here. For `map_value`, the field path is represented by the simple\n or quoted field names of the containing fields, delimited by `.`. For\n example, the structured field\n `\"foo\" : { map_value: { \"x\u0026y\" : { string_value: \"hello\" }}}` would be\n represented by the field path `foo.x\u0026y`.\n\n Within a field path, a quoted field name starts and ends with `` ` `` and\n may contain any character. Some characters, including `` ` ``, must be\n escaped using a `\\`. For example, `` `x\u0026y` `` represents `x\u0026y` and\n `` `bak\\`tik` `` represents `` bak`tik ``."
+                },
+                "createTime": {
+                    "type": "string",
+                    "description": "The time at which the document was created.\n\n This value increases monotonically when a document is deleted then\n recreated. It can also be compared to values from other documents and\n the `read_time` of a query.",
+                    "format": "date-time"
+                },
+                "updateTime": {
+                    "type": "string",
+                    "description": "The time at which the document was last changed.\n\n This value is initially set to the `create_time` then increases\n monotonically with each change to the document. It can also be\n compared to values from other documents and the `read_time` of a query.",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A Firestore document.",
+            "id": "google.events.cloud.firestore.v1.Document"
         },
-        "mapValue": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "$ref": "#/definitions/Value",
-                "additionalProperties": true
-              },
-              "type": "object",
-              "description": "The map's fields.\n\n The map keys represent field names. Field names matching the regular\n expression `__.*__` are reserved. Reserved field names are forbidden except\n in certain documented contexts. The map keys, represented as UTF-8, must\n not exceed 1,500 bytes and cannot be empty."
-            }
-          },
-          "additionalProperties": true,
-          "type": "object",
-          "description": "A map value."
+        "google.events.cloud.firestore.v1.DocumentMask": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "fieldPaths": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "The list of field paths in the mask.\n See [Document.fields][google.cloud.firestore.v1.events.Document.fields]\n for a field path syntax reference."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A set of field paths on a document.",
+            "id": "google.events.cloud.firestore.v1.DocumentMask"
+        },
+        "google.events.cloud.firestore.v1.MapValue": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "$ref": "google.events.cloud.firestore.v1.Value",
+                        "additionalProperties": true
+                    },
+                    "type": "object",
+                    "description": "The map's fields.\n\n The map keys represent field names. Field names matching the regular\n expression `__.*__` are reserved. Reserved field names are forbidden except\n in certain documented contexts. The map keys, represented as UTF-8, must\n not exceed 1,500 bytes and cannot be empty."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A map value.",
+            "id": "google.events.cloud.firestore.v1.MapValue"
+        },
+        "google.events.cloud.firestore.v1.Value": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "nullValue": {
+                    "enum": [
+                        "NULL_VALUE",
+                        0
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "A null value."
+                },
+                "booleanValue": {
+                    "type": "boolean",
+                    "description": "A boolean value."
+                },
+                "integerValue": {
+                    "type": "integer",
+                    "description": "An integer value."
+                },
+                "doubleValue": {
+                    "type": "number",
+                    "description": "A double value."
+                },
+                "timestampValue": {
+                    "type": "string",
+                    "description": "A timestamp value.\n\n Precise only to microseconds. When stored, any additional precision is\n rounded down.",
+                    "format": "date-time"
+                },
+                "stringValue": {
+                    "type": "string",
+                    "description": "A string value.\n\n The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes of the UTF-8 representation are considered by\n queries."
+                },
+                "bytesValue": {
+                    "type": "string",
+                    "description": "A bytes value.\n\n Must not exceed 1 MiB - 89 bytes.\n Only the first 1,500 bytes are considered by queries.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                },
+                "referenceValue": {
+                    "type": "string",
+                    "description": "A reference to a document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`."
+                },
+                "geoPointValue": {
+                    "$ref": "google.type.LatLng",
+                    "additionalProperties": true,
+                    "description": "A geo point value representing a point on the surface of Earth."
+                },
+                "arrayValue": {
+                    "$ref": "google.events.cloud.firestore.v1.ArrayValue",
+                    "additionalProperties": true,
+                    "description": "An array value.\n\n Cannot directly contain another array value, though can contain an\n map which contains another array."
+                },
+                "mapValue": {
+                    "$ref": "google.events.cloud.firestore.v1.MapValue",
+                    "additionalProperties": true,
+                    "description": "A map value."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A message that can hold any of the supported value types.",
+            "id": "google.events.cloud.firestore.v1.Value"
+        },
+        "google.type.LatLng": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "latitude": {
+                    "type": "number",
+                    "description": "The latitude in degrees. It must be in the range [-90.0, +90.0]."
+                },
+                "longitude": {
+                    "type": "number",
+                    "description": "The longitude in degrees. It must be in the range [-180.0, +180.0]."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "An object representing a latitude/longitude pair. This is expressed as a pair\n of doubles representing degrees latitude and degrees longitude. Unless\n specified otherwise, this must conform to the\n \u003ca href=\"http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf\"\u003eWGS84\n standard\u003c/a\u003e. Values must be within normalized ranges.",
+            "id": "google.type.LatLng"
         }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "A message that can hold any of the supported value types.",
-      "id": "google.events.cloud.firestore.v1.Value"
     }
-  }
 }

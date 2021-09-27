@@ -1,60 +1,54 @@
 {
-  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/database/v1/ReferenceEventData.json",
-  "name": "ReferenceEventData",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/firebase/database/v1/ReferenceEventData-simple.json"
-  ],
-  "package": "google.events.firebase.database.v1",
-  "datatype": "google.events.firebase.database.v1.ReferenceEventData",
-  "cloudeventTypes": [
-    "google.firebase.database.ref.v1.created",
-    "google.firebase.database.ref.v1.updated",
-    "google.firebase.database.ref.v1.deleted",
-    "google.firebase.database.ref.v1.written"
-  ],
-  "product": "Firebase Realtime Database",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "data": {
-      "oneOf": [
-        {
-          "type": "array"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "string"
+    "$ref": "ReferenceEventData",
+    "definitions": {
+        "ReferenceEventData": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "data": {
+                    "oneOf": [
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "object"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of that\n variants, absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+                },
+                "delta": {
+                    "oneOf": [
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "object"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of that\n variants, absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The data within all Firebase Real Time Database reference events.",
+            "id": "ReferenceEventData"
         }
-      ]
-    },
-    "delta": {
-      "oneOf": [
-        {
-          "type": "array"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "string"
-        }
-      ]
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firebase Real Time Database reference events."
 }

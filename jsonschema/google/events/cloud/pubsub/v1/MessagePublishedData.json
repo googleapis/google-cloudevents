@@ -1,57 +1,58 @@
 {
-  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
-  "name": "MessagePublishedData",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-binary.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-text.json"
-  ],
-  "package": "google.events.cloud.pubsub.v1",
-  "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
-  "cloudeventTypes": [
-    "google.cloud.pubsub.topic.v1.messagePublished"
-  ],
-  "product": "Cloud Pub/Sub",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "message": {
-      "properties": {
-        "data": {
-          "type": "string",
-          "description": "The binary data in the message.",
-          "format": "binary",
-          "binaryEncoding": "base64"
+    "$ref": "MessagePublishedData",
+    "definitions": {
+        "MessagePublishedData": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "message": {
+                    "$ref": "google.events.cloud.pubsub.v1.PubsubMessage",
+                    "additionalProperties": true,
+                    "description": "The message that was published."
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": "The resource name of the subscription for which this event was\n generated. The format of the value is\n `projects/{project-id}/subscriptions/{subscription-id}`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The event data when a message is published to a topic.",
+            "id": "MessagePublishedData"
         },
-        "attributes": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object",
-          "description": "Attributes for this message."
-        },
-        "messageId": {
-          "type": "string",
-          "description": "ID of this message, assigned by the server when the message is published.\n Guaranteed to be unique within the topic."
-        },
-        "publishTime": {
-          "type": "string",
-          "description": "The time at which the message was published, populated by the server when\n it receives the `Publish` call.",
-          "format": "date-time"
-        },
-        "orderingKey": {
-          "type": "string",
-          "description": "If non-empty, identifies related messages for which publish order should be\n respected."
+        "google.events.cloud.pubsub.v1.PubsubMessage": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "description": "The binary data in the message.",
+                    "format": "binary",
+                    "binaryEncoding": "base64"
+                },
+                "attributes": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Attributes for this message."
+                },
+                "messageId": {
+                    "type": "string",
+                    "description": "ID of this message, assigned by the server when the message is published.\n Guaranteed to be unique within the topic."
+                },
+                "publishTime": {
+                    "type": "string",
+                    "description": "The time at which the message was published, populated by the server when\n it receives the `Publish` call.",
+                    "format": "date-time"
+                },
+                "orderingKey": {
+                    "type": "string",
+                    "description": "If non-empty, identifies related messages for which publish order should be\n respected."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A message published to a topic.",
+            "id": "google.events.cloud.pubsub.v1.PubsubMessage"
         }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "The message that was published."
-    },
-    "subscription": {
-      "type": "string",
-      "description": "The resource name of the subscription for which this event was\n generated. The format of the value is\n `projects/{project-id}/subscriptions/{subscription-id}`."
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The event data when a message is published to a topic."
 }

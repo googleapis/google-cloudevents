@@ -1,126 +1,133 @@
 {
-  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v1/AuthEventData.json",
-  "name": "AuthEventData",
-  "examples": [
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/firebase/auth/v1/AuthEventData-complex.json"
-  ],
-  "package": "google.events.firebase.auth.v1",
-  "datatype": "google.events.firebase.auth.v1.AuthEventData",
-  "cloudeventTypes": [
-    "google.firebase.auth.user.v1.created",
-    "google.firebase.auth.user.v1.deleted"
-  ],
-  "product": "Firebase Authentication",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "uid": {
-      "type": "string",
-      "description": "The user identifier in the Firebase app."
-    },
-    "email": {
-      "type": "string",
-      "description": "The user's primary email, if set."
-    },
-    "emailVerified": {
-      "type": "boolean",
-      "description": "Whether or not the user's primary email is verified."
-    },
-    "displayName": {
-      "type": "string",
-      "description": "The user's display name."
-    },
-    "photoURL": {
-      "type": "string",
-      "description": "The user's photo URL."
-    },
-    "disabled": {
-      "type": "boolean",
-      "description": "Whether the user is disabled."
-    },
-    "metadata": {
-      "properties": {
-        "createTime": {
-          "type": "string",
-          "description": "The date the user was created.",
-          "format": "date-time"
+    "$ref": "AuthEventData",
+    "definitions": {
+        "AuthEventData": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The user identifier in the Firebase app."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The user's primary email, if set."
+                },
+                "emailVerified": {
+                    "type": "boolean",
+                    "description": "Whether or not the user's primary email is verified."
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The user's display name."
+                },
+                "photoURL": {
+                    "type": "string",
+                    "description": "The user's photo URL."
+                },
+                "disabled": {
+                    "type": "boolean",
+                    "description": "Whether the user is disabled."
+                },
+                "metadata": {
+                    "$ref": "google.events.firebase.auth.v1.UserMetadata",
+                    "additionalProperties": true,
+                    "description": "Additional metadata about the user."
+                },
+                "providerData": {
+                    "items": {
+                        "$ref": "google.events.firebase.auth.v1.UserInfo"
+                    },
+                    "type": "array",
+                    "description": "User's info at the providers"
+                },
+                "phoneNumber": {
+                    "type": "string",
+                    "description": "The user's phone number."
+                },
+                "customClaims": {
+                    "properties": {
+                        "fields": {
+                            "additionalProperties": {
+                                "oneOf": [
+                                    {
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "object"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ],
+                                "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of that\n variants, absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+                            },
+                            "type": "object",
+                            "description": "Unordered map of dynamically typed values."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The data within all Firebase Auth events.",
+            "id": "AuthEventData"
         },
-        "lastSignInTime": {
-          "type": "string",
-          "description": "The date the user last signed in.",
-          "format": "date-time"
-        }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "Additional metadata about the user."
-    },
-    "providerData": {
-      "items": {
-        "properties": {
-          "uid": {
-            "type": "string",
-            "description": "The user identifier for the linked provider."
-          },
-          "email": {
-            "type": "string",
-            "description": "The email for the linked provider."
-          },
-          "displayName": {
-            "type": "string",
-            "description": "The display name for the linked provider."
-          },
-          "photoURL": {
-            "type": "string",
-            "description": "The photo URL for the linked provider."
-          },
-          "providerId": {
-            "type": "string",
-            "description": "The linked provider ID (e.g. \"google.com\" for the Google provider)."
-          }
+        "google.events.firebase.auth.v1.UserInfo": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The user identifier for the linked provider."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The email for the linked provider."
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The display name for the linked provider."
+                },
+                "photoURL": {
+                    "type": "string",
+                    "description": "The photo URL for the linked provider."
+                },
+                "providerId": {
+                    "type": "string",
+                    "description": "The linked provider ID (e.g. \"google.com\" for the Google provider)."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "User's info at the identity provider",
+            "id": "google.events.firebase.auth.v1.UserInfo"
         },
-        "additionalProperties": true,
-        "type": "object",
-        "description": "User's info at the identity provider"
-      },
-      "type": "array",
-      "description": "User's info at the providers"
-    },
-    "phoneNumber": {
-      "type": "string",
-      "description": "The user's phone number."
-    },
-    "customClaims": {
-      "properties": {
-        "fields": {
-          "additionalProperties": {
-            "oneOf": [
-              {
-                "type": "array"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "number"
-              },
-              {
-                "type": "object"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "type": "object",
-          "description": "Unordered map of dynamically typed values."
+        "google.events.firebase.auth.v1.UserMetadata": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "createTime": {
+                    "type": "string",
+                    "description": "The date the user was created.",
+                    "format": "date-time"
+                },
+                "lastSignInTime": {
+                    "type": "string",
+                    "description": "The date the user last signed in.",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Additional metadata about the user.",
+            "id": "google.events.firebase.auth.v1.UserMetadata"
         }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firebase Auth events."
 }
