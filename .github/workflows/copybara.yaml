@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout a pull request from copybara to master
+    - name: Checkout a pull request from copybara to main
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
