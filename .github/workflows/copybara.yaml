@@ -27,10 +27,13 @@ jobs:
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
-        git config --global user.email "yoshi-code-bot@google.com"
-        git config --global user.name "Yoshi Code Bot"
-        gh pr create \
-        --base master \
-        --head copybara \
-        --title "[Copybara] Update with new internal changes from Piper" \
-        --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details."
+        # Only create a PR if DNE
+        if ! [[ `gh pr list --base main --search "[Copybara]"` ]]; then
+          git config --global user.email "yoshi-code-bot@google.com"
+          git config --global user.name "Yoshi Code Bot"
+          gh pr create \
+          --base master \
+          --head copybara \
+          --title "[Copybara] Update with new internal changes from Piper" \
+          --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details."
+        fi
