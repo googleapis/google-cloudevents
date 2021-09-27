@@ -25,6 +25,10 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: google-cloudevents
+    - name: Install qt
+      run: |
+        cd tools/quicktype-wrapper
+        npm run cli
     - name: Checkout client repo
       uses: actions/checkout@v2
       with:
