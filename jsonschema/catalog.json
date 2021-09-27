@@ -111,6 +111,16 @@
       "cloudeventTypes": [
         "google.firebase.remoteconfig.remoteConfig.v1.updated"
       ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/testlab/v1/TestMatrixEventData.json",
+      "product": "Firebase Test Lab",
+      "name": "TestMatrixEventData",
+      "description": "The data within all Firebase test matrix events.",
+      "datatype": "google.events.firebase.testlab.v1.TestMatrixEventData",
+      "cloudeventTypes": [
+        "google.firebase.testlab.testMatrix.v1.completed"
+      ]
     }
   ]
 }
