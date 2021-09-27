@@ -35,6 +35,6 @@ jobs:
           --base master \
           --head copybara \
           --title "[Copybara] Update with new internal changes from Piper" \
-          --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details."  \
+          --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details." \
           --label "cla: yes"
         fi
