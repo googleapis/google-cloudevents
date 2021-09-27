@@ -23,9 +23,9 @@ jobs:
     - name: Setup Go for https://github.com/google/addlicense
       uses: actions/setup-go@v2
       with:
-        go-version: '1.14'
+        go-version: '1.17'
     # Get the license tool
-    - run: go get -u github.com/google/addlicense
+    - run: go get -u github.com/google/addlicense@1.0
     # Run the license tool
     - run: addlicense .
     # Ensure there is no diff, otherwise we need to run the generator.
