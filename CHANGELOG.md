@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.6.1](https://www.github.com/googleapis/google-cloudevents/compare/v1.6.0...v1.6.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* **build:** migrate to main branch ([#273](https://www.github.com/googleapis/google-cloudevents/issues/273)) ([6707beb](https://www.github.com/googleapis/google-cloudevents/commit/6707beb028f6c98d11a004dab8d20ed5ae770b28))
+
 ## [1.6.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.5.0...v1.6.0) (2021-07-12)
 
 
