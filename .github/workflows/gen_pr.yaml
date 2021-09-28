@@ -49,7 +49,8 @@ jobs:
           echo "Created commit: $(git rev-parse HEAD)"
           gh pr create \
             --title "Run the generator (${NOW})" \
-            --body "AUTOMATED PR! This PR was created from a recent push to the default branch. Please check to ensure there are no CI failures or unexpected generated results."
+            --body "AUTOMATED PR! This PR was created from a recent push to the default branch. Please check to ensure there are no CI failures or unexpected generated results." \
+            --label "cla: yes"
         else
           # No changes after running generator
           echo "No PR to create."
