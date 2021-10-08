@@ -23380,18 +23380,6 @@
       "displayName": "Cloud Spanner",
       "methods": [
         {
-          "methodName": "/Operations.CancelOperation",
-          "lastAdded": "1632775966"
-        },
-        {
-          "methodName": "/Operations.GetOperation",
-          "lastAdded": "1632775966"
-        },
-        {
-          "methodName": "/Operations.ListOperations",
-          "lastAdded": "1632775966"
-        },
-        {
           "methodName": "google.cloud.keyvisualizer.KeyVisualizer.GetScan",
           "lastAdded": "1632775966"
         },
