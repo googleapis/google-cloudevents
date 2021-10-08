@@ -1,0 +1,115 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/testlab/v1/TestMatrixEventData.json",
+  "name": "TestMatrixEventData",
+  "examples": [],
+  "package": "google.events.firebase.testlab.v1",
+  "datatype": "google.events.firebase.testlab.v1.TestMatrixEventData",
+  "cloudeventTypes": [
+    "google.firebase.testlab.testMatrix.v1.completed"
+  ],
+  "product": "Firebase Test Lab",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "properties": {
+    "createTime": {
+      "type": "string",
+      "description": "Time the test matrix was created.",
+      "format": "date-time"
+    },
+    "state": {
+      "enum": [
+        "TEST_STATE_UNSPECIFIED",
+        0,
+        "VALIDATING",
+        1,
+        "PENDING",
+        2,
+        "FINISHED",
+        3,
+        "ERROR",
+        4,
+        "INVALID",
+        5
+      ],
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "description": "State of the test matrix."
+    },
+    "invalidMatrixDetails": {
+      "type": "string",
+      "description": "Code that describes why the test matrix is considered invalid. Only set for\n matrices in the INVALID state."
+    },
+    "outcomeSummary": {
+      "enum": [
+        "OUTCOME_SUMMARY_UNSPECIFIED",
+        0,
+        "SUCCESS",
+        1,
+        "FAILURE",
+        2,
+        "INCONCLUSIVE",
+        3,
+        "SKIPPED",
+        4
+      ],
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "description": "Outcome summary of the test matrix."
+    },
+    "resultStorage": {
+      "properties": {
+        "toolResultsHistory": {
+          "type": "string",
+          "description": "Tool Results history resource containing test results. Format is\n `projects/{project_id}/histories/{history_id}`.\n See https://firebase.google.com/docs/test-lab/reference/toolresults/rest\n for more information."
+        },
+        "toolResultsExecution": {
+          "type": "string",
+          "description": "Tool Results execution resource containing test results. Format is\n `projects/{project_id}/histories/{history_id}/executions/{execution_id}`.\n Optional, can be omitted in erroneous test states.\n See https://firebase.google.com/docs/test-lab/reference/toolresults/rest\n for more information."
+        },
+        "resultsUri": {
+          "type": "string",
+          "description": "URI to the test results in the Firebase Web Console."
+        },
+        "gcsPath": {
+          "type": "string",
+          "description": "Location in Google Cloud Storage where test results are written to.\n In the form \"gs://bucket/path/to/somewhere\"."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Locations where test results are stored."
+    },
+    "clientInfo": {
+      "properties": {
+        "client": {
+          "type": "string",
+          "description": "Client name, such as \"gcloud\"."
+        },
+        "details": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Map of detailed information about the client."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Information provided by the client that created the test matrix."
+    }
+  },
+  "additionalProperties": true,
+  "type": "object",
+  "description": "The data within all Firebase test matrix events."
+}
