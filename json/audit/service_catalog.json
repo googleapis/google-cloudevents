@@ -17774,6 +17774,7 @@
     },
     {
       "serviceName": "gkebackup.googleapis.com",
+      "displayName": "GKE Backup",
       "methods": [
         {
           "methodName": "SetIamPolicy",
