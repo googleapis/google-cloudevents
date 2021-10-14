@@ -12,8 +12,9 @@
   ],
   "product": "Cloud Pub/Sub",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "message": {
+  "$ref": "#/definitions/#/definitions/MessagePublishedData",
+  "definitions": {
+    "PubsubMessage": {
       "properties": {
         "data": {
           "type": "string",
@@ -44,14 +45,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "The message that was published."
-    },
-    "subscription": {
-      "type": "string",
-      "description": "The resource name of the subscription for which this event was\n generated. The format of the value is\n `projects/{project-id}/subscriptions/{subscription-id}`."
+      "description": "A message published to a topic."
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The event data when a message is published to a topic."
+  }
 }

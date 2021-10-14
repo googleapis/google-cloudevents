@@ -14,47 +14,6 @@
   ],
   "product": "Firebase Realtime Database",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "data": {
-      "oneOf": [
-        {
-          "type": "array"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "string"
-        }
-      ]
-    },
-    "delta": {
-      "oneOf": [
-        {
-          "type": "array"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "string"
-        }
-      ]
-    }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firebase Real Time Database reference events."
+  "$ref": "#/definitions/#/definitions/ReferenceEventData",
+  "definitions": {}
 }
