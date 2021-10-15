@@ -12,32 +12,88 @@
   ],
   "product": "Firebase Authentication",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "uid": {
-      "type": "string",
-      "description": "The user identifier in the Firebase app."
+  "$ref": "#/definitions/AuthEventData",
+  "definitions": {
+    "AuthEventData": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user identifier in the Firebase app."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's primary email, if set."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Whether or not the user's primary email is verified."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The user's photo URL."
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Whether the user is disabled."
+        },
+        "metadata": {
+          "$ref": "#/definitions/UserMetadata",
+          "additionalProperties": true,
+          "description": "Additional metadata about the user."
+        },
+        "providerData": {
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          },
+          "type": "array",
+          "description": "User's info at the providers"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number."
+        },
+        "customClaims": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase Auth events."
     },
-    "email": {
-      "type": "string",
-      "description": "The user's primary email, if set."
+    "UserInfo": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user identifier for the linked provider."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email for the linked provider."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name for the linked provider."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The photo URL for the linked provider."
+        },
+        "providerId": {
+          "type": "string",
+          "description": "The linked provider ID (e.g. \"google.com\" for the Google provider)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "User's info at the identity provider"
     },
-    "emailVerified": {
-      "type": "boolean",
-      "description": "Whether or not the user's primary email is verified."
-    },
-    "displayName": {
-      "type": "string",
-      "description": "The user's display name."
-    },
-    "photoURL": {
-      "type": "string",
-      "description": "The user's photo URL."
-    },
-    "disabled": {
-      "type": "boolean",
-      "description": "Whether the user is disabled."
-    },
-    "metadata": {
+    "UserMetadata": {
       "properties": {
         "createTime": {
           "type": "string",
@@ -53,74 +109,6 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Additional metadata about the user."
-    },
-    "providerData": {
-      "items": {
-        "properties": {
-          "uid": {
-            "type": "string",
-            "description": "The user identifier for the linked provider."
-          },
-          "email": {
-            "type": "string",
-            "description": "The email for the linked provider."
-          },
-          "displayName": {
-            "type": "string",
-            "description": "The display name for the linked provider."
-          },
-          "photoURL": {
-            "type": "string",
-            "description": "The photo URL for the linked provider."
-          },
-          "providerId": {
-            "type": "string",
-            "description": "The linked provider ID (e.g. \"google.com\" for the Google provider)."
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "description": "User's info at the identity provider"
-      },
-      "type": "array",
-      "description": "User's info at the providers"
-    },
-    "phoneNumber": {
-      "type": "string",
-      "description": "The user's phone number."
-    },
-    "customClaims": {
-      "properties": {
-        "fields": {
-          "additionalProperties": {
-            "oneOf": [
-              {
-                "type": "array"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "number"
-              },
-              {
-                "type": "object"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "type": "object",
-          "description": "Unordered map of dynamically typed values."
-        }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firebase Auth events."
+  }
 }

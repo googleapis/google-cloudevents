@@ -12,268 +12,166 @@
   ],
   "product": "Cloud Build",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "id": {
-      "type": "string",
-      "description": "Unique identifier of the build."
-    },
-    "projectId": {
-      "type": "string",
-      "description": "ID of the project."
-    },
-    "status": {
-      "enum": [
-        "STATUS_UNKNOWN",
-        0,
-        "QUEUED",
-        1,
-        "WORKING",
-        2,
-        "SUCCESS",
-        3,
-        "FAILURE",
-        4,
-        "INTERNAL_ERROR",
-        5,
-        "TIMEOUT",
-        6,
-        "CANCELLED",
-        7,
-        "EXPIRED",
-        9
-      ],
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "integer"
-        }
-      ],
-      "description": "Status of the build."
-    },
-    "statusDetail": {
-      "type": "string",
-      "description": "Customer-readable message about the current status."
-    },
-    "source": {
+  "$ref": "#/definitions/BuildEventData",
+  "definitions": {
+    "BuildEventData": {
       "properties": {
-        "storageSource": {
-          "$ref": "#/definitions/StorageSource",
-          "additionalProperties": true,
-          "description": "If provided, get the source from this location in Google Cloud Storage."
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the build."
         },
-        "repoSource": {
-          "$ref": "#/definitions/RepoSource",
-          "additionalProperties": true,
-          "description": "If provided, get the source from this location in a Cloud Source\n Repository."
-        }
-      },
-      "additionalProperties": true,
-      "type": "object",
-      "description": "The location of the source files to build."
-    },
-    "steps": {
-      "items": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the container image that will run this particular\n build step.\n\n If the image is available in the host's Docker daemon's cache, it\n will be run directly. If not, the host will attempt to pull the image\n first, using the builder service account's credentials if necessary.\n\n The Docker daemon's cache will already have the latest versions of all of\n the officially supported build steps\n ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).\n The Docker daemon will also have cached many of the layers for some popular\n images, like \"ubuntu\", \"debian\", but they will be refreshed at the time you\n attempt to use them.\n\n If you built an image in a previous build step, it will be stored in the\n host's Docker daemon's cache and is available to use as the name for a\n later build step."
-          },
-          "env": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "A list of environment variable definitions to be used when running a step.\n\n The elements are of the form \"KEY=VALUE\" for the environment variable \"KEY\"\n being given the value \"VALUE\"."
-          },
-          "args": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "A list of arguments that will be presented to the step when it is started.\n\n If the image used to run the step's container has an entrypoint, the `args`\n are used as arguments to that entrypoint. If the image does not define\n an entrypoint, the first element in args is used as the entrypoint,\n and the remainder will be used as arguments."
-          },
-          "dir": {
-            "type": "string",
-            "description": "Working directory to use when running this step's container.\n\n If this value is a relative path, it is relative to the build's working\n directory. If this value is absolute, it may be outside the build's working\n directory, in which case the contents of the path may not be persisted\n across build step executions, unless a `volume` for that path is specified.\n\n If the build specifies a `RepoSource` with `dir` and a step with a `dir`,\n which specifies an absolute path, the `RepoSource` `dir` is ignored for\n the step's execution."
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for this build step, used in `wait_for` to\n reference this build step as a dependency."
-          },
-          "waitFor": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "The ID(s) of the step(s) that this build step depends on.\n This build step will not start until all the build steps in `wait_for`\n have completed successfully. If `wait_for` is empty, this build step will\n start when all previous build steps in the `Build.Steps` list have\n completed successfully."
-          },
-          "entrypoint": {
-            "type": "string",
-            "description": "Entrypoint to be used instead of the build step image's default entrypoint.\n If unset, the image's default entrypoint is used."
-          },
-          "secretEnv": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "A list of environment variables which are encrypted using a Cloud Key\n Management Service crypto key. These values must be specified in the\n build's `Secret`."
-          },
-          "volumes": {
-            "items": {
-              "$ref": "#/definitions/Volume"
-            },
-            "type": "array",
-            "description": "List of volumes to mount into the build step.\n\n Each volume is created as an empty volume prior to execution of the\n build step. Upon completion of the build, volumes and their contents are\n discarded.\n\n Using a named volume in only one step is not valid as it is indicative\n of a build request with an incorrect configuration."
-          },
-          "timing": {
-            "$ref": "#/definitions/TimeSpan",
-            "additionalProperties": true,
-            "description": "Stores timing information for executing this build step."
-          },
-          "pullTiming": {
-            "$ref": "#/definitions/TimeSpan",
-            "additionalProperties": true,
-            "description": "Stores timing information for pulling this build step's\n builder image only."
-          },
-          "timeout": {
-            "additionalProperties": true,
-            "type": "string",
-            "description": "Time limit for executing this build step. If not defined, the step has no\n time limit and will be allowed to continue to run until either it completes\n or the build itself times out."
-          },
-          "status": {
-            "enum": [
-              "STATUS_UNKNOWN",
-              0,
-              "QUEUED",
-              1,
-              "WORKING",
-              2,
-              "SUCCESS",
-              3,
-              "FAILURE",
-              4,
-              "INTERNAL_ERROR",
-              5,
-              "TIMEOUT",
-              6,
-              "CANCELLED",
-              7,
-              "EXPIRED",
-              9
-            ],
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "integer"
-              }
-            ],
-            "description": "Status of the build step. At this time, build step status is\n only updated on build completion; step status is not updated in real-time\n as the build progresses."
-          }
+        "projectId": {
+          "type": "string",
+          "description": "ID of the project."
         },
-        "additionalProperties": true,
-        "type": "object",
-        "description": "A step in the build pipeline."
-      },
-      "type": "array",
-      "description": "The operations to be performed on the workspace."
-    },
-    "results": {
-      "properties": {
+        "status": {
+          "enum": [
+            "STATUS_UNKNOWN",
+            0,
+            "QUEUED",
+            1,
+            "WORKING",
+            2,
+            "SUCCESS",
+            3,
+            "FAILURE",
+            4,
+            "INTERNAL_ERROR",
+            5,
+            "TIMEOUT",
+            6,
+            "CANCELLED",
+            7,
+            "EXPIRED",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Status of the build."
+        },
+        "statusDetail": {
+          "type": "string",
+          "description": "Customer-readable message about the current status."
+        },
+        "source": {
+          "$ref": "#/definitions/Source",
+          "additionalProperties": true,
+          "description": "The location of the source files to build."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/BuildStep"
+          },
+          "type": "array",
+          "description": "The operations to be performed on the workspace."
+        },
+        "results": {
+          "$ref": "#/definitions/Results",
+          "additionalProperties": true,
+          "description": "Results of the build."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Time at which the request to create the build was received.",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Time at which execution of the build was started.",
+          "format": "date-time"
+        },
+        "finishTime": {
+          "type": "string",
+          "description": "Time at which execution of the build was finished.\n\n The difference between finish_time and start_time is the duration of the\n build's execution.",
+          "format": "date-time"
+        },
+        "timeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Amount of time that this build should be allowed to run, to second\n granularity. If this amount of time elapses, work on the build will cease\n and the build status will be `TIMEOUT`.",
+          "format": "regex"
+        },
         "images": {
           "items": {
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "Name used to push the container image to Google Container Registry, as\n presented to `docker push`."
-              },
-              "digest": {
-                "type": "string",
-                "description": "Docker Registry 2.0 digest."
-              },
-              "pushTiming": {
-                "$ref": "#/definitions/TimeSpan",
-                "additionalProperties": true,
-                "description": "Stores timing information for pushing the specified image."
-              }
-            },
-            "additionalProperties": true,
-            "type": "object",
-            "description": "An image built by the pipeline."
-          },
-          "type": "array",
-          "description": "Container images that were built as a part of the build."
-        },
-        "buildStepImages": {
-          "items": {
             "type": "string"
           },
           "type": "array",
-          "description": "List of build step digests, in the order corresponding to build step\n indices."
+          "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images are pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the `Build` resource's\n results field.\n\n If any of the images fail to be pushed, the build status is marked\n `FAILURE`."
         },
-        "artifactManifest": {
+        "queueTtl": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
           "type": "string",
-          "description": "Path to the artifact manifest. Only populated when artifacts are uploaded."
+          "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time.",
+          "format": "regex"
         },
-        "numArtifacts": {
-          "type": "integer",
-          "description": "Number of artifacts uploaded. Only populated when artifacts are uploaded."
+        "artifacts": {
+          "$ref": "#/definitions/Artifacts",
+          "additionalProperties": true,
+          "description": "Artifacts produced by the build that should be uploaded upon\n successful completion of all build steps."
         },
-        "buildStepOutputs": {
+        "logsBucket": {
+          "type": "string",
+          "description": "Google Cloud Storage bucket where logs should be written (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`."
+        },
+        "sourceProvenance": {
+          "$ref": "#/definitions/SourceProvenance",
+          "additionalProperties": true,
+          "description": "A permanent fixed identifier for source."
+        },
+        "buildTriggerId": {
+          "type": "string",
+          "description": "The ID of the `BuildTrigger` that triggered this build, if it\n was triggered automatically."
+        },
+        "options": {
+          "$ref": "#/definitions/BuildOptions",
+          "additionalProperties": true,
+          "description": "Special options for this build."
+        },
+        "logUrl": {
+          "type": "string",
+          "description": "URL to logs for this build in Google Cloud Console."
+        },
+        "substitutions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Substitutions data for `Build` resource."
+        },
+        "tags": {
           "items": {
             "type": "string"
           },
           "type": "array",
-          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored.",
-          "format": "binary",
-          "binaryEncoding": "base64"
+          "description": "Tags for annotation of a `Build`. These are not docker tags."
         },
-        "artifactTiming": {
-          "$ref": "#/definitions/TimeSpan",
-          "additionalProperties": true,
-          "description": "Time to push all non-container artifacts."
+        "secrets": {
+          "items": {
+            "$ref": "#/definitions/Secret"
+          },
+          "type": "array",
+          "description": "Secrets to decrypt using Cloud Key Management Service."
+        },
+        "timing": {
+          "additionalProperties": {
+            "$ref": "#/definitions/TimeSpan",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Stores timing information for phases of the build. Valid keys\n are:\n\n * BUILD: time to execute all build steps\n * PUSH: time to push all specified images.\n * FETCHSOURCE: time to fetch source.\n\n If the build does not specify source or images,\n these keys will not be included."
         }
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Results of the build."
+      "description": "Build event data for Google Cloud Platform API operations."
     },
-    "createTime": {
-      "type": "string",
-      "description": "Time at which the request to create the build was received.",
-      "format": "date-time"
-    },
-    "startTime": {
-      "type": "string",
-      "description": "Time at which execution of the build was started.",
-      "format": "date-time"
-    },
-    "finishTime": {
-      "type": "string",
-      "description": "Time at which execution of the build was finished.\n\n The difference between finish_time and start_time is the duration of the\n build's execution.",
-      "format": "date-time"
-    },
-    "timeout": {
-      "additionalProperties": true,
-      "type": "string",
-      "description": "Amount of time that this build should be allowed to run, to second\n granularity. If this amount of time elapses, work on the build will cease\n and the build status will be `TIMEOUT`."
-    },
-    "images": {
-      "items": {
-        "type": "string"
-      },
-      "type": "array",
-      "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images are pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the `Build` resource's\n results field.\n\n If any of the images fail to be pushed, the build status is marked\n `FAILURE`."
-    },
-    "queueTtl": {
-      "additionalProperties": true,
-      "type": "string",
-      "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time."
-    },
-    "artifacts": {
+    "Artifacts": {
       "properties": {
         "images": {
           "items": {
@@ -283,105 +181,39 @@
           "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images will be pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the Build resource's\n results field.\n\n If any of the images fail to be pushed, the build is marked FAILURE."
         },
         "objects": {
-          "properties": {
-            "location": {
-              "type": "string",
-              "description": "Cloud Storage bucket and optional object path, in the form\n \"gs://bucket/path/to/somewhere/\". (see [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n\n Files in the workspace matching any path pattern will be uploaded to\n Cloud Storage with this location as a prefix."
-            },
-            "paths": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "description": "Path globs used to match files in the build's workspace."
-            },
-            "timing": {
-              "$ref": "#/definitions/TimeSpan",
-              "additionalProperties": true,
-              "description": "Stores timing information for pushing all artifact objects."
-            }
-          },
+          "$ref": "#/definitions/ArtifactObjects",
           "additionalProperties": true,
-          "type": "object",
           "description": "A list of objects to be uploaded to Cloud Storage upon successful\n completion of all build steps.\n\n Files in the workspace matching specified paths globs will be uploaded to\n the specified Cloud Storage location using the builder service account's\n credentials.\n\n The location and generation of the uploaded objects will be stored in the\n Build resource's results field.\n\n If any objects fail to be pushed, the build is marked FAILURE."
         }
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Artifacts produced by the build that should be uploaded upon\n successful completion of all build steps."
+      "description": "Artifacts produced by a build that should be uploaded upon\n successful completion of all build steps."
     },
-    "logsBucket": {
-      "type": "string",
-      "description": "Google Cloud Storage bucket where logs should be written (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`."
-    },
-    "sourceProvenance": {
+    "ArtifactObjects": {
       "properties": {
-        "resolvedStorageSource": {
-          "$ref": "#/definitions/StorageSource",
-          "additionalProperties": true,
-          "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+        "location": {
+          "type": "string",
+          "description": "Cloud Storage bucket and optional object path, in the form\n \"gs://bucket/path/to/somewhere/\". (see [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n\n Files in the workspace matching any path pattern will be uploaded to\n Cloud Storage with this location as a prefix."
         },
-        "resolvedRepoSource": {
-          "$ref": "#/definitions/RepoSource",
-          "additionalProperties": true,
-          "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
-        },
-        "fileHashes": {
-          "additionalProperties": {
-            "properties": {
-              "fileHash": {
-                "items": {
-                  "properties": {
-                    "type": {
-                      "enum": [
-                        "NONE",
-                        0,
-                        "SHA256",
-                        1,
-                        "MD5",
-                        2
-                      ],
-                      "oneOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "integer"
-                        }
-                      ],
-                      "description": "The type of hash that was performed."
-                    },
-                    "value": {
-                      "type": "string",
-                      "description": "The hash value.",
-                      "format": "binary",
-                      "binaryEncoding": "base64"
-                    }
-                  },
-                  "additionalProperties": true,
-                  "type": "object",
-                  "description": "Container message for hash values."
-                },
-                "type": "array",
-                "description": "Collection of file hashes."
-              }
-            },
-            "additionalProperties": true,
-            "type": "object"
+        "paths": {
+          "items": {
+            "type": "string"
           },
-          "type": "object",
-          "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+          "type": "array",
+          "description": "Path globs used to match files in the build's workspace."
+        },
+        "timing": {
+          "$ref": "#/definitions/TimeSpan",
+          "additionalProperties": true,
+          "description": "Stores timing information for pushing all artifact objects."
         }
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "A permanent fixed identifier for source."
+      "description": "Files in the workspace to upload to Cloud Storage upon successful\n completion of all build steps."
     },
-    "buildTriggerId": {
-      "type": "string",
-      "description": "The ID of the `BuildTrigger` that triggered this build, if it\n was triggered automatically."
-    },
-    "options": {
+    "BuildOptions": {
       "properties": {
         "sourceProvenanceHash": {
           "items": {
@@ -520,63 +352,179 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Special options for this build."
+      "description": "Optional arguments to enable specific features of builds."
     },
-    "logUrl": {
-      "type": "string",
-      "description": "URL to logs for this build in Google Cloud Console."
-    },
-    "substitutions": {
-      "additionalProperties": {
-        "type": "string"
-      },
-      "type": "object",
-      "description": "Substitutions data for `Build` resource."
-    },
-    "tags": {
-      "items": {
-        "type": "string"
-      },
-      "type": "array",
-      "description": "Tags for annotation of a `Build`. These are not docker tags."
-    },
-    "secrets": {
-      "items": {
-        "properties": {
-          "kmsKeyName": {
-            "type": "string",
-            "description": "Cloud KMS key name to use to decrypt these envs."
-          },
-          "secretEnv": {
-            "additionalProperties": {
-              "type": "string",
-              "format": "binary",
-              "binaryEncoding": "base64"
-            },
-            "type": "object",
-            "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."
-          }
+    "BuildStep": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the container image that will run this particular\n build step.\n\n If the image is available in the host's Docker daemon's cache, it\n will be run directly. If not, the host will attempt to pull the image\n first, using the builder service account's credentials if necessary.\n\n The Docker daemon's cache will already have the latest versions of all of\n the officially supported build steps\n ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).\n The Docker daemon will also have cached many of the layers for some popular\n images, like \"ubuntu\", \"debian\", but they will be refreshed at the time you\n attempt to use them.\n\n If you built an image in a previous build step, it will be stored in the\n host's Docker daemon's cache and is available to use as the name for a\n later build step."
         },
-        "additionalProperties": true,
-        "type": "object",
-        "description": "Pairs a set of secret environment variables containing encrypted\n values with the Cloud KMS key to use to decrypt the value."
+        "env": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of environment variable definitions to be used when running a step.\n\n The elements are of the form \"KEY=VALUE\" for the environment variable \"KEY\"\n being given the value \"VALUE\"."
+        },
+        "args": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of arguments that will be presented to the step when it is started.\n\n If the image used to run the step's container has an entrypoint, the `args`\n are used as arguments to that entrypoint. If the image does not define\n an entrypoint, the first element in args is used as the entrypoint,\n and the remainder will be used as arguments."
+        },
+        "dir": {
+          "type": "string",
+          "description": "Working directory to use when running this step's container.\n\n If this value is a relative path, it is relative to the build's working\n directory. If this value is absolute, it may be outside the build's working\n directory, in which case the contents of the path may not be persisted\n across build step executions, unless a `volume` for that path is specified.\n\n If the build specifies a `RepoSource` with `dir` and a step with a `dir`,\n which specifies an absolute path, the `RepoSource` `dir` is ignored for\n the step's execution."
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this build step, used in `wait_for` to\n reference this build step as a dependency."
+        },
+        "waitFor": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The ID(s) of the step(s) that this build step depends on.\n This build step will not start until all the build steps in `wait_for`\n have completed successfully. If `wait_for` is empty, this build step will\n start when all previous build steps in the `Build.Steps` list have\n completed successfully."
+        },
+        "entrypoint": {
+          "type": "string",
+          "description": "Entrypoint to be used instead of the build step image's default entrypoint.\n If unset, the image's default entrypoint is used."
+        },
+        "secretEnv": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of environment variables which are encrypted using a Cloud Key\n Management Service crypto key. These values must be specified in the\n build's `Secret`."
+        },
+        "volumes": {
+          "items": {
+            "$ref": "#/definitions/Volume"
+          },
+          "type": "array",
+          "description": "List of volumes to mount into the build step.\n\n Each volume is created as an empty volume prior to execution of the\n build step. Upon completion of the build, volumes and their contents are\n discarded.\n\n Using a named volume in only one step is not valid as it is indicative\n of a build request with an incorrect configuration."
+        },
+        "timing": {
+          "$ref": "#/definitions/TimeSpan",
+          "additionalProperties": true,
+          "description": "Stores timing information for executing this build step."
+        },
+        "pullTiming": {
+          "$ref": "#/definitions/TimeSpan",
+          "additionalProperties": true,
+          "description": "Stores timing information for pulling this build step's\n builder image only."
+        },
+        "timeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Time limit for executing this build step. If not defined, the step has no\n time limit and will be allowed to continue to run until either it completes\n or the build itself times out.",
+          "format": "regex"
+        },
+        "status": {
+          "enum": [
+            "STATUS_UNKNOWN",
+            0,
+            "QUEUED",
+            1,
+            "WORKING",
+            2,
+            "SUCCESS",
+            3,
+            "FAILURE",
+            4,
+            "INTERNAL_ERROR",
+            5,
+            "TIMEOUT",
+            6,
+            "CANCELLED",
+            7,
+            "EXPIRED",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Status of the build step. At this time, build step status is\n only updated on build completion; step status is not updated in real-time\n as the build progresses."
+        }
       },
-      "type": "array",
-      "description": "Secrets to decrypt using Cloud Key Management Service."
-    },
-    "timing": {
-      "additionalProperties": {
-        "$ref": "#/definitions/TimeSpan",
-        "additionalProperties": true
-      },
+      "additionalProperties": true,
       "type": "object",
-      "description": "Stores timing information for phases of the build. Valid keys\n are:\n\n * BUILD: time to execute all build steps\n * PUSH: time to push all specified images.\n * FETCHSOURCE: time to fetch source.\n\n If the build does not specify source or images,\n these keys will not be included."
-    }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "Build event data for Google Cloud Platform API operations.",
-  "definitions": {
+      "description": "A step in the build pipeline."
+    },
+    "BuiltImage": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name used to push the container image to Google Container Registry, as\n presented to `docker push`."
+        },
+        "digest": {
+          "type": "string",
+          "description": "Docker Registry 2.0 digest."
+        },
+        "pushTiming": {
+          "$ref": "#/definitions/TimeSpan",
+          "additionalProperties": true,
+          "description": "Stores timing information for pushing the specified image."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "An image built by the pipeline."
+    },
+    "FileHashes": {
+      "properties": {
+        "fileHash": {
+          "items": {
+            "$ref": "#/definitions/Hash"
+          },
+          "type": "array",
+          "description": "Collection of file hashes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Container message for hashes of byte content of files, used in\n SourceProvenance messages to verify integrity of source input to the build."
+    },
+    "Hash": {
+      "properties": {
+        "type": {
+          "enum": [
+            "NONE",
+            0,
+            "SHA256",
+            1,
+            "MD5",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "The type of hash that was performed."
+        },
+        "value": {
+          "type": "string",
+          "description": "The hash value.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Container message for hash values."
+    },
     "RepoSource": {
       "properties": {
         "projectId": {
@@ -617,8 +565,111 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Location of the source in a Google Cloud Source Repository.",
-      "id": "google.events.cloud.cloudbuild.v1.RepoSource"
+      "description": "Location of the source in a Google Cloud Source Repository."
+    },
+    "Results": {
+      "properties": {
+        "images": {
+          "items": {
+            "$ref": "#/definitions/BuiltImage"
+          },
+          "type": "array",
+          "description": "Container images that were built as a part of the build."
+        },
+        "buildStepImages": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of build step digests, in the order corresponding to build step\n indices."
+        },
+        "artifactManifest": {
+          "type": "string",
+          "description": "Path to the artifact manifest. Only populated when artifacts are uploaded."
+        },
+        "numArtifacts": {
+          "type": "integer",
+          "description": "Number of artifacts uploaded. Only populated when artifacts are uploaded."
+        },
+        "buildStepOutputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of build step outputs, produced by builder images, in the order\n corresponding to build step indices.\n\n [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders)\n can produce this output by writing to `$BUILDER_OUTPUT/output`.\n Only the first 4KB of data is stored.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        },
+        "artifactTiming": {
+          "$ref": "#/definitions/TimeSpan",
+          "additionalProperties": true,
+          "description": "Time to push all non-container artifacts."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Artifacts created by the build pipeline."
+    },
+    "Secret": {
+      "properties": {
+        "kmsKeyName": {
+          "type": "string",
+          "description": "Cloud KMS key name to use to decrypt these envs."
+        },
+        "secretEnv": {
+          "additionalProperties": {
+            "type": "string",
+            "format": "binary",
+            "binaryEncoding": "base64"
+          },
+          "type": "object",
+          "description": "Map of environment variable name to its encrypted value.\n\n Secret environment variables must be unique across all of a build's\n secrets, and must be used by at least one build step. Values can be at most\n 64 KB in size. There can be at most 100 secret values across all of a\n build's secrets."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Pairs a set of secret environment variables containing encrypted\n values with the Cloud KMS key to use to decrypt the value."
+    },
+    "Source": {
+      "properties": {
+        "storageSource": {
+          "$ref": "#/definitions/StorageSource",
+          "additionalProperties": true,
+          "description": "If provided, get the source from this location in Google Cloud Storage."
+        },
+        "repoSource": {
+          "$ref": "#/definitions/RepoSource",
+          "additionalProperties": true,
+          "description": "If provided, get the source from this location in a Cloud Source\n Repository."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "SourceProvenance": {
+      "properties": {
+        "resolvedStorageSource": {
+          "$ref": "#/definitions/StorageSource",
+          "additionalProperties": true,
+          "description": "A copy of the build's `source.storage_source`, if exists, with any\n generations resolved."
+        },
+        "resolvedRepoSource": {
+          "$ref": "#/definitions/RepoSource",
+          "additionalProperties": true,
+          "description": "A copy of the build's `source.repo_source`, if exists, with any\n revisions resolved."
+        },
+        "fileHashes": {
+          "additionalProperties": {
+            "$ref": "#/definitions/FileHashes",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Hash(es) of the build source, which can be used to verify that\n the original source integrity was maintained in the build. Note that\n `FileHashes` will only be populated if `BuildOptions` has requested a\n `SourceProvenanceHash`.\n\n The keys to this map are file paths used as build source and the values\n contain the hash values for those files.\n\n If the build source came in a single package such as a gzipped tarfile\n (`.tar.gz`), the `FileHash` will be for the single path to that file."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Provenance of the source. Ways to find the original source, or verify that\n some source was used for this build."
     },
     "StorageSource": {
       "properties": {
@@ -637,8 +688,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Location of the source in an archive file in Google Cloud Storage.",
-      "id": "google.events.cloud.cloudbuild.v1.StorageSource"
+      "description": "Location of the source in an archive file in Google Cloud Storage."
     },
     "TimeSpan": {
       "properties": {
@@ -655,8 +705,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Start and end times for a build execution phase.",
-      "id": "google.events.cloud.cloudbuild.v1.TimeSpan"
+      "description": "Start and end times for a build execution phase."
     },
     "Volume": {
       "properties": {
@@ -671,8 +720,7 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Volume describes a Docker container volume which is mounted into build steps\n in order to persist files across build step execution.",
-      "id": "google.events.cloud.cloudbuild.v1.Volume"
+      "description": "Volume describes a Docker container volume which is mounted into build steps\n in order to persist files across build step execution."
     }
   }
 }
