@@ -14,6 +14,54 @@
   ],
   "product": "Firebase Realtime Database",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/ReferenceEventData",
-  "definitions": {}
+  "$ref": "#/definitions/ReferenceEventData",
+  "definitions": {
+    "ReferenceEventData": {
+      "properties": {
+        "data": {
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of that\n variants, absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+        },
+        "delta": {
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of that\n variants, absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase Real Time Database reference events."
+    }
+  }
 }

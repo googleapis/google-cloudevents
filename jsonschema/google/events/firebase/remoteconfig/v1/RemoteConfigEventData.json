@@ -11,8 +11,79 @@
   ],
   "product": "Firebase Remote Config",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/RemoteConfigEventData",
+  "$ref": "#/definitions/RemoteConfigEventData",
   "definitions": {
+    "RemoteConfigEventData": {
+      "properties": {
+        "versionNumber": {
+          "type": "integer",
+          "description": "The version number of the version's corresponding Remote Config template."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "When the Remote Config template was written to the Remote Config server.",
+          "format": "date-time"
+        },
+        "updateUser": {
+          "$ref": "#/definitions/RemoteConfigUser",
+          "additionalProperties": true,
+          "description": "Aggregation of all metadata fields about the account that performed the\n  update."
+        },
+        "description": {
+          "type": "string",
+          "description": "The user-provided description of the corresponding Remote Config template."
+        },
+        "updateOrigin": {
+          "enum": [
+            "REMOTE_CONFIG_UPDATE_ORIGIN_UNSPECIFIED",
+            0,
+            "CONSOLE",
+            1,
+            "REST_API",
+            2,
+            "ADMIN_SDK_NODE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Where the update action originated."
+        },
+        "updateType": {
+          "enum": [
+            "REMOTE_CONFIG_UPDATE_TYPE_UNSPECIFIED",
+            0,
+            "INCREMENTAL_UPDATE",
+            1,
+            "FORCED_UPDATE",
+            2,
+            "ROLLBACK",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "What type of update was made."
+        },
+        "rollbackSource": {
+          "type": "integer",
+          "description": "Only present if this version is the result of a rollback, and will be the\n version number of the Remote Config template that was rolled-back to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase Remote Config events."
+    },
     "RemoteConfigUser": {
       "properties": {
         "name": {

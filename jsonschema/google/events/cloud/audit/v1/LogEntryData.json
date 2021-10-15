@@ -11,8 +11,94 @@
   ],
   "product": "Cloud Audit Logs",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/LogEntryData",
+  "$ref": "#/definitions/LogEntryData",
   "definitions": {
+    "LogEntryData": {
+      "properties": {
+        "logName": {
+          "type": "string",
+          "description": "The resource name of the log to which this log entry belongs."
+        },
+        "resource": {
+          "$ref": "#/definitions/MonitoredResource",
+          "additionalProperties": true,
+          "description": "The monitored resource that produced this log entry.\n\n Example: a log entry that reports a database error would be associated with\n the monitored resource designating the particular database that reported\n the error."
+        },
+        "protoPayload": {
+          "$ref": "#/definitions/AuditLog",
+          "additionalProperties": true,
+          "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log\n events."
+        },
+        "insertId": {
+          "type": "string",
+          "description": "A unique identifier for the log entry."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A set of user-defined (key, value) data that provides additional\n information about the log entry."
+        },
+        "operation": {
+          "$ref": "#/definitions/LogEntryOperation",
+          "additionalProperties": true,
+          "description": "Information about an operation associated with the log entry, if\n applicable."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The time the event described by the log entry occurred.",
+          "format": "date-time"
+        },
+        "receiveTimestamp": {
+          "type": "string",
+          "description": "The time the log entry was received by Logging.",
+          "format": "date-time"
+        },
+        "severity": {
+          "enum": [
+            "DEFAULT",
+            0,
+            "DEBUG",
+            100,
+            "INFO",
+            200,
+            "NOTICE",
+            300,
+            "WARNING",
+            400,
+            "ERROR",
+            500,
+            "CRITICAL",
+            600,
+            "ALERT",
+            700,
+            "EMERGENCY",
+            800
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "The severity of the log entry."
+        },
+        "trace": {
+          "type": "string",
+          "description": "Resource name of the trace associated with the log entry, if any. If it\n contains a relative resource name, the name is assumed to be relative to\n `//tracing.googleapis.com`. Example:\n `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`"
+        },
+        "spanId": {
+          "type": "string",
+          "description": "The span ID within the trace associated with the log entry, if any.\n\n For Trace spans, this is the same format that the Trace API v2 uses: a\n 16-character hexadecimal encoding of an 8-byte array, such as\n `000000000000004a`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Cloud Audit Logs log entry events."
+    },
     "MonitoredResource": {
       "properties": {
         "type": {

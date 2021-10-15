@@ -96,9 +96,6 @@ done
 
 # Cleanup
 
-## Rename .jsonschema output to .json
-find $OUT_DIR -name '*.jsonschema' -exec sh -c 'mv "$0" "${0%.jsonschema}.json"' {} \;
-
 ## Remove all non *Data.json files
 find $OUT_DIR -type f ! -name "*Data.json" -exec rm {} \;
 echo "- Done with gen."

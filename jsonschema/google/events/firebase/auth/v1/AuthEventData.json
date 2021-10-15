@@ -12,8 +12,60 @@
   ],
   "product": "Firebase Authentication",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/AuthEventData",
+  "$ref": "#/definitions/AuthEventData",
   "definitions": {
+    "AuthEventData": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user identifier in the Firebase app."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's primary email, if set."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Whether or not the user's primary email is verified."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The user's photo URL."
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Whether the user is disabled."
+        },
+        "metadata": {
+          "$ref": "#/definitions/UserMetadata",
+          "additionalProperties": true,
+          "description": "Additional metadata about the user."
+        },
+        "providerData": {
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          },
+          "type": "array",
+          "description": "User's info at the providers"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number."
+        },
+        "customClaims": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase Auth events."
+    },
     "UserInfo": {
       "properties": {
         "uid": {

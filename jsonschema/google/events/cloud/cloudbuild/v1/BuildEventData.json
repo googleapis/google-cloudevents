@@ -12,8 +12,165 @@
   ],
   "product": "Cloud Build",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/BuildEventData",
+  "$ref": "#/definitions/BuildEventData",
   "definitions": {
+    "BuildEventData": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the build."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "ID of the project."
+        },
+        "status": {
+          "enum": [
+            "STATUS_UNKNOWN",
+            0,
+            "QUEUED",
+            1,
+            "WORKING",
+            2,
+            "SUCCESS",
+            3,
+            "FAILURE",
+            4,
+            "INTERNAL_ERROR",
+            5,
+            "TIMEOUT",
+            6,
+            "CANCELLED",
+            7,
+            "EXPIRED",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Status of the build."
+        },
+        "statusDetail": {
+          "type": "string",
+          "description": "Customer-readable message about the current status."
+        },
+        "source": {
+          "$ref": "#/definitions/Source",
+          "additionalProperties": true,
+          "description": "The location of the source files to build."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/BuildStep"
+          },
+          "type": "array",
+          "description": "The operations to be performed on the workspace."
+        },
+        "results": {
+          "$ref": "#/definitions/Results",
+          "additionalProperties": true,
+          "description": "Results of the build."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Time at which the request to create the build was received.",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Time at which execution of the build was started.",
+          "format": "date-time"
+        },
+        "finishTime": {
+          "type": "string",
+          "description": "Time at which execution of the build was finished.\n\n The difference between finish_time and start_time is the duration of the\n build's execution.",
+          "format": "date-time"
+        },
+        "timeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Amount of time that this build should be allowed to run, to second\n granularity. If this amount of time elapses, work on the build will cease\n and the build status will be `TIMEOUT`.",
+          "format": "regex"
+        },
+        "images": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of images to be pushed upon the successful completion of all build\n steps.\n\n The images are pushed using the builder service account's credentials.\n\n The digests of the pushed images will be stored in the `Build` resource's\n results field.\n\n If any of the images fail to be pushed, the build status is marked\n `FAILURE`."
+        },
+        "queueTtl": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "TTL in queue for this build. If provided and the build is enqueued longer\n than this value, the build will expire and the build status will be\n `EXPIRED`.\n\n The TTL starts ticking from create_time.",
+          "format": "regex"
+        },
+        "artifacts": {
+          "$ref": "#/definitions/Artifacts",
+          "additionalProperties": true,
+          "description": "Artifacts produced by the build that should be uploaded upon\n successful completion of all build steps."
+        },
+        "logsBucket": {
+          "type": "string",
+          "description": "Google Cloud Storage bucket where logs should be written (see\n [Bucket Name\n Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).\n Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`."
+        },
+        "sourceProvenance": {
+          "$ref": "#/definitions/SourceProvenance",
+          "additionalProperties": true,
+          "description": "A permanent fixed identifier for source."
+        },
+        "buildTriggerId": {
+          "type": "string",
+          "description": "The ID of the `BuildTrigger` that triggered this build, if it\n was triggered automatically."
+        },
+        "options": {
+          "$ref": "#/definitions/BuildOptions",
+          "additionalProperties": true,
+          "description": "Special options for this build."
+        },
+        "logUrl": {
+          "type": "string",
+          "description": "URL to logs for this build in Google Cloud Console."
+        },
+        "substitutions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Substitutions data for `Build` resource."
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Tags for annotation of a `Build`. These are not docker tags."
+        },
+        "secrets": {
+          "items": {
+            "$ref": "#/definitions/Secret"
+          },
+          "type": "array",
+          "description": "Secrets to decrypt using Cloud Key Management Service."
+        },
+        "timing": {
+          "additionalProperties": {
+            "$ref": "#/definitions/TimeSpan",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Stores timing information for phases of the build. Valid keys\n are:\n\n * BUILD: time to execute all build steps\n * PUSH: time to push all specified images.\n * FETCHSOURCE: time to fetch source.\n\n If the build does not specify source or images,\n these keys will not be included."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Build event data for Google Cloud Platform API operations."
+    },
     "Artifacts": {
       "properties": {
         "images": {

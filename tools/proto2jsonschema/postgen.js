@@ -44,7 +44,6 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     filePath = filePath.replace(/\\/g, '/');
 
     const packageName = getCloudEventPackage(filePath);
-
     const resultJSON = {
       // Add the $id and name first
       $id: getId(filePath),
@@ -57,34 +56,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     };
 
     /**
-     * Clean the schema output:
-     * - Fix generated "$ref" keys. i.e.
-     *   - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
-     *   - TO: "$ref": "#/definitions/googleEventsCloudCloudbuildV1Volume"
-     * - Remove useless generated "$schema" keys (unless top-level/root key).
-     * @param {boolean} isRoot if the traversal is starting at the root.
-     * @todo Update crusty tool to not produce these artifacts.
-     */
-    const cleanSchema = (obj, isRoot = false) => {
-      for (const prop in obj) {
-        const isRef = (prop === '$ref');
-        const isNestedSchema = (prop === '$schema');
-        if (isNestedSchema && !isRoot) {
-          // Delete these keys from object
-          delete obj[prop];
-        } else if (isRef) {
-          const uri = obj[prop].split('.').reverse()[0];
-          obj[prop] = `#/definitions/${uri}`;
-        } else if (typeof obj[prop] === 'object') {
-          // Recursive case
-          cleanSchema(obj[prop]);
-        }
-      }
-    };
-    cleanSchema(resultJSON, true);
-
-    /**
-     * Simplify and fix the $ref tags. This string is used for the name of fields.
+     * Simplify $ref tags. This string is used for the name of fields.
      *
      * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
      * Now the $refs are correct (but long).
@@ -107,20 +79,62 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     };
     const allRefs = getAllRefs(resultJSON);
 
-    // Map of strings to strings.
+    /**
+     * Map of replacement definitions.
+     * @example 'google.api.MonitoredResource' -> 'MonitoredResource'
+     * @example 'google.events.cloud.firestore.v1.Value' -> 'Value'
+     * @example 'google.rpc.Status': 'Status'
+     */
     const replacementMap = {};
     allRefs.map(ref => {
       const shorthandFromDotNotation = ref.split('.').reverse()[0];
       replacementMap[ref] = shorthandFromDotNotation;
     });
 
-    // Simplify the JSON schema definition names (if applicable)
-    if (resultJSON.definitions) {
-      Object.keys(resultJSON.definitions).forEach(d => {
-        const shorthandDefinition = d.split('.').reverse()[0];
-        resultJSON.definitions[shorthandDefinition] = resultJSON.definitions[d];
-        delete resultJSON.definitions[d];
-      });
+    /**
+     * Clean the schema output:
+     * - Replace definitions "#/definitions/{key}" with "#/definitions/{value}"
+     * 
+     * @example
+     * - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+     * - TO: "$ref": "#/definitions/Volume"
+     * @param {Object} obj the JSON object.
+    //  */
+    const cleanSchema = (obj) => {
+      for (const key in obj) {
+        // Base cases
+        const isRef = (key === '$ref');
+        if (isRef) {
+          const uri = obj[key];
+          for (const [find, replace] of Object.entries(replacementMap)) {
+            if (uri === `#/definitions/${find}`) {
+              obj[key] = `#/definitions/${replace}`;
+            }
+          }
+        }
+        
+        // Recursive case
+        if (typeof obj[key] === 'object') {
+          cleanSchema(obj[key]);
+          
+          // Change key name
+          // if key in replacementMap
+          if (replacementMap[obj[key]]) {
+            // then change key name
+            obj[key] = replacementMap[obj[key]];
+          }
+        }
+      }
+    };
+    cleanSchema(resultJSON);
+
+    /**
+     * Clean up schema output:
+     * - Replace keys with values in replacementMap
+     */
+    for (const [k, v] of Object.entries(resultJSON.definitions || {})) {
+      delete resultJSON.definitions[k];
+      resultJSON.definitions[replacementMap[k]] = v;
     }
 
     // Format JSON
@@ -220,6 +234,3 @@ function getCloudEventProperties(packageName) {
     product,
   };
 }
-
-const ucfirst = (w) => w.charAt(0).toUpperCase() + w.slice(1);
-const lcfirst = (w) => w.charAt(0).toLowerCase() + w.slice(1);

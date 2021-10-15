@@ -15,8 +15,30 @@
   ],
   "product": "Cloud Firestore",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/DocumentEventData",
+  "$ref": "#/definitions/DocumentEventData",
   "definitions": {
+    "DocumentEventData": {
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/Document",
+          "additionalProperties": true,
+          "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
+        },
+        "oldValue": {
+          "$ref": "#/definitions/Document",
+          "additionalProperties": true,
+          "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
+        },
+        "updateMask": {
+          "$ref": "#/definitions/DocumentMask",
+          "additionalProperties": true,
+          "description": "A DocumentMask object that lists changed fields.\n This is only populated for update events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firestore document events."
+    },
     "ArrayValue": {
       "properties": {
         "values": {

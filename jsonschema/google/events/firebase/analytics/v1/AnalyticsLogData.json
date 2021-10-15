@@ -11,8 +11,27 @@
   ],
   "product": "Google Analytics for Firebase",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/AnalyticsLogData",
+  "$ref": "#/definitions/AnalyticsLogData",
   "definitions": {
+    "AnalyticsLogData": {
+      "properties": {
+        "userDim": {
+          "$ref": "#/definitions/UserDimensions",
+          "additionalProperties": true,
+          "description": "User related dimensions."
+        },
+        "eventDim": {
+          "items": {
+            "$ref": "#/definitions/EventDimensions"
+          },
+          "type": "array",
+          "description": "A repeated record of event related dimensions."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within Firebase Analytics log events."
+    },
     "AnalyticsValue": {
       "properties": {
         "stringValue": {

@@ -9,8 +9,82 @@
   ],
   "product": "Firebase Test Lab",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/#/definitions/TestMatrixEventData",
+  "$ref": "#/definitions/TestMatrixEventData",
   "definitions": {
+    "TestMatrixEventData": {
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "description": "Time the test matrix was created.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "TEST_STATE_UNSPECIFIED",
+            0,
+            "VALIDATING",
+            1,
+            "PENDING",
+            2,
+            "FINISHED",
+            3,
+            "ERROR",
+            4,
+            "INVALID",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "State of the test matrix."
+        },
+        "invalidMatrixDetails": {
+          "type": "string",
+          "description": "Code that describes why the test matrix is considered invalid. Only set for\n matrices in the INVALID state."
+        },
+        "outcomeSummary": {
+          "enum": [
+            "OUTCOME_SUMMARY_UNSPECIFIED",
+            0,
+            "SUCCESS",
+            1,
+            "FAILURE",
+            2,
+            "INCONCLUSIVE",
+            3,
+            "SKIPPED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "Outcome summary of the test matrix."
+        },
+        "resultStorage": {
+          "$ref": "#/definitions/ResultStorage",
+          "additionalProperties": true,
+          "description": "Locations where test results are stored."
+        },
+        "clientInfo": {
+          "$ref": "#/definitions/ClientInfo",
+          "additionalProperties": true,
+          "description": "Information provided by the client that created the test matrix."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase test matrix events."
+    },
     "ClientInfo": {
       "properties": {
         "client": {
