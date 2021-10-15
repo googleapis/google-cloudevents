@@ -32,6 +32,7 @@ console.log(`Iterating through JSON schemas:`);
   filePaths.map(filePath => {
     if (filePath.includes('catalog.json')) return; // don't include self
     const json = JSON.parse(fs.readFileSync(filePath).toString());
+    const description = json.definitions[json.name].description; // get description from schema definition
     console.log(`- ${json.$id}`);
 
     // Add schema catalog entry with specific fields.
@@ -39,7 +40,7 @@ console.log(`Iterating through JSON schemas:`);
       url: json.$id,
       product: json.product,
       name: json.name,
-      description: json.description,
+      description,
       datatype: json.datatype,
       cloudeventTypes: json.cloudeventTypes,
     });
