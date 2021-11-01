@@ -6573,6 +6573,10 @@
           "lastAdded": "1634670863"
         },
         {
+          "methodName": "AssignProjectToBillingAccount",
+          "lastAdded": "1634670863"
+        },
+        {
           "methodName": "AssignResourceToBillingAccount",
           "lastAdded": "1634670863"
         },
