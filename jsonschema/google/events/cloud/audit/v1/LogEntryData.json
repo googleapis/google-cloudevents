@@ -11,12 +11,95 @@
   ],
   "product": "Cloud Audit Logs",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "logName": {
-      "type": "string",
-      "description": "The resource name of the log to which this log entry belongs."
+  "$ref": "#/definitions/LogEntryData",
+  "definitions": {
+    "LogEntryData": {
+      "properties": {
+        "logName": {
+          "type": "string",
+          "description": "The resource name of the log to which this log entry belongs."
+        },
+        "resource": {
+          "$ref": "#/definitions/MonitoredResource",
+          "additionalProperties": true,
+          "description": "The monitored resource that produced this log entry.\n\n Example: a log entry that reports a database error would be associated with\n the monitored resource designating the particular database that reported\n the error."
+        },
+        "protoPayload": {
+          "$ref": "#/definitions/AuditLog",
+          "additionalProperties": true,
+          "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log\n events."
+        },
+        "insertId": {
+          "type": "string",
+          "description": "A unique identifier for the log entry."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A set of user-defined (key, value) data that provides additional\n information about the log entry."
+        },
+        "operation": {
+          "$ref": "#/definitions/LogEntryOperation",
+          "additionalProperties": true,
+          "description": "Information about an operation associated with the log entry, if\n applicable."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The time the event described by the log entry occurred.",
+          "format": "date-time"
+        },
+        "receiveTimestamp": {
+          "type": "string",
+          "description": "The time the log entry was received by Logging.",
+          "format": "date-time"
+        },
+        "severity": {
+          "enum": [
+            "DEFAULT",
+            0,
+            "DEBUG",
+            100,
+            "INFO",
+            200,
+            "NOTICE",
+            300,
+            "WARNING",
+            400,
+            "ERROR",
+            500,
+            "CRITICAL",
+            600,
+            "ALERT",
+            700,
+            "EMERGENCY",
+            800
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "description": "The severity of the log entry."
+        },
+        "trace": {
+          "type": "string",
+          "description": "Resource name of the trace associated with the log entry, if any. If it\n contains a relative resource name, the name is assumed to be relative to\n `//tracing.googleapis.com`. Example:\n `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`"
+        },
+        "spanId": {
+          "type": "string",
+          "description": "The span ID within the trace associated with the log entry, if any.\n\n For Trace spans, this is the same format that the Trace API v2 uses: a\n 16-character hexadecimal encoding of an 8-byte array, such as\n `000000000000004a`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Cloud Audit Logs log entry events."
     },
-    "resource": {
+    "MonitoredResource": {
       "properties": {
         "type": {
           "type": "string",
@@ -32,9 +115,9 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "The monitored resource that produced this log entry.\n\n Example: a log entry that reports a database error would be associated with\n the monitored resource designating the particular database that reported\n the error."
+      "description": "Note: this is a much-reduced version of the proto at\n https://github.com/googleapis/googleapis/blob/master/google/api/monitored_resource.proto\n to avoid other dependencies leaking into events.\n\nAn object representing a resource that can be used for monitoring, logging,\n billing, or other purposes."
     },
-    "protoPayload": {
+    "AuditLog": {
       "properties": {
         "serviceName": {
           "type": "string",
@@ -49,52 +132,11 @@
           "description": "The resource or collection that is the target of the operation.\n The name is a scheme-less URI, not including the API service name.\n For example:\n\n     \"shelves/SHELF_ID/books\"\n     \"shelves/SHELF_ID/books/BOOK_ID\""
         },
         "resourceLocation": {
-          "properties": {
-            "currentLocations": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "description": "The locations of a resource after the execution of the operation.\n Requests to create or delete a location based resource must populate\n the 'current_locations' field and not the 'original_locations' field.\n For example:\n\n     \"europe-west1-a\"\n     \"us-east1\"\n     \"nam3\""
-            },
-            "originalLocations": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "description": "The locations of a resource prior to the execution of the operation.\n Requests that mutate the resource's location must populate both the\n 'original_locations' as well as the 'current_locations' fields.\n For example:\n\n     \"europe-west1-a\"\n     \"us-east1\"\n     \"nam3\""
-            }
-          },
+          "$ref": "#/definitions/ResourceLocation",
           "additionalProperties": true,
-          "type": "object",
           "description": "The resource location information."
         },
         "resourceOriginalState": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "array"
-                  },
-                  {
-                    "type": "boolean"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "object"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "type": "object",
-              "description": "Unordered map of dynamically typed values."
-            }
-          },
           "additionalProperties": true,
           "type": "object",
           "description": "The resource's original state before mutation. Present only for\n operations which have successfully modified the targeted resource(s).\n In general, this field should contain all changed fields, except those\n that are already been included in `request`, `response`, `metadata` or\n `service_data` fields.\n When the JSON object represented here has a proto equivalent,\n the proto name will be indicated in the `@type` property."
@@ -104,511 +146,43 @@
           "description": "The number of items returned from a List or Query API method,\n if applicable."
         },
         "status": {
-          "properties": {
-            "code": {
-              "type": "integer",
-              "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
-            },
-            "message": {
-              "type": "string",
-              "description": "A developer-facing error message, which should be in English. Any\n user-facing error message should be localized and sent in the\n [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
-            },
-            "details": {
-              "items": {
-                "properties": {
-                  "typeUrl": {
-                    "type": "string",
-                    "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
-                  },
-                  "value": {
-                    "type": "string",
-                    "description": "Must be a valid serialized protocol buffer of the above specified type.",
-                    "format": "binary",
-                    "binaryEncoding": "base64"
-                  }
-                },
-                "additionalProperties": true,
-                "type": "object",
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\n URL that describes the type of the serialized message.\n\n Protobuf library provides support to pack/unpack Any values in the form\n of utility functions or additional generated methods of the Any type.\n\n Example 1: Pack and unpack a message in C++.\n\n     Foo foo = ...;\n     Any any;\n     any.PackFrom(foo);\n     ...\n     if (any.UnpackTo(&foo)) {\n       ...\n     }\n\n Example 2: Pack and unpack a message in Java.\n\n     Foo foo = ...;\n     Any any = Any.pack(foo);\n     ...\n     if (any.is(Foo.class)) {\n       foo = any.unpack(Foo.class);\n     }\n\n  Example 3: Pack and unpack a message in Python.\n\n     foo = Foo(...)\n     any = Any()\n     any.Pack(foo)\n     ...\n     if any.Is(Foo.DESCRIPTOR):\n       any.Unpack(foo)\n       ...\n\n  Example 4: Pack and unpack a message in Go\n\n      foo := &pb.Foo{...}\n      any, err := ptypes.MarshalAny(foo)\n      ...\n      foo := &pb.Foo{}\n      if err := ptypes.UnmarshalAny(any, foo); err != nil {\n        ...\n      }\n\n The pack methods provided by protobuf library will by default use\n 'type.googleapis.com/full.type.name' as the type URL and the unpack\n methods only use the fully qualified type name after the last '/'\n in the type URL, for example \"foo.bar.com/x/y.z\" will yield type\n name \"y.z\".\n\n\n JSON\n ====\n The JSON representation of an `Any` value uses the regular\n representation of the deserialized, embedded message, with an\n additional field `@type` which contains the type URL. Example:\n\n     package google.profile;\n     message Person {\n       string first_name = 1;\n       string last_name = 2;\n     }\n\n     {\n       \"@type\": \"type.googleapis.com/google.profile.Person\",\n       \"firstName\": <string>,\n       \"lastName\": <string>\n     }\n\n If the embedded message type is well-known and has a custom JSON\n representation, that representation will be embedded adding a field\n `value` which holds the custom JSON in addition to the `@type`\n field. Example (for message [google.protobuf.Duration][]):\n\n     {\n       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n       \"value\": \"1.212s\"\n     }"
-              },
-              "type": "array",
-              "description": "A list of messages that carry the error details.  There is a common set of\n message types for APIs to use."
-            }
-          },
+          "$ref": "#/definitions/Status",
           "additionalProperties": true,
-          "type": "object",
           "description": "The status of the overall operation."
         },
         "authenticationInfo": {
-          "properties": {
-            "principalEmail": {
-              "type": "string",
-              "description": "The email address of the authenticated user (or service account on behalf\n of third party principal) making the request. For privacy reasons, the\n principal email address is redacted for all read-only operations that fail\n with a \"permission denied\" error."
-            },
-            "authoritySelector": {
-              "type": "string",
-              "description": "The authority selector specified by the requestor, if any.\n It is not guaranteed that the principal was allowed to use this authority."
-            },
-            "thirdPartyPrincipal": {
-              "properties": {
-                "fields": {
-                  "additionalProperties": {
-                    "oneOf": [
-                      {
-                        "type": "array"
-                      },
-                      {
-                        "type": "boolean"
-                      },
-                      {
-                        "type": "number"
-                      },
-                      {
-                        "type": "object"
-                      },
-                      {
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "type": "object",
-                  "description": "Unordered map of dynamically typed values."
-                }
-              },
-              "additionalProperties": true,
-              "type": "object",
-              "description": "The third party identification (if any) of the authenticated user making\n the request.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
-            },
-            "serviceAccountKeyName": {
-              "type": "string",
-              "description": "The name of the service account key used to create or exchange\n credentials for authenticating the service account making the request.\n This is a scheme-less URI full resource name. For example:\n\n \"//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}\""
-            },
-            "serviceAccountDelegationInfo": {
-              "items": {
-                "properties": {
-                  "firstPartyPrincipal": {
-                    "properties": {
-                      "principalEmail": {
-                        "type": "string",
-                        "description": "The email address of a Google account."
-                      },
-                      "serviceMetadata": {
-                        "properties": {
-                          "fields": {
-                            "additionalProperties": {
-                              "oneOf": [
-                                {
-                                  "type": "array"
-                                },
-                                {
-                                  "type": "boolean"
-                                },
-                                {
-                                  "type": "number"
-                                },
-                                {
-                                  "type": "object"
-                                },
-                                {
-                                  "type": "string"
-                                }
-                              ]
-                            },
-                            "type": "object",
-                            "description": "Unordered map of dynamically typed values."
-                          }
-                        },
-                        "additionalProperties": true,
-                        "type": "object",
-                        "description": "Metadata about the service that uses the service account."
-                      }
-                    },
-                    "additionalProperties": true,
-                    "type": "object",
-                    "description": "First party (Google) identity as the real authority."
-                  },
-                  "thirdPartyPrincipal": {
-                    "properties": {
-                      "thirdPartyClaims": {
-                        "properties": {
-                          "fields": {
-                            "additionalProperties": {
-                              "oneOf": [
-                                {
-                                  "type": "array"
-                                },
-                                {
-                                  "type": "boolean"
-                                },
-                                {
-                                  "type": "number"
-                                },
-                                {
-                                  "type": "object"
-                                },
-                                {
-                                  "type": "string"
-                                }
-                              ]
-                            },
-                            "type": "object",
-                            "description": "Unordered map of dynamically typed values."
-                          }
-                        },
-                        "additionalProperties": true,
-                        "type": "object",
-                        "description": "Metadata about third party identity."
-                      }
-                    },
-                    "additionalProperties": true,
-                    "type": "object",
-                    "description": "Third party identity as the real authority."
-                  }
-                },
-                "additionalProperties": true,
-                "type": "object",
-                "description": "Identity delegation history of an authenticated service account."
-              },
-              "type": "array",
-              "description": "Identity delegation history of an authenticated service account that makes\n the request. It contains information on the real authorities that try to\n access GCP resources by delegating on a service account. When multiple\n authorities present, they are guaranteed to be sorted based on the original\n ordering of the identity delegation events."
-            },
-            "principalSubject": {
-              "type": "string",
-              "description": "String representation of identity of requesting party.\n Populated for both first and third party identities."
-            }
-          },
+          "$ref": "#/definitions/AuthenticationInfo",
           "additionalProperties": true,
-          "type": "object",
           "description": "Authentication information."
         },
         "authorizationInfo": {
           "items": {
-            "properties": {
-              "resource": {
-                "type": "string",
-                "description": "The resource being accessed, as a REST-style string. For example:\n\n     bigquery.googleapis.com/projects/PROJECTID/datasets/DATASETID"
-              },
-              "permission": {
-                "type": "string",
-                "description": "The required IAM permission."
-              },
-              "granted": {
-                "type": "boolean",
-                "description": "Whether or not authorization for `resource` and `permission`\n was granted."
-              },
-              "resourceAttributes": {
-                "properties": {
-                  "service": {
-                    "type": "string",
-                    "description": "The name of the service that this resource belongs to, such as\n `pubsub.googleapis.com`. The service may be different from the DNS\n hostname that actually serves the request."
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "The stable identifier (name) of a resource on the `service`. A resource\n can be logically identified as \"//{resource.service}/{resource.name}\".\n The differences between a resource name and a URI are:\n\n *   Resource name is a logical identifier, independent of network\n     protocol and API version. For example,\n     `//pubsub.googleapis.com/projects/123/topics/news-feed`.\n *   URI often includes protocol and version information, so it can\n     be used directly by applications. For example,\n     `https://pubsub.googleapis.com/v1/projects/123/topics/news-feed`.\n\n See https://cloud.google.com/apis/design/resource_names for details."
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "The type of the resource. The syntax is platform-specific because\n different platforms define their resources differently.\n\n For Google APIs, the type format must be \"{service}/{kind}\"."
-                  },
-                  "labels": {
-                    "additionalProperties": {
-                      "type": "string"
-                    },
-                    "type": "object",
-                    "description": "The labels or tags on the resource, such as AWS resource tags and\n Kubernetes resource labels."
-                  }
-                },
-                "additionalProperties": true,
-                "type": "object",
-                "description": "Resource attributes used in IAM condition evaluation. This field contains\n resource attributes like resource type and resource name.\n\n To get the whole view of the attributes used in IAM\n condition evaluation, the user must also look into\n `AuditLogData.request_metadata.request_attributes`."
-              }
-            },
-            "additionalProperties": true,
-            "type": "object",
-            "description": "Authorization information for the operation."
+            "$ref": "#/definitions/AuthorizationInfo"
           },
           "type": "array",
           "description": "Authorization information. If there are multiple\n resources or permissions involved, then there is\n one AuthorizationInfo element for each {resource, permission} tuple."
         },
         "requestMetadata": {
-          "properties": {
-            "callerIp": {
-              "type": "string",
-              "description": "The IP address of the caller.\n For caller from internet, this will be public IPv4 or IPv6 address.\n For caller from a Compute Engine VM with external IP address, this\n will be the VM's external IP address. For caller from a Compute\n Engine VM without external IP address, if the VM is in the same\n organization (or project) as the accessed resource, `caller_ip` will\n be the VM's internal IPv4 address, otherwise the `caller_ip` will be\n redacted to \"gce-internal-ip\".\n See https://cloud.google.com/compute/docs/vpc/ for more information."
-            },
-            "callerSuppliedUserAgent": {
-              "type": "string",
-              "description": "The user agent of the caller.\n This information is not authenticated and should be treated accordingly.\n For example:\n\n +   `google-api-python-client/1.4.0`:\n     The request was made by the Google API client for Python.\n +   `Cloud SDK Command Line Tool apitools-client/1.0 gcloud/0.9.62`:\n     The request was made by the Google Cloud SDK CLI (gcloud).\n +   `AppEngine-Google; (+http://code.google.com/appengine; appid:\n s~my-project`:\n     The request was made from the `my-project` App Engine app."
-            },
-            "callerNetwork": {
-              "type": "string",
-              "description": "The network of the caller.\n Set only if the network host project is part of the same GCP organization\n (or project) as the accessed resource.\n See https://cloud.google.com/compute/docs/vpc/ for more information.\n This is a scheme-less URI full resource name. For example:\n\n     \"//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID\""
-            },
-            "requestAttributes": {
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "description": "The unique ID for a request, which can be propagated to downstream\n systems. The ID should have low probability of collision\n within a single day for a specific service."
-                },
-                "method": {
-                  "type": "string",
-                  "description": "The HTTP request method, such as `GET`, `POST`."
-                },
-                "headers": {
-                  "additionalProperties": {
-                    "type": "string"
-                  },
-                  "type": "object",
-                  "description": "The HTTP request headers. If multiple headers share the same key, they\n must be merged according to the HTTP spec. All header keys must be\n lowercased, because HTTP header keys are case-insensitive."
-                },
-                "path": {
-                  "type": "string",
-                  "description": "The HTTP URL path."
-                },
-                "host": {
-                  "type": "string",
-                  "description": "The HTTP request `Host` header value."
-                },
-                "scheme": {
-                  "type": "string",
-                  "description": "The HTTP URL scheme, such as `http` and `https`."
-                },
-                "query": {
-                  "type": "string",
-                  "description": "The HTTP URL query in the format of `name1=value1&name2=value2`, as it\n appears in the first line of the HTTP request. No decoding is performed."
-                },
-                "time": {
-                  "type": "string",
-                  "description": "The timestamp when the `destination` service receives the first byte of\n the request.",
-                  "format": "date-time"
-                },
-                "size": {
-                  "type": "integer",
-                  "description": "The HTTP request size in bytes. If unknown, it must be -1."
-                },
-                "protocol": {
-                  "type": "string",
-                  "description": "The network protocol used with the request, such as \"http/1.1\",\n \"spdy/3\", \"h2\", \"h2c\", \"webrtc\", \"tcp\", \"udp\", \"quic\". See\n https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids\n for details."
-                },
-                "reason": {
-                  "type": "string",
-                  "description": "A special parameter for request reason. It is used by security systems\n to associate auditing information with a request."
-                },
-                "auth": {
-                  "properties": {
-                    "principal": {
-                      "type": "string",
-                      "description": "The authenticated principal. Reflects the issuer (`iss`) and subject\n (`sub`) claims within a JWT. The issuer and subject should be `/`\n delimited, with `/` percent-encoded within the subject fragment. For\n Google accounts, the principal format is:\n \"https://accounts.google.com/{id}\""
-                    },
-                    "audiences": {
-                      "items": {
-                        "type": "string"
-                      },
-                      "type": "array",
-                      "description": "The intended audience(s) for this authentication information. Reflects\n the audience (`aud`) claim within a JWT. The audience\n value(s) depends on the `issuer`, but typically include one or more of\n the following pieces of information:\n\n *  The services intended to receive the credential such as\n    [\"pubsub.googleapis.com\", \"storage.googleapis.com\"]\n *  A set of service-based scopes. For example,\n    [\"https://www.googleapis.com/auth/cloud-platform\"]\n *  The client id of an app, such as the Firebase project id for JWTs\n    from Firebase Auth.\n\n Consult the documentation for the credential issuer to determine the\n information provided."
-                    },
-                    "presenter": {
-                      "type": "string",
-                      "description": "The authorized presenter of the credential. Reflects the optional\n Authorized Presenter (`azp`) claim within a JWT or the\n OAuth client id. For example, a Google Cloud Platform client id looks\n as follows: \"123456789012.apps.googleusercontent.com\"."
-                    },
-                    "claims": {
-                      "properties": {
-                        "fields": {
-                          "additionalProperties": {
-                            "oneOf": [
-                              {
-                                "type": "array"
-                              },
-                              {
-                                "type": "boolean"
-                              },
-                              {
-                                "type": "number"
-                              },
-                              {
-                                "type": "object"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
-                          },
-                          "type": "object",
-                          "description": "Unordered map of dynamically typed values."
-                        }
-                      },
-                      "additionalProperties": true,
-                      "type": "object",
-                      "description": "Structured claims presented with the credential. JWTs include\n `{key: value}` pairs for standard and private claims. The following\n is a subset of the standard required and optional claims that would\n typically be presented for a Google-based JWT:\n\n    {'iss': 'accounts.google.com',\n     'sub': '113289723416554971153',\n     'aud': ['123456789012', 'pubsub.googleapis.com'],\n     'azp': '123456789012.apps.googleusercontent.com',\n     'email': 'jsmith@example.com',\n     'iat': 1353601026,\n     'exp': 1353604926}\n\n SAML assertions are similarly specified, but with an identity provider\n dependent structure."
-                    },
-                    "accessLevels": {
-                      "items": {
-                        "type": "string"
-                      },
-                      "type": "array",
-                      "description": "A list of access level resource names that allow resources to be\n accessed by authenticated requester. It is part of Secure GCP processing\n for the incoming request. An access level string has the format:\n \"//{api_service_name}/accessPolicies/{policy_id}/accessLevels/{short_name}\"\n\n Example:\n \"//accesscontextmanager.googleapis.com/accessPolicies/MY_POLICY_ID/accessLevels/MY_LEVEL\""
-                    }
-                  },
-                  "additionalProperties": true,
-                  "type": "object",
-                  "description": "The request authentication. May be absent for unauthenticated requests.\n Derived from the HTTP request `Authorization` header or equivalent."
-                }
-              },
-              "additionalProperties": true,
-              "type": "object",
-              "description": "Request attributes used in IAM condition evaluation. This field contains\n request attributes like request time and access levels associated with\n the request.\n\n\n To get the whole view of the attributes used in IAM\n condition evaluation, the user must also look into\n `AuditLog.authentication_info.resource_attributes`."
-            },
-            "destinationAttributes": {
-              "properties": {
-                "ip": {
-                  "type": "string",
-                  "description": "The IP address of the peer."
-                },
-                "port": {
-                  "type": "integer",
-                  "description": "The network port of the peer."
-                },
-                "labels": {
-                  "additionalProperties": {
-                    "type": "string"
-                  },
-                  "type": "object",
-                  "description": "The labels associated with the peer."
-                },
-                "principal": {
-                  "type": "string",
-                  "description": "The identity of this peer. Similar to `Request.auth.principal`, but\n relative to the peer instead of the request. For example, the\n idenity associated with a load balancer that forwared the request."
-                },
-                "regionCode": {
-                  "type": "string",
-                  "description": "The CLDR country/region code associated with the above IP address.\n If the IP address is private, the `region_code` should reflect the\n physical location where this peer is running."
-                }
-              },
-              "additionalProperties": true,
-              "type": "object",
-              "description": "The destination of a network activity, such as accepting a TCP connection.\n In a multi hop network activity, the destination represents the receiver of\n the last hop. Only two fields are used in this message, Peer.port and\n Peer.ip. These fields are optionally populated by those services utilizing\n the IAM condition feature."
-            }
-          },
+          "$ref": "#/definitions/RequestMetadata",
           "additionalProperties": true,
-          "type": "object",
           "description": "Metadata about the operation."
         },
         "request": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "array"
-                  },
-                  {
-                    "type": "boolean"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "object"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "type": "object",
-              "description": "Unordered map of dynamically typed values."
-            }
-          },
           "additionalProperties": true,
           "type": "object",
           "description": "The operation request. This may not include all request parameters,\n such as those that are too large, privacy-sensitive, or duplicated\n elsewhere in the log record.\n It should never include user-generated data, such as file contents.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
         },
         "response": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "array"
-                  },
-                  {
-                    "type": "boolean"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "object"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "type": "object",
-              "description": "Unordered map of dynamically typed values."
-            }
-          },
           "additionalProperties": true,
           "type": "object",
           "description": "The operation response. This may not include all response elements,\n such as those that are too large, privacy-sensitive, or duplicated\n elsewhere in the log record.\n It should never include user-generated data, such as file contents.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
         },
         "metadata": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "array"
-                  },
-                  {
-                    "type": "boolean"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "object"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "type": "object",
-              "description": "Unordered map of dynamically typed values."
-            }
-          },
           "additionalProperties": true,
           "type": "object",
           "description": "Other service-specific data about the request, response, and other\n information associated with the current audited event."
         },
         "serviceData": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "array"
-                  },
-                  {
-                    "type": "boolean"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "object"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "type": "object",
-              "description": "Unordered map of dynamically typed values."
-            }
-          },
           "additionalProperties": true,
           "type": "object",
           "description": "Deprecated: Use `metadata` field instead.\n Other service-specific data about the request, response, and other\n activities.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
@@ -616,20 +190,68 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "The log entry payload, which is always an AuditLog for Cloud Audit Log\n events."
+      "description": "Common audit log format for Google Cloud Platform API operations.\n Copied from\n https://github.com/googleapis/googleapis/blob/master/google/cloud/audit/audit_log.proto,\n but changing service_data from Any to Struct."
     },
-    "insertId": {
-      "type": "string",
-      "description": "A unique identifier for the log entry."
-    },
-    "labels": {
-      "additionalProperties": {
-        "type": "string"
+    "AuthenticationInfo": {
+      "properties": {
+        "principalEmail": {
+          "type": "string",
+          "description": "The email address of the authenticated user (or service account on behalf\n of third party principal) making the request. For privacy reasons, the\n principal email address is redacted for all read-only operations that fail\n with a \"permission denied\" error."
+        },
+        "authoritySelector": {
+          "type": "string",
+          "description": "The authority selector specified by the requestor, if any.\n It is not guaranteed that the principal was allowed to use this authority."
+        },
+        "thirdPartyPrincipal": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "The third party identification (if any) of the authenticated user making\n the request.\n When the JSON object represented here has a proto equivalent, the proto\n name will be indicated in the `@type` property."
+        },
+        "serviceAccountKeyName": {
+          "type": "string",
+          "description": "The name of the service account key used to create or exchange\n credentials for authenticating the service account making the request.\n This is a scheme-less URI full resource name. For example:\n\n \"//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}\""
+        },
+        "serviceAccountDelegationInfo": {
+          "items": {
+            "$ref": "#/definitions/ServiceAccountDelegationInfo"
+          },
+          "type": "array",
+          "description": "Identity delegation history of an authenticated service account that makes\n the request. It contains information on the real authorities that try to\n access GCP resources by delegating on a service account. When multiple\n authorities present, they are guaranteed to be sorted based on the original\n ordering of the identity delegation events."
+        },
+        "principalSubject": {
+          "type": "string",
+          "description": "String representation of identity of requesting party.\n Populated for both first and third party identities."
+        }
       },
+      "additionalProperties": true,
       "type": "object",
-      "description": "A set of user-defined (key, value) data that provides additional\n information about the log entry."
+      "description": "Authentication information for the operation."
     },
-    "operation": {
+    "AuthorizationInfo": {
+      "properties": {
+        "resource": {
+          "type": "string",
+          "description": "The resource being accessed, as a REST-style string. For example:\n\n     bigquery.googleapis.com/projects/PROJECTID/datasets/DATASETID"
+        },
+        "permission": {
+          "type": "string",
+          "description": "The required IAM permission."
+        },
+        "granted": {
+          "type": "boolean",
+          "description": "Whether or not authorization for `resource` and `permission`\n was granted."
+        },
+        "resourceAttributes": {
+          "$ref": "#/definitions/Resource",
+          "additionalProperties": true,
+          "description": "Resource attributes used in IAM condition evaluation. This field contains\n resource attributes like resource type and resource name.\n\n To get the whole view of the attributes used in IAM\n condition evaluation, the user must also look into\n `AuditLogData.request_metadata.request_attributes`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Authorization information for the operation."
+    },
+    "LogEntryOperation": {
       "properties": {
         "id": {
           "type": "string",
@@ -650,59 +272,288 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Information about an operation associated with the log entry, if\n applicable."
+      "description": "Additional information about a potentially long-running operation with which\n a log entry is associated."
     },
-    "timestamp": {
-      "type": "string",
-      "description": "The time the event described by the log entry occurred.",
-      "format": "date-time"
-    },
-    "receiveTimestamp": {
-      "type": "string",
-      "description": "The time the log entry was received by Logging.",
-      "format": "date-time"
-    },
-    "severity": {
-      "enum": [
-        "DEFAULT",
-        0,
-        "DEBUG",
-        100,
-        "INFO",
-        200,
-        "NOTICE",
-        300,
-        "WARNING",
-        400,
-        "ERROR",
-        500,
-        "CRITICAL",
-        600,
-        "ALERT",
-        700,
-        "EMERGENCY",
-        800
-      ],
-      "oneOf": [
-        {
-          "type": "string"
+    "RequestMetadata": {
+      "properties": {
+        "callerIp": {
+          "type": "string",
+          "description": "The IP address of the caller.\n For caller from internet, this will be public IPv4 or IPv6 address.\n For caller from a Compute Engine VM with external IP address, this\n will be the VM's external IP address. For caller from a Compute\n Engine VM without external IP address, if the VM is in the same\n organization (or project) as the accessed resource, `caller_ip` will\n be the VM's internal IPv4 address, otherwise the `caller_ip` will be\n redacted to \"gce-internal-ip\".\n See https://cloud.google.com/compute/docs/vpc/ for more information."
         },
-        {
-          "type": "integer"
+        "callerSuppliedUserAgent": {
+          "type": "string",
+          "description": "The user agent of the caller.\n This information is not authenticated and should be treated accordingly.\n For example:\n\n +   `google-api-python-client/1.4.0`:\n     The request was made by the Google API client for Python.\n +   `Cloud SDK Command Line Tool apitools-client/1.0 gcloud/0.9.62`:\n     The request was made by the Google Cloud SDK CLI (gcloud).\n +   `AppEngine-Google; (+http://code.google.com/appengine; appid:\n s~my-project`:\n     The request was made from the `my-project` App Engine app."
+        },
+        "callerNetwork": {
+          "type": "string",
+          "description": "The network of the caller.\n Set only if the network host project is part of the same GCP organization\n (or project) as the accessed resource.\n See https://cloud.google.com/compute/docs/vpc/ for more information.\n This is a scheme-less URI full resource name. For example:\n\n     \"//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID\""
+        },
+        "requestAttributes": {
+          "$ref": "#/definitions/Request",
+          "additionalProperties": true,
+          "description": "Request attributes used in IAM condition evaluation. This field contains\n request attributes like request time and access levels associated with\n the request.\n\n\n To get the whole view of the attributes used in IAM\n condition evaluation, the user must also look into\n `AuditLog.authentication_info.resource_attributes`."
+        },
+        "destinationAttributes": {
+          "$ref": "#/definitions/Peer",
+          "additionalProperties": true,
+          "description": "The destination of a network activity, such as accepting a TCP connection.\n In a multi hop network activity, the destination represents the receiver of\n the last hop. Only two fields are used in this message, Peer.port and\n Peer.ip. These fields are optionally populated by those services utilizing\n the IAM condition feature."
         }
-      ],
-      "description": "The severity of the log entry."
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Metadata about the request."
     },
-    "trace": {
-      "type": "string",
-      "description": "Resource name of the trace associated with the log entry, if any. If it\n contains a relative resource name, the name is assumed to be relative to\n `//tracing.googleapis.com`. Example:\n `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`"
+    "ResourceLocation": {
+      "properties": {
+        "currentLocations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The locations of a resource after the execution of the operation.\n Requests to create or delete a location based resource must populate\n the 'current_locations' field and not the 'original_locations' field.\n For example:\n\n     \"europe-west1-a\"\n     \"us-east1\"\n     \"nam3\""
+        },
+        "originalLocations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The locations of a resource prior to the execution of the operation.\n Requests that mutate the resource's location must populate both the\n 'original_locations' as well as the 'current_locations' fields.\n For example:\n\n     \"europe-west1-a\"\n     \"us-east1\"\n     \"nam3\""
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Location information about a resource."
     },
-    "spanId": {
-      "type": "string",
-      "description": "The span ID within the trace associated with the log entry, if any.\n\n For Trace spans, this is the same format that the Trace API v2 uses: a\n 16-character hexadecimal encoding of an 8-byte array, such as\n `000000000000004a`."
+    "ServiceAccountDelegationInfo": {
+      "properties": {
+        "firstPartyPrincipal": {
+          "$ref": "#/definitions/FirstPartyPrincipal",
+          "additionalProperties": true,
+          "description": "First party (Google) identity as the real authority."
+        },
+        "thirdPartyPrincipal": {
+          "$ref": "#/definitions/ThirdPartyPrincipal",
+          "additionalProperties": true,
+          "description": "Third party identity as the real authority."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Identity delegation history of an authenticated service account."
+    },
+    "FirstPartyPrincipal": {
+      "properties": {
+        "principalEmail": {
+          "type": "string",
+          "description": "The email address of a Google account."
+        },
+        "serviceMetadata": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Metadata about the service that uses the service account."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "First party identity principal."
+    },
+    "ThirdPartyPrincipal": {
+      "properties": {
+        "thirdPartyClaims": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Metadata about third party identity."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Third party identity principal."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\n user-facing error message should be localized and sent in the\n [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\n URL that describes the type of the serialized message.\n\n Protobuf library provides support to pack/unpack Any values in the form\n of utility functions or additional generated methods of the Any type.\n\n Example 1: Pack and unpack a message in C++.\n\n     Foo foo = ...;\n     Any any;\n     any.PackFrom(foo);\n     ...\n     if (any.UnpackTo(&foo)) {\n       ...\n     }\n\n Example 2: Pack and unpack a message in Java.\n\n     Foo foo = ...;\n     Any any = Any.pack(foo);\n     ...\n     if (any.is(Foo.class)) {\n       foo = any.unpack(Foo.class);\n     }\n\n  Example 3: Pack and unpack a message in Python.\n\n     foo = Foo(...)\n     any = Any()\n     any.Pack(foo)\n     ...\n     if any.Is(Foo.DESCRIPTOR):\n       any.Unpack(foo)\n       ...\n\n  Example 4: Pack and unpack a message in Go\n\n      foo := &pb.Foo{...}\n      any, err := ptypes.MarshalAny(foo)\n      ...\n      foo := &pb.Foo{}\n      if err := ptypes.UnmarshalAny(any, foo); err != nil {\n        ...\n      }\n\n The pack methods provided by protobuf library will by default use\n 'type.googleapis.com/full.type.name' as the type URL and the unpack\n methods only use the fully qualified type name after the last '/'\n in the type URL, for example \"foo.bar.com/x/y.z\" will yield type\n name \"y.z\".\n\n\n JSON\n ====\n The JSON representation of an `Any` value uses the regular\n representation of the deserialized, embedded message, with an\n additional field `@type` which contains the type URL. Example:\n\n     package google.profile;\n     message Person {\n       string first_name = 1;\n       string last_name = 2;\n     }\n\n     {\n       \"@type\": \"type.googleapis.com/google.profile.Person\",\n       \"firstName\": <string>,\n       \"lastName\": <string>\n     }\n\n If the embedded message type is well-known and has a custom JSON\n representation, that representation will be embedded adding a field\n `value` which holds the custom JSON in addition to the `@type`\n field. Example (for message [google.protobuf.Duration][]):\n\n     {\n       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n       \"value\": \"1.212s\"\n     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of\n message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The `Status` type defines a logical error model that is suitable for\n different programming environments, including REST APIs and RPC APIs. It is\n used by [gRPC](https://github.com/grpc). Each `Status` message contains\n three pieces of data: error code, error message, and error details.\n\n You can find out more about this error model and how to work with it in the\n [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "Auth": {
+      "properties": {
+        "principal": {
+          "type": "string",
+          "description": "The authenticated principal. Reflects the issuer (`iss`) and subject\n (`sub`) claims within a JWT. The issuer and subject should be `/`\n delimited, with `/` percent-encoded within the subject fragment. For\n Google accounts, the principal format is:\n \"https://accounts.google.com/{id}\""
+        },
+        "audiences": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The intended audience(s) for this authentication information. Reflects\n the audience (`aud`) claim within a JWT. The audience\n value(s) depends on the `issuer`, but typically include one or more of\n the following pieces of information:\n\n *  The services intended to receive the credential such as\n    [\"pubsub.googleapis.com\", \"storage.googleapis.com\"]\n *  A set of service-based scopes. For example,\n    [\"https://www.googleapis.com/auth/cloud-platform\"]\n *  The client id of an app, such as the Firebase project id for JWTs\n    from Firebase Auth.\n\n Consult the documentation for the credential issuer to determine the\n information provided."
+        },
+        "presenter": {
+          "type": "string",
+          "description": "The authorized presenter of the credential. Reflects the optional\n Authorized Presenter (`azp`) claim within a JWT or the\n OAuth client id. For example, a Google Cloud Platform client id looks\n as follows: \"123456789012.apps.googleusercontent.com\"."
+        },
+        "claims": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Structured claims presented with the credential. JWTs include\n `{key: value}` pairs for standard and private claims. The following\n is a subset of the standard required and optional claims that would\n typically be presented for a Google-based JWT:\n\n    {'iss': 'accounts.google.com',\n     'sub': '113289723416554971153',\n     'aud': ['123456789012', 'pubsub.googleapis.com'],\n     'azp': '123456789012.apps.googleusercontent.com',\n     'email': 'jsmith@example.com',\n     'iat': 1353601026,\n     'exp': 1353604926}\n\n SAML assertions are similarly specified, but with an identity provider\n dependent structure."
+        },
+        "accessLevels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of access level resource names that allow resources to be\n accessed by authenticated requester. It is part of Secure GCP processing\n for the incoming request. An access level string has the format:\n \"//{api_service_name}/accessPolicies/{policy_id}/accessLevels/{short_name}\"\n\n Example:\n \"//accesscontextmanager.googleapis.com/accessPolicies/MY_POLICY_ID/accessLevels/MY_LEVEL\""
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "This message defines request authentication attributes. Terminology is\n based on the JSON Web Token (JWT) standard, but the terms also\n correlate to concepts in other standards."
+    },
+    "Peer": {
+      "properties": {
+        "ip": {
+          "type": "string",
+          "description": "The IP address of the peer."
+        },
+        "port": {
+          "type": "integer",
+          "description": "The network port of the peer."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The labels associated with the peer."
+        },
+        "principal": {
+          "type": "string",
+          "description": "The identity of this peer. Similar to `Request.auth.principal`, but\n relative to the peer instead of the request. For example, the\n idenity associated with a load balancer that forwared the request."
+        },
+        "regionCode": {
+          "type": "string",
+          "description": "The CLDR country/region code associated with the above IP address.\n If the IP address is private, the `region_code` should reflect the\n physical location where this peer is running."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "This message defines attributes for a node that handles a network request.\n The node can be either a service or an application that sends, forwards,\n or receives the request. Service peers should fill in\n `principal` and `labels` as appropriate."
+    },
+    "Request": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID for a request, which can be propagated to downstream\n systems. The ID should have low probability of collision\n within a single day for a specific service."
+        },
+        "method": {
+          "type": "string",
+          "description": "The HTTP request method, such as `GET`, `POST`."
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The HTTP request headers. If multiple headers share the same key, they\n must be merged according to the HTTP spec. All header keys must be\n lowercased, because HTTP header keys are case-insensitive."
+        },
+        "path": {
+          "type": "string",
+          "description": "The HTTP URL path."
+        },
+        "host": {
+          "type": "string",
+          "description": "The HTTP request `Host` header value."
+        },
+        "scheme": {
+          "type": "string",
+          "description": "The HTTP URL scheme, such as `http` and `https`."
+        },
+        "query": {
+          "type": "string",
+          "description": "The HTTP URL query in the format of `name1=value1&name2=value2`, as it\n appears in the first line of the HTTP request. No decoding is performed."
+        },
+        "time": {
+          "type": "string",
+          "description": "The timestamp when the `destination` service receives the first byte of\n the request.",
+          "format": "date-time"
+        },
+        "size": {
+          "type": "integer",
+          "description": "The HTTP request size in bytes. If unknown, it must be -1."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "The network protocol used with the request, such as \"http/1.1\",\n \"spdy/3\", \"h2\", \"h2c\", \"webrtc\", \"tcp\", \"udp\", \"quic\". See\n https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids\n for details."
+        },
+        "reason": {
+          "type": "string",
+          "description": "A special parameter for request reason. It is used by security systems\n to associate auditing information with a request."
+        },
+        "auth": {
+          "$ref": "#/definitions/Auth",
+          "additionalProperties": true,
+          "description": "The request authentication. May be absent for unauthenticated requests.\n Derived from the HTTP request `Authorization` header or equivalent."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "This message defines attributes for an HTTP request. If the actual\n request is not an HTTP request, the runtime system should try to map\n the actual request to an equivalent HTTP request."
+    },
+    "Resource": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "The name of the service that this resource belongs to, such as\n `pubsub.googleapis.com`. The service may be different from the DNS\n hostname that actually serves the request."
+        },
+        "name": {
+          "type": "string",
+          "description": "The stable identifier (name) of a resource on the `service`. A resource\n can be logically identified as \"//{resource.service}/{resource.name}\".\n The differences between a resource name and a URI are:\n\n *   Resource name is a logical identifier, independent of network\n     protocol and API version. For example,\n     `//pubsub.googleapis.com/projects/123/topics/news-feed`.\n *   URI often includes protocol and version information, so it can\n     be used directly by applications. For example,\n     `https://pubsub.googleapis.com/v1/projects/123/topics/news-feed`.\n\n See https://cloud.google.com/apis/design/resource_names for details."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the resource. The syntax is platform-specific because\n different platforms define their resources differently.\n\n For Google APIs, the type format must be \"{service}/{kind}\"."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The labels or tags on the resource, such as AWS resource tags and\n Kubernetes resource labels."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "This message defines core attributes for a resource. A resource is an\n addressable (named) entity provided by the destination service. For\n example, a file stored on a network storage service."
     }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Cloud Audit Logs log entry events."
+  }
 }

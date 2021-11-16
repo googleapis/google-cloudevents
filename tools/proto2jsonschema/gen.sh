@@ -54,7 +54,7 @@ curl -sSL \
 unzip -q protobuf.zip
 cd ..
 
-PROTOC_PLUGIN_VERSION=1.0.0
+PROTOC_PLUGIN_VERSION=1.3.1
 echo "- Setting up protoc plugin: chrusty/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
 GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION
@@ -95,9 +95,6 @@ for proto in $DATA_PROTOS; do
 done
 
 # Cleanup
-
-## Rename .jsonschema output to .json
-find $OUT_DIR -name '*.jsonschema' -exec sh -c 'mv "$0" "${0%.jsonschema}.json"' {} \;
 
 ## Remove all non *Data.json files
 find $OUT_DIR -type f ! -name "*Data.json" -exec rm {} \;

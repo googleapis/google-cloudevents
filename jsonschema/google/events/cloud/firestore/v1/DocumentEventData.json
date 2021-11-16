@@ -15,36 +15,44 @@
   ],
   "product": "Cloud Firestore",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "value": {
-      "$ref": "#/definitions/Document",
-      "additionalProperties": true,
-      "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
-    },
-    "oldValue": {
-      "$ref": "#/definitions/Document",
-      "additionalProperties": true,
-      "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
-    },
-    "updateMask": {
+  "$ref": "#/definitions/DocumentEventData",
+  "definitions": {
+    "DocumentEventData": {
       "properties": {
-        "fieldPaths": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "The list of field paths in the mask.\n See [Document.fields][google.cloud.firestore.v1.events.Document.fields]\n for a field path syntax reference."
+        "value": {
+          "$ref": "#/definitions/Document",
+          "additionalProperties": true,
+          "description": "A Document object containing a post-operation document snapshot.\n This is not populated for delete events."
+        },
+        "oldValue": {
+          "$ref": "#/definitions/Document",
+          "additionalProperties": true,
+          "description": "A Document object containing a pre-operation document snapshot.\n This is only populated for update and delete events."
+        },
+        "updateMask": {
+          "$ref": "#/definitions/DocumentMask",
+          "additionalProperties": true,
+          "description": "A DocumentMask object that lists changed fields.\n This is only populated for update events."
         }
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "A DocumentMask object that lists changed fields.\n This is only populated for update events."
-    }
-  },
-  "additionalProperties": true,
-  "type": "object",
-  "description": "The data within all Firestore document events.",
-  "definitions": {
+      "description": "The data within all Firestore document events."
+    },
+    "ArrayValue": {
+      "properties": {
+        "values": {
+          "items": {
+            "$ref": "#/definitions/Value"
+          },
+          "type": "array",
+          "description": "Values in the array."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "An array value."
+    },
     "Document": {
       "properties": {
         "name": {
@@ -72,8 +80,36 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "A Firestore document.",
-      "id": "google.events.cloud.firestore.v1.Document"
+      "description": "A Firestore document."
+    },
+    "DocumentMask": {
+      "properties": {
+        "fieldPaths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of field paths in the mask.\n See [Document.fields][google.cloud.firestore.v1.events.Document.fields]\n for a field path syntax reference."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "A set of field paths on a document."
+    },
+    "MapValue": {
+      "properties": {
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Value",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "The map's fields.\n\n The map keys represent field names. Field names matching the regular\n expression `__.*__` are reserved. Reserved field names are forbidden except\n in certain documented contexts. The map keys, represented as UTF-8, must\n not exceed 1,500 bytes and cannot be empty."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "A map value."
     },
     "Value": {
       "properties": {
@@ -124,54 +160,39 @@
           "description": "A reference to a document. For example:\n `projects/{project_id}/databases/{database_id}/documents/{document_path}`."
         },
         "geoPointValue": {
-          "properties": {
-            "latitude": {
-              "type": "number",
-              "description": "The latitude in degrees. It must be in the range [-90.0, +90.0]."
-            },
-            "longitude": {
-              "type": "number",
-              "description": "The longitude in degrees. It must be in the range [-180.0, +180.0]."
-            }
-          },
+          "$ref": "#/definitions/LatLng",
           "additionalProperties": true,
-          "type": "object",
           "description": "A geo point value representing a point on the surface of Earth."
         },
         "arrayValue": {
-          "properties": {
-            "values": {
-              "items": {
-                "$ref": "#/definitions/Value"
-              },
-              "type": "array",
-              "description": "Values in the array."
-            }
-          },
+          "$ref": "#/definitions/ArrayValue",
           "additionalProperties": true,
-          "type": "object",
           "description": "An array value.\n\n Cannot directly contain another array value, though can contain an\n map which contains another array."
         },
         "mapValue": {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "$ref": "#/definitions/Value",
-                "additionalProperties": true
-              },
-              "type": "object",
-              "description": "The map's fields.\n\n The map keys represent field names. Field names matching the regular\n expression `__.*__` are reserved. Reserved field names are forbidden except\n in certain documented contexts. The map keys, represented as UTF-8, must\n not exceed 1,500 bytes and cannot be empty."
-            }
-          },
+          "$ref": "#/definitions/MapValue",
           "additionalProperties": true,
-          "type": "object",
           "description": "A map value."
         }
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "A message that can hold any of the supported value types.",
-      "id": "google.events.cloud.firestore.v1.Value"
+      "description": "A message that can hold any of the supported value types."
+    },
+    "LatLng": {
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "The latitude in degrees. It must be in the range [-90.0, +90.0]."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude in degrees. It must be in the range [-180.0, +180.0]."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "An object representing a latitude/longitude pair. This is expressed as a pair\n of doubles representing degrees latitude and degrees longitude. Unless\n specified otherwise, this must conform to the\n <a href=\"http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf\">WGS84\n standard</a>. Values must be within normalized ranges."
     }
   }
 }
