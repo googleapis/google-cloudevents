@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.7.0...v1.8.0) (2021-10-15)
+
+
+### Features
+
+* Update JSON Schemas to Use Definitions for all Properties ([#289](https://www.github.com/googleapis/google-cloudevents/issues/289)) ([9d1bcda](https://www.github.com/googleapis/google-cloudevents/commit/9d1bcda2b6feaaa803e0f99a03f0ac0fb29e2ea0))
+
+## [1.7.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.6.1...v1.7.0) (2021-09-27)
+
+
+### Features
+
+* run generator (09-27-2021) ([#281](https://www.github.com/googleapis/google-cloudevents/issues/281)) ([0189415](https://www.github.com/googleapis/google-cloudevents/commit/0189415cb2ce46151853f87d654a172adda9ca83))
+
 ### [1.6.1](https://www.github.com/googleapis/google-cloudevents/compare/v1.6.0...v1.6.1) (2021-09-03)
 
 
