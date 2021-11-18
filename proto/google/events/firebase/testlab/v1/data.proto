@@ -43,6 +43,9 @@ message TestMatrixEventData {
 
   // Information provided by the client that created the test matrix.
   ClientInfo client_info = 6;
+
+  // ID of the test matrix this event belongs to.
+  string test_matrix_id = 7;
 }
 
 // Information about the client which invoked the test.
