@@ -28,7 +28,7 @@ message AlertData {
 
   // Time that the event has ended. Optional, only present for alertsthat are
   // ongoing
-  google.protobuf.Timestamp end_time = 2;
+  // google.protobuf.Timestamp end_time = 2;
 
   // Payload of the event, which includes the details of the specific alert.
   // It's a map of keys of String type and values of various types
