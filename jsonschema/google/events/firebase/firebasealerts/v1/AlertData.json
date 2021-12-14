@@ -1,0 +1,37 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/firebasealerts/v1/AlertData.json",
+  "name": "AlertData",
+  "examples": [],
+  "package": "google.events.firebase.firebasealerts.v1",
+  "datatype": "google.events.firebase.firebasealerts.v1.AlertData",
+  "cloudeventTypes": [
+    "google.firebase.firebasealerts.alerts.v1.published"
+  ],
+  "product": "Firebase Alerts",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/AlertData",
+  "definitions": {
+    "AlertData": {
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "description": "Time that the event has created",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Time that the event has ended. Optional, only present for alertsthat are\n ongoing",
+          "format": "date-time"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Payload of the event, which includes the details of the specific alert.\n It's a map of keys of String type and values of various types"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "The data within all Firebase Alerts."
+    }
+  }
+}
