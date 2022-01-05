@@ -1,0 +1,29 @@
+{
+  "bucket": "my-bucket",
+  "data": {
+    "bucket": "my-bucket",
+    "contentType": "text/plain",
+    "crc32c": "p/E54w==",
+    "etag": "CPaEvZG1tPQCEAE=",
+    "generation": "1637874272256630",
+    "id": "my-bucket/my-file.txt/1637874272256630",
+    "kind": "storage#object",
+    "md5Hash": "jd2L5LF5pSmvpfL/rkuYWA==",
+    "mediaLink": "https://www.googleapis.com/download/storage/v1/b/my-bucket/o/my-file.txt?generation=1637874272256630\\u0026alt=media",
+    "metageneration": "1",
+    "name": "my-file.txt",
+    "selfLink": "https://www.googleapis.com/storage/v1/b/my-bucket/o/my-file.txt",
+    "size": "13",
+    "storageClass": "STANDARD",
+    "timeCreated": "2021-11-25T21:04:32.279Z",
+    "timeStorageClassUpdated": "2021-11-25T21:04:32.279Z",
+    "updated": "2021-11-25T21:04:32.279Z"
+  },
+  "datacontenttype": "application/json",
+  "id": "3524662723493424",
+  "source": "//storage.googleapis.com/projects/_/buckets/my-bucket",
+  "specversion": "1.0",
+  "subject": "objects/my-file.txt",
+  "time": "2021-11-25T21:04:32.279744Z",
+  "type": "google.cloud.storage.object.v1.finalized"
+}
