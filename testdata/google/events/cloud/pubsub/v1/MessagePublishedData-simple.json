@@ -1,0 +1,13 @@
+{
+  "data": {
+    "data": "SGVsbG8gV29ybGQh",
+    "message_id": "3103425958877813",
+    "publish_time": "2021-10-01T20:37:27.386Z"
+  },
+  "datacontenttype": "application/json",
+  "id": "3103425958877813",
+  "source": "//pubsub.googleapis.com/projects/my-project/topics/my-topic",
+  "specversion": "1.0",
+  "time": "2021-10-01T20:37:27.386Z",
+  "type": "google.cloud.pubsub.topic.v1.messagePublished"
+}
