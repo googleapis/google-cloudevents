@@ -1,5 +1,4 @@
 {
-  "data": {
     "insertId": "jpllvgecd7bx",
     "logName": "projects/my-project/logs/cloudaudit.googleapis.com%2Fdata_access",
     "protoPayload": {
@@ -76,17 +75,4 @@
     },
     "severity": "INFO",
     "timestamp": "2021-11-25T21:56:00.276607Z"
-  },
-  "datacontenttype": "application/json; charset=utf-8",
-  "dataschema": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
-  "id": "projects/my-project/logs/cloudaudit.googleapis.com%2Fdata_accessjpllvgecd7bx1637877360276607",
-  "methodName": "jobservice.jobcompleted",
-  "recordedTime": "2021-11-25T21:56:00.276607Z",
-  "resourceName": "projects/my-project/jobs/bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
-  "serviceName": "bigquery.googleapis.com",
-  "source": "//cloudaudit.googleapis.com/projects/my-project/logs/data_access",
-  "specversion": "1.0",
-  "subject": "bigquery.googleapis.com/projects/my-project/jobs/bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
-  "time": "2021-11-25T21:56:00.653866570Z",
-  "type": "google.cloud.audit.log.v1.written"
-}
+  }
