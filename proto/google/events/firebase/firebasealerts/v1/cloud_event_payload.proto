@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package google.events.firebase.firebasealerts.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Firebase.FirebaseAlerts.V1";
+option java_package = "com.google.events.firebase.firebasealerts.v1";
+option java_outer_classname = "CloudEventPayloadProto";
+
+// -- Crashlytics
+
+// Basic information of the Crashlytics issue
+message CrashlyticsIssue {
+  string id = 1;
+  string title = 2;
+  string subtitle = 3;
+  string app_version = 4;
+}
+
+message CrashlyticsNewFatalIssuePayload {
+  // Basic information of the Crashlytics issue
+  CrashlyticsIssue issue = 1;
+}
+
+message CrashlyticsNewNonfatalIssuePayload {
+  // Basic information of the Crashlytics issue
+  CrashlyticsIssue issue = 1;
+}
+
+message CrashlyticsRegressionAlertPayload {
+  // The type of the Crashlytis issue, e.g. new fatal, new nonfatal, ANR
+  string type = 1;
+
+  // Basic information of the Crashlytics issue
+  CrashlyticsIssue issue = 2;
+
+  // The time that the Crashlytics issues was most recently resolved before it
+  // began to reoccur
+  google.protobuf.Timestamp resolve_time = 3;
+}
+
+message CrashlyticsVelocityAlertPayload {
+  // Basic information of the Crashlytics issue
+  CrashlyticsIssue issue = 1;
+
+  // The time that the Crashlytics issue gets created
+  google.protobuf.Timestamp create_time = 2;
+
+  // The number of user sessions for the given app version that had this
+  // specific crash issue in the time period used to trigger the velocity alert,
+  // which is currently 1h
+  int64 crash_count = 3;
+
+  // The percentage of user sessions for the given app version that had this
+  // specific crash issue in the time period used to trigger the velocity alert,
+  // which is currently 1h
+  double crash_percentage = 4;
+  // The first app version where this issue was seen, and not necessarily the
+  // version that has triggered the alert
+  string first_version = 5;
+}
+
+message CrashlyticsStabilityDigestPayload {
+  message TrendingIssueDetails {
+    // The type of the Crashlytis issue, e.g. new fatal, new nonfatal, ANR
+    string type = 1;
+
+    // Basic information of the Crashlytics issue
+    CrashlyticsIssue issue = 2;
+
+    // The number of crashes that occurred with the issue
+    int64 event_count = 3;
+
+    // The number of distinct users that were affected by the issue
+    int64 user_count = 4;
+  }
+
+  // The date that the digest gets created, issues in the digest should
+  // have the same date as the diges date
+  google.type.Date digest_date = 5;
+
+  // A stability digest contains several trending Crashlytics issues
+  repeated TrendingIssueDetails trending_issues = 6;
+}
+
+message CrashlyticsNewAnrIssuePayload {
+  CrashlyticsIssue issue = 1;
+}
+
+// -- App Distribution
+
+message AppDistroNewTesterIosDevicePayload {
+  string tester_name = 1;
+  string tester_email = 2;
+  string tester_device_model_name = 3;
+  string tester_device_identifier = 4;
+}
+
+// -- Billing
+
+message BillingPlanUpdatePayload {
+  // A Firebase plan
+  string billing_plan = 1;
+
+  // The email address of the person that triggered billing plan change
+  string principal_email = 2;
+
+  // The type of the notification, e.g. upgrade, downgrade
+  string notification_type = 3;
+}
+
+message BillingPlanAutomatedUpdatePayload {
+  // A Firebase plan
+  string billing_plan = 1;
+
+  // The type of the notification, e.g. upgrade, downgrade
+  string notification_type = 2;
+}
