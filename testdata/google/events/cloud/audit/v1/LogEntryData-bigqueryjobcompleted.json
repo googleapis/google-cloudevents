@@ -1,9 +1,9 @@
 {
     "insertId": "jpllvgecd7bx",
-    "logName": "projects/my-project/logs/cloudaudit.googleapis.com%2Fdata_access",
+    "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Fdata_access",
     "protoPayload": {
       "authenticationInfo": {
-        "principalEmail": "my-email@domain.com"
+        "principalEmail": "robot@test-project.iam.gserviceaccount.com"
       },
       "methodName": "jobservice.jobcompleted",
       "requestMetadata": {
@@ -12,7 +12,7 @@
         "destinationAttributes": {},
         "requestAttributes": {}
       },
-      "resourceName": "projects/my-project/jobs/bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
+      "resourceName": "projects/test-project/jobs/bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
       "serviceData": {
         "@type": "type.googleapis.com/google.cloud.bigquery.logging.v1.AuditData",
         "jobCompletedEvent": {
@@ -24,7 +24,7 @@
                 "defaultDataset": {},
                 "destinationTable": {
                   "datasetId": "_1f5a368b27df6124588f6733820599593e869a8a",
-                  "projectId": "my-project",
+                  "projectId": "test-project",
                   "tableId": "anon1f50c147_3e76_44d8_a863_44a8ab3deb61"
                 },
                 "query": "SELECT * FROM `bigquery-samples`.reddit.full LIMIT 10",
@@ -36,7 +36,7 @@
             "jobName": {
               "jobId": "bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
               "location": "US",
-              "projectId": "my-project"
+              "projectId": "test-project"
             },
             "jobStatistics": {
               "billingTier": 1,
@@ -69,7 +69,7 @@
     "receiveTimestamp": "2021-11-25T21:56:00.653866570Z",
     "resource": {
       "labels": {
-        "project_id": "my-project"
+        "project_id": "test-project"
       },
       "type": "bigquery_resource"
     },
