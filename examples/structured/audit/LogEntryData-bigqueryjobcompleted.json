@@ -15,7 +15,6 @@
       },
       "resourceName": "projects/test-project/jobs/sample-job",
       "serviceData": {
-        "@type": "type.googleapis.com/google.cloud.bigquery.logging.v1.AuditData",
         "jobCompletedEvent": {
           "eventName": "query_job_completed",
           "job": {
