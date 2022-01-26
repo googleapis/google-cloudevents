@@ -1,5 +1,5 @@
 {
-  "subscription": "projects/my-project/subscriptions/my-subscription",
+  "subscription": "projects/test-project/subscriptions/my-subscription",
   "message": {
     "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
     "data": "AQIDBA==",

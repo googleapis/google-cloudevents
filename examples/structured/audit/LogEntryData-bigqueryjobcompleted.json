@@ -1,0 +1,92 @@
+{
+  "data": {
+    "insertId": "1234567",
+    "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Fdata_access",
+    "protoPayload": {
+      "authenticationInfo": {
+        "principalEmail": "robot@test-project.iam.gserviceaccount.com"
+      },
+      "methodName": "jobservice.jobcompleted",
+      "requestMetadata": {
+        "callerIp": "2620:15c:0:200:1a75:e914:115b:e970",
+        "callerSuppliedUserAgent": "google-cloud-sdk357.0.0 (gzip),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {}
+      },
+      "resourceName": "projects/test-project/jobs/sample-job",
+      "serviceData": {
+        "@type": "type.googleapis.com/google.cloud.bigquery.logging.v1.AuditData",
+        "jobCompletedEvent": {
+          "eventName": "query_job_completed",
+          "job": {
+            "jobConfiguration": {
+              "query": {
+                "createDisposition": "CREATE_IF_NEEDED",
+                "defaultDataset": {},
+                "destinationTable": {
+                  "datasetId": "sample-dataset",
+                  "projectId": "test-project",
+                  "tableId": "sample-table"
+                },
+                "query": "sample-query",
+                "queryPriority": "QUERY_INTERACTIVE",
+                "statementType": "SELECT",
+                "writeDisposition": "WRITE_TRUNCATE"
+              }
+            },
+            "jobName": {
+              "jobId": "sample-job",
+              "location": "US",
+              "projectId": "test-project"
+            },
+            "jobStatistics": {
+              "billingTier": 1,
+              "createTime": "2021-11-25T21:55:59.872Z",
+              "endTime": "2021-11-25T21:56:00.236Z",
+              "queryOutputRowCount": "10",
+              "referencedTables": [
+                {
+                  "datasetId": "sample-dataset-reference",
+                  "projectId": "bigquery-samples",
+                  "tableId": "full"
+                }
+              ],
+              "startTime": "2021-11-25T21:55:59.956Z",
+              "totalBilledBytes": "12345",
+              "totalProcessedBytes": "12345",
+              "totalSlotMs": "123",
+              "totalTablesProcessed": 1
+            },
+            "jobStatus": {
+              "error": {},
+              "state": "DONE"
+            }
+          }
+        }
+      },
+      "serviceName": "bigquery.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2021-11-25T21:56:00.653866570Z",
+    "resource": {
+      "labels": {
+        "project_id": "test-project"
+      },
+      "type": "bigquery_resource"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-11-25T21:56:00.276607Z"
+  },
+  "datacontenttype": "application/json; charset=utf-8",
+  "dataschema": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
+  "id": "projects/test-project/logs/cloudaudit.googleapis.com%2Fdata_access1234567123456789",
+  "methodName": "jobservice.jobcompleted",
+  "recordedTime": "2021-11-25T21:56:00.276607Z",
+  "resourceName": "projects/test-project/jobs/sample-job",
+  "serviceName": "bigquery.googleapis.com",
+  "source": "//cloudaudit.googleapis.com/projects/test-project/logs/data_access",
+  "specversion": "1.0",
+  "subject": "bigquery.googleapis.com/projects/test-project/jobs/sample-job",
+  "time": "2021-11-25T21:56:00.653866570Z",
+  "type": "google.cloud.audit.log.v1.written"
+}

@@ -1,5 +1,5 @@
 {
-  "subscription": "projects/my-project/subscriptions/my-subscription",
+  "subscription": "projects/test-project/subscriptions/my-subscription",
   "message": {
     "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
     "attributes": {
@@ -8,5 +8,6 @@
     "data": "dGVzdCBtZXNzYWdlIDM=",
     "messageId": "message-id",
     "publishTime":"2021-02-05T04:06:14.109Z"
+    "orderingKey": "ordering-key",
   }
 }
