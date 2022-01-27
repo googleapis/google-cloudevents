@@ -103,6 +103,16 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/firebasealerts/v1/AlertData.json",
+      "product": "Firebase Alerts",
+      "name": "AlertData",
+      "description": "The data within all Firebase Alerts.",
+      "datatype": "google.events.firebase.firebasealerts.v1.AlertData",
+      "cloudeventTypes": [
+        "google.firebase.firebasealerts.alerts.v1.published"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/remoteconfig/v1/RemoteConfigEventData.json",
       "product": "Firebase Remote Config",
       "name": "RemoteConfigEventData",

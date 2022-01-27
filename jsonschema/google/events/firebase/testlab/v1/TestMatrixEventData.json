@@ -79,6 +79,10 @@
           "$ref": "#/definitions/ClientInfo",
           "additionalProperties": true,
           "description": "Information provided by the client that created the test matrix."
+        },
+        "testMatrixId": {
+          "type": "string",
+          "description": "ID of the test matrix this event belongs to."
         }
       },
       "additionalProperties": true,
