@@ -3,10 +3,7 @@
   "name": "StorageObjectData",
   "examples": [
     "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/storage/v1/StorageObjectData-complex.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/storage/v1/StorageObjectData-simple.json",
-    "https://googleapis.github.io/google-cloudevents/examples/binary/storage/StorageObjectData-complex.json",
-    "https://googleapis.github.io/google-cloudevents/examples/binary/storage/StorageObjectData-simple.json",
-    "https://googleapis.github.io/google-cloudevents/examples/structured/storage/StorageObjectDataWorkflows.json"
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/storage/v1/StorageObjectData-simple.json"
   ],
   "package": "google.events.cloud.storage.v1",
   "datatype": "google.events.cloud.storage.v1.StorageObjectData",
