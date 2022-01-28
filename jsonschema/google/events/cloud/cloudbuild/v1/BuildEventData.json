@@ -3,7 +3,9 @@
   "name": "BuildEventData",
   "examples": [
     "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/cloudbuild/v1/BuildEventData-complex.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/cloudbuild/v1/BuildEventData-simple.json"
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/cloudbuild/v1/BuildEventData-simple.json",
+    "https://googleapis.github.io/google-cloudevents/examples/binary/cloudbuild/BuildEventData-complex.json",
+    "https://googleapis.github.io/google-cloudevents/examples/binary/cloudbuild/BuildEventData-simple.json"
   ],
   "package": "google.events.cloud.cloudbuild.v1",
   "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",

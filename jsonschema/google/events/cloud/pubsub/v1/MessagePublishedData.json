@@ -3,7 +3,10 @@
   "name": "MessagePublishedData",
   "examples": [
     "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-binary.json",
-    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-text.json"
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/pubsub/v1/MessagePublishedData-text.json",
+    "https://googleapis.github.io/google-cloudevents/examples/binary/pubsub/MessagePublishedData-complex.json",
+    "https://googleapis.github.io/google-cloudevents/examples/binary/pubsub/MessagePublishedData-simple.json",
+    "https://googleapis.github.io/google-cloudevents/examples/structured/pubsub/MessagePublishedData.json"
   ],
   "package": "google.events.cloud.pubsub.v1",
   "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
