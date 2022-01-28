@@ -2,16 +2,16 @@
   "bucket": "sample-bucket",
   "data": {
     "bucket": "sample-bucket",
-    "cacheControl": "in nostrud dolore enim adipisicing",
+    "cacheControl": "max-age=6000",
     "componentCount": 1234,
-    "contentDisposition": "cupidatat aliqua exercitation",
+    "contentDisposition": "attachment",
     "contentEncoding": "gzip",
-    "contentLanguage": "ut incididunt",
-    "contentType": "esse commodo",
+    "contentLanguage": "en",
+    "contentType": "text/plain",
     "crc32c": "AAAAAA==",
     "customerEncryption": {
-      "keySha256": "est elit",
-      "encryptionAlgorithm": "enim mollit"
+      "keySha256": "Vb/C17P2fk35hguiD/pdLoXJk2j2NlmWmUmnOPsLtfA=",
+      "encryptionAlgorithm": "AES256"
     },
     "etag": "COu8mb3Dn+kCEAE=",
     "eventBasedHold": true,
