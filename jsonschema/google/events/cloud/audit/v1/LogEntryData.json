@@ -2,6 +2,7 @@
   "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
   "name": "LogEntryData",
   "examples": [
+    "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-bigqueryjobcompleted.json",
     "https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"
   ],
   "package": "google.events.cloud.audit.v1",

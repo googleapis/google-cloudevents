@@ -1,0 +1,78 @@
+{
+    "insertId": "jpllvgecd7bx",
+    "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Fdata_access",
+    "protoPayload": {
+      "authenticationInfo": {
+        "principalEmail": "robot@test-project.iam.gserviceaccount.com"
+      },
+      "methodName": "jobservice.jobcompleted",
+      "requestMetadata": {
+        "callerIp": "2620:15c:0:200:1a75:e914:115b:e970",
+        "callerSuppliedUserAgent": "google-cloud-sdk357.0.0 (gzip),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {}
+      },
+      "resourceName": "projects/test-project/jobs/bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
+      "serviceData": {
+        "@type": "type.googleapis.com/google.cloud.bigquery.logging.v1.AuditData",
+        "jobCompletedEvent": {
+          "eventName": "query_job_completed",
+          "job": {
+            "jobConfiguration": {
+              "query": {
+                "createDisposition": "CREATE_IF_NEEDED",
+                "defaultDataset": {},
+                "destinationTable": {
+                  "datasetId": "_1f5a368b27df6124588f6733820599593e869a8a",
+                  "projectId": "test-project",
+                  "tableId": "anon1f50c147_3e76_44d8_a863_44a8ab3deb61"
+                },
+                "query": "SELECT * FROM `bigquery-samples`.reddit.full LIMIT 10",
+                "queryPriority": "QUERY_INTERACTIVE",
+                "statementType": "SELECT",
+                "writeDisposition": "WRITE_TRUNCATE"
+              }
+            },
+            "jobName": {
+              "jobId": "bqjob_r3ac45813612fa2d6_0000017d591922c9_1",
+              "location": "US",
+              "projectId": "test-project"
+            },
+            "jobStatistics": {
+              "billingTier": 1,
+              "createTime": "2021-11-25T21:55:59.872Z",
+              "endTime": "2021-11-25T21:56:00.236Z",
+              "queryOutputRowCount": "10",
+              "referencedTables": [
+                {
+                  "datasetId": "reddit",
+                  "projectId": "bigquery-samples",
+                  "tableId": "full"
+                }
+              ],
+              "startTime": "2021-11-25T21:55:59.956Z",
+              "totalBilledBytes": "1450180608",
+              "totalProcessedBytes": "1449319174",
+              "totalSlotMs": "46",
+              "totalTablesProcessed": 1
+            },
+            "jobStatus": {
+              "error": {},
+              "state": "DONE"
+            }
+          }
+        }
+      },
+      "serviceName": "bigquery.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2021-11-25T21:56:00.653866570Z",
+    "resource": {
+      "labels": {
+        "project_id": "test-project"
+      },
+      "type": "bigquery_resource"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-11-25T21:56:00.276607Z"
+}

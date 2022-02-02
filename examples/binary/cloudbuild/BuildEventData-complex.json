@@ -1,0 +1,74 @@
+{
+  "timeout": "660s",
+  "createTime": "1993-07-25T02:32:41.388Z",
+  "tags": [
+    "gce-vm-tag",
+    "gcp-cloud-build-tag"
+  ],
+  "buildTriggerId": "trigger-id",
+  "logUrl": "http://example.com",
+  "images": [
+    "http://example.com",
+    "http://example.com"
+  ],
+  "options": {
+    "substitutionOption": "MUST_MATCH",
+    "env": [
+      "string1"
+    ],
+    "volumes": [],
+    "machineType": 1,
+    "logging": "GCS_ONLY",
+    "diskSizeGb": 18311588,
+    "sourceProvenanceHash": [
+      "SHA256",
+      "MD5"
+    ],
+    "secretEnv": [
+      "secret"
+    ],
+    "logStreamingOption": "STREAM_ON",
+    "workerPool": "cupidatat",
+    "requestedVerifyOption": "NOT_VERIFIED"
+  },
+  "results": {
+    "buildStepOutputs": [
+      "out1"
+    ],
+    "images": [],
+    "numArtifacts": 3306780,
+    "buildStepImages": [
+      "http://example.com"
+    ],
+    "artifactTiming": {
+      "startTime": "1995-03-02T21:38:07.876Z",
+      "endTime": "2006-06-09T14:32:38.775Z"
+    },
+    "artifactManifest": "officia aliqua mollit"
+  },
+  "artifacts": {
+    "images": [
+      "http://example.com"
+    ],
+    "objects": {
+      "location": "gs://bucket/path/to/somewhere/",
+      "paths": []
+    }
+  },
+  "status": "SUCCESS",
+  "secrets": [
+    {
+      "kmsKeyName": "projects/test-project/locations/location-id/keyRings/keyring-id/cryptoKeys/sample-key"
+    }
+  ],
+  "source": {
+    "storageSource": {
+      "bucket": "sample-bucket",
+      "object": "my-object.txt",
+      "generation": "1587627537231057"
+    }
+  },
+  "logsBucket": "sample-logsbucket",
+  "projectId": "test-project",
+  "queueTtl": "660s"
+}
