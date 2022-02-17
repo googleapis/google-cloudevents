@@ -94,6 +94,11 @@
         "spanId": {
           "type": "string",
           "description": "The span ID within the trace associated with the log entry, if any.\n\n For Trace spans, this is the same format that the Trace API v2 uses: a\n 16-character hexadecimal encoding of an 8-byte array, such as\n `000000000000004a`."
+        },
+        "split": {
+          "$ref": "#/definitions/LogSplit",
+          "additionalProperties": true,
+          "description": "Information indicating this LogEntry is part of a sequence of multiple logs\n split from a single LogEntry."
         }
       },
       "additionalProperties": true,
@@ -274,6 +279,25 @@
       "additionalProperties": true,
       "type": "object",
       "description": "Additional information about a potentially long-running operation with which\n a log entry is associated."
+    },
+    "LogSplit": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "A globally unique identifier for all LogEntries in a sequence of split\n logs. All LogEntries with the same |LogSplit.uid| are assumed to be part of\n the same sequence of split logs."
+        },
+        "index": {
+          "type": "integer",
+          "description": "The index of this LogEntry in the sequence of split logs. LogEntries are\n given |index| values 0, 1, ..., n-1 for a sequence of n entries."
+        },
+        "totalSplits": {
+          "type": "integer",
+          "description": "The total number of logs that the original LogEntry was split into."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Additional information used to correlate multiple LogEntries. Used when a\n single LogEntry would exceed the Google Cloud Logging size limit and is split\n across multiple entries."
     },
     "RequestMetadata": {
       "properties": {
