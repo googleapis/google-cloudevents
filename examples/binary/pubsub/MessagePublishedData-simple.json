@@ -1,0 +1,8 @@
+{
+  "subscription": "projects/test-project/subscriptions/my-subscription",
+  "message": {
+    "data": "AQIDBA==",
+    "messageId": "message-id",
+    "publishTime":"2021-02-05T04:06:14.109Z"
+  }
+}
