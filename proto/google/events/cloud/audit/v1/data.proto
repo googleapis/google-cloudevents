@@ -72,6 +72,10 @@ message LogEntryData {
   // 16-character hexadecimal encoding of an 8-byte array, such as
   // `000000000000004a`.
   string span_id = 27;
+
+  // Information indicating this LogEntry is part of a sequence of multiple logs
+  // split from a single LogEntry.
+  LogSplit split = 35;
 }
 
 // Additional information about a potentially long-running operation with which
@@ -374,4 +378,21 @@ message ServiceAccountDelegationInfo {
     // Third party identity as the real authority.
     ThirdPartyPrincipal third_party_principal = 2;
   }
+}
+
+// Additional information used to correlate multiple LogEntries. Used when a
+// single LogEntry would exceed the Google Cloud Logging size limit and is split
+// across multiple entries.
+message LogSplit {
+  // A globally unique identifier for all LogEntries in a sequence of split
+  // logs. All LogEntries with the same |LogSplit.uid| are assumed to be part of
+  // the same sequence of split logs.
+  string uid = 1;
+
+  // The index of this LogEntry in the sequence of split logs. LogEntries are
+  // given |index| values 0, 1, ..., n-1 for a sequence of n entries.
+  int32 index = 2;
+
+  // The total number of logs that the original LogEntry was split into.
+  int32 total_splits = 3;
 }
