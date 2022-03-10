@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/googleapis/google-cloudevents/compare/v1.10.0...v1.11.0) (2022-02-17)
+
+
+### Features
+
+* run generator (02-17-2022) ([#324](https://github.com/googleapis/google-cloudevents/issues/324)) ([f475043](https://github.com/googleapis/google-cloudevents/commit/f4750437170f6310a75479cfa989fee15c48b08e))
+
 ## [1.10.0](https://www.github.com/googleapis/google-cloudevents/compare/v1.9.0...v1.10.0) (2021-12-14)
 
 
