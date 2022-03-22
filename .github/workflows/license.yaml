@@ -21,7 +21,7 @@ jobs:
     - name: Check out repo
       uses: actions/checkout@v2
     - name: Setup Go for https://github.com/google/addlicense
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
         go-version: '1.17'
     # Get the license tool
