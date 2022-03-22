@@ -23,9 +23,9 @@ jobs:
       DOTNET_NOLOGO: true
     steps:
     - name: Check out our repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Check out google-cloudevents-dotnet
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents-dotnet
         path: google-cloudevents-dotnet
