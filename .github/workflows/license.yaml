@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Go for https://github.com/google/addlicense
       uses: actions/setup-go@v3
       with:

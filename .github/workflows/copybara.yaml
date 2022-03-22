@@ -22,7 +22,7 @@ jobs:
   create_pr:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Checkout a pull request from copybara to main
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
