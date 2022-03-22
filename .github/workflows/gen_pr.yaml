@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v3
       with:
