@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.0](https://github.com/googleapis/google-cloudevents/compare/v1.11.0...v1.12.0) (2022-03-24)
+
+
+### Features
+
+* run generator (03-24-2022) ([#340](https://github.com/googleapis/google-cloudevents/issues/340)) ([f1ce597](https://github.com/googleapis/google-cloudevents/commit/f1ce597586a59759dae9df2569eda089d99d9f29))
+
+
+### Bug Fixes
+
+* JSON syntax error in MessagePublishedData-complex ([#321](https://github.com/googleapis/google-cloudevents/issues/321)) ([72f2008](https://github.com/googleapis/google-cloudevents/commit/72f200872d8d6b97dc98c95ac66435118e7991cc))
+
 ## [1.11.0](https://github.com/googleapis/google-cloudevents/compare/v1.10.0...v1.11.0) (2022-02-17)
 
 
