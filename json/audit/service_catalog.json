@@ -24261,7 +24261,7 @@
     },
     {
       "serviceName": "sts.googleapis.com",
-      "displayName": "Storage Transfer Service",
+      "displayName": "Security Token Service API",
       "methods": [
         {
           "methodName": "google.identity.sts.v1.SecurityTokenService.ExchangeToken",
