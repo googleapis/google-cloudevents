@@ -99,7 +99,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
      * - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
      * - TO: "$ref": "#/definitions/Volume"
      * @param {Object} obj the JSON object.
-     //  */
+    //  */
     const cleanSchema = (obj) => {
       for (const key in obj) {
         // Base cases
@@ -129,9 +129,9 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     cleanSchema(resultJSON);
 
     /**
-    * Clean up schema output:
-    * - Replace keys with values in replacementMap
-    */
+     * Clean up schema output:
+     * - Replace keys with values in replacementMap
+     */
     for (const [k, v] of Object.entries(resultJSON.definitions || {})) {
       delete resultJSON.definitions[k];
       resultJSON.definitions[replacementMap[k]] = v;
@@ -147,24 +147,24 @@ console.log(`Fixing paths in dir: ${ROOT}`);
 })();
 
 /**
-* Gets the "$id" for the JSON schema.
-* @param {string} filepath The input file path
-* @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json
-* @example out: https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json
-* @returns {string} A URI that represents the ID of the file.
-*/
+ * Gets the "$id" for the JSON schema.
+ * @param {string} filepath The input file path
+ * @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json
+ * @example out: https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json
+ * @returns {string} A URI that represents the ID of the file.
+ */
 function getId(filepath) {
   const subpath = filepath.split('jsonschema/')[1];
   return `https://googleapis.github.io/google-cloudevents/jsonschema/${subpath}`;
 }
 
 /**
-* Gets the cloudevent package represented in the JSON schema.
-* @param {string} filepath The input file path
-* @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
-* @returns {string} The CloudEvent package for this file represents.
-* @example out: google.events.cloud.audit.v1
-*/
+ * Gets the cloudevent package represented in the JSON schema.
+ * @param {string} filepath The input file path
+ * @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
+ * @returns {string} The CloudEvent package for this file represents.
+ * @example out: google.events.cloud.audit.v1
+ */
 function getCloudEventPackage(filepath) {
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
@@ -172,12 +172,12 @@ function getCloudEventPackage(filepath) {
 }
 
 /**
-* Gets the paths to test event data associated with the schema.
-* @param {string} filepath The input file path
-* @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
-* @example out: ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
-* @returns {array[string]} An array of paths to the test event data.
-*/
+ * Gets the paths to test event data associated with the schema.
+ * @param {string} filepath The input file path
+ * @example filepath: /Documents/github/googleapis/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json
+ * @example out: ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
+ * @returns {array[string]} An array of paths to the test event data.
+ */
 function getExamples(filepath) {
   const removePrefix = filepath.split('jsonschema/')[1];
   const removeSuffix = removePrefix.substring(0, removePrefix.lastIndexOf("/"));
@@ -198,13 +198,13 @@ function getExamples(filepath) {
 }
 
 /**
-* Gets the CloudEvent properties from the corresponding `events.proto` file.
-* @param {string} packageName The package name of the CloudEvent.
-* @param {string} dataName The CloudEvent payload type name.
-* @return {object} cloudevent The CloudEvent properties object.
-* @return {string[]} cloudevent.types The CloudEvent type strings.
-* @return {string} cloudevent.product The CloudEvent product.
-*/
+ * Gets the CloudEvent properties from the corresponding `events.proto` file.
+ * @param {string} packageName The package name of the CloudEvent.
+ * @param {string} dataName The CloudEvent payload type name.
+ * @return {object} cloudevent The CloudEvent properties object.
+ * @return {string[]} cloudevent.types The CloudEvent type strings.
+ * @return {string} cloudevent.product The CloudEvent product.
+ */
 function getCloudEventProperties(packageName, dataName) {
   const packageNameSplit = packageName.split('.');
   const protoPath = packageNameSplit.join('/');
