@@ -21,12 +21,12 @@ const protobufjs = require('protobufjs');
 const flatten = require('flat');
 
 /**
-* This tool polishes the JSON schemas with a few modifications:
-* - Adds "$id" – "." delimited ID – e.g. "google.events.cloud.audit.v1.LogEntryData"
-* - Adds "name" – The name for the JSON schema – e.g. "LogEntryData"
-* - Adds "examples" - A list of paths to the test event data associated with the schema
-*   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
-*/
+ * This tool polishes the JSON schemas with a few modifications:
+ * - Adds "$id" – "." delimited ID – e.g. "google.events.cloud.audit.v1.LogEntryData"
+ * - Adds "name" – The name for the JSON schema – e.g. "LogEntryData"
+ * - Adds "examples" - A list of paths to the test event data associated with the schema
+ *   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
+ */
 const ROOT = path.resolve(`${__dirname}/../../jsonschema`);
 const TESTDATA = path.resolve(`${__dirname}/../../testdata`);
 console.log(`Fixing paths in dir: ${ROOT}`);
@@ -56,23 +56,23 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     };
 
     /**
-    * Simplify $ref tags. This string is used for the name of fields.
-    *
-    * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
-    * Now the $refs are correct (but long).
-    *
-    * We need to change the $ref name and definition.
-    *
-    * We do so by:
-    * - Looking at the JSON schema "definitions".
-    * - Create a map from the longhand to shortand value
-    * - replaceAll longhand to shorthand values
-    * @example "google.events.cloud.firestore.v1.Value" -> "Value"
-    * @example "google.events.cloud.cloudbuild.v1.StorageSource" -> StorageSource
-    *
-    * In terms of scale, within the original 10 CloudEvents, there are 6 fields
-    * that contain long-hand tags that are fixed with this modification.
-    */
+     * Simplify $ref tags. This string is used for the name of fields.
+     *
+     * This couldn't be done in the previous step, because the $ref was simply wrong in that step.
+     * Now the $refs are correct (but long).
+     *
+     * We need to change the $ref name and definition.
+     *
+     * We do so by:
+     * - Looking at the JSON schema "definitions".
+     * - Create a map from the longhand to shortand value
+     * - replaceAll longhand to shorthand values
+     * @example "google.events.cloud.firestore.v1.Value" -> "Value"
+     * @example "google.events.cloud.cloudbuild.v1.StorageSource" -> StorageSource
+     *
+     * In terms of scale, within the original 10 CloudEvents, there are 6 fields
+     * that contain long-hand tags that are fixed with this modification.
+     */
     const getAllRefs = (schema) => {
       if (!schema.definitions) return [];
       return Object.keys(schema.definitions);
@@ -80,11 +80,11 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     const allRefs = getAllRefs(resultJSON);
 
     /**
-    * Map of replacement definitions.
-    * @example 'google.api.MonitoredResource' -> 'MonitoredResource'
-    * @example 'google.events.cloud.firestore.v1.Value' -> 'Value'
-    * @example 'google.rpc.Status': 'Status'
-    */
+     * Map of replacement definitions.
+     * @example 'google.api.MonitoredResource' -> 'MonitoredResource'
+     * @example 'google.events.cloud.firestore.v1.Value' -> 'Value'
+     * @example 'google.rpc.Status': 'Status'
+     */
     const replacementMap = {};
     allRefs.map(ref => {
       const shorthandFromDotNotation = ref.split('.').reverse()[0];
@@ -92,14 +92,14 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     });
 
     /**
-    * Clean the schema output:
-    * - Replace definitions "#/definitions/{key}" with "#/definitions/{value}"
-    *
-    * @example
-    * - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
-    * - TO: "$ref": "#/definitions/Volume"
-    * @param {Object} obj the JSON object.
-    //  */
+     * Clean the schema output:
+     * - Replace definitions "#/definitions/{key}" with "#/definitions/{value}"
+     *
+     * @example
+     * - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
+     * - TO: "$ref": "#/definitions/Volume"
+     * @param {Object} obj the JSON object.
+     //  */
     const cleanSchema = (obj) => {
       for (const key in obj) {
         // Base cases
