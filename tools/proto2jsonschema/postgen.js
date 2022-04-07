@@ -35,7 +35,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
   // For every file
   filePaths.map(filePath => {
     const dataName = path.basename(filePath,  path.extname(filePath)); // i.e. LogEntryData
-    
+
     // Create the modified JSON schema output
     const json = JSON.parse(fs.readFileSync(filePath).toString());
 
@@ -51,7 +51,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
       examples: getExamples(filePath),
       package: packageName,
       datatype: `${packageName}.${dataName}`,
-      ...getCloudEventProperties(packageName),
+      ...getCloudEventProperties(packageName, dataName),
       ...json
     };
 
@@ -94,7 +94,7 @@ console.log(`Fixing paths in dir: ${ROOT}`);
     /**
      * Clean the schema output:
      * - Replace definitions "#/definitions/{key}" with "#/definitions/{value}"
-     * 
+     *
      * @example
      * - FROM: "$ref": "google.events.cloud.cloudbuild.v1.Volume"
      * - TO: "$ref": "#/definitions/Volume"
@@ -112,11 +112,11 @@ console.log(`Fixing paths in dir: ${ROOT}`);
             }
           }
         }
-        
+
         // Recursive case
         if (typeof obj[key] === 'object') {
           cleanSchema(obj[key]);
-          
+
           // Change key name
           // if key in replacementMap
           if (replacementMap[obj[key]]) {
@@ -200,31 +200,50 @@ function getExamples(filepath) {
 /**
  * Gets the CloudEvent properties from the corresponding `events.proto` file.
  * @param {string} packageName The package name of the CloudEvent.
+ * @param {string} dataName The CloudEvent payload type name.
  * @return {object} cloudevent The CloudEvent properties object.
  * @return {string[]} cloudevent.types The CloudEvent type strings.
  * @return {string} cloudevent.product The CloudEvent product.
  */
-function getCloudEventProperties(packageName) {
-  const protoPath = packageName.split('.').join('/');
+function getCloudEventProperties(packageName, dataName) {
+  const packageNameSplit = packageName.split('.');
+  const protoPath = packageNameSplit.join('/');
   const eventPath = path.resolve(`${__dirname}/../../proto/${protoPath}/events.proto`);
   const proto = protobufjs.loadSync(eventPath);
   const protoAsJSON = proto.toJSON();
 
-  // Flatten the protobuf representation and look directly for these keys:
   const CLOUD_EVENT_TYPE = '(google.events.cloud_event_type)';
   const CLOUD_EVENT_PRODUCT = '(google.events.cloud_event_product)';
-  const flattenedProtoValueMap = flatten(protoAsJSON);
-  const flattenedProtoValueMapEntries = Object.entries(flattenedProtoValueMap);
-  
-  // Go through all the keys, add the type or product if found.
-  const cloudeventTypes = [];
+
+  // We'll traverse the proto file to extract CloudEvent properties.
+  // The file contents are nested in the proto package.
+  let eventMessages = protoAsJSON;
+  for (const k of packageNameSplit) {
+    eventMessages = eventMessages["nested"][k];
+  }
+
+  // Find the product if specified.
   let product = '';
-  for (const [k, v] of flattenedProtoValueMapEntries) {
-    if (k.endsWith(CLOUD_EVENT_TYPE)) {
-      cloudeventTypes.push(v);
-    }
-    if (k.endsWith(CLOUD_EVENT_PRODUCT)) {
-      product = v;
+  if (eventMessages.hasOwnProperty("options") && eventMessages["options"].hasOwnProperty(CLOUD_EVENT_PRODUCT)) {
+    product = eventMessages["options"][CLOUD_EVENT_PRODUCT];
+  }
+
+  // Find all CloudEvent types associated with this payload.
+  const cloudeventTypes = [];
+  eventMessages = eventMessages["nested"];
+  for (const e in eventMessages) {
+    const event = eventMessages[e];
+    if (!event.hasOwnProperty("options")) continue;
+    const eventOptions = event["options"];
+    if (!eventOptions.hasOwnProperty(CLOUD_EVENT_TYPE)) continue;
+    if (!event.hasOwnProperty("fields")) continue;
+    const eventFields = event["fields"];
+    if (!eventFields.hasOwnProperty("data")) continue;
+    const eventData = eventFields["data"];
+    if (!eventData.hasOwnProperty("type")) continue;
+    const eventDataType = eventData["type"];
+    if (eventDataType == dataName) {
+      cloudeventTypes.push(eventOptions[CLOUD_EVENT_TYPE]);
     }
   }
 
