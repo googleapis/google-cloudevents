@@ -44,6 +44,7 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
+- `google.identity.accesscontextmanager.v1.AccessContextManager.CommitServicePerimeters`
 - `google.identity.accesscontextmanager.v1.AccessContextManager.CreateAccessLevel`
 - `google.identity.accesscontextmanager.v1.AccessContextManager.CreateAccessPolicy`
 - `google.identity.accesscontextmanager.v1.AccessContextManager.CreateGcpUserAccessBinding`
@@ -131,9 +132,11 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.assignCustomLogo`
 - `google.admin.AdminService.assignRole`
 - `google.admin.AdminService.authorizeApiClientAccess`
+- `google.admin.AdminService.autoProvConfigAttributeMappingRemoved`
 - `google.admin.AdminService.autoProvConfigAttributeMappingUpdated`
 - `google.admin.AdminService.autoProvConfigGroupNameAdded`
 - `google.admin.AdminService.autoProvConfigGroupRestrictionDeactivated`
+- `google.admin.AdminService.autoProvDeprovActionRemoved`
 - `google.admin.AdminService.blockAllThirdPartyApiAccess`
 - `google.admin.AdminService.cancelAlertHangoutsDevice`
 - `google.admin.AdminService.cancelCalendarEvents`
@@ -180,6 +183,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.changeLdapApplicationUserSearchSettings`
 - `google.admin.AdminService.changeLicenseAutoAssign`
 - `google.admin.AdminService.changeMobileApplicationPermissionGrant`
+- `google.admin.AdminService.changeMobileApplicationPriorityOrder`
 - `google.admin.AdminService.changeMobileApplicationSettings`
 - `google.admin.AdminService.changeMobileSetting`
 - `google.admin.AdminService.changeOrganizationName`
@@ -220,8 +224,9 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.changeUserPhoneNumber`
 - `google.admin.AdminService.changeUserRelation`
 - `google.admin.AdminService.chromeAppLicensesEnabled`
-- `google.admin.AdminService.chromeApplicationLicenseReservationCreated`
+- `google.admin.AdminService.chromeAppUserLicenseAssigned`
 - `google.admin.AdminService.chromeConnectorConfigurationChange`
+- `google.admin.AdminService.chromeLicensesPurchased`
 - `google.admin.AdminService.chromeLicensesRedeemed`
 - `google.admin.AdminService.cleanCalendarResourceCalendarEvents`
 - `google.admin.AdminService.communicationPreferencesSettingChange`
@@ -271,21 +276,19 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.deleteCalendarResourceMaintenanceEvent`
 - `google.admin.AdminService.deleteCertificate`
 - `google.admin.AdminService.deleteChromeBrowser`
-- `google.admin.AdminService.deleteChromeOsDevice`
 - `google.admin.AdminService.deleteChromeOsPrintServer`
 - `google.admin.AdminService.deleteChromeOsPrinter`
 - `google.admin.AdminService.deleteCustomUserField`
 - `google.admin.AdminService.deleteCustomUserSchema`
 - `google.admin.AdminService.deleteDlpDetector`
-- `google.admin.AdminService.deleteDuplicateChromeOsDevice`
 - `google.admin.AdminService.deleteEmailMonitor`
 - `google.admin.AdminService.deleteGmailSetting`
 - `google.admin.AdminService.deleteGroup`
 - `google.admin.AdminService.deleteLdapApplication`
+- `google.admin.AdminService.deleteLdapApplicationCertificate`
 - `google.admin.AdminService.deleteLdapApplicationCredentials`
 - `google.admin.AdminService.deleteManagedConfiguration`
 - `google.admin.AdminService.deleteProfilePhoto`
-- `google.admin.AdminService.deleteRemoteDirectory`
 - `google.admin.AdminService.deleteRole`
 - `google.admin.AdminService.deleteRule`
 - `google.admin.AdminService.deleteSaml2ServiceProviderConfig`
@@ -308,6 +311,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.enforceStrongAuthentication`
 - `google.admin.AdminService.ewsInNewCredentialsGenerated`
 - `google.admin.AdminService.ewsOutEndpointConfigurationChanged`
+- `google.admin.AdminService.ewsOutEndpointConfigurationReset`
 - `google.admin.AdminService.exitMigration`
 - `google.admin.AdminService.generate2svScratchCodes`
 - `google.admin.AdminService.generateCertificate`
@@ -338,7 +342,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.admin.AdminService.rejectFromQuarantine`
 - `google.admin.AdminService.releaseCalendarResources`
 - `google.admin.AdminService.releaseFromQuarantine`
-- `google.admin.AdminService.removeAddressbookGroups`
 - `google.admin.AdminService.removeApiClientAccess`
 - `google.admin.AdminService.removeApplication`
 - `google.admin.AdminService.removeCertificate`
@@ -487,13 +490,11 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.ui.DatasetService.BatchDeleteDataItems`
 - `google.cloud.aiplatform.ui.DatasetService.BatchEditAnnotations`
 - `google.cloud.aiplatform.ui.DatasetService.BatchUpdateDataItems`
-- `google.cloud.aiplatform.ui.DatasetService.CalculateSavedQueryStats`
 - `google.cloud.aiplatform.ui.DatasetService.CreateDataset`
 - `google.cloud.aiplatform.ui.DatasetService.CreateSavedQuery`
 - `google.cloud.aiplatform.ui.DatasetService.DeleteDataset`
 - `google.cloud.aiplatform.ui.DatasetService.DeleteSavedQuery`
 - `google.cloud.aiplatform.ui.DatasetService.ExportData`
-- `google.cloud.aiplatform.ui.DatasetService.GenerateDatasetStats`
 - `google.cloud.aiplatform.ui.DatasetService.GetDataset`
 - `google.cloud.aiplatform.ui.DatasetService.GetSavedQuery`
 - `google.cloud.aiplatform.ui.DatasetService.ImportData`
@@ -534,6 +535,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.ui.FeaturestoreService.UpdateFeaturestore`
 - `google.cloud.aiplatform.ui.IndexEndpointService.GetIndexEndpoint`
 - `google.cloud.aiplatform.ui.IndexEndpointService.ListIndexEndpoints`
+- `google.cloud.aiplatform.ui.IndexService.GetIndex`
 - `google.cloud.aiplatform.ui.IndexService.ListIndexes`
 - `google.cloud.aiplatform.ui.JobService.CancelBatchPredictionJob`
 - `google.cloud.aiplatform.ui.JobService.CancelCustomJob`
@@ -542,6 +544,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.ui.JobService.CreateBatchPredictionJob`
 - `google.cloud.aiplatform.ui.JobService.CreateCustomJob`
 - `google.cloud.aiplatform.ui.JobService.CreateDataLabelingJob`
+- `google.cloud.aiplatform.ui.JobService.CreateHyperparameterTuningJob`
 - `google.cloud.aiplatform.ui.JobService.CreateModelDeploymentMonitoringJob`
 - `google.cloud.aiplatform.ui.JobService.CreateNasJob`
 - `google.cloud.aiplatform.ui.JobService.DeleteBatchPredictionJob`
@@ -552,6 +555,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.ui.JobService.GetBatchPredictionJob`
 - `google.cloud.aiplatform.ui.JobService.GetCustomJob`
 - `google.cloud.aiplatform.ui.JobService.GetDataLabelingJob`
+- `google.cloud.aiplatform.ui.JobService.GetHyperparameterTuningJob`
 - `google.cloud.aiplatform.ui.JobService.GetModelDeploymentMonitoringJob`
 - `google.cloud.aiplatform.ui.JobService.GetNasJob`
 - `google.cloud.aiplatform.ui.JobService.GetUiJob`
@@ -582,13 +586,17 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.ui.MigrationService.BatchMigrateResources`
 - `google.cloud.aiplatform.ui.MigrationService.SearchMigratableResources`
 - `google.cloud.aiplatform.ui.ModelService.DeleteModel`
+- `google.cloud.aiplatform.ui.ModelService.DeleteModelVersion`
 - `google.cloud.aiplatform.ui.ModelService.ExportModel`
 - `google.cloud.aiplatform.ui.ModelService.GetEvaluatedDataItemView`
 - `google.cloud.aiplatform.ui.ModelService.GetModel`
 - `google.cloud.aiplatform.ui.ModelService.GetPredictInstanceSchema`
 - `google.cloud.aiplatform.ui.ModelService.ListModelEvaluationSlices`
 - `google.cloud.aiplatform.ui.ModelService.ListModelEvaluations`
+- `google.cloud.aiplatform.ui.ModelService.ListModelVersions`
 - `google.cloud.aiplatform.ui.ModelService.ListModels`
+- `google.cloud.aiplatform.ui.ModelService.ListVersionAliases`
+- `google.cloud.aiplatform.ui.ModelService.MergeVersionAliases`
 - `google.cloud.aiplatform.ui.ModelService.SearchEvaluatedAnnotations`
 - `google.cloud.aiplatform.ui.ModelService.UpdateModel`
 - `google.cloud.aiplatform.ui.ModelService.UploadModel`
@@ -658,6 +666,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.FeaturestoreService.ListFeatures`
 - `google.cloud.aiplatform.v1.FeaturestoreService.ListFeaturestores`
 - `google.cloud.aiplatform.v1.FeaturestoreService.SearchFeatures`
+- `google.cloud.aiplatform.v1.FeaturestoreService.UpdateEntityType`
 - `google.cloud.aiplatform.v1.FeaturestoreService.UpdateFeature`
 - `google.cloud.aiplatform.v1.FeaturestoreService.UpdateFeaturestore`
 - `google.cloud.aiplatform.v1.IndexEndpointService.CreateIndexEndpoint`
@@ -669,9 +678,12 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.IndexService.CreateIndex`
 - `google.cloud.aiplatform.v1.IndexService.GetIndex`
 - `google.cloud.aiplatform.v1.IndexService.ListIndexes`
+- `google.cloud.aiplatform.v1.IndexService.RemoveDatapoints`
 - `google.cloud.aiplatform.v1.IndexService.UpdateIndex`
+- `google.cloud.aiplatform.v1.IndexService.UpsertDatapoints`
 - `google.cloud.aiplatform.v1.JobService.CancelBatchPredictionJob`
 - `google.cloud.aiplatform.v1.JobService.CancelCustomJob`
+- `google.cloud.aiplatform.v1.JobService.CancelDataLabelingJob`
 - `google.cloud.aiplatform.v1.JobService.CancelHyperparameterTuningJob`
 - `google.cloud.aiplatform.v1.JobService.CreateBatchPredictionJob`
 - `google.cloud.aiplatform.v1.JobService.CreateCustomJob`
@@ -681,6 +693,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.JobService.CreateNasJob`
 - `google.cloud.aiplatform.v1.JobService.DeleteBatchPredictionJob`
 - `google.cloud.aiplatform.v1.JobService.DeleteCustomJob`
+- `google.cloud.aiplatform.v1.JobService.DeleteDataLabelingJob`
 - `google.cloud.aiplatform.v1.JobService.DeleteHyperparameterTuningJob`
 - `google.cloud.aiplatform.v1.JobService.DeleteModelDeploymentMonitoringJob`
 - `google.cloud.aiplatform.v1.JobService.DeleteNasJob`
@@ -734,6 +747,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.ModelService.GetModel`
 - `google.cloud.aiplatform.v1.ModelService.GetModelEvaluation`
 - `google.cloud.aiplatform.v1.ModelService.GetModelEvaluationSlice`
+- `google.cloud.aiplatform.v1.ModelService.ImportModelEvaluation`
 - `google.cloud.aiplatform.v1.ModelService.ListModelEvaluationSlices`
 - `google.cloud.aiplatform.v1.ModelService.ListModelEvaluations`
 - `google.cloud.aiplatform.v1.ModelService.ListModels`
@@ -753,6 +767,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.PredictionService.Predict`
 - `google.cloud.aiplatform.v1.PredictionService.RawPredict`
 - `google.cloud.aiplatform.v1.SpecialistPoolService.CreateSpecialistPool`
+- `google.cloud.aiplatform.v1.SpecialistPoolService.DeleteSpecialistPool`
 - `google.cloud.aiplatform.v1.TensorboardService.BatchCreateTensorboardRuns`
 - `google.cloud.aiplatform.v1.TensorboardService.BatchCreateTensorboardTimeSeries`
 - `google.cloud.aiplatform.v1.TensorboardService.CreateTensorboard`
@@ -764,6 +779,8 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.TensorboardService.DeleteTensorboardRun`
 - `google.cloud.aiplatform.v1.TensorboardService.GetTensorboard`
 - `google.cloud.aiplatform.v1.TensorboardService.GetTensorboardExperiment`
+- `google.cloud.aiplatform.v1.TensorboardService.GetTensorboardRun`
+- `google.cloud.aiplatform.v1.TensorboardService.ListTensorboardExperiments`
 - `google.cloud.aiplatform.v1.TensorboardService.ListTensorboardRuns`
 - `google.cloud.aiplatform.v1.TensorboardService.ListTensorboardTimeSeries`
 - `google.cloud.aiplatform.v1.TensorboardService.ListTensorboards`
@@ -775,9 +792,12 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1.VizierService.CompleteTrial`
 - `google.cloud.aiplatform.v1.VizierService.CreateStudy`
 - `google.cloud.aiplatform.v1.VizierService.DeleteStudy`
+- `google.cloud.aiplatform.v1.VizierService.DeleteTrial`
 - `google.cloud.aiplatform.v1.VizierService.GetStudy`
 - `google.cloud.aiplatform.v1.VizierService.GetTrial`
 - `google.cloud.aiplatform.v1.VizierService.ListOptimalTrials`
+- `google.cloud.aiplatform.v1.VizierService.ListStudies`
+- `google.cloud.aiplatform.v1.VizierService.ListTrials`
 - `google.cloud.aiplatform.v1.VizierService.SuggestTrials`
 - `google.cloud.aiplatform.v1beta1.DatasetService.CreateDataset`
 - `google.cloud.aiplatform.v1beta1.DatasetService.DeleteDataset`
@@ -832,6 +852,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1beta1.IndexService.GetIndex`
 - `google.cloud.aiplatform.v1beta1.IndexService.ListIndexes`
 - `google.cloud.aiplatform.v1beta1.IndexService.UpdateIndex`
+- `google.cloud.aiplatform.v1beta1.IndexService.UpsertDatapoints`
 - `google.cloud.aiplatform.v1beta1.JobService.CancelBatchPredictionJob`
 - `google.cloud.aiplatform.v1beta1.JobService.CancelCustomJob`
 - `google.cloud.aiplatform.v1beta1.JobService.CancelHyperparameterTuningJob`
@@ -850,7 +871,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1beta1.JobService.GetModelDeploymentMonitoringJob`
 - `google.cloud.aiplatform.v1beta1.JobService.ListBatchPredictionJobs`
 - `google.cloud.aiplatform.v1beta1.JobService.ListCustomJobs`
-- `google.cloud.aiplatform.v1beta1.JobService.ListHyperparameterTuningJobs`
 - `google.cloud.aiplatform.v1beta1.JobService.ListModelDeploymentMonitoringJobs`
 - `google.cloud.aiplatform.v1beta1.JobService.PauseModelDeploymentMonitoringJob`
 - `google.cloud.aiplatform.v1beta1.JobService.ResumeModelDeploymentMonitoringJob`
@@ -915,9 +935,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1beta1.TensorboardService.DeleteTensorboard`
 - `google.cloud.aiplatform.v1beta1.TensorboardService.DeleteTensorboardRun`
 - `google.cloud.aiplatform.v1beta1.TensorboardService.GetTensorboard`
-- `google.cloud.aiplatform.v1beta1.TensorboardService.GetTensorboardExperiment`
-- `google.cloud.aiplatform.v1beta1.TensorboardService.ListTensorboardRuns`
-- `google.cloud.aiplatform.v1beta1.TensorboardService.ListTensorboardTimeSeries`
 - `google.cloud.aiplatform.v1beta1.TensorboardService.ListTensorboards`
 - `google.cloud.aiplatform.v1beta1.TensorboardService.ReadTensorboardBlobData`
 - `google.cloud.aiplatform.v1beta1.TensorboardService.ReadTensorboardTimeSeriesData`
@@ -927,8 +944,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.aiplatform.v1beta1.VizierService.CompleteTrial`
 - `google.cloud.aiplatform.v1beta1.VizierService.CreateStudy`
 - `google.cloud.aiplatform.v1beta1.VizierService.DeleteStudy`
-- `google.cloud.aiplatform.v1beta1.VizierService.DeleteTrial`
-- `google.cloud.aiplatform.v1beta1.VizierService.GetStudy`
 - `google.cloud.aiplatform.v1beta1.VizierService.GetTrial`
 - `google.cloud.aiplatform.v1beta1.VizierService.ListOptimalTrials`
 - `google.cloud.aiplatform.v1beta1.VizierService.SuggestTrials`
@@ -1034,6 +1049,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.apigee.v1.DataMaskService.UpdateEnvironmentDebugMask`
 - `google.cloud.apigee.v1.DebugSessionService.CreateDebugSession`
 - `google.cloud.apigee.v1.DebugSessionService.DeleteDebugSessionData`
+- `google.cloud.apigee.v1.DebugSessionService.GetDebugSession`
 - `google.cloud.apigee.v1.DebugSessionService.GetDebugSessionTransaction`
 - `google.cloud.apigee.v1.DebugSessionService.ListDebugSessionTransactions`
 - `google.cloud.apigee.v1.DebugSessionService.ListDebugSessions`
@@ -1076,7 +1092,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.apigee.v1.DeveloperApps.UpdateDeveloperAppAttributes`
 - `google.cloud.apigee.v1.DeveloperSubscriptions.CreateDeveloperSubscription`
 - `google.cloud.apigee.v1.DeveloperSubscriptions.ExpireDeveloperSubscription`
-- `google.cloud.apigee.v1.DeveloperSubscriptions.GetDeveloperSubscription`
 - `google.cloud.apigee.v1.DeveloperSubscriptions.ListDeveloperSubscriptions`
 - `google.cloud.apigee.v1.Developers.CreateDeveloper`
 - `google.cloud.apigee.v1.Developers.CreditDeveloperBalance`
@@ -1091,6 +1106,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.apigee.v1.Developers.UpdateDeveloperAttribute`
 - `google.cloud.apigee.v1.Developers.UpdateDeveloperAttributes`
 - `google.cloud.apigee.v1.Developers.UpdateDeveloperMonetizationConfig`
+- `google.cloud.apigee.v1.EndpointAttachmentService.GetEndpointAttachment`
 - `google.cloud.apigee.v1.EnvironmentGroupAttachmentService.CreateEnvironmentGroupAttachment`
 - `google.cloud.apigee.v1.EnvironmentGroupAttachmentService.DeleteEnvironmentGroupAttachment`
 - `google.cloud.apigee.v1.EnvironmentGroupAttachmentService.GetEnvironmentGroupAttachment`
@@ -1155,6 +1171,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.apigee.v1.MenuTypes.ListMenuTypesByPage`
 - `google.cloud.apigee.v1.MigrationService.MigrateConfigData`
 - `google.cloud.apigee.v1.MigrationService.MigrateInfrastructure`
+- `google.cloud.apigee.v1.MigrationService.SwitchTraffic`
 - `google.cloud.apigee.v1.NatAddressService.ActivateNatAddress`
 - `google.cloud.apigee.v1.NatAddressService.CreateNatAddress`
 - `google.cloud.apigee.v1.NatAddressService.DeleteNatAddress`
@@ -1207,6 +1224,9 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.apigee.v1.RuntimeService.GetRuntimeConfig`
 - `google.cloud.apigee.v1.RuntimeService.ReportInstanceStatus`
 - `google.cloud.apigee.v1.SecurityReportService.CreateSecurityReport`
+- `google.cloud.apigee.v1.SecurityReportService.ListSecurityReports`
+- `google.cloud.apigee.v1.SenseProfileService.CreateSenseProfileEnvironmentAssociation`
+- `google.cloud.apigee.v1.SenseProfileService.DeleteSenseProfileEnvironmentAssociation`
 - `google.cloud.apigee.v1.SharedFlowService.CreateSharedFlowRevision`
 - `google.cloud.apigee.v1.SharedFlowService.DeleteSharedFlow`
 - `google.cloud.apigee.v1.SharedFlowService.DeleteSharedFlowRevision`
@@ -1321,7 +1341,6 @@ gcloud eventarc triggers create my-trigger \
 - `com.google.appengine.legacy.cron_created`
 - `com.google.appengine.legacy.cron_deleted`
 - `com.google.appengine.legacy.dos_configuration_changed`
-- `com.google.appengine.legacy.dos_enforcement_enabled`
 - `com.google.appengine.legacy.index_created`
 - `com.google.appengine.legacy.queue_created`
 - `com.google.appengine.legacy.queue_updated`
@@ -1479,7 +1498,13 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.AnalyzeWorkloadMove`
 - `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.CheckAllowedOnboardingFolder`
 - `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.CheckOnboardingState`
+- `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.GetViolation`
+- `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.ListViolations`
+- `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.ListWorkloads`
+- `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.RestrictAllowedServices`
+- `google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.UpdateWorkload`
 - `google.cloud.assuredworkloads.versioning.v1main.AssuredWorkloadsV1MainService.GetWorkload`
+- `google.cloud.assuredworkloads.versioning.v1main.AssuredWorkloadsV1MainService.ListViolations`
 
 ### Cloud AutoML (under Vertex AI)
 
@@ -1521,7 +1546,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.automl.v1beta1.AutoMl.ExportData`
 - `google.cloud.automl.v1beta1.AutoMl.ExportEvaluatedExamples`
 - `google.cloud.automl.v1beta1.AutoMl.ExportModel`
-- `google.cloud.automl.v1beta1.AutoMl.GetAnnotationSpec`
 - `google.cloud.automl.v1beta1.AutoMl.GetColumnSpec`
 - `google.cloud.automl.v1beta1.AutoMl.GetDataset`
 - `google.cloud.automl.v1beta1.AutoMl.GetExample`
@@ -1552,8 +1576,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.automl.v1p1beta.AutoMl.DeleteDataset`
 - `google.cloud.automl.v1p1beta.AutoMl.DeleteModel`
 - `google.cloud.automl.v1p1beta.AutoMl.DeployModel`
-- `google.cloud.automl.v1p1beta.AutoMl.ExportData`
-- `google.cloud.automl.v1p1beta.AutoMl.GetDataset`
 - `google.cloud.automl.v1p1beta.AutoMl.ImportData`
 - `google.cloud.automl.v1p1beta.AutoMl.ListDatasets`
 - `google.cloud.automl.v1p1beta.AutoMl.ListModels`
@@ -1575,16 +1597,21 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
+- `google.cloud.baremetalsolution.v2.BareMetalSolution.CreateProvisioningConfig`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.GetInstance`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.GetLun`
+- `google.cloud.baremetalsolution.v2.BareMetalSolution.GetNetwork`
+- `google.cloud.baremetalsolution.v2.BareMetalSolution.GetNfsShare`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.GetProvisioningConfig`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.GetSnapshotSchedulePolicy`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.GetVolume`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListInstances`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListLuns`
+- `google.cloud.baremetalsolution.v2.BareMetalSolution.ListNetworkUsage`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListNetworks`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListNfsShares`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListSnapshotSchedulePolicies`
+- `google.cloud.baremetalsolution.v2.BareMetalSolution.ListVolumeSnapshots`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.ListVolumes`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.UpdateNetwork`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.UpdateProvisioningConfig`
@@ -1679,6 +1706,18 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.location.Locations.GetLocation`
 - `google.cloud.location.Locations.ListLocations`
 
+### undefined
+
+#### `serviceName`
+
+- `bigquerymigration.googleapis.com`
+
+#### `methodName`
+
+- `google.cloud.bigquery.migration.v2.MigrationService.CreateMigrationWorkflow`
+- `google.cloud.bigquery.migration.v2.MigrationService.ListMigrationWorkflows`
+- `google.cloud.bigquery.migration.v2.SqlTranslationService.TranslateQuery`
+
 ### BigQuery Reservation
 
 #### `serviceName`
@@ -1696,6 +1735,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.bigquery.reservation.v1.ReservationService.MergeCapacityCommitments`
 - `google.cloud.bigquery.reservation.v1.ReservationService.MoveAssignment`
 - `google.cloud.bigquery.reservation.v1.ReservationService.SplitCapacityCommitment`
+- `google.cloud.bigquery.reservation.v1.ReservationService.UpdateAssignment`
 - `google.cloud.bigquery.reservation.v1.ReservationService.UpdateBiReservation`
 - `google.cloud.bigquery.reservation.v1.ReservationService.UpdateCapacityCommitment`
 - `google.cloud.bigquery.reservation.v1.ReservationService.UpdateReservation`
@@ -1744,6 +1784,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.bigtable.admin.v2.BigtableTableAdmin.CreateBackup`
 - `google.bigtable.admin.v2.BigtableTableAdmin.CreateTable`
 - `google.bigtable.admin.v2.BigtableTableAdmin.DeleteBackup`
+- `google.bigtable.admin.v2.BigtableTableAdmin.DeleteSnapshot`
 - `google.bigtable.admin.v2.BigtableTableAdmin.DeleteTable`
 - `google.bigtable.admin.v2.BigtableTableAdmin.DropRowRange`
 - `google.bigtable.admin.v2.BigtableTableAdmin.GenerateConsistencyToken`
@@ -1777,6 +1818,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.binaryauthorization.v1.BinauthzManagementServiceV1.UpdatePolicy`
 - `google.cloud.binaryauthorization.v1.PlatformPolicyManagementService.CreatePlatformPolicy`
 - `google.cloud.binaryauthorization.v1.PlatformPolicyManagementService.DeletePlatformPolicy`
+- `google.cloud.binaryauthorization.v1.PlatformPolicyManagementService.GetPlatformPolicy`
 - `google.cloud.binaryauthorization.v1.PlatformPolicyManagementService.ListPlatformPolicies`
 - `google.cloud.binaryauthorization.v1.PlatformPolicyManagementService.ReplacePlatformPolicy`
 - `google.cloud.binaryauthorization.v1.ValidationHelperV1.ValidateAttestationOccurrence`
@@ -1917,8 +1959,11 @@ gcloud eventarc triggers create my-trigger \
 - `google.devtools.cloudbuild.v2.CloudBuild.CreateTaskRun`
 - `google.devtools.cloudbuild.v2.CloudBuild.CreateWorkflow`
 - `google.devtools.cloudbuild.v2.CloudBuild.DeleteWorkflow`
+- `google.devtools.cloudbuild.v2.CloudBuild.GetRecord`
+- `google.devtools.cloudbuild.v2.CloudBuild.GetResult`
 - `google.devtools.cloudbuild.v2.CloudBuild.GetTaskRun`
 - `google.devtools.cloudbuild.v2.CloudBuild.GetWorkflow`
+- `google.devtools.cloudbuild.v2.CloudBuild.ListRecords`
 - `google.devtools.cloudbuild.v2.CloudBuild.ListResults`
 - `google.devtools.cloudbuild.v2.CloudBuild.ListTaskRuns`
 - `google.devtools.cloudbuild.v2.CloudBuild.RunWorkflow`
@@ -2014,10 +2059,10 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.functions.v2beta.FunctionService.GenerateUploadUrl`
 - `google.cloud.functions.v2beta.FunctionService.GetFunction`
 - `google.cloud.functions.v2beta.FunctionService.ListFunctions`
+- `google.cloud.functions.v2beta.FunctionService.ListRuntimes`
 - `google.cloud.functions.v2beta.FunctionService.UpdateFunction`
 - `google.cloud.functions.v2main.FunctionService.CreateFunction`
-- `google.cloud.functions.v2main.FunctionService.DeleteFunction`
-- `google.cloud.functions.v2main.FunctionService.GetFunction`
+- `google.cloud.functions.v2main.FunctionService.ListFunctions`
 - `google.cloud.location.Locations.ListLocations`
 - `google.longrunning.Operations.GetOperation`
 
@@ -2188,6 +2233,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.resourcemanager.v3.Projects.UpdateProject`
 - `google.cloud.resourcemanager.v3.TagBindings.CreateTagBinding`
 - `google.cloud.resourcemanager.v3.TagBindings.DeleteTagBinding`
+- `google.cloud.resourcemanager.v3.TagBindings.ListEffectiveTags`
 - `google.cloud.resourcemanager.v3.TagBindings.ListTagBindings`
 - `google.cloud.resourcemanager.v3.TagBindingsBulk.SetTagsForResource`
 - `google.cloud.resourcemanager.v3.TagKeys.CreateTagKey`
@@ -2421,6 +2467,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.DeleteEnvironment`
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.GetEnvironment`
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.ListEnvironments`
+- `google.cloud.orchestration.airflow.service.v1beta1.Environments.LoadSnapshot`
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.RestartWebServer`
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.SaveSnapshot`
 - `google.cloud.orchestration.airflow.service.v1beta1.Environments.UpdateEnvironment`
@@ -2507,6 +2554,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.firewallPolicies.delete`
 - `beta.compute.firewallPolicies.get`
 - `beta.compute.firewallPolicies.getAssociation`
+- `beta.compute.firewallPolicies.getRule`
 - `beta.compute.firewallPolicies.insert`
 - `beta.compute.firewallPolicies.list`
 - `beta.compute.firewallPolicies.listAssociations`
@@ -2715,6 +2763,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.machineTypes.aggregatedList`
 - `beta.compute.machineTypes.get`
 - `beta.compute.machineTypes.list`
+- `beta.compute.networkEdgeSecurityServices.aggregatedList`
 - `beta.compute.networkEndpointGroups.aggregatedList`
 - `beta.compute.networkEndpointGroups.attachNetworkEndpoints`
 - `beta.compute.networkEndpointGroups.delete`
@@ -2735,6 +2784,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.networkFirewallPolicies.removeAssociation`
 - `beta.compute.networkFirewallPolicies.removeRule`
 - `beta.compute.networkFirewallPolicies.setIamPolicy`
+- `beta.compute.networkFirewallPolicies.testIamPermissions`
 - `beta.compute.networks.addPeering`
 - `beta.compute.networks.delete`
 - `beta.compute.networks.get`
@@ -2777,9 +2827,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.organizationSecurityPolicies.getAssociation`
 - `beta.compute.organizationSecurityPolicies.getRule`
 - `beta.compute.organizationSecurityPolicies.insert`
-- `beta.compute.organizationSecurityPolicies.list`
 - `beta.compute.organizationSecurityPolicies.listAssociations`
-- `beta.compute.organizationSecurityPolicies.move`
 - `beta.compute.organizationSecurityPolicies.patch`
 - `beta.compute.organizationSecurityPolicies.patchRule`
 - `beta.compute.organizationSecurityPolicies.removeAssociation`
@@ -2799,11 +2847,11 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.projects.getXpnHost`
 - `beta.compute.projects.getXpnResources`
 - `beta.compute.projects.listXpnHosts`
-- `beta.compute.projects.moveDisk`
 - `beta.compute.projects.setCommonInstanceMetadata`
 - `beta.compute.projects.setDefaultNetworkTier`
 - `beta.compute.projects.setUsageExportBucket`
 - `beta.compute.publicAdvertisedPrefixes.get`
+- `beta.compute.publicAdvertisedPrefixes.insert`
 - `beta.compute.publicAdvertisedPrefixes.list`
 - `beta.compute.publicDelegatedPrefixes.aggregatedList`
 - `beta.compute.publicDelegatedPrefixes.get`
@@ -2912,6 +2960,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.regionOperations.get`
 - `beta.compute.regionOperations.list`
 - `beta.compute.regionOperations.wait`
+- `beta.compute.regionSecurityPolicies.list`
 - `beta.compute.regionSslCertificates.delete`
 - `beta.compute.regionSslCertificates.get`
 - `beta.compute.regionSslCertificates.insert`
@@ -2934,6 +2983,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.regionUrlMaps.get`
 - `beta.compute.regionUrlMaps.insert`
 - `beta.compute.regionUrlMaps.list`
+- `beta.compute.regionUrlMaps.patch`
 - `beta.compute.regionUrlMaps.testIamPermissions`
 - `beta.compute.regionUrlMaps.update`
 - `beta.compute.regions.get`
@@ -2973,6 +3023,7 @@ gcloud eventarc triggers create my-trigger \
 - `beta.compute.routes.list`
 - `beta.compute.routes.testIamPermissions`
 - `beta.compute.securityPolicies.addRule`
+- `beta.compute.securityPolicies.aggregatedList`
 - `beta.compute.securityPolicies.delete`
 - `beta.compute.securityPolicies.get`
 - `beta.compute.securityPolicies.getRule`
@@ -3119,8 +3170,9 @@ gcloud eventarc triggers create my-trigger \
 - `compute.instances.insert`
 - `compute.instances.setMetadata`
 - `compute.instances.setSecondaryServiceAccount`
-- `compute.instances.update`
 - `compute.regionDisks.get`
+- `compute.routers.delete`
+- `compute.routers.insert`
 - `compute.subnetworks.delete`
 - `compute.subnetworks.insert`
 - `compute.zoneInstanceTemplates.insert`
@@ -3282,6 +3334,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.instanceGroupManagers.listManagedInstances`
 - `v1.compute.instanceGroupManagers.listPerInstanceConfigs`
 - `v1.compute.instanceGroupManagers.patch`
+- `v1.compute.instanceGroupManagers.patchPerInstanceConfigs`
 - `v1.compute.instanceGroupManagers.recreateInstances`
 - `v1.compute.instanceGroupManagers.resize`
 - `v1.compute.instanceGroupManagers.setInstanceTemplate`
@@ -3387,6 +3440,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.machineTypes.aggregatedList`
 - `v1.compute.machineTypes.get`
 - `v1.compute.machineTypes.list`
+- `v1.compute.networkEdgeSecurityServices.aggregatedList`
 - `v1.compute.networkEndpointGroups.aggregatedList`
 - `v1.compute.networkEndpointGroups.attachNetworkEndpoints`
 - `v1.compute.networkEndpointGroups.delete`
@@ -3399,6 +3453,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.networkFirewallPolicies.addAssociation`
 - `v1.compute.networkFirewallPolicies.addRule`
 - `v1.compute.networkFirewallPolicies.delete`
+- `v1.compute.networkFirewallPolicies.get`
 - `v1.compute.networkFirewallPolicies.getIamPolicy`
 - `v1.compute.networkFirewallPolicies.insert`
 - `v1.compute.networkFirewallPolicies.list`
@@ -3528,7 +3583,6 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.regionInstanceGroupManagers.listManagedInstances`
 - `v1.compute.regionInstanceGroupManagers.listPerInstanceConfigs`
 - `v1.compute.regionInstanceGroupManagers.patch`
-- `v1.compute.regionInstanceGroupManagers.patchPerInstanceConfigs`
 - `v1.compute.regionInstanceGroupManagers.recreateInstances`
 - `v1.compute.regionInstanceGroupManagers.resize`
 - `v1.compute.regionInstanceGroupManagers.setInstanceTemplate`
@@ -3546,6 +3600,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.regionNetworkEndpointGroups.list`
 - `v1.compute.regionNetworkFirewallPolicies.addAssociation`
 - `v1.compute.regionNetworkFirewallPolicies.addRule`
+- `v1.compute.regionNetworkFirewallPolicies.cloneRules`
 - `v1.compute.regionNetworkFirewallPolicies.delete`
 - `v1.compute.regionNetworkFirewallPolicies.getIamPolicy`
 - `v1.compute.regionNetworkFirewallPolicies.insert`
@@ -3563,6 +3618,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.regionOperations.get`
 - `v1.compute.regionOperations.list`
 - `v1.compute.regionOperations.wait`
+- `v1.compute.regionSecurityPolicies.list`
 - `v1.compute.regionSslCertificates.delete`
 - `v1.compute.regionSslCertificates.get`
 - `v1.compute.regionSslCertificates.insert`
@@ -3576,6 +3632,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.regionTargetHttpsProxies.get`
 - `v1.compute.regionTargetHttpsProxies.insert`
 - `v1.compute.regionTargetHttpsProxies.list`
+- `v1.compute.regionTargetHttpsProxies.patch`
 - `v1.compute.regionTargetHttpsProxies.setSslCertificates`
 - `v1.compute.regionTargetHttpsProxies.setUrlMap`
 - `v1.compute.regionUrlMaps.delete`
@@ -3619,6 +3676,7 @@ gcloud eventarc triggers create my-trigger \
 - `v1.compute.routes.insert`
 - `v1.compute.routes.list`
 - `v1.compute.securityPolicies.addRule`
+- `v1.compute.securityPolicies.aggregatedList`
 - `v1.compute.securityPolicies.delete`
 - `v1.compute.securityPolicies.get`
 - `v1.compute.securityPolicies.getRule`
@@ -3863,6 +3921,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.datacatalog.v1.DataCatalog.DeleteTag`
 - `google.cloud.datacatalog.v1.DataCatalog.DeleteTagTemplate`
 - `google.cloud.datacatalog.v1.DataCatalog.DeleteTagTemplateField`
+- `google.cloud.datacatalog.v1.DataCatalog.ExportMetadata`
 - `google.cloud.datacatalog.v1.DataCatalog.GetEntry`
 - `google.cloud.datacatalog.v1.DataCatalog.GetEntryGroup`
 - `google.cloud.datacatalog.v1.DataCatalog.GetIamPolicy`
@@ -3921,6 +3980,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.datafusion.v1.DataFusion.RestartInstance`
 - `google.cloud.datafusion.v1.DataFusion.UpdateInstance`
 - `google.cloud.datafusion.v1beta1.DataFusion.AddDnsPeering`
+- `google.cloud.datafusion.v1beta1.DataFusion.CreateDnsPeering`
 - `google.cloud.datafusion.v1beta1.DataFusion.CreateInstance`
 - `google.cloud.datafusion.v1beta1.DataFusion.DeleteInstance`
 - `google.cloud.datafusion.v1beta1.DataFusion.GetInstance`
@@ -3949,7 +4009,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.datalabeling.v1beta1.DataLabelingService.DeleteAnnotatedDataset`
 - `google.cloud.datalabeling.v1beta1.DataLabelingService.DeleteAnnotationSpecSet`
 - `google.cloud.datalabeling.v1beta1.DataLabelingService.DeleteDataset`
-- `google.longrunning.Operations.CancelOperation`
+- `google.cloud.datalabeling.v1beta1.DataLabelingService.ImportData`
 - `google.longrunning.Operations.GetOperation`
 
 ### undefined
@@ -3972,14 +4032,18 @@ gcloud eventarc triggers create my-trigger \
 
 - `GetIamPolicy`
 - `SetIamPolicy`
+- `google.cloud.clouddms.v1.DataMigrationService.CommitConversionWorkspace`
+- `google.cloud.clouddms.v1.DataMigrationService.ConvertConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.CreateConnectionProfile`
 - `google.cloud.clouddms.v1.DataMigrationService.CreateConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.CreateMigrationJob`
 - `google.cloud.clouddms.v1.DataMigrationService.DeleteConnectionProfile`
 - `google.cloud.clouddms.v1.DataMigrationService.DeleteConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.DeleteMigrationJob`
+- `google.cloud.clouddms.v1.DataMigrationService.DescribeDatabaseEntities`
 - `google.cloud.clouddms.v1.DataMigrationService.GenerateSshScript`
 - `google.cloud.clouddms.v1.DataMigrationService.GetConnectionProfile`
+- `google.cloud.clouddms.v1.DataMigrationService.GetConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.GetMigrationJob`
 - `google.cloud.clouddms.v1.DataMigrationService.ImportMappingRules`
 - `google.cloud.clouddms.v1.DataMigrationService.ListConnectionProfiles`
@@ -3989,6 +4053,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.clouddms.v1.DataMigrationService.PromoteMigrationJob`
 - `google.cloud.clouddms.v1.DataMigrationService.RestartMigrationJob`
 - `google.cloud.clouddms.v1.DataMigrationService.ResumeMigrationJob`
+- `google.cloud.clouddms.v1.DataMigrationService.RollbackConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.SearchBackgroundJobs`
 - `google.cloud.clouddms.v1.DataMigrationService.SeedConversionWorkspace`
 - `google.cloud.clouddms.v1.DataMigrationService.StartMigrationJob`
@@ -4135,6 +4200,8 @@ gcloud eventarc triggers create my-trigger \
 - `google.datastore.admin.v1.DatastoreAdmin.GetIndex`
 - `google.datastore.admin.v1.DatastoreAdmin.ImportEntities`
 - `google.datastore.admin.v1.DatastoreAdmin.ListIndexes`
+- `google.datastore.admin.v1.DatastoreAdmin.PauseMigration`
+- `google.datastore.admin.v1.DatastoreAdmin.ResumeMigration`
 - `google.datastore.admin.v1beta1.DatastoreAdmin.ExportEntities`
 - `google.datastore.admin.v1beta1.DatastoreAdmin.ImportEntities`
 - `google.datastore.v1.Datastore.AllocateIds`
@@ -4202,6 +4269,9 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
+- `dogfood.deploymentmanager.deployments.cancelPreview`
+- `dogfood.deploymentmanager.deployments.patch`
+- `dogfood.deploymentmanager.deployments.stop`
 - `v2.deploymentmanager.deployments.cancelPreview`
 - `v2.deploymentmanager.deployments.delete`
 - `v2.deploymentmanager.deployments.get`
@@ -4243,10 +4313,14 @@ gcloud eventarc triggers create my-trigger \
 #### `methodName`
 
 - `google.cloud.dialogflow.aam.v2beta1.AamAdminTool.DisplayStats`
+- `google.cloud.dialogflow.aam.v2beta1.AamAdminTool.ImportPrebuiltTaxonomy`
+- `google.cloud.dialogflow.aam.v2beta1.AamAdminTool.PreviewPrebuiltTaxonomy`
 - `google.cloud.dialogflow.aam.v2beta1.AamDatasets.SearchAamDataset`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminantChanges.ApproveAamDiscriminantChange`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminantChanges.ListAamDiscriminantChanges`
+- `google.cloud.dialogflow.aam.v2beta1.AamDiscriminantChanges.RejectAamDiscriminantChange`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminants.CreateAamDiscriminant`
+- `google.cloud.dialogflow.aam.v2beta1.AamDiscriminants.DeleteAamDiscriminant`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminants.DisplayTaxonomyProgress`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminants.GetAamDiscriminant`
 - `google.cloud.dialogflow.aam.v2beta1.AamDiscriminants.ListAamDiscriminants`
@@ -4258,6 +4332,8 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.aam.v2beta1.AamNotices.UpdateAamNotice`
 - `google.cloud.dialogflow.aam.v2beta1.AamTasks.CompleteAamTask`
 - `google.cloud.dialogflow.aam.v2beta1.AamTasks.GenerateAamFlowTask`
+- `google.cloud.dialogflow.aam.v2beta1.AamTasks.GenerateAamReviewTask`
+- `google.cloud.dialogflow.aam.v2beta1.AamTasks.GenerateAamTask`
 - `google.cloud.dialogflow.aam.v2beta1.AamTasks.GenerateAamTranscriptTask`
 - `google.cloud.dialogflow.aam.v2beta1.AamTranscripts.DeleteAamTranscript`
 - `google.cloud.dialogflow.aam.v2beta1.AamTranscripts.ListFlowLabeledAamTranscripts`
@@ -4278,6 +4354,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.cx.v3.EntityTypes.UpdateEntityType`
 - `google.cloud.dialogflow.cx.v3.Environments.CreateEnvironment`
 - `google.cloud.dialogflow.cx.v3.Environments.ListEnvironments`
+- `google.cloud.dialogflow.cx.v3.Environments.UpdateEnvironment`
 - `google.cloud.dialogflow.cx.v3.Flows.CreateFlow`
 - `google.cloud.dialogflow.cx.v3.Flows.DeleteFlow`
 - `google.cloud.dialogflow.cx.v3.Flows.ExportFlow`
@@ -4311,11 +4388,11 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.cx.v3.Sessions.FulfillIntent`
 - `google.cloud.dialogflow.cx.v3.Sessions.MatchIntent`
 - `google.cloud.dialogflow.cx.v3.Sessions.StreamingDetectIntent`
+- `google.cloud.dialogflow.cx.v3.TestCases.BatchDeleteTestCases`
 - `google.cloud.dialogflow.cx.v3.TestCases.BatchRunTestCases`
 - `google.cloud.dialogflow.cx.v3.TestCases.CalculateCoverage`
 - `google.cloud.dialogflow.cx.v3.TestCases.CreateTestCase`
 - `google.cloud.dialogflow.cx.v3.TestCases.ExportTestCases`
-- `google.cloud.dialogflow.cx.v3.TestCases.GetTestCase`
 - `google.cloud.dialogflow.cx.v3.TestCases.ImportTestCases`
 - `google.cloud.dialogflow.cx.v3.TestCases.ListTestCases`
 - `google.cloud.dialogflow.cx.v3.TestCases.RunTestCase`
@@ -4349,7 +4426,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.cx.v3beta1.EntityTypes.UpdateEntityType`
 - `google.cloud.dialogflow.cx.v3beta1.Environments.ListEnvironments`
 - `google.cloud.dialogflow.cx.v3beta1.Environments.UpdateEnvironment`
-- `google.cloud.dialogflow.cx.v3beta1.Experiments.ListExperiments`
 - `google.cloud.dialogflow.cx.v3beta1.Flows.CreateFlow`
 - `google.cloud.dialogflow.cx.v3beta1.Flows.GetFlow`
 - `google.cloud.dialogflow.cx.v3beta1.Flows.ListFlows`
@@ -4369,14 +4445,19 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.cx.v3beta1.SecuritySettingsService.ListSecuritySettings`
 - `google.cloud.dialogflow.cx.v3beta1.SecuritySettingsService.UpdateSecuritySettings`
 - `google.cloud.dialogflow.cx.v3beta1.Sessions.DetectIntent`
-- `google.cloud.dialogflow.cx.v3beta1.Sessions.MatchIntent`
 - `google.cloud.dialogflow.cx.v3beta1.Sessions.StreamingDetectIntent`
 - `google.cloud.dialogflow.cx.v3beta1.TestCases.BatchRunTestCases`
+- `google.cloud.dialogflow.cx.v3beta1.TestCases.CalculateCoverage`
+- `google.cloud.dialogflow.cx.v3beta1.TestCases.CreateTestCase`
+- `google.cloud.dialogflow.cx.v3beta1.TestCases.ExportTestCases`
+- `google.cloud.dialogflow.cx.v3beta1.TestCases.GetTestCase`
 - `google.cloud.dialogflow.cx.v3beta1.TestCases.ImportTestCases`
 - `google.cloud.dialogflow.cx.v3beta1.TestCases.ListTestCases`
-- `google.cloud.dialogflow.cx.v3beta1.TestCases.RunTestCase`
+- `google.cloud.dialogflow.cx.v3beta1.TestCases.UpdateTestCase`
 - `google.cloud.dialogflow.cx.v3beta1.TransitionRouteGroups.CreateTransitionRouteGroup`
+- `google.cloud.dialogflow.cx.v3beta1.TransitionRouteGroups.GetTransitionRouteGroup`
 - `google.cloud.dialogflow.cx.v3beta1.TransitionRouteGroups.ListTransitionRouteGroups`
+- `google.cloud.dialogflow.cx.v3beta1.TransitionRouteGroups.UpdateTransitionRouteGroup`
 - `google.cloud.dialogflow.cx.v3beta1.Versions.CompareVersions`
 - `google.cloud.dialogflow.cx.v3beta1.Versions.CreateVersion`
 - `google.cloud.dialogflow.cx.v3beta1.Versions.DeleteVersion`
@@ -4527,7 +4608,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.v2beta1.Documents.DeleteDocument`
 - `google.cloud.dialogflow.v2beta1.Documents.DisableSmartMessagingEntries`
 - `google.cloud.dialogflow.v2beta1.Documents.EnableSmartMessagingEntries`
-- `google.cloud.dialogflow.v2beta1.Documents.GenerateDocument`
 - `google.cloud.dialogflow.v2beta1.Documents.GetDocument`
 - `google.cloud.dialogflow.v2beta1.Documents.ImportDocuments`
 - `google.cloud.dialogflow.v2beta1.Documents.ListDocuments`
@@ -4539,6 +4619,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.v2beta1.EntityTypes.BatchCreateEntities`
 - `google.cloud.dialogflow.v2beta1.EntityTypes.BatchDeleteEntities`
 - `google.cloud.dialogflow.v2beta1.EntityTypes.BatchDeleteEntityTypes`
+- `google.cloud.dialogflow.v2beta1.EntityTypes.BatchMoveEntityTypes`
 - `google.cloud.dialogflow.v2beta1.EntityTypes.BatchUpdateEntities`
 - `google.cloud.dialogflow.v2beta1.EntityTypes.BatchUpdateEntityTypes`
 - `google.cloud.dialogflow.v2beta1.EntityTypes.CreateEntityType`
@@ -4578,7 +4659,9 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.dialogflow.v2beta1.KnowledgeBases.GetKnowledgeBase`
 - `google.cloud.dialogflow.v2beta1.KnowledgeBases.ListKnowledgeBases`
 - `google.cloud.dialogflow.v2beta1.KnowledgeBases.UpdateKnowledgeBase`
+- `google.cloud.dialogflow.v2beta1.ModelEvaluations.GetModelEvaluationResult`
 - `google.cloud.dialogflow.v2beta1.Participants.AnalyzeContent`
+- `google.cloud.dialogflow.v2beta1.Participants.BatchCreateParticipants`
 - `google.cloud.dialogflow.v2beta1.Participants.CompileSuggestion`
 - `google.cloud.dialogflow.v2beta1.Participants.CreateParticipant`
 - `google.cloud.dialogflow.v2beta1.Participants.GetParticipant`
@@ -4752,7 +4835,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.essentialcontacts.v1.EssentialContactsService.DeleteContact`
 - `google.cloud.essentialcontacts.v1.EssentialContactsService.GetContact`
 - `google.cloud.essentialcontacts.v1.EssentialContactsService.ListContacts`
-- `google.cloud.essentialcontacts.v1.EssentialContactsService.SendTestMessage`
 - `google.cloud.essentialcontacts.v1.EssentialContactsService.UpdateContact`
 - `google.cloud.essentialcontacts.v1beta1.EssentialContactsService.ComputeContacts`
 - `google.cloud.essentialcontacts.v1beta1.EssentialContactsService.CreateContact`
@@ -4879,6 +4961,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.firebase.database.v1beta.RealtimeDatabaseService.GetDatabaseInstance`
 - `google.firebase.database.v1beta.RealtimeDatabaseService.ListDatabaseInstances`
 - `google.firebase.database.v1beta.RealtimeDatabaseService.ReenableDatabaseInstance`
+- `google.firebase.database.v1beta.RealtimeDatabaseService.UndeleteDatabaseInstance`
 
 ### Firebase Storage
 
@@ -4889,7 +4972,6 @@ gcloud eventarc triggers create my-trigger \
 #### `methodName`
 
 - `google.firebase.storage.controlplane.v1beta.FirebaseStorageService.AddFirebase`
-- `google.firebase.storage.controlplane.v1beta.FirebaseStorageService.GetBucket`
 - `google.firebase.storage.controlplane.v1beta.FirebaseStorageService.ListBuckets`
 - `google.firebase.storage.controlplane.v1beta.FirebaseStorageService.RemoveFirebase`
 
@@ -5041,6 +5123,16 @@ gcloud eventarc triggers create my-trigger \
 
 - `google.cloud.gkeconnect.v1.EgressService.Egress`
 - `google.cloud.gkeconnect.v1beta1.EgressService.Egress`
+
+### undefined
+
+#### `serviceName`
+
+- `gkedataplanemanagement.googleapis.com`
+
+#### `methodName`
+
+- `SetIamPolicy`
 
 ### GKE Hub
 
@@ -5255,8 +5347,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.CreateDicomStore`
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.DeleteDicomStore`
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.ExportDicomData`
-- `google.cloud.healthcare.v1beta1.dicom.DicomService.ExportDicomData_bq`
-- `google.cloud.healthcare.v1beta1.dicom.DicomService.ExportDicomData_gcs`
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.GetDicomStore`
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.ImportDicomData`
 - `google.cloud.healthcare.v1beta1.dicom.DicomService.ListDicomStores`
@@ -5287,6 +5377,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.healthcare.v1beta1.fhir.FhirStoreService.UpdateFhirStore`
 - `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConceptMapSearchTranslate`
 - `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConceptMapTranslate`
+- `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConditionalCreateResource`
 - `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConditionalDeleteResource`
 - `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConditionalPatchResource`
 - `google.cloud.healthcare.v1beta1.fhir.rest.FhirService.ConditionalUpdateResource`
@@ -5399,14 +5490,19 @@ gcloud eventarc triggers create my-trigger \
 - `google.iam.admin.v1.WorkforcePools.UpdateWorkforcePoolProvider`
 - `google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPool`
 - `google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider`
+- `google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProviderKey`
 - `google.iam.v1.WorkloadIdentityPools.DeleteWorkloadIdentityPool`
 - `google.iam.v1.WorkloadIdentityPools.DeleteWorkloadIdentityPoolProvider`
+- `google.iam.v1.WorkloadIdentityPools.DeleteWorkloadIdentityPoolProviderKey`
 - `google.iam.v1.WorkloadIdentityPools.GetWorkloadIdentityPool`
 - `google.iam.v1.WorkloadIdentityPools.GetWorkloadIdentityPoolProvider`
+- `google.iam.v1.WorkloadIdentityPools.GetWorkloadIdentityPoolProviderKey`
+- `google.iam.v1.WorkloadIdentityPools.ListWorkloadIdentityPoolProviderKeys`
 - `google.iam.v1.WorkloadIdentityPools.ListWorkloadIdentityPoolProviders`
 - `google.iam.v1.WorkloadIdentityPools.ListWorkloadIdentityPools`
 - `google.iam.v1.WorkloadIdentityPools.UndeleteWorkloadIdentityPool`
 - `google.iam.v1.WorkloadIdentityPools.UndeleteWorkloadIdentityPoolProvider`
+- `google.iam.v1.WorkloadIdentityPools.UndeleteWorkloadIdentityPoolProviderKey`
 - `google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPool`
 - `google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPoolProvider`
 - `google.iam.v1beta.WorkloadIdentityPools.CreateWorkloadIdentityPool`
@@ -5476,6 +5572,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetDefaultSupportedIdpConfig`
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetInboundSamlConfig`
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetOAuthIdpConfig`
+- `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.InitializeIdentityPlatform`
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.ListDefaultSupportedIdpConfigs`
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.ListInboundSamlConfigs`
 - `google.cloud.identitytoolkit.admin.v2.ProjectConfigService.ListOAuthIdpConfigs`
@@ -5676,6 +5773,7 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
+- `DummyOpGetInstance`
 - `GetIamPolicy`
 - `SetIamPolicy`
 - `google.cloud.metastore.v1.DataprocMetastore.CreateBackup`
@@ -5823,7 +5921,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.monitoring.v3.UptimeCheckService.CreateUptimeCheckConfig`
 - `google.monitoring.v3.UptimeCheckService.DeleteUptimeCheckConfig`
 - `google.monitoring.v3.UptimeCheckService.GetUptimeCheckConfig`
-- `google.monitoring.v3.UptimeCheckService.ListPrivateCheckers`
 - `google.monitoring.v3.UptimeCheckService.ListUptimeCheckConfigs`
 - `google.monitoring.v3.UptimeCheckService.UpdateUptimeCheckConfig`
 - `google.monitoring.v3.UptimeCheckService.ValidateUptimeCheckConfig`
@@ -5849,6 +5946,8 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.networkconnectivity.v1.HubService.ListSpokes`
 - `google.cloud.networkconnectivity.v1.HubService.UpdateHub`
 - `google.cloud.networkconnectivity.v1.HubService.UpdateSpoke`
+- `google.cloud.networkconnectivity.v1.PolicyBasedRoutingService.CreatePolicyBasedRoute`
+- `google.cloud.networkconnectivity.v1.PolicyBasedRoutingService.DeletePolicyBasedRoute`
 - `google.longrunning.Operations.CancelOperation`
 - `google.longrunning.Operations.DeleteOperation`
 - `google.longrunning.Operations.GetOperation`
@@ -5885,13 +5984,16 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
-- `google.cloud.networksecurity.v1.NetworkSecurity.CreateClientTlsPolicy`
+- `SetIamPolicy`
 - `google.cloud.networksecurity.v1.NetworkSecurity.CreateServerTlsPolicy`
-- `google.cloud.networksecurity.v1.NetworkSecurity.DeleteAuthorizationPolicy`
 - `google.cloud.networksecurity.v1.NetworkSecurity.DeleteClientTlsPolicy`
 - `google.cloud.networksecurity.v1.NetworkSecurity.DeleteServerTlsPolicy`
 - `google.cloud.networksecurity.v1.NetworkSecurity.GetClientTlsPolicy`
+- `google.cloud.networksecurity.v1.NetworkSecurity.GetServerTlsPolicy`
+- `google.cloud.networksecurity.v1.NetworkSecurity.ListAuthorizationPolicies`
 - `google.cloud.networksecurity.v1.NetworkSecurity.ListClientTlsPolicies`
+- `google.cloud.networksecurity.v1.NetworkSecurity.ListServerTlsPolicies`
+- `google.cloud.networksecurity.v1.NetworkSecurity.UpdateServerTlsPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.CreateAuthorizationPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.CreateClientTlsPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.CreateServerTlsPolicy`
@@ -5899,8 +6001,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.DeleteClientTlsPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.DeleteServerTlsPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.GetClientTlsPolicy`
-- `google.cloud.networksecurity.v1beta1.NetworkSecurity.GetServerTlsPolicy`
-- `google.cloud.networksecurity.v1beta1.NetworkSecurity.ListServerTlsPolicies`
+- `google.cloud.networksecurity.v1beta1.NetworkSecurity.ListClientTlsPolicies`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.UpdateAuthorizationPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.UpdateClientTlsPolicy`
 - `google.cloud.networksecurity.v1beta1.NetworkSecurity.UpdateServerTlsPolicy`
@@ -5937,6 +6038,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.networkservices.v1beta1.NetworkServices.CreateServiceBinding`
 - `google.cloud.networkservices.v1beta1.NetworkServices.DeleteEndpointPolicy`
 - `google.cloud.networkservices.v1beta1.NetworkServices.DeleteServiceBinding`
+- `google.cloud.networkservices.v1beta1.NetworkServices.GetServiceBinding`
 - `google.cloud.networkservices.v1beta1.NetworkServices.UpdateEndpointPolicy`
 - `google.longrunning.Operations.DeleteOperation`
 - `google.longrunning.Operations.GetOperation`
@@ -6239,8 +6341,8 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.pubsublite.v1.CursorService.StreamingCommitCursor`
 - `google.cloud.pubsublite.v1.PublisherService.Publish`
 - `google.cloud.pubsublite.v1.SubscriberService.Subscribe`
+- `google.cloud.pubsublite.v1.TopicStatsService.ComputeHeadCursor`
 - `google.cloud.pubsublite.v1.TopicStatsService.ComputeMessageStats`
-- `google.cloud.pubsublite.v1.TopicStatsService.ComputeTimeCursor`
 - `google.longrunning.Operations.GetOperation`
 - `google.longrunning.Operations.ListOperations`
 
@@ -6275,7 +6377,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.recommendationengine.v1beta1.CatalogService.CreateCatalogItem`
 - `google.cloud.recommendationengine.v1beta1.CatalogService.DeleteCatalogItem`
 - `google.cloud.recommendationengine.v1beta1.CatalogService.GetCatalogItem`
-- `google.cloud.recommendationengine.v1beta1.CatalogService.GetCatalogItemsWithItemGroupId`
 - `google.cloud.recommendationengine.v1beta1.CatalogService.ImportCatalogItems`
 - `google.cloud.recommendationengine.v1beta1.CatalogService.ListCatalogItems`
 - `google.cloud.recommendationengine.v1beta1.CatalogService.UpdateCatalogItem`
@@ -6299,7 +6400,9 @@ gcloud eventarc triggers create my-trigger \
 #### `methodName`
 
 - `google.cloud.recommender.v1beta1.Recommender.GetInsightTypeConfig`
+- `google.cloud.recommender.v1beta1.Recommender.GetRecommenderConfig`
 - `google.cloud.recommender.v1beta1.Recommender.UpdateInsightTypeConfig`
+- `google.cloud.recommender.v1beta1.Recommender.UpdateRecommenderConfig`
 
 ### Cloud Memorystore for Redis
 
@@ -6384,29 +6487,66 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.retail.v2.CatalogService.SetDefaultBranch`
 - `google.cloud.retail.v2.CatalogService.UpdateCatalog`
 - `google.cloud.retail.v2.CompletionService.CompleteQuery`
+- `google.cloud.retail.v2.CompletionService.ImportCompletionData`
 - `google.cloud.retail.v2.PredictionService.Predict`
 - `google.cloud.retail.v2.ProductService.AddFulfillmentPlaces`
+- `google.cloud.retail.v2.ProductService.AddLocalInventories`
 - `google.cloud.retail.v2.ProductService.CreateProduct`
 - `google.cloud.retail.v2.ProductService.DeleteProduct`
 - `google.cloud.retail.v2.ProductService.GetProduct`
 - `google.cloud.retail.v2.ProductService.ImportProducts`
 - `google.cloud.retail.v2.ProductService.ListProducts`
+- `google.cloud.retail.v2.ProductService.RemoveFulfillmentPlaces`
+- `google.cloud.retail.v2.ProductService.RemoveLocalInventories`
+- `google.cloud.retail.v2.ProductService.SetInventory`
 - `google.cloud.retail.v2.ProductService.UpdateProduct`
 - `google.cloud.retail.v2.SearchService.Search`
 - `google.cloud.retail.v2.UserEventService.ImportUserEvents`
 - `google.cloud.retail.v2.UserEventService.PurgeUserEvents`
 - `google.cloud.retail.v2.UserEventService.RejoinUserEvents`
 - `google.cloud.retail.v2.UserEventService.WriteUserEvent`
+- `google.cloud.retail.v2beta.CatalogService.AddCatalogAttribute`
+- `google.cloud.retail.v2beta.CatalogService.GetAttributesConfig`
+- `google.cloud.retail.v2beta.CatalogService.GetCompletionConfig`
+- `google.cloud.retail.v2beta.CatalogService.GetDefaultBranch`
 - `google.cloud.retail.v2beta.CatalogService.ListCatalogs`
+- `google.cloud.retail.v2beta.CatalogService.RemoveCatalogAttribute`
+- `google.cloud.retail.v2beta.CatalogService.ReplaceCatalogAttribute`
+- `google.cloud.retail.v2beta.CatalogService.SetDefaultBranch`
+- `google.cloud.retail.v2beta.CatalogService.UpdateAttributesConfig`
+- `google.cloud.retail.v2beta.CatalogService.UpdateCatalog`
+- `google.cloud.retail.v2beta.CatalogService.UpdateCompletionConfig`
+- `google.cloud.retail.v2beta.CompletionService.CompleteQuery`
+- `google.cloud.retail.v2beta.CompletionService.ImportCompletionData`
+- `google.cloud.retail.v2beta.ControlService.CreateControl`
+- `google.cloud.retail.v2beta.ControlService.DeleteControl`
+- `google.cloud.retail.v2beta.ControlService.GetControl`
 - `google.cloud.retail.v2beta.ControlService.ListControls`
+- `google.cloud.retail.v2beta.ControlService.UpdateControl`
 - `google.cloud.retail.v2beta.PredictionService.Predict`
+- `google.cloud.retail.v2beta.ProductService.AddFulfillmentPlaces`
+- `google.cloud.retail.v2beta.ProductService.AddLocalInventories`
+- `google.cloud.retail.v2beta.ProductService.CreateProduct`
 - `google.cloud.retail.v2beta.ProductService.DeleteProduct`
 - `google.cloud.retail.v2beta.ProductService.GetProduct`
 - `google.cloud.retail.v2beta.ProductService.ImportProducts`
 - `google.cloud.retail.v2beta.ProductService.ListProducts`
+- `google.cloud.retail.v2beta.ProductService.RemoveFulfillmentPlaces`
+- `google.cloud.retail.v2beta.ProductService.RemoveLocalInventories`
+- `google.cloud.retail.v2beta.ProductService.SetInventory`
+- `google.cloud.retail.v2beta.ProductService.UpdateProduct`
 - `google.cloud.retail.v2beta.SearchService.Search`
+- `google.cloud.retail.v2beta.ServingConfigService.AddControl`
+- `google.cloud.retail.v2beta.ServingConfigService.CreateServingConfig`
+- `google.cloud.retail.v2beta.ServingConfigService.DeleteServingConfig`
 - `google.cloud.retail.v2beta.ServingConfigService.GetServingConfig`
+- `google.cloud.retail.v2beta.ServingConfigService.ListServingConfigs`
+- `google.cloud.retail.v2beta.ServingConfigService.RemoveControl`
+- `google.cloud.retail.v2beta.ServingConfigService.UpdateServingConfig`
 - `google.cloud.retail.v2beta.UserEventService.ImportUserEvents`
+- `google.cloud.retail.v2beta.UserEventService.PurgeUserEvents`
+- `google.cloud.retail.v2beta.UserEventService.RejoinUserEvents`
+- `google.cloud.retail.v2beta.UserEventService.WriteUserEvent`
 
 ### Cloud Run
 
@@ -6428,11 +6568,9 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.run.op.v2.Services.ListServices`
 - `google.cloud.run.op.v2.Services.SetIamPolicy`
 - `google.cloud.run.v1.AuthorizedDomains.ListAuthorizedDomains`
-- `google.cloud.run.v1.Configurations.CreateConfiguration`
 - `google.cloud.run.v1.Configurations.DeleteConfiguration`
 - `google.cloud.run.v1.Configurations.GetConfiguration`
 - `google.cloud.run.v1.Configurations.ListConfigurations`
-- `google.cloud.run.v1.Configurations.ReplaceConfiguration`
 - `google.cloud.run.v1.DomainMappings.CreateDomainMapping`
 - `google.cloud.run.v1.DomainMappings.DeleteDomainMapping`
 - `google.cloud.run.v1.DomainMappings.GetDomainMapping`
@@ -6441,7 +6579,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.run.v1.Revisions.DeleteRevision`
 - `google.cloud.run.v1.Revisions.GetRevision`
 - `google.cloud.run.v1.Revisions.ListRevisions`
-- `google.cloud.run.v1.Routes.CreateRoute`
 - `google.cloud.run.v1.Routes.DeleteRoute`
 - `google.cloud.run.v1.Routes.GetRoute`
 - `google.cloud.run.v1.Routes.ListRoutes`
@@ -6580,6 +6717,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.GetSource`
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.GroupAssets`
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.GroupFindings`
+- `google.cloud.securitycenter.v1p1beta1.SecurityCenter.InitializeAssetDiscoveryServiceAccount`
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.ListAssets`
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.ListFindings`
 - `google.cloud.securitycenter.v1p1beta1.SecurityCenter.ListNotificationConfigs`
@@ -6698,6 +6836,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.api.serviceusage.v1beta1.ServiceUsage.ImportAdminOverrides`
 - `google.api.serviceusage.v1beta1.ServiceUsage.ImportConsumerOverrides`
 - `google.api.serviceusage.v1beta1.ServiceUsage.UpdateConsumerOverride`
+- `google.api.serviceusage.v2.ServiceUsage.UpdateConsumerPolicy`
 - `google.longrunning.Operations.GetOperation`
 
 ### Cloud Source Repositories
@@ -6817,7 +6956,7 @@ gcloud eventarc triggers create my-trigger \
 - `storage.projects.getOrCreateServiceAccount`
 - `storage.setIamPermissions`
 
-### Storage Transfer Service
+### Security Token Service API
 
 #### `serviceName`
 
@@ -6963,7 +7102,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.vision.v1p3beta1.ProductSearch.DeleteProduct`
 - `google.cloud.vision.v1p3beta1.ProductSearch.DeleteReferenceImage`
 - `google.cloud.vision.v1p3beta1.ProductSearch.ListProductSets`
-- `google.cloud.vision.v1p3beta1.ProductSearch.ListProducts`
 - `google.cloud.vision.v1p3beta1.ProductSearch.ListProductsInProductSet`
 - `google.cloud.vision.v1p3beta1.ProductSearch.ListReferenceImages`
 - `google.cloud.vision.v1p4beta1.ImageAnnotator.AsyncBatchAnnotateFiles`
@@ -6973,15 +7111,10 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.vision.v1p4beta1.ProductSearch.AddProductToProductSet`
 - `google.cloud.vision.v1p4beta1.ProductSearch.CreateProduct`
 - `google.cloud.vision.v1p4beta1.ProductSearch.CreateReferenceImage`
-- `google.cloud.vision.v1p4beta1.ProductSearch.DeleteProduct`
 - `google.cloud.vision.v1p4beta1.ProductSearch.DeleteProductSet`
-- `google.cloud.vision.v1p4beta1.ProductSearch.DeleteReferenceImage`
 - `google.cloud.vision.v1p4beta1.ProductSearch.GetProduct`
 - `google.cloud.vision.v1p4beta1.ProductSearch.GetReferenceImage`
 - `google.cloud.vision.v1p4beta1.ProductSearch.ImportProductSets`
-- `google.cloud.vision.v1p4beta1.ProductSearch.ListProductSets`
-- `google.cloud.vision.v1p4beta1.ProductSearch.ListProducts`
-- `google.cloud.vision.v1p4beta1.ProductSearch.ListProductsInProductSet`
 - `google.cloud.vision.v1p4beta1.ProductSearch.ListReferenceImages`
 - `google.cloud.vision.v1p4beta1.ProductSearch.PurgeProducts`
 - `google.cloud.vision.v1p4beta1.ProductSearch.UpdateProduct`
@@ -7062,6 +7195,7 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
+- `SetIamPolicy`
 - `google.cloud.vmwareengine.v1.VmwareEngine.CreateCluster`
 - `google.cloud.vmwareengine.v1.VmwareEngine.CreateExternalAddress`
 - `google.cloud.vmwareengine.v1.VmwareEngine.CreateHcxActivationKey`
