@@ -44,7 +44,7 @@ message CrashlyticsNewNonfatalIssuePayload {
 }
 
 message CrashlyticsRegressionAlertPayload {
-  // The type of the Crashlytis issue, e.g. new fatal, new nonfatal, ANR
+  // The type of the Crashlytics issue, e.g. new fatal, new nonfatal, ANR
   string type = 1;
 
   // Basic information of the Crashlytics issue
@@ -78,7 +78,7 @@ message CrashlyticsVelocityAlertPayload {
 
 message CrashlyticsStabilityDigestPayload {
   message TrendingIssueDetails {
-    // The type of the Crashlytis issue, e.g. new fatal, new nonfatal, ANR
+    // The type of the Crashlytics issue, e.g. new fatal, new nonfatal, ANR
     string type = 1;
 
     // Basic information of the Crashlytics issue
@@ -92,7 +92,7 @@ message CrashlyticsStabilityDigestPayload {
   }
 
   // The date that the digest gets created, issues in the digest should
-  // have the same date as the diges date
+  // have the same date as the digest date
   google.type.Date digest_date = 5;
 
   // A stability digest contains several trending Crashlytics issues
