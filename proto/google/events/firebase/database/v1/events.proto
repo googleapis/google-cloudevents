@@ -21,9 +21,24 @@ import "google/events/firebase/database/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
 option (google.events.cloud_event_product) = "Firebase Realtime Database";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "instance"
+  description: "The Firebase Realtime Database instance from which the event was triggered."
+  camel_case_name: "instance"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "ref"
+  description: "The Firebase Realtime Database path for which the event was triggered."
+  camel_case_name: "ref"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "firebasedatabasehost"
+  description: "The Firebase Realtime Database domain of the source database."
+  camel_case_name: "firebaseDatabaseHost"
+};
 
-// The CloudEvent raised when a ref is created in the Firebase
-// Real Time Database.
+// The CloudEvent raised when a ref is created in the Firebase Realtime
+// Database.
 message ReferenceCreatedEvent {
   option (google.events.cloud_event_type) =
       "google.firebase.database.ref.v1.created";
@@ -32,8 +47,8 @@ message ReferenceCreatedEvent {
   ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a reference is updated in the Firebase
-// Real Time Database.
+// The CloudEvent raised when a reference is updated in the Firebase Realtime
+// Database.
 message ReferenceUpdatedEvent {
   option (google.events.cloud_event_type) =
       "google.firebase.database.ref.v1.updated";
@@ -42,8 +57,8 @@ message ReferenceUpdatedEvent {
   ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a reference is deleted in the Firebase
-// Real Time Database.
+// The CloudEvent raised when a reference is deleted in the Firebase Realtime
+// Database.
 message ReferenceDeletedEvent {
   option (google.events.cloud_event_type) =
       "google.firebase.database.ref.v1.deleted";
@@ -52,8 +67,8 @@ message ReferenceDeletedEvent {
   ReferenceEventData data = 1;
 }
 
-// The CloudEvent raised when a reference is written (created, updated
-// or deleted) in the Firebase Real Time Database.
+// The CloudEvent raised when a reference is written (created, updated or
+// deleted) in the Firebase Realtime Database.
 message ReferenceWrittenEvent {
   option (google.events.cloud_event_type) =
       "google.firebase.database.ref.v1.written";
