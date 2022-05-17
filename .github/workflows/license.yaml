@@ -14,6 +14,7 @@
 
 name: License Check
 on: [push, pull_request]
+
 jobs:
   check:
     runs-on: ubuntu-18.04
@@ -24,9 +25,9 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: '1.17'
-    # Get the license tool
-    - run: go get -u github.com/google/addlicense@v1.0
-    # Run the license tool
-    - run: addlicense .
-    # Ensure there is no diff, otherwise we need to run the generator.
-    - run: git diff --exit-code .
+    - name: Get the license tool
+      run: go get -u github.com/google/addlicense@v1.0
+    - name: Run the license tool
+      run: addlicense .
+    - name: Ensure there is no diff
+      run: git diff --exit-code .
