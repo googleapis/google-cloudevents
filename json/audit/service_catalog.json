@@ -18048,10 +18048,6 @@
       "displayName": "Firebase Realtime Database",
       "methods": [
         {
-          "methodName": "-",
-          "lastAdded": "1649170944"
-        },
-        {
           "methodName": "google.firebase.database.v1beta.RealtimeDatabaseService.CreateDatabaseInstance",
           "lastAdded": "1649170944"
         },
