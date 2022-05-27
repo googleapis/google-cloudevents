@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Generate
+name: Verify No Changes
 on:
   push:
     # Skip when it is a pull request from copybara as there might be changes in the proto schemas
