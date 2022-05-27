@@ -24,18 +24,23 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
+      
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v3
       with:
         node-version: '12'
+
     - name: Setup Go for proto2jsonschema script
       uses: actions/setup-go@v3
       with:
         go-version: '1.14'
+
     - name: Run the generators
       run: ./scripts/gen.sh
+
     - name: Check for diff
       run: git diff --exit-code # exits with code 1 if diff is found
+
     - name: Create pull request for changes
       uses: googleapis/code-suggester@v2
       if: ${{ failure() }} # run if diff exists
@@ -49,7 +54,7 @@ jobs:
         title: 'chore: Run the generator'
         message: 'chore: Run the generator'
         branch: 'main' # branch for forked repo
-        git_dir: 'src/'
+        git_dir: '.'
         primary: 'main'
-        force: true
+        force: true # force push a reference
         fork: true # action automatically forks repo

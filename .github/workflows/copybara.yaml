@@ -39,7 +39,6 @@ jobs:
         title: 'feat(copybara): Update with new internal changes from Piper'
         message: 'feat(copybara): Update with new internal changes from Piper'
         branch: 'copybara-${{ github.run_id }}' # branch for forked repo, don't overwrite changes
-        git_dir: 'src/'
+        git_dir: '.'
         primary: 'main'
-        force: true
         fork: true # action automatically forks repo
