@@ -42,10 +42,11 @@ jobs:
       run: git diff --exit-code # exits with code 1 if diff is found
 
     - name: Create pull request for changes
+      # https://github.com/googleapis/code-suggester#Action
       uses: googleapis/code-suggester@v2
       if: ${{ failure() }} # run if diff exists
       env:
-        ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }} # manually created and added as repo secret
+        ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }}  # Provided by GitHub Automation team
       with:
         command: pr
         upstream_owner: ${{ github.repository_owner }}
