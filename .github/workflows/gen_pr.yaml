@@ -17,41 +17,45 @@ on:
   push:
     branches:
       - "main"
+
 jobs:
   create_pr:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
+      
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v3
       with:
         node-version: '12'
+
     - name: Setup Go for proto2jsonschema script
       uses: actions/setup-go@v3
       with:
         go-version: '1.14'
+
     - name: Run the generators
       run: ./scripts/gen.sh
-    - name: Commit changelog and manifest files
+
+    - name: Check for diff
+      run: git diff --exit-code # exits with code 1 if diff is found
+
+    - name: Create pull request for changes
+      # https://github.com/googleapis/code-suggester#Action
+      uses: googleapis/code-suggester@v2
+      if: ${{ failure() }} # run if diff exists
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # If there is a non-zero diff after running generator
-        if [[ `git status --porcelain` ]]; then
-          git config --global user.email "yoshi-code-bot@google.com"
-          git config --global user.name "Google Bot"
-          git checkout -b "pr_bot-$GITHUB_RUN_ID"
-          git add -A
-          NOW=$(date +"%m-%d-%Y")
-          git commit --message "feat: run generator (${NOW})"
-          git push origin "pr_bot-$GITHUB_RUN_ID"
-          echo "Created commit: $(git rev-parse HEAD)"
-          gh pr create \
-            --title "Run the generator (${NOW})" \
-            --body "AUTOMATED PR! This PR was created from a recent push to the default branch. Please check to ensure there are no CI failures or unexpected generated results." \
-            --label "cla: yes"
-        else
-          # No changes after running generator
-          echo "No PR to create."
-        fi
+        ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }}  # Provided by GitHub Automation team
+      with:
+        command: pr
+        upstream_owner: ${{ github.repository_owner }}
+        upstream_repo: 'google-cloudevents'
+        description: 'Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/gen_pr.yaml'
+        title: 'chore: Run the generator'
+        message: 'chore: Run the generator'
+        branch: 'main' # branch for forked repo
+        git_dir: '.'
+        primary: 'main'
+        force: true # force push a reference
+        fork: true # action automatically forks repo

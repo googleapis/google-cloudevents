@@ -14,8 +14,9 @@
 
 name: Validate JSON Schemas
 on: [push, pull_request]
+
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
@@ -25,5 +26,4 @@ jobs:
       with:
         node-version: '12'
     - name: Run Validate JSON Schema Script
-      run: |
-        ./scripts/validate_jsonschema.sh
+      run: ./scripts/validate_jsonschema.sh

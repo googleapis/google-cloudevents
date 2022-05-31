@@ -12,16 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Generate
+name: Verify No Changes
 on:
   push:
+    # Skip when it is a pull request from copybara as there might be changes in the proto schemas
     branches-ignore:
     - copybara
   pull_request:
+
 jobs:
   build:
-    # Skip when it is a pull request from copybara as there might be changes in the proto schemas
-    if: github.head_ref != 'copybara'
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
@@ -34,7 +34,7 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: '1.14'
-    # Run the generators
-    - run: ./scripts/gen.sh
-    # Ensure there is no diff, otherwise we need to run the generator.
-    - run: git diff --exit-code .
+    - name: Run the generators
+      run: ./scripts/gen.sh
+    - name: Ensure there is no diff
+      run: git diff --exit-code .

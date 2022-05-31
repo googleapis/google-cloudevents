@@ -18,23 +18,28 @@ on:
   push:
     branches:
     - copybara
+
 jobs:
   create_pr:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Checkout a pull request from copybara to main
+    - name: Check out repo
+      uses: actions/checkout@v3
+      with:
+        ref: 'copybara'
+    - name: Create pull request for changes
+      # https://github.com/googleapis/code-suggester#Action
+      uses: googleapis/code-suggester@v2
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      run: |
-        # Only create a PR if DNE
-        if ! [[ `gh pr list --base main --search "[Copybara]"` ]]; then
-          git config --global user.email "yoshi-code-bot@google.com"
-          git config --global user.name "Yoshi Code Bot"
-          gh pr create \
-          --base main \
-          --head copybara \
-          --title "[Copybara] Update with new internal changes from Piper" \
-          --body "This is a auto-generated pull request. The PR updates the default branch with new changes from the copybara branch. Refer to PR commit history for more details." \
-          --label "cla: yes"
-        fi
+        ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }} # Provided by GitHub Automation team
+      with:
+        command: pr
+        upstream_owner: ${{ github.repository_owner }}
+        upstream_repo: 'google-cloudevents'
+        description: 'Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/copybara.yaml'
+        title: 'feat(copybara): Update with new internal changes from Piper'
+        message: 'feat(copybara): Update with new internal changes from Piper'
+        branch: 'copybara-${{ github.run_id }}' # branch for forked repo, don't overwrite changes
+        git_dir: '.'
+        primary: 'main'
+        fork: true # action automatically forks repo

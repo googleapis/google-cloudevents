@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Compile
+name: Compile Protos
 on: [push, pull_request]
+
 jobs:
   compile:
     runs-on: ubuntu-18.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    # Compile the protos to make sure they're valid
-    - run: ./scripts/compile.sh
+    - name: Run script to compile and validate protos
+      run: ./scripts/compile.sh
