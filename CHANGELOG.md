@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/googleapis/google-cloudevents/compare/v2.0.0...v2.0.1) (2022-06-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency camelcase-keys to v8 ([#365](https://github.com/googleapis/google-cloudevents/issues/365)) ([157b856](https://github.com/googleapis/google-cloudevents/commit/157b856dd9f91cad3225d1bb11083fbb755d4d23))
+
 ## [2.0.0](https://github.com/googleapis/google-cloudevents/compare/v1.12.0...v2.0.0) (2022-05-16)
 
 
