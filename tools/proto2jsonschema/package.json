@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "flat": "^5.0.2",
-    "protobufjs": "^6.10.2",
+    "protobufjs": "^6.11.3",
     "recursive-readdir": "^2.2.2"
   }
 }
