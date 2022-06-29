@@ -112,6 +112,27 @@ message AppDistroNewTesterIosDevicePayload {
   string tester_device_identifier = 4;
 }
 
+message AppDistroInAppFeedbackPayload {
+  // Resource name. Format: projects/{project_number}/apps/{app_id}/releases/{release_id}/feedbackReports/{feedback_id}
+  string feedback_report = 1;
+  // Name of the tester.
+  string tester_name = 2;
+   // Email address of the tester.
+  string tester_email = 3;
+  // Display version of the release. For an Android release, the display version
+  // is the `versionName`. For an iOS release, the display version is the
+  // `CFBundleShortVersionString`.
+  string display_version = 4;
+  // Build version of the release. For an Android release, the build version
+  // is the `versionCode`. For an iOS release, the build version is the
+  // `CFBundleVersion`.
+  string build_version = 5;
+  // Text entered by the tester_device_identifier.
+  string text = 6;
+  // URIs to download screenshot(s).
+  repeated string screenshot_uris = 7;
+}
+
 // -- Billing
 
 message BillingPlanUpdatePayload {
