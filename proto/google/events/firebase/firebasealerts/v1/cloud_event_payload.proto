@@ -127,7 +127,7 @@ message AppDistroInAppFeedbackPayload {
   // is the `versionCode`. For an iOS release, the build version is the
   // `CFBundleVersion`.
   string build_version = 5;
-  // Text entered by the tester_device_identifier.
+  // Text entered by the tester.
   string text = 6;
   // URIs to download screenshot(s).
   repeated string screenshot_uris = 7;
