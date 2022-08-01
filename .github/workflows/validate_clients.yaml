@@ -30,9 +30,9 @@ jobs:
       with:
         repository: googleapis/google-cloudevents-dotnet
         path: google-cloudevents-dotnet
-    - name: Setup .NET Core 3.1
+    - name: Setup .NET 6
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 6.0.x
     - name: Validate schema
       run: google-cloudevents-dotnet/validate-schema.sh .
