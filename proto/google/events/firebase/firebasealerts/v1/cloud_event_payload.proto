@@ -113,24 +113,27 @@ message AppDistroNewTesterIosDevicePayload {
 }
 
 message AppDistroInAppFeedbackPayload {
-  // Resource name. Format: projects/{project_number}/apps/{app_id}/releases/{release_id}/feedbackReports/{feedback_id}
+  // Resource name. Format:
+  // projects/{project_number}/apps/{app_id}/releases/{release_id}/feedbackReports/{feedback_id}
   string feedback_report = 1;
+  // Deep link back to the Firebase console.
+  string feedback_console_uri = 2;
   // Name of the tester.
-  string tester_name = 2;
-   // Email address of the tester.
-  string tester_email = 3;
+  string tester_name = 3;
+  // Email address of the tester.
+  string tester_email = 4;
   // Display version of the release. For an Android release, the display version
   // is the `versionName`. For an iOS release, the display version is the
   // `CFBundleShortVersionString`.
-  string display_version = 4;
+  string display_version = 5;
   // Build version of the release. For an Android release, the build version
   // is the `versionCode`. For an iOS release, the build version is the
   // `CFBundleVersion`.
-  string build_version = 5;
+  string build_version = 6;
   // Text entered by the tester.
-  string text = 6;
-  // URIs to download screenshot(s).
-  repeated string screenshot_uris = 7;
+  string text = 7;
+  // URIs to download screenshot(s).  These URIs are fast expiring.
+  repeated string screenshot_uris = 8;
 }
 
 // -- Billing
