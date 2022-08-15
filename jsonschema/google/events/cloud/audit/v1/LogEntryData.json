@@ -202,7 +202,7 @@
       "properties": {
         "principalEmail": {
           "type": "string",
-          "description": "The email address of the authenticated user (or service account on behalf\n of third party principal) making the request. For privacy reasons, the\n principal email address is redacted for all read-only operations that fail\n with a \"permission denied\" error."
+          "description": "The email address of the authenticated user (or service account on behalf\n of third party principal) making the request. For third party identity\n callers, the `principal_subject` field is populated instead of this field.\n For privacy reasons, the principal email address is sometimes redacted.\n For more information, see [Caller identities in audit\n logs](https://cloud.google.com/logging/docs/audit#user-id)."
         },
         "authoritySelector": {
           "type": "string",

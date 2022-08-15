@@ -1706,7 +1706,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.location.Locations.GetLocation`
 - `google.cloud.location.Locations.ListLocations`
 
-### undefined
+### BigQuery Migration
 
 #### `serviceName`
 
@@ -4269,9 +4269,6 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
-- `dogfood.deploymentmanager.deployments.cancelPreview`
-- `dogfood.deploymentmanager.deployments.patch`
-- `dogfood.deploymentmanager.deployments.stop`
 - `v2.deploymentmanager.deployments.cancelPreview`
 - `v2.deploymentmanager.deployments.delete`
 - `v2.deploymentmanager.deployments.get`
@@ -4954,7 +4951,6 @@ gcloud eventarc triggers create my-trigger \
 
 #### `methodName`
 
-- `-`
 - `google.firebase.database.v1beta.RealtimeDatabaseService.CreateDatabaseInstance`
 - `google.firebase.database.v1beta.RealtimeDatabaseService.DeleteDatabaseInstance`
 - `google.firebase.database.v1beta.RealtimeDatabaseService.DisableDatabaseInstance`
