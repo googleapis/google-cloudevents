@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/googleapis/google-cloudevents/compare/v2.0.1...v2.0.2) (2022-08-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency protobufjs to v7 ([#371](https://github.com/googleapis/google-cloudevents/issues/371)) ([207795e](https://github.com/googleapis/google-cloudevents/commit/207795ed5f28209020c6911fd0f4a1a7f93b010a))
+
 ## [2.0.1](https://github.com/googleapis/google-cloudevents/compare/v2.0.0...v2.0.1) (2022-06-06)
 
 
