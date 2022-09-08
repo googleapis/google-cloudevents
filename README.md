@@ -19,7 +19,7 @@ such as generated JSON schema should not be regarded as stable.
 
 ## CloudEvents in this repository
 
-This repository contains definitions for the following CloudEvents:
+This repository contains definitions for the following CloudEvent data payloads:
 
 <!-- GENERATED START -->
 |Product|Schemas|Types|
