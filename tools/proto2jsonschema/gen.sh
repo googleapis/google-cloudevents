@@ -43,7 +43,7 @@ case "$OSTYPE" in
     exit 1
 esac
 
-PROTOBUF_VERSION=3.12.3
+PROTOBUF_VERSION=3.15.0
 rm -rf tmp
 mkdir tmp
 cd tmp
