@@ -103,6 +103,44 @@ message CrashlyticsNewAnrIssuePayload {
   CrashlyticsIssue issue = 1;
 }
 
+message CrashlyticsMissingSymbolsPayload {
+  string app_version = 1;
+  string uuid = 2;
+}
+
+// -- Firebase Performance
+
+message FireperfThresholdAlertPayload {
+  // Name of the trace or network request this alert is for (e.g.
+  // my_custom_trace, firebase.com/api/123)
+  string event_name = 1;
+  // The resource type this alert is for (i.e. trace, network request, screen
+  // rendering, etc.)
+  string event_type = 2;
+  // The metric type this alert is for (i.e. success rate, response time,
+  // duration, etc.)
+  string metric_type = 3;
+  // The number of events checked for this alert condition
+  int64 num_samples = 4;
+  // The threshold value of the alert condition without units (e.g. "75", "2.1")
+  float threshold_value = 5;
+  // The unit for the alert threshold (e.g. "percent", "seconds")
+  string threshold_unit = 6;
+  // The percentile of the alert condition, can be 0 if percentile is not
+  // applicable to the alert condition; range: [0, 100]
+  int32 condition_percentile = 7;
+  // The app version this alert was triggered for, can be empty if the alert is
+  // for a network request (because the alert was checked against data from all
+  // versions of app) or a web app (where the app is versionless)
+  string app_version = 8;
+  // The value that violated the alert condition (e.g. "76.5", "3")
+  float violation_value = 9;
+  // The unit for the violation value (e.g. "percent", "seconds")
+  string violation_unit = 10;
+  // The link to Fireconsole to investigate more into this alert
+  string investigate_uri = 11;
+}
+
 // -- App Distribution
 
 message AppDistroNewTesterIosDevicePayload {
@@ -122,18 +160,16 @@ message AppDistroInAppFeedbackPayload {
   string tester_name = 2;
   // Email address of the tester.
   string tester_email = 3;
-  // Display version of the release. For an Android release, the display version
-  // is the `versionName`. For an iOS release, the display version is the
-  // `CFBundleShortVersionString`.
-  string display_version = 4;
-  // Build version of the release. For an Android release, the build version
-  // is the `versionCode`. For an iOS release, the build version is the
-  // `CFBundleVersion`.
-  string build_version = 5;
+  // Version consisting of `versionName` and `versionCode` for Android and
+  // `CFBundleShortVersionString` and `CFBundleVersion` for iOS.
+  string app_version = 9;
   // Text entered by the tester.
   string text = 6;
-  // URIs to download screenshot(s).  These URIs are fast expiring.
-  repeated string screenshot_uris = 7;
+  // URI to download screenshot.  This URI is fast expiring.
+  string screenshot_uri = 7;
+
+  reserved "display_version", "build_version", "screenshot_uris";
+  reserved 4, 5;
 }
 
 // -- Billing
