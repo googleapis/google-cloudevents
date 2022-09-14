@@ -1673,6 +1673,9 @@
           "methodName": "google.cloud.aiplatform.ui.ModelService.GetModel"
         },
         {
+          "methodName": "google.cloud.aiplatform.ui.ModelService.GetModelEvaluation"
+        },
+        {
           "methodName": "google.cloud.aiplatform.ui.ModelService.GetPredictInstanceSchema"
         },
         {
@@ -2522,6 +2525,9 @@
           "methodName": "google.cloud.aiplatform.v1beta1.JobService.CreateCustomJob"
         },
         {
+          "methodName": "google.cloud.aiplatform.v1beta1.JobService.CreateDataLabelingJob"
+        },
+        {
           "methodName": "google.cloud.aiplatform.v1beta1.JobService.CreateEdgeDeploymentJob"
         },
         {
@@ -2685,6 +2691,9 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ImportModelEvaluation"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ListModelEvaluationSlices"
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ListModelEvaluations"
@@ -2895,6 +2904,9 @@
         },
         {
           "methodName": "google.longrunning.Operations.CancelOperation"
+        },
+        {
+          "methodName": "google.longrunning.Operations.DeleteOperation"
         }
       ]
     },
@@ -3370,6 +3382,9 @@
           "methodName": "google.cloud.apigee.v1.DeveloperSubscriptions.ExpireDeveloperSubscription"
         },
         {
+          "methodName": "google.cloud.apigee.v1.DeveloperSubscriptions.GetDeveloperSubscription"
+        },
+        {
           "methodName": "google.cloud.apigee.v1.DeveloperSubscriptions.ListDeveloperSubscriptions"
         },
         {
@@ -3650,6 +3665,9 @@
         },
         {
           "methodName": "google.cloud.apigee.v1.OrganizationService.GetOrganization"
+        },
+        {
+          "methodName": "google.cloud.apigee.v1.OrganizationService.GetProjectMapping"
         },
         {
           "methodName": "google.cloud.apigee.v1.OrganizationService.GetSyncAuthorization"
@@ -4066,6 +4084,9 @@
       "displayName": "App Engine",
       "methods": [
         {
+          "methodName": "DatastoreWriteController.SetDatastoreWritePermission"
+        },
+        {
           "methodName": "LatchKeySettings.SetLatchKeySettings"
         },
         {
@@ -4269,6 +4290,12 @@
       "displayName": "Artifact Registry",
       "methods": [
         {
+          "methodName": "Apt-ViewIndexFile"
+        },
+        {
+          "methodName": "Apt-ViewPackageFile"
+        },
+        {
           "methodName": "Docker-Catalog"
         },
         {
@@ -4356,6 +4383,12 @@
           "methodName": "Python-UploadPackage"
         },
         {
+          "methodName": "Yum-ViewIndexFile"
+        },
+        {
+          "methodName": "Yum-ViewPackageFile"
+        },
+        {
           "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.CreateRepository"
         },
         {
@@ -4407,6 +4440,12 @@
           "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.GetVersion"
         },
         {
+          "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.ImportAptArtifacts"
+        },
+        {
+          "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.ImportYumArtifacts"
+        },
+        {
           "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.ListFiles"
         },
         {
@@ -4441,6 +4480,12 @@
         },
         {
           "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.UpdateTag"
+        },
+        {
+          "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.UploadAptArtifact"
+        },
+        {
+          "methodName": "google.devtools.artifactregistry.v1.ArtifactRegistry.UploadYumArtifact"
         },
         {
           "methodName": "google.devtools.artifactregistry.v1beta1.ArtifactRegistry.CreateRepository"
@@ -4542,6 +4587,12 @@
           "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.GetVersion"
         },
         {
+          "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.ImportAptArtifacts"
+        },
+        {
+          "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.ImportYumArtifacts"
+        },
+        {
           "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.ListFiles"
         },
         {
@@ -4564,6 +4615,9 @@
         },
         {
           "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.UpdateTag"
+        },
+        {
+          "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.UploadAptArtifact"
         }
       ]
     },
@@ -4867,6 +4921,9 @@
           "methodName": "google.cloud.automl.v1p1beta.AutoMl.GetModel"
         },
         {
+          "methodName": "google.cloud.automl.v1p1beta.AutoMl.GetTableSpec"
+        },
+        {
           "methodName": "google.cloud.automl.v1p1beta.AutoMl.ImportData"
         },
         {
@@ -5117,6 +5174,9 @@
         },
         {
           "methodName": "google.cloud.beyondcorp.clientgateways.v1.ClientGatewaysService.DeleteClientGateway"
+        },
+        {
+          "methodName": "google.cloud.beyondcorp.clientgateways.v1.ClientGatewaysService.GetClientGateway"
         },
         {
           "methodName": "google.cloud.beyondcorp.clientgateways.v1.ClientGatewaysService.ListClientGateways"
@@ -6080,6 +6140,9 @@
           "methodName": "google.devtools.cloudbuild.v2.CloudBuild.ListTaskRuns"
         },
         {
+          "methodName": "google.devtools.cloudbuild.v2.CloudBuild.ListWorkflows"
+        },
+        {
           "methodName": "google.devtools.cloudbuild.v2.CloudBuild.RunWorkflow"
         },
         {
@@ -6834,6 +6897,9 @@
         },
         {
           "methodName": "google.cloud.resourcemanager.v3.TagHolds.DeleteTagHold"
+        },
+        {
+          "methodName": "google.cloud.resourcemanager.v3.TagHolds.ListTagHolds"
         },
         {
           "methodName": "google.cloud.resourcemanager.v3.TagKeys.CreateTagKey"
@@ -7774,6 +7840,9 @@
           "methodName": "beta.compute.globalForwardingRules.list"
         },
         {
+          "methodName": "beta.compute.globalForwardingRules.patch"
+        },
+        {
           "methodName": "beta.compute.globalForwardingRules.setLabels"
         },
         {
@@ -8561,6 +8630,9 @@
         },
         {
           "methodName": "beta.compute.projects.listXpnHosts"
+        },
+        {
+          "methodName": "beta.compute.projects.moveDisk"
         },
         {
           "methodName": "beta.compute.projects.moveInstance"
@@ -9427,6 +9499,9 @@
           "methodName": "beta.compute.targetSslProxies.setBackendService"
         },
         {
+          "methodName": "beta.compute.targetSslProxies.setCertificateMap"
+        },
+        {
           "methodName": "beta.compute.targetSslProxies.setProxyHeader"
         },
         {
@@ -9595,6 +9670,9 @@
           "methodName": "compute.instanceTemplates.get"
         },
         {
+          "methodName": "compute.instances.delete"
+        },
+        {
           "methodName": "compute.instances.get"
         },
         {
@@ -9656,6 +9734,9 @@
         },
         {
           "methodName": "v1.compute.addresses.list"
+        },
+        {
+          "methodName": "v1.compute.addresses.setLabels"
         },
         {
           "methodName": "v1.compute.autoscalers.aggregatedList"
@@ -9905,6 +9986,9 @@
         },
         {
           "methodName": "v1.compute.globalAddresses.list"
+        },
+        {
+          "methodName": "v1.compute.globalAddresses.setLabels"
         },
         {
           "methodName": "v1.compute.globalForwardingRules.delete"
@@ -10348,6 +10432,9 @@
           "methodName": "v1.compute.interconnectAttachments.patch"
         },
         {
+          "methodName": "v1.compute.interconnectAttachments.setLabels"
+        },
+        {
           "methodName": "v1.compute.interconnectLocations.get"
         },
         {
@@ -10370,6 +10457,9 @@
         },
         {
           "methodName": "v1.compute.interconnects.patch"
+        },
+        {
+          "methodName": "v1.compute.interconnects.setLabels"
         },
         {
           "methodName": "v1.compute.licenseCodes.get"
@@ -10984,6 +11074,9 @@
           "methodName": "v1.compute.regionSecurityPolicies.delete"
         },
         {
+          "methodName": "v1.compute.regionSecurityPolicies.get"
+        },
+        {
           "methodName": "v1.compute.regionSecurityPolicies.insert"
         },
         {
@@ -11000,6 +11093,9 @@
         },
         {
           "methodName": "v1.compute.regionSslCertificates.list"
+        },
+        {
+          "methodName": "v1.compute.regionSslPolicies.list"
         },
         {
           "methodName": "v1.compute.regionTargetHttpProxies.delete"
@@ -11189,6 +11285,9 @@
         },
         {
           "methodName": "v1.compute.securityPolicies.removeRule"
+        },
+        {
+          "methodName": "v1.compute.securityPolicies.setLabels"
         },
         {
           "methodName": "v1.compute.serviceAttachments.aggregatedList"
@@ -11464,6 +11563,9 @@
           "methodName": "v1.compute.targetVpnGateways.list"
         },
         {
+          "methodName": "v1.compute.targetVpnGateways.setLabels"
+        },
+        {
           "methodName": "v1.compute.urlMaps.aggregatedList"
         },
         {
@@ -11522,6 +11624,9 @@
         },
         {
           "methodName": "v1.compute.vpnTunnels.list"
+        },
+        {
+          "methodName": "v1.compute.vpnTunnels.setLabels"
         },
         {
           "methodName": "v1.compute.zoneOperations.delete"
@@ -11866,6 +11971,12 @@
           "methodName": "google.cloud.datacatalog.v1.DataCatalog.LookupEntry"
         },
         {
+          "methodName": "google.cloud.datacatalog.v1.DataCatalog.ModifyEntryContacts"
+        },
+        {
+          "methodName": "google.cloud.datacatalog.v1.DataCatalog.ModifyEntryOverview"
+        },
+        {
           "methodName": "google.cloud.datacatalog.v1.DataCatalog.RenameTagTemplateField"
         },
         {
@@ -11962,7 +12073,13 @@
       "serviceName": "dataform.googleapis.com",
       "methods": [
         {
+          "methodName": "google.cloud.dataform.v1beta1.Dataform.CreateCompilationResult"
+        },
+        {
           "methodName": "google.cloud.dataform.v1beta1.Dataform.CreateRepository"
+        },
+        {
+          "methodName": "google.cloud.dataform.v1beta1.Dataform.CreateWorkflowInvocation"
         },
         {
           "methodName": "google.cloud.dataform.v1beta1.Dataform.CreateWorkspace"
@@ -11972,6 +12089,9 @@
         },
         {
           "methodName": "google.cloud.dataform.v1beta1.Dataform.DeleteWorkspace"
+        },
+        {
+          "methodName": "google.cloud.dataform.v1beta1.Dataform.UpdateRepository"
         }
       ]
     },
@@ -13355,6 +13475,12 @@
           "methodName": "google.cloud.dialogflow.v2beta1.Conversations.ListMessages"
         },
         {
+          "methodName": "google.cloud.dialogflow.v2beta1.Conversations.ListPastCallCompanionEvents"
+        },
+        {
+          "methodName": "google.cloud.dialogflow.v2beta1.Conversations.StreamingListUpcomingCallCompanionEvents"
+        },
+        {
           "methodName": "google.cloud.dialogflow.v2beta1.Conversations.UpdateConversation"
         },
         {
@@ -13965,7 +14091,16 @@
           "methodName": "google.cloud.documentai.uiv1beta3.DocumentProcessorService.UpdateHumanReviewConfig"
         },
         {
+          "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.BatchDeleteDocuments"
+        },
+        {
           "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.BatchMoveDocuments"
+        },
+        {
+          "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.ExportDocuments"
+        },
+        {
+          "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.GetAllDatasetSplitStats"
         },
         {
           "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.GetDataset"
@@ -13981,6 +14116,9 @@
         },
         {
           "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.UpdateDataset"
+        },
+        {
+          "methodName": "google.cloud.documentai.uiv1beta3.DocumentService.UpdateDatasetSchema"
         },
         {
           "methodName": "google.cloud.documentai.v1.DocumentProcessorService.BatchProcessDocuments"
@@ -14230,6 +14368,9 @@
         },
         {
           "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.CreateContact"
+        },
+        {
+          "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.ListContacts"
         }
       ]
     },
@@ -14577,6 +14718,9 @@
         },
         {
           "methodName": "google.firestore.admin.v1.FirestoreAdmin.CreateIndex"
+        },
+        {
+          "methodName": "google.firestore.admin.v1.FirestoreAdmin.DeleteDatabase"
         },
         {
           "methodName": "google.firestore.admin.v1.FirestoreAdmin.DeleteIndex"
@@ -16213,6 +16357,9 @@
           "methodName": "google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetDefaultSupportedIdpConfig"
         },
         {
+          "methodName": "google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetIamPolicy"
+        },
+        {
           "methodName": "google.cloud.identitytoolkit.admin.v2.ProjectConfigService.GetInboundSamlConfig"
         },
         {
@@ -16861,6 +17008,9 @@
           "methodName": "google.cloud.metastore.v1beta.DataprocMetastoreFederation.UpdateFederation"
         },
         {
+          "methodName": "google.cloud.metastore.v1main.DataprocMetastore.ListBackups"
+        },
+        {
           "methodName": "google.longrunning.Operations.DeleteOperation"
         },
         {
@@ -17506,10 +17656,19 @@
           "methodName": "google.cloud.networkservices.v1.NetworkServices.GetGateway"
         },
         {
+          "methodName": "google.cloud.networkservices.v1.NetworkServices.GetGrpcRoute"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1.NetworkServices.GetHttpRoute"
+        },
+        {
           "methodName": "google.cloud.networkservices.v1.NetworkServices.GetMesh"
         },
         {
           "methodName": "google.cloud.networkservices.v1.NetworkServices.GetServiceBinding"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1.NetworkServices.GetTcpRoute"
         },
         {
           "methodName": "google.cloud.networkservices.v1.NetworkServices.GetTlsRoute"
@@ -17525,6 +17684,9 @@
         },
         {
           "methodName": "google.cloud.networkservices.v1.NetworkServices.ListEndpointPolicies"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1.NetworkServices.ListGrpcRoutes"
         },
         {
           "methodName": "google.cloud.networkservices.v1.NetworkServices.ListServiceBindings"
@@ -17569,10 +17731,16 @@
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.CreateGrpcRoute"
         },
         {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.CreateHttpRoute"
+        },
+        {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.CreateMesh"
         },
         {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.CreateServiceBinding"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.CreateTlsRoute"
         },
         {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.DeleteEndpointPolicy"
@@ -17593,7 +17761,19 @@
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.GetServiceBinding"
         },
         {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.ListGrpcRoutes"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.ListHttpRoutes"
+        },
+        {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.ListServiceBindings"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.ListTcpRoutes"
+        },
+        {
+          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.ListTlsRoutes"
         },
         {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.UpdateEndpointPolicy"
@@ -18491,6 +18671,9 @@
           "methodName": "google.cloud.recommender.v1.Recommender.GetInsightTypeConfig"
         },
         {
+          "methodName": "google.cloud.recommender.v1.Recommender.GetRecommenderConfig"
+        },
+        {
           "methodName": "google.cloud.recommender.v1beta1.Recommender.GetInsightTypeConfig"
         },
         {
@@ -18686,6 +18869,9 @@
           "methodName": "google.cloud.retail.v2.CatalogService.RemoveCatalogAttribute"
         },
         {
+          "methodName": "google.cloud.retail.v2.CatalogService.ReplaceCatalogAttribute"
+        },
+        {
           "methodName": "google.cloud.retail.v2.CatalogService.SetDefaultBranch"
         },
         {
@@ -18702,6 +18888,21 @@
         },
         {
           "methodName": "google.cloud.retail.v2.CompletionService.ImportCompletionData"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ControlService.CreateControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ControlService.DeleteControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ControlService.GetControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ControlService.ListControls"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ControlService.UpdateControl"
         },
         {
           "methodName": "google.cloud.retail.v2.PredictionService.Predict"
@@ -18741,6 +18942,27 @@
         },
         {
           "methodName": "google.cloud.retail.v2.SearchService.Search"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.AddControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.CreateServingConfig"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.DeleteServingConfig"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.GetServingConfig"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.ListServingConfigs"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.RemoveControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2.ServingConfigService.UpdateServingConfig"
         },
         {
           "methodName": "google.cloud.retail.v2.UserEventService.ImportUserEvents"
@@ -18810,6 +19032,27 @@
         },
         {
           "methodName": "google.cloud.retail.v2beta.ControlService.UpdateControl"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.CreateModel"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.DeleteModel"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.ListModels"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.PauseModel"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.ResumeModel"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.TuneModel"
+        },
+        {
+          "methodName": "google.cloud.retail.v2beta.ModelService.UpdateModel"
         },
         {
           "methodName": "google.cloud.retail.v2beta.PredictionService.Predict"
@@ -19401,6 +19644,9 @@
           "methodName": "google.cloud.securitycenter.v1beta1.SecurityCenter.SetFindingState"
         },
         {
+          "methodName": "google.cloud.securitycenter.v1beta1.SecurityCenter.SetIamPolicy"
+        },
+        {
           "methodName": "google.cloud.securitycenter.v1beta1.SecurityCenter.UpdateSecurityMarks"
         },
         {
@@ -19685,6 +19931,9 @@
         },
         {
           "methodName": "google.api.apikeys.v2.ApiKeys.DeleteKey"
+        },
+        {
+          "methodName": "google.api.apikeys.v2.ApiKeys.UpdateKey"
         },
         {
           "methodName": "google.api.serviceusage.v1.ServiceUsage.BatchEnableServices"

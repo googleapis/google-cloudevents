@@ -1,0 +1,96 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.iot.v1;
+
+import "google/events/cloud/iot/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Iot.V1";
+option (google.events.cloud_event_product) = "Cloud IoT";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "device"
+  description: "The resource ID of the Device triggering the event."
+  camel_case_name: "device"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "registry"
+  description: "The resource ID of the Registry triggering the event."
+  camel_case_name: "registry"
+};
+
+// CreateDevice event.
+message CreateDeviceEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.CreateDevice";
+  option (google.events.cloud_event_extension_name) = "device";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  DeviceEventData data = 1;
+}
+
+// UpdateDevice event.
+message UpdateDeviceEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.UpdateDevice";
+  option (google.events.cloud_event_extension_name) = "device";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  DeviceEventData data = 1;
+}
+
+// DeleteDevice event.
+message DeleteDeviceEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.DeleteDevice";
+  option (google.events.cloud_event_extension_name) = "device";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  DeviceEventData data = 1;
+}
+
+// CreateDeviceRegistry event.
+message CreateDeviceRegistryEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.CreateDeviceRegistry";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  RegistryEventData data = 1;
+}
+
+// UpdateDeviceRegistry event.
+message UpdateDeviceRegistryEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.UpdateDeviceRegistry";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  RegistryEventData data = 1;
+}
+
+// DeleteDeviceRegistry event.
+message DeleteDeviceRegistryEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.iot.v1.DeviceManager.DeleteDeviceRegistry";
+  option (google.events.cloud_event_extension_name) = "registry";
+
+  // The data associated with the event.
+  RegistryEventData data = 1;
+}
