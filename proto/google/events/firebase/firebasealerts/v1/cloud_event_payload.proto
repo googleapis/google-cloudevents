@@ -103,6 +103,11 @@ message CrashlyticsNewAnrIssuePayload {
   CrashlyticsIssue issue = 1;
 }
 
+message CrashlyticsMissingSymbolsPayload {
+  string app_version = 1;
+  string uuid = 2;
+}
+
 // -- Firebase Performance
 
 message FireperfThresholdAlertPayload {
