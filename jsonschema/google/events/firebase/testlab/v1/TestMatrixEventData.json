@@ -41,11 +41,12 @@
               "type": "integer"
             }
           ],
-          "description": "State of the test matrix."
+          "title": "Test State",
+          "description": "Possible test states for a test matrix."
         },
         "invalidMatrixDetails": {
           "type": "string",
-          "description": "Code that describes why the test matrix is considered invalid. Only set for\n matrices in the INVALID state."
+          "description": "Code that describes why the test matrix is considered invalid. Only set for matrices in the INVALID state."
         },
         "outcomeSummary": {
           "enum": [
@@ -68,7 +69,8 @@
               "type": "integer"
             }
           ],
-          "description": "Outcome summary of the test matrix."
+          "title": "Outcome Summary",
+          "description": "Outcome summary for a finished test matrix."
         },
         "resultStorage": {
           "$ref": "#/definitions/ResultStorage",
@@ -87,6 +89,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Test Matrix Event Data",
       "description": "The data within all Firebase test matrix events."
     },
     "ClientInfo": {
@@ -105,17 +108,18 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Client Info",
       "description": "Information about the client which invoked the test."
     },
     "ResultStorage": {
       "properties": {
         "toolResultsHistory": {
           "type": "string",
-          "description": "Tool Results history resource containing test results. Format is\n `projects/{project_id}/histories/{history_id}`.\n See https://firebase.google.com/docs/test-lab/reference/toolresults/rest\n for more information."
+          "description": "Tool Results history resource containing test results. Format is `projects/{project_id}/histories/{history_id}`. See https://firebase.google.com/docs/test-lab/reference/toolresults/rest for more information."
         },
         "toolResultsExecution": {
           "type": "string",
-          "description": "Tool Results execution resource containing test results. Format is\n `projects/{project_id}/histories/{history_id}/executions/{execution_id}`.\n Optional, can be omitted in erroneous test states.\n See https://firebase.google.com/docs/test-lab/reference/toolresults/rest\n for more information."
+          "description": "Tool Results execution resource containing test results. Format is `projects/{project_id}/histories/{history_id}/executions/{execution_id}`. Optional, can be omitted in erroneous test states. See https://firebase.google.com/docs/test-lab/reference/toolresults/rest for more information."
         },
         "resultsUri": {
           "type": "string",
@@ -123,11 +127,12 @@
         },
         "gcsPath": {
           "type": "string",
-          "description": "Location in Google Cloud Storage where test results are written to.\n In the form \"gs://bucket/path/to/somewhere\"."
+          "description": "Location in Google Cloud Storage where test results are written to. In the form \"gs://bucket/path/to/somewhere\"."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Result Storage",
       "description": "Locations where test results are stored."
     }
   }

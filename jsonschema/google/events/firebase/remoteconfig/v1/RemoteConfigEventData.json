@@ -27,7 +27,7 @@
         "updateUser": {
           "$ref": "#/definitions/RemoteConfigUser",
           "additionalProperties": true,
-          "description": "Aggregation of all metadata fields about the account that performed the\n  update."
+          "description": "Aggregation of all metadata fields about the account that performed the  update."
         },
         "description": {
           "type": "string",
@@ -52,7 +52,8 @@
               "type": "integer"
             }
           ],
-          "description": "Where the update action originated."
+          "title": "Remote Config Update Origin",
+          "description": "What type of update was associated with the Remote Config template version."
         },
         "updateType": {
           "enum": [
@@ -73,15 +74,17 @@
               "type": "integer"
             }
           ],
-          "description": "What type of update was made."
+          "title": "Remote Config Update Type",
+          "description": "Where the Remote Config update action originated."
         },
         "rollbackSource": {
           "type": "integer",
-          "description": "Only present if this version is the result of a rollback, and will be the\n version number of the Remote Config template that was rolled-back to."
+          "description": "Only present if this version is the result of a rollback, and will be the version number of the Remote Config template that was rolled-back to."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Remote Config Event Data",
       "description": "The data within all Firebase Remote Config events."
     },
     "RemoteConfigUser": {
@@ -101,7 +104,8 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "All the fields associated with the person/service account\n that wrote a Remote Config template."
+      "title": "Remote Config User",
+      "description": "All the fields associated with the person/service account that wrote a Remote Config template."
     }
   }
 }
