@@ -23,11 +23,12 @@
         },
         "subscription": {
           "type": "string",
-          "description": "The resource name of the subscription for which this event was\n generated. The format of the value is\n `projects/{project-id}/subscriptions/{subscription-id}`."
+          "description": "The resource name of the subscription for which this event was generated. The format of the value is `projects/{project-id}/subscriptions/{subscription-id}`."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Message Published Data",
       "description": "The event data when a message is published to a topic."
     },
     "PubsubMessage": {
@@ -47,20 +48,21 @@
         },
         "messageId": {
           "type": "string",
-          "description": "ID of this message, assigned by the server when the message is published.\n Guaranteed to be unique within the topic."
+          "description": "ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic."
         },
         "publishTime": {
           "type": "string",
-          "description": "The time at which the message was published, populated by the server when\n it receives the `Publish` call.",
+          "description": "The time at which the message was published, populated by the server when it receives the `Publish` call.",
           "format": "date-time"
         },
         "orderingKey": {
           "type": "string",
-          "description": "If non-empty, identifies related messages for which publish order should be\n respected."
+          "description": "If non-empty, identifies related messages for which publish order should be respected."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Pubsub Message",
       "description": "A message published to a topic."
     }
   }

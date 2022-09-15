@@ -1,0 +1,340 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/iot/v1/DeviceEventData.json",
+  "name": "DeviceEventData",
+  "examples": [],
+  "package": "google.events.cloud.iot.v1",
+  "datatype": "google.events.cloud.iot.v1.DeviceEventData",
+  "cloudeventTypes": [
+    "google.cloud.iot.v1.DeviceManager.CreateDevice",
+    "google.cloud.iot.v1.DeviceManager.UpdateDevice",
+    "google.cloud.iot.v1.DeviceManager.DeleteDevice"
+  ],
+  "product": "Cloud IoT",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DeviceEventData",
+  "definitions": {
+    "DeviceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Device",
+          "additionalProperties": true,
+          "description": "Optional. The Device event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Device Event Data",
+      "description": "The data within all Cloud IoT Device events."
+    },
+    "Device": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user-defined device identifier. The device ID must be unique within a device registry."
+        },
+        "name": {
+          "type": "string",
+          "description": "The resource path name. For example, `projects/p1/locations/us-central1/registries/registry0/devices/dev0` or `projects/p1/locations/us-central1/registries/registry0/devices/{num_id}`. When `name` is populated as a response from the service, it always ends in the device numeric ID."
+        },
+        "numId": {
+          "type": "integer",
+          "description": "[Output only] A server-defined unique numeric ID for the device. This is a more compact way to identify devices, and it is globally unique."
+        },
+        "credentials": {
+          "items": {
+            "$ref": "#/definitions/DeviceCredential"
+          },
+          "type": "array",
+          "description": "The credentials used to authenticate this device. To allow credential rotation without interruption, multiple device credentials can be bound to this device. No more than 3 credentials can be bound to a single device at a time. When new credentials are added to a device, they are verified against the registry credentials. For details, see the description of the `DeviceRegistry.credentials` field."
+        },
+        "lastHeartbeatTime": {
+          "type": "string",
+          "description": "[Output only] The last time an MQTT `PINGREQ` was received. This field applies only to devices connecting through MQTT. MQTT clients usually only send `PINGREQ` messages if the connection is idle, and no other messages have been sent. Timestamps are periodically collected and written to storage; they may be stale by a few minutes.",
+          "format": "date-time"
+        },
+        "lastEventTime": {
+          "type": "string",
+          "description": "[Output only] The last time a telemetry event was received. Timestamps are periodically collected and written to storage; they may be stale by a few minutes.",
+          "format": "date-time"
+        },
+        "lastStateTime": {
+          "type": "string",
+          "description": "[Output only] The last time a state event was received. Timestamps are periodically collected and written to storage; they may be stale by a few minutes.",
+          "format": "date-time"
+        },
+        "lastConfigAckTime": {
+          "type": "string",
+          "description": "[Output only] The last time a cloud-to-device config version acknowledgment was received from the device. This field is only for configurations sent through MQTT.",
+          "format": "date-time"
+        },
+        "lastConfigSendTime": {
+          "type": "string",
+          "description": "[Output only] The last time a cloud-to-device config version was sent to the device.",
+          "format": "date-time"
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "If a device is blocked, connections or requests from this device will fail. Can be used to temporarily prevent the device from connecting if, for example, the sensor is generating bad data and needs maintenance."
+        },
+        "lastErrorTime": {
+          "type": "string",
+          "description": "[Output only] The time the most recent error occurred, such as a failure to publish to Cloud Pub/Sub. This field is the timestamp of 'last_error_status'.",
+          "format": "date-time"
+        },
+        "lastErrorStatus": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "[Output only] The error message of the most recent error, such as a failure to publish to Cloud Pub/Sub. 'last_error_time' is the timestamp of this field. If no errors have occurred, this field has an empty message and the status code 0 == OK. Otherwise, this field is expected to have a status code other than OK."
+        },
+        "config": {
+          "$ref": "#/definitions/DeviceConfig",
+          "additionalProperties": true,
+          "description": "The most recent device configuration, which is eventually sent from Cloud IoT Core to the device. If not present on creation, the configuration will be initialized with an empty payload and version value of `1`. To update this field after creation, use the `DeviceManager.ModifyCloudToDeviceConfig` method."
+        },
+        "state": {
+          "$ref": "#/definitions/DeviceState",
+          "additionalProperties": true,
+          "description": "[Output only] The state most recently received from the device. If no state has been reported, this field is not present."
+        },
+        "logLevel": {
+          "enum": [
+            "LOG_LEVEL_UNSPECIFIED",
+            0,
+            "NONE",
+            10,
+            "ERROR",
+            20,
+            "INFO",
+            30,
+            "DEBUG",
+            40
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Log Level",
+          "description": "**Beta Feature** The logging verbosity for device activity. Specifies which events should be written to logs. For example, if the LogLevel is ERROR, only events that terminate in errors will be logged. LogLevel is inclusive; enabling INFO logging will also enable ERROR logging."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The metadata key-value pairs assigned to the device. This metadata is not interpreted or indexed by Cloud IoT Core. It can be used to add contextual information for the device. Keys must conform to the regular expression [a-zA-Z][a-zA-Z0-9-_.+~%]+ and be less than 128 bytes in length. Values are free-form strings. Each value must be less than or equal to 32 KB in size. The total size of all keys and values must be less than 256 KB, and the maximum number of key-value pairs is 500."
+        },
+        "gatewayConfig": {
+          "$ref": "#/definitions/GatewayConfig",
+          "additionalProperties": true,
+          "description": "Gateway-related configuration and state."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Device",
+      "description": "The device resource."
+    },
+    "DeviceConfig": {
+      "properties": {
+        "version": {
+          "type": "integer",
+          "description": "[Output only] The version of this update. The version number is assigned by the server, and is always greater than 0 after device creation. The version must be 0 on the `CreateDevice` request if a `config` is specified; the response of `CreateDevice` will always have a value of 1."
+        },
+        "cloudUpdateTime": {
+          "type": "string",
+          "description": "[Output only] The time at which this configuration version was updated in Cloud IoT Core. This timestamp is set by the server.",
+          "format": "date-time"
+        },
+        "deviceAckTime": {
+          "type": "string",
+          "description": "[Output only] The time at which Cloud IoT Core received the acknowledgment from the device, indicating that the device has received this configuration version. If this field is not present, the device has not yet acknowledged that it received this version. Note that when the config was sent to the device, many config versions may have been available in Cloud IoT Core while the device was disconnected, and on connection, only the latest version is sent to the device. Some versions may never be sent to the device, and therefore are never acknowledged. This timestamp is set by Cloud IoT Core.",
+          "format": "date-time"
+        },
+        "binaryData": {
+          "type": "string",
+          "description": "The device configuration data.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Device Config",
+      "description": "The device configuration. Eventually delivered to devices."
+    },
+    "DeviceCredential": {
+      "properties": {
+        "publicKey": {
+          "$ref": "#/definitions/PublicKeyCredential",
+          "additionalProperties": true,
+          "description": "A public key used to verify the signature of JSON Web Tokens (JWTs). When adding a new device credential, either via device creation or via modifications, this public key credential may be required to be signed by one of the registry level certificates. More specifically, if the registry contains at least one certificate, any new device credential must be signed by one of the registry certificates. As a result, when the registry contains certificates, only X.509 certificates are accepted as device credentials. However, if the registry does not contain a certificate, self-signed certificates and public keys will be accepted. New device credentials must be different from every registry-level certificate."
+        },
+        "expirationTime": {
+          "type": "string",
+          "description": "[Optional] The time at which this credential becomes invalid. This credential will be ignored for new client authentication requests after this timestamp; however, it will not be automatically deleted.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Device Credential",
+      "description": "A server-stored device credential used for authentication."
+    },
+    "DeviceState": {
+      "properties": {
+        "updateTime": {
+          "type": "string",
+          "description": "[Output only] The time at which this state version was updated in Cloud IoT Core.",
+          "format": "date-time"
+        },
+        "binaryData": {
+          "type": "string",
+          "description": "The device state data.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Device State",
+      "description": "The device state, as reported by the device."
+    },
+    "GatewayConfig": {
+      "properties": {
+        "gatewayType": {
+          "enum": [
+            "GATEWAY_TYPE_UNSPECIFIED",
+            0,
+            "GATEWAY",
+            1,
+            "NON_GATEWAY",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Gateway Type",
+          "description": "Gateway type."
+        },
+        "gatewayAuthMethod": {
+          "enum": [
+            "GATEWAY_AUTH_METHOD_UNSPECIFIED",
+            0,
+            "ASSOCIATION_ONLY",
+            1,
+            "DEVICE_AUTH_TOKEN_ONLY",
+            2,
+            "ASSOCIATION_AND_DEVICE_AUTH_TOKEN",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Gateway Auth Method",
+          "description": "The gateway authorization/authentication method. This setting determines how Cloud IoT Core authorizes/authenticate devices to access the gateway."
+        },
+        "lastAccessedGatewayId": {
+          "type": "string",
+          "description": "[Output only] The ID of the gateway the device accessed most recently."
+        },
+        "lastAccessedGatewayTime": {
+          "type": "string",
+          "description": "[Output only] The most recent time at which the device accessed the gateway specified in `last_accessed_gateway`.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway Config",
+      "description": "Gateway-related configuration and state."
+    },
+    "PublicKeyCredential": {
+      "properties": {
+        "format": {
+          "enum": [
+            "UNSPECIFIED_PUBLIC_KEY_FORMAT",
+            0,
+            "RSA_PEM",
+            3,
+            "RSA_X509_PEM",
+            1,
+            "ES256_PEM",
+            2,
+            "ES256_X509_PEM",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Public Key Format",
+          "description": "The supported formats for the public key."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key data."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Public Key Credential",
+      "description": "A public key format and data."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

@@ -24,6 +24,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Scheduler Job Data",
       "description": "Scheduler job data."
     }
   }

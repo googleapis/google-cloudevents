@@ -43,7 +43,7 @@ case "$OSTYPE" in
     exit 1
 esac
 
-PROTOBUF_VERSION=3.12.3
+PROTOBUF_VERSION=3.15.0
 rm -rf tmp
 mkdir tmp
 cd tmp
@@ -54,7 +54,7 @@ curl -sSL \
 unzip -q protobuf.zip
 cd ..
 
-PROTOC_PLUGIN_VERSION=1.3.1
+PROTOC_PLUGIN_VERSION=1.3.9
 echo "- Setting up protoc plugin: chrusty/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION"
 # Pin chrusty tool to specific version: https://github.com/chrusty/protoc-gen-jsonschema/tags
 GO111MODULE=on go get -v github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@$PROTOC_PLUGIN_VERSION

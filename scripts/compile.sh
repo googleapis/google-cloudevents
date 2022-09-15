@@ -14,7 +14,7 @@
 # limitations under the License.
 
 set -e
-PROTOBUF_VERSION=3.12.3
+PROTOBUF_VERSION=3.15.0
 
 # Validates that the protos in this repo can be compiled.
 case "$OSTYPE" in

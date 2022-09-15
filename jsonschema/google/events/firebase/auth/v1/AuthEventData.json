@@ -59,11 +59,12 @@
         "customClaims": {
           "additionalProperties": true,
           "type": "object",
-          "description": "User's custom claims, typically used to define user roles and propagated\n to an authenticated user's ID token."
+          "description": "User's custom claims, typically used to define user roles and propagated to an authenticated user's ID token."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Auth Event Data",
       "description": "The data within all Firebase Auth events."
     },
     "UserInfo": {
@@ -91,6 +92,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "User Info",
       "description": "User's info at the identity provider"
     },
     "UserMetadata": {
@@ -108,6 +110,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "User Metadata",
       "description": "Additional metadata about the user."
     }
   }

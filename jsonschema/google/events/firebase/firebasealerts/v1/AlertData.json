@@ -20,17 +20,18 @@
         },
         "endTime": {
           "type": "string",
-          "description": "Time that the event has ended. Optional, only present for alertsthat are\n ongoing",
+          "description": "Time that the event has ended. Optional, only present for alertsthat are ongoing",
           "format": "date-time"
         },
         "payload": {
           "additionalProperties": true,
           "type": "object",
-          "description": "Payload of the event, which includes the details of the specific alert.\n It's a map of keys of String type and values of various types"
+          "description": "Payload of the event, which includes the details of the specific alert. It's a map of keys of String type and values of various types"
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Alert Data",
       "description": "The data within all Firebase Alerts."
     }
   }
