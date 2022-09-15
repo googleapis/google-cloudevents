@@ -36,6 +36,30 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/iot/v1/DeviceEventData.json",
+      "product": "Cloud IoT",
+      "name": "DeviceEventData",
+      "description": "The data within all Cloud IoT Device events.",
+      "datatype": "google.events.cloud.iot.v1.DeviceEventData",
+      "cloudeventTypes": [
+        "google.cloud.iot.v1.DeviceManager.CreateDevice",
+        "google.cloud.iot.v1.DeviceManager.UpdateDevice",
+        "google.cloud.iot.v1.DeviceManager.DeleteDevice"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/iot/v1/RegistryEventData.json",
+      "product": "Cloud IoT",
+      "name": "RegistryEventData",
+      "description": "The data within all Cloud IoT Registry events.",
+      "datatype": "google.events.cloud.iot.v1.RegistryEventData",
+      "cloudeventTypes": [
+        "google.cloud.iot.v1.DeviceManager.CreateDeviceRegistry",
+        "google.cloud.iot.v1.DeviceManager.UpdateDeviceRegistry",
+        "google.cloud.iot.v1.DeviceManager.DeleteDeviceRegistry"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
       "product": "Cloud Pub/Sub",
       "name": "MessagePublishedData",

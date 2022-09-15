@@ -30,6 +30,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Analytics Log Data",
       "description": "The data within Firebase Analytics log events."
     },
     "AnalyticsValue": {
@@ -49,25 +50,26 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Value for Event Params and UserProperty can be of type string or int or\n float or double."
+      "title": "Analytics Value",
+      "description": "Value for Event Params and UserProperty can be of type string or int or float or double."
     },
     "AppInfo": {
       "properties": {
         "appVersion": {
           "type": "string",
-          "description": "The app's version name\n Examples: \"1.0\", \"4.3.1.1.213361\", \"2.3 (1824253)\", \"v1.8b22p6\""
+          "description": "The app's version name Examples: \"1.0\", \"4.3.1.1.213361\", \"2.3 (1824253)\", \"v1.8b22p6\""
         },
         "appInstanceId": {
           "type": "string",
-          "description": "Unique id for this instance of the app.\n Example: \"71683BF9FA3B4B0D9535A1F05188BAF3\""
+          "description": "Unique id for this instance of the app. Example: \"71683BF9FA3B4B0D9535A1F05188BAF3\""
         },
         "appStore": {
           "type": "string",
-          "description": "The identifier of the store that installed the app.\n Eg. \"com.sec.android.app.samsungapps\", \"com.amazon.venezia\",\n \"com.nokia.nstore\""
+          "description": "The identifier of the store that installed the app. Eg. \"com.sec.android.app.samsungapps\", \"com.amazon.venezia\", \"com.nokia.nstore\""
         },
         "appPlatform": {
           "type": "string",
-          "description": "The app platform.\n Eg \"ANDROID\", \"IOS\"."
+          "description": "The app platform. Eg \"ANDROID\", \"IOS\"."
         },
         "appId": {
           "type": "string",
@@ -76,45 +78,46 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "App Info",
       "description": "Message which contains App Information."
     },
     "DeviceInfo": {
       "properties": {
         "deviceCategory": {
           "type": "string",
-          "description": "Device category.\n Eg. tablet or mobile."
+          "description": "Device category. Eg. tablet or mobile."
         },
         "mobileBrandName": {
           "type": "string",
-          "description": "Device brand name.\n Eg. Samsung, HTC, etc."
+          "description": "Device brand name. Eg. Samsung, HTC, etc."
         },
         "mobileModelName": {
           "type": "string",
-          "description": "Device model name.\n Eg. GT-I9192"
+          "description": "Device model name. Eg. GT-I9192"
         },
         "mobileMarketingName": {
           "type": "string",
-          "description": "Device marketing name.\n Eg. Galaxy S4 Mini"
+          "description": "Device marketing name. Eg. Galaxy S4 Mini"
         },
         "deviceModel": {
           "type": "string",
-          "description": "Device model.\n Eg. GT-I9192"
+          "description": "Device model. Eg. GT-I9192"
         },
         "platformVersion": {
           "type": "string",
-          "description": "Device OS version when data capture ended.\n Eg. 4.4.2"
+          "description": "Device OS version when data capture ended. Eg. 4.4.2"
         },
         "deviceId": {
           "type": "string",
-          "description": "Vendor specific device identifier. This is IDFV on iOS. Not used for\n Android.\n Example: \"599F9C00-92DC-4B5C-9464-7971F01F8370\""
+          "description": "Vendor specific device identifier. This is IDFV on iOS. Not used for Android. Example: \"599F9C00-92DC-4B5C-9464-7971F01F8370\""
         },
         "resettableDeviceId": {
           "type": "string",
-          "description": "The type of the resettable_device_id is always IDFA on iOS and AdId\n on Android.\n Example: \"71683BF9-FA3B-4B0D-9535-A1F05188BAF3\""
+          "description": "The type of the resettable_device_id is always IDFA on iOS and AdId on Android. Example: \"71683BF9-FA3B-4B0D-9535-A1F05188BAF3\""
         },
         "userDefaultLanguage": {
           "type": "string",
-          "description": "The user language.\n Eg. \"en-us\", \"en-za\", \"zh-tw\", \"jp\""
+          "description": "The user language. Eg. \"en-us\", \"en-za\", \"zh-tw\", \"jp\""
         },
         "deviceTimeZoneOffsetSeconds": {
           "type": "integer",
@@ -122,18 +125,19 @@
         },
         "limitedAdTracking": {
           "type": "boolean",
-          "description": "The device's Limit Ad Tracking setting.\n When true, we cannot use device_id for remarketing, demographics or\n influencing ads serving behaviour. However, we can use device_id for\n conversion tracking and campaign attribution."
+          "description": "The device's Limit Ad Tracking setting. When true, we cannot use device_id for remarketing, demographics or influencing ads serving behaviour. However, we can use device_id for conversion tracking and campaign attribution."
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Device Info",
       "description": "Message containing device informations."
     },
     "EventDimensions": {
       "properties": {
         "date": {
           "type": "string",
-          "description": "The date on which this event was logged.\n (YYYYMMDD format in the registered timezone of your app.)"
+          "description": "The date on which this event was logged. (YYYYMMDD format in the registered timezone of your app.)"
         },
         "name": {
           "type": "string",
@@ -162,6 +166,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Event Dimensions",
       "description": "Message containing information pertaining to the event."
     },
     "ExportBundleInfo": {
@@ -177,29 +182,31 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Message containing information regarding the bundle in which these\n events were uploaded."
+      "title": "Export Bundle Info",
+      "description": "Message containing information regarding the bundle in which these events were uploaded."
     },
     "GeoInfo": {
       "properties": {
         "continent": {
           "type": "string",
-          "description": "The geographic continent.\n Eg. Americas"
+          "description": "The geographic continent. Eg. Americas"
         },
         "country": {
           "type": "string",
-          "description": "The geographic country.\n Eg. Brazil"
+          "description": "The geographic country. Eg. Brazil"
         },
         "region": {
           "type": "string",
-          "description": "The geographic region.\n Eg. State of Sao Paulo"
+          "description": "The geographic region. Eg. State of Sao Paulo"
         },
         "city": {
           "type": "string",
-          "description": "The geographic city.\n Eg. Sao Paulo"
+          "description": "The geographic city. Eg. Sao Paulo"
         }
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Geo Info",
       "description": "User's geographic informaiton."
     },
     "LtvInfo": {
@@ -215,6 +222,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Ltv Info",
       "description": "Lifetime Value information about this user."
     },
     "TrafficSource": {
@@ -234,6 +242,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "Traffic Source",
       "description": "Mesage containing marketing campaign information which acquired the user."
     },
     "UserDimensions": {
@@ -252,7 +261,7 @@
             "additionalProperties": true
           },
           "type": "object",
-          "description": "A repeated record of user properties set with the setUserProperty API.\n https://firebase.google.com/docs/analytics/android/properties"
+          "description": "A repeated record of user properties set with the setUserProperty API. https://firebase.google.com/docs/analytics/android/properties"
         },
         "deviceInfo": {
           "$ref": "#/definitions/DeviceInfo",
@@ -287,6 +296,7 @@
       },
       "additionalProperties": true,
       "type": "object",
+      "title": "User Dimensions",
       "description": "Message containing information about the user associated with the event."
     },
     "UserPropertyValue": {
@@ -307,7 +317,8 @@
       },
       "additionalProperties": true,
       "type": "object",
-      "description": "Predefined (eg: LTV) or custom properties (eg: birthday) stored on client\n side and associated with subsequent HitBundles."
+      "title": "User Property Value",
+      "description": "Predefined (eg: LTV) or custom properties (eg: birthday) stored on client side and associated with subsequent HitBundles."
     }
   }
 }
