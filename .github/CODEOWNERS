@@ -4,4 +4,5 @@
 # For syntax help see:
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
 
-*     @googleapis/cloudevents-admins
+*           @googleapis/torus-dpe
+proto/      @googleapis/cloudevents-admins
