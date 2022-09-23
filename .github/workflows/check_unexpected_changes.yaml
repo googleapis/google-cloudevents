@@ -23,13 +23,13 @@ on:
 jobs:
   check:
     if: github.actor != 'copybara-service[bot]'
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
 
     - name: Build the JSON Schema
-      uses: .github/workflows/build_jsonschema
+      uses: ./.github/workflows/build_jsonschema
 
     - name: Check for schema changes
       run: git diff --exit-code .

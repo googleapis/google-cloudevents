@@ -25,13 +25,13 @@ on:
 
 jobs:
   build-schema:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
       
     - name: Build the JSON Schema
-      uses: .github/workflows/build_jsonschema
+      uses: ./.github/workflows/build_jsonschema
 
     - name: Create pull request for schema updates
       uses: googleapis/code-suggester@v4
