@@ -19,7 +19,7 @@ on:
       - 'jsonschema/**'
       - 'scripts/**'
       - 'tools/**'
-      - '.github/workflows/validate_jsonschema.yaml'
+      - '.github/workflows/validate_jsonschemas.yaml'
 
 jobs:
   validate:
