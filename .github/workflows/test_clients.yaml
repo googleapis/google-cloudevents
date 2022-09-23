@@ -12,22 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: License Check
-on: [push, pull_request]
+name: Client Smoke Tests
+on:
+  pull_request:
+    paths:
+      - 'proto/**'
+      - 'third_party/**'
+      - 'testdata/**'
+      - '.github/workflows/test_clients.yaml'
 
 jobs:
-  check:
+  # When other languages support schema validation too, we can
+  # have a separate job per language
+  dotnet:
     runs-on: ubuntu-18.04
+    env:
+      DOTNET_NOLOGO: true
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    - name: Setup Go for https://github.com/google/addlicense
-      uses: actions/setup-go@v3
+
+    - name: Check out google-cloudevents-dotnet
+      uses: actions/checkout@v3
       with:
-        go-version: '1.17'
-    - name: Get the license tool
-      run: go get -u github.com/google/addlicense@v1.0
-    - name: Run the license tool
-      run: addlicense .
-    - name: Ensure there is no diff
-      run: git diff --exit-code .
+        repository: googleapis/google-cloudevents-dotnet
+        path: google-cloudevents-dotnet
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Run smoke tests
+      run: google-cloudevents-dotnet/validate-schema.sh .

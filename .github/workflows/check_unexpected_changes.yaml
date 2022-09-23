@@ -12,27 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Validate Schema Against Clients
-on: [push, pull_request]
+name: Check Unexpected Changes
+on:
+  pull_request:
+    paths:
+      - 'proto/**'
+      - 'third_party/**'
+      - '.github/workflows/check_unexpected_changes.yaml'
 
 jobs:
-  # When other languages support schema validation too, we can
-  # have a separate job per language
-  validate-schema-dotnet:
+  check:
+    if: github.actor != 'copybara-service[bot]'
     runs-on: ubuntu-18.04
-    env:
-      DOTNET_NOLOGO: true
     steps:
-    - name: Check out our repo
+    - name: Check out repo
       uses: actions/checkout@v3
-    - name: Check out google-cloudevents-dotnet
-      uses: actions/checkout@v3
-      with:
-        repository: googleapis/google-cloudevents-dotnet
-        path: google-cloudevents-dotnet
-    - name: Setup .NET 6
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Validate schema
-      run: google-cloudevents-dotnet/validate-schema.sh .
+
+    - name: Build the JSON Schema
+      uses: .github/workflows/build_jsonschema
+
+    - name: Check for schema changes
+      run: git diff --exit-code .
+
+    - if: ${{ failure() }}
+      run: echo "::error title=The JSON Schema changed!::If this is unexpected, update your branch or check for an open PR with schema changes"

@@ -13,7 +13,13 @@
 # limitations under the License.
 
 name: Validate JSON Schemas
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - 'jsonschema/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/validate_jsonschema.yaml'
 
 jobs:
   validate:
@@ -21,9 +27,11 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
+
     - name: Setup Node
       uses: actions/setup-node@v3
       with:
         node-version: '12'
-    - name: Run Validate JSON Schema Script
+
+    - name: Validate JSON Schema
       run: ./scripts/validate_jsonschema.sh
