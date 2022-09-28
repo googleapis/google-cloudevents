@@ -25,7 +25,7 @@ jobs:
   # When other languages support schema validation too, we can
   # have a separate job per language
   dotnet:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       DOTNET_NOLOGO: true
     steps:
