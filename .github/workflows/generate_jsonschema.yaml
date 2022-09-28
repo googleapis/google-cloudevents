@@ -12,21 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Build JSON Schema
+name: Generate JSON Schema
 on:
   push:
     branches:
       - "main"
 
 jobs:
-  build-schema:
+  generate-schema:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      - name: Build the JSON Schema
-        uses: ./.github/workflows/build_jsonschema
+      - name: Generate the JSON Schema
+        uses: ./.github/workflows/generate_jsonschema
 
       - name: Create pull request for schema updates
         uses: googleapis/code-suggester@v4
@@ -36,9 +36,9 @@ jobs:
           command: pr
           upstream_owner: ${{ github.repository_owner }}
           upstream_repo: "google-cloudevents"
-          description: "Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/build_jsonschema.yaml"
-          title: "chore: Build the JSON Schema" # PR title
-          message: "chore: Build the JSON Schema" # commit message
+          description: "Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/generate_jsonschema.yaml"
+          title: "chore: Generate the JSON Schema" # PR title
+          message: "chore: Generate the JSON Schema" # commit message
           branch: "main" # branch for forked repo
           git_dir: "."
           primary: "main"
@@ -53,6 +53,6 @@ jobs:
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'JSON Schema build failed!',
+              title: 'JSON Schema generation failed!',
               body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });

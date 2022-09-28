@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Build JSON Schema Composite Action
+name: Generate JSON Schema Composite Action
 
 runs:
   using: "composite"
@@ -27,6 +27,6 @@ runs:
       with:
         go-version: "1.14"
 
-    - name: Build the JSON Schema
+    - name: Generate the JSON Schema
       run: ./scripts/gen.sh
       shell: bash
