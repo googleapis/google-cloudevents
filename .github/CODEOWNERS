@@ -5,4 +5,6 @@
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
 
 *           @googleapis/torus-dpe
+
 proto/      @googleapis/cloudevents-admins
+json/audit/ @googleapis/cloudevents-admins
