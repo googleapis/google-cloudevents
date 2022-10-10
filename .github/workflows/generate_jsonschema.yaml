@@ -28,6 +28,23 @@ jobs:
       - name: Generate the JSON Schema
         uses: ./.github/workflows/generate_jsonschema
 
+      - name: Get PR trigger
+        id: pr-number
+        uses: actions/github-script@v6
+        env:
+          TRIGGER_COMMIT: ${{github.event.head_commit.id}}
+        with:
+          result-encoding: string
+          script: |            
+            const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: process.env.TRIGGER_COMMIT,
+            });
+            if (prs.data[0]) {
+              return prs.data[0].number
+            }
+
       - name: Create pull request for schema updates
         uses: googleapis/code-suggester@v4
         env:
@@ -36,7 +53,14 @@ jobs:
           command: pr
           upstream_owner: ${{ github.repository_owner }}
           upstream_repo: "google-cloudevents"
-          description: "Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/generate_jsonschema.yaml"
+          description: |
+              :robot: Auto-generated Pull Request.
+              Triggered by [${{ github.event.repository.full_name }}#${{ steps.pr-number.outputs.result }}](https://github.com/${{ github.event.repository.full_name }}/pull/${{ steps.pr-number.outputs.result }})
+
+              * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/.github/workflows/generate_jsonschema.yaml
+              * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/scripts/gen.sh
+              * **List of workflow runs:** https://github.com/${{ github.repository }}/actions/workflows/generate_jsonschema.yaml
+       
           title: "chore: Generate the JSON Schema" # PR title
           message: "chore: Generate the JSON Schema" # commit message
           branch: "main" # branch for forked repo
