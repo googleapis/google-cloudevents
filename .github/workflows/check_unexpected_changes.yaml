@@ -30,4 +30,6 @@ jobs:
       run: git diff --exit-code .
 
     - if: ${{ failure() }}
-      run: echo "::error title=The JSON Schema changed!::If this is unexpected, update your branch or check for an open PR with schema changes"
+      run: |-
+        echo "::error title=The JSON Schema changed!::If this is unexpected, update your branch or check for an open PR with schema changes"
+        exit 1
