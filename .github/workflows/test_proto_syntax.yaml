@@ -12,18 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Validate JSON Schemas
-on: [push, pull_request]
+name: Test Proto Syntax
+on:
+  pull_request:
+    paths:
+      - 'proto/**'
+      - 'third_party/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/test_proto_syntax.yaml'
 
 jobs:
-  validate:
-    runs-on: ubuntu-18.04
+  test-syntax:
+    runs-on: ubuntu-22.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '12'
-    - name: Run Validate JSON Schema Script
-      run: ./scripts/validate_jsonschema.sh
+
+    - name: Test proto syntax via compilation
+      run: ./scripts/compile.sh

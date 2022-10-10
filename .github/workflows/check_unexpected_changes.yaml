@@ -12,14 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Compile Protos
-on: [push, pull_request]
+name: Check Unexpected Changes
+on: [pull_request]
 
 jobs:
-  compile:
-    runs-on: ubuntu-18.04
+  check:
+    if: github.actor != 'copybara-service[bot]'
+    runs-on: ubuntu-22.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    - name: Run script to compile and validate protos
-      run: ./scripts/compile.sh
+
+    - name: Generate the JSON Schema
+      uses: ./.github/workflows/generate_jsonschema
+
+    - name: Check for schema changes
+      run: git diff --exit-code .
+
+    - if: ${{ failure() }}
+      run: |-
+        echo "::error title=The JSON Schema changed!::If this is unexpected, update your branch or check for an open PR with schema changes"
+        exit 1

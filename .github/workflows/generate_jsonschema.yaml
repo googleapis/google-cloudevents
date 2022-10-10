@@ -1,0 +1,58 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Generate JSON Schema
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  generate-schema:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Generate the JSON Schema
+        uses: ./.github/workflows/generate_jsonschema
+
+      - name: Create pull request for schema updates
+        uses: googleapis/code-suggester@v4
+        env:
+          ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }} # Provided by GitHub Automation team
+        with:
+          command: pr
+          upstream_owner: ${{ github.repository_owner }}
+          upstream_repo: "google-cloudevents"
+          description: "Generated in GitHub action: https://github.com/${{ github.repository }}/actions/workflows/generate_jsonschema.yaml"
+          title: "chore: Generate the JSON Schema" # PR title
+          message: "chore: Generate the JSON Schema" # commit message
+          branch: "main" # branch for forked repo
+          git_dir: "."
+          primary: "main"
+          force: true # force push a reference
+          fork: true # action automatically forks repo
+
+      - name: Notify for failure
+        if: ${{ failure() }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'JSON Schema generation failed!',
+              body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
