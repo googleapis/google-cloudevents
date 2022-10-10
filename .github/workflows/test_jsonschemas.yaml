@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Validate JSON Schemas
+name: Test JSON Schemas Syntax
 on:
   pull_request:
     paths:
