@@ -43,7 +43,6 @@ jobs:
               * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/.github/workflows/generate_jsonschema.yaml
               * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/scripts/gen.sh
               * **List of workflow runs:** https://github.com/${{ github.repository }}/actions/workflows/generate_jsonschema.yaml
-       
           title: "chore: Generate the JSON Schema" # PR title
           message: "chore: Generate the JSON Schema" # commit message
           branch: "main" # branch for forked repo
