@@ -1,0 +1,11 @@
+{
+  "subscription": "projects/my-project/subscriptions/my-subscription",
+  "message": {
+    "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
+    "data": "AQIDBA==",
+    "messageId": "message-id",
+    "message_id": "message-id",
+    "publishTime":"2021-02-05T04:06:14.109Z",
+    "publish_time":"2021-02-05T04:06:14.109Z"
+  }
+}
