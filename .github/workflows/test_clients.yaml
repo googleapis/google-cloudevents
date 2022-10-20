@@ -15,11 +15,11 @@
 name: Client Smoke Tests
 on:
   pull_request:
-    paths:
-      - 'proto/**'
-      - 'third_party/**'
-      - 'testdata/**'
-      - '.github/workflows/test_clients.yaml'
+    # paths:
+    #   - 'proto/**'
+    #   - 'third_party/**'
+    #   - 'testdata/**'
+    #   - '.github/workflows/test_clients.yaml'
 
 jobs:
   # When other languages support schema validation too, we can

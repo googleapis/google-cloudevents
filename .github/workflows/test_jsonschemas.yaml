@@ -15,11 +15,11 @@
 name: Test JSON Schemas Syntax
 on:
   pull_request:
-    paths:
-      - 'jsonschema/**'
-      - 'scripts/**'
-      - 'tools/**'
-      - '.github/workflows/validate_jsonschemas.yaml'
+    # paths:
+    #   - 'jsonschema/**'
+    #   - 'scripts/**'
+    #   - 'tools/**'
+    #   - '.github/workflows/validate_jsonschemas.yaml'
 
 jobs:
   validate:

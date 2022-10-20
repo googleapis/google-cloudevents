@@ -15,12 +15,12 @@
 name: Test Proto Syntax
 on:
   pull_request:
-    paths:
-      - 'proto/**'
-      - 'third_party/**'
-      - 'scripts/**'
-      - 'tools/**'
-      - '.github/workflows/test_proto_syntax.yaml'
+    # paths:
+    #   - 'proto/**'
+    #   - 'third_party/**'
+    #   - 'scripts/**'
+    #   - 'tools/**'
+    #   - '.github/workflows/test_proto_syntax.yaml'
 
 jobs:
   test-syntax:
