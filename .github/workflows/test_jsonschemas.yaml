@@ -12,29 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Verify No Changes
+name: Test JSON Schemas Syntax
 on:
-  push:
-    # Skip when it is a pull request from copybara as there might be changes in the proto schemas
-    branches-ignore:
-    - copybara
   pull_request:
+    paths:
+      - 'jsonschema/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/validate_jsonschemas.yaml'
 
 jobs:
-  build:
-    runs-on: ubuntu-18.04
+  validate:
+    runs-on: ubuntu-22.04
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    - name: Setup Node for gen/postgen scripts
+
+    - name: Setup Node
       uses: actions/setup-node@v3
       with:
         node-version: '12'
-    - name: Setup Go for proto2jsonschema script
-      uses: actions/setup-go@v3
-      with:
-        go-version: '1.14'
-    - name: Run the generators
-      run: ./scripts/gen.sh
-    - name: Ensure there is no diff
-      run: git diff --exit-code .
+
+    - name: Validate JSON Schema
+      run: ./scripts/validate_jsonschema.sh

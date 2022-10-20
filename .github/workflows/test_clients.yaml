@@ -12,19 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Validate Schema Against Clients
-on: [push, pull_request]
+name: Client Smoke Tests
+on:
+  pull_request:
+    paths:
+      - 'proto/**'
+      - 'third_party/**'
+      - 'testdata/**'
+      - '.github/workflows/test_clients.yaml'
 
 jobs:
   # When other languages support schema validation too, we can
   # have a separate job per language
-  validate-schema-dotnet:
-    runs-on: ubuntu-18.04
+  dotnet:
+    runs-on: ubuntu-22.04
     env:
       DOTNET_NOLOGO: true
     steps:
-    - name: Check out our repo
+    - name: Check out repo
       uses: actions/checkout@v3
+
     - name: Check out google-cloudevents-dotnet
       uses: actions/checkout@v3
       with:
@@ -34,5 +41,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - name: Validate schema
+
+    - name: Run smoke tests
       run: google-cloudevents-dotnet/validate-schema.sh .
