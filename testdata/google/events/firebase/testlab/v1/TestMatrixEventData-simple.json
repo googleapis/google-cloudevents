@@ -1,0 +1,18 @@
+{
+  "createTime": "2020-11-16T16:35:33.569229Z",
+  "state": "FINISHED",
+  "outcomeSummary": "SUCCESS",
+  "resultStorage": {
+    "toolResultsHistory": "projects/test-project/histories/bh.1ab23456c78d9012",
+    "toolResultsExecution": "projects/test-project/histories/bh.1ab23456c78d9012/executions/1234567891234567890",
+    "resultsUri": "https://firebase-console-ci.corp.google.com/project/test-project/testlab/histories/bh.1ab23456c78d9012/matrices/1234567891234567890",
+    "gcsPath": "gs://bucket"
+  },
+  "client_info": {
+    "client": "gcloud",
+    "details": {
+      "Cloud SDK Version": "331.0.0"
+    }
+  },
+  "testMatrixId": "matrix-1abcd2ef3ghij"
+}
