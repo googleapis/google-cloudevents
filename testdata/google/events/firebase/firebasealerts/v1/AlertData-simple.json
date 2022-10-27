@@ -1,0 +1,13 @@
+{
+  "createTime": "2020-11-16T16:35:33.569229Z",
+  "endTime": "2020-11-16T16:36:02.246591Z",
+  "payload": {
+    "@type": "type.googleapis.com/google.events.firebase.firebasealerts.v1.CrashlyticsNewNonfatalIssuePayload",
+    "issue": {
+        "id": "123456",
+        "title": "Some title",
+        "subtitle": "Some subtitle",
+        "appVersion": "1.0.0"
+    }
+  }
+}
