@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 name: Test Proto Syntax
 on:
   pull_request:
-    paths:
+    paths-ignore:
       - 'proto/**'
       - 'third_party/**'
       - 'scripts/**'
@@ -26,8 +26,4 @@ jobs:
   test-syntax:
     runs-on: ubuntu-22.04
     steps:
-    - name: Check out repo
-      uses: actions/checkout@v3
-
-    - name: Test proto syntax via compilation
-      run: ./scripts/compile.sh
+    - run: echo "No Test Required."

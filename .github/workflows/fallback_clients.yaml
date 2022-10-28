@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,22 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Test Proto Syntax
+name: Client Smoke Tests
 on:
   pull_request:
-    paths:
+    paths-ignore:
       - 'proto/**'
       - 'third_party/**'
-      - 'scripts/**'
-      - 'tools/**'
-      - '.github/workflows/test_proto_syntax.yaml'
+      - 'testdata/**'
+      - '.github/workflows/test_clients.yaml'
 
 jobs:
-  test-syntax:
+  dotnet:
     runs-on: ubuntu-22.04
     steps:
-    - name: Check out repo
-      uses: actions/checkout@v3
-
-    - name: Test proto syntax via compilation
-      run: ./scripts/compile.sh
+    - run: echo "No Test Required."
