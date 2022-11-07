@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rebaseMergeAllowed: true
-squashMergeAllowed: true
-mergeCommitAllowed: false
-branchProtectionRules:
-- pattern: main
-  requiredStatusCheckContexts:
-    - 'cla/google'
-    - check
-    - dotnet
-    - validate
-    - test-syntax
-  requiredApprovingReviewCount: 1
-  requiresCodeOwnerReviews: true
-  requiresStrictStatusChecks: true
-permissionRules:
-  - team: cloudevents-admins
-    permission: admin
+name: Test JSON Schemas Syntax
+on:
+  pull_request:
+    paths-ignore:
+      - 'jsonschema/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/validate_jsonschemas.yaml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    steps:
+    - run: echo "No Test Required."
