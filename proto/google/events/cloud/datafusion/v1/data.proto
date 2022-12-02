@@ -1,0 +1,342 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.datafusion.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Datafusion.V1";
+
+// Network configuration for a Data Fusion instance. These configurations
+// are used for peering with the customer network. Configurations are optional
+// when a public Data Fusion instance is to be created. However, providing
+// these configurations allows several benefits, such as reduced network latency
+// while accessing the customer resources from managed Data Fusion instance
+// nodes, as well as access to the customer on-prem resources.
+message NetworkConfig {
+  // Name of the network in the customer project with which the Tenant Project
+  // will be peered for executing pipelines. In case of shared VPC where the
+  // network resides in another host project the network should specified in
+  // the form of projects/{host-project-id}/global/networks/{network}
+  string network = 1;
+
+  // The IP range in CIDR notation to use for the managed Data Fusion instance
+  // nodes. This range must not overlap with any other ranges used in the
+  // customer network.
+  string ip_allocation = 2;
+}
+
+// The Data Fusion version. This proto message stores information about certain
+// Data Fusion version, which is used for Data Fusion version upgrade.
+message Version {
+  // Each type represents the release availability of a CDF version
+  enum Type {
+    // Version does not have availability yet
+    TYPE_UNSPECIFIED = 0;
+
+    // Version is under development and not considered stable
+    TYPE_PREVIEW = 1;
+
+    // Version is available for public use
+    TYPE_GENERAL_AVAILABILITY = 2;
+  }
+
+  // The version number of the Data Fusion instance, such as '6.0.1.0'.
+  string version_number = 1;
+
+  // Whether this is currently the default version for Cloud Data Fusion
+  bool default_version = 2;
+
+  // Represents a list of available feature names for a given version.
+  repeated string available_features = 3;
+
+  // Type represents the release availability of the version
+  Type type = 4;
+}
+
+// Identifies Data Fusion accelerators for an instance.
+message Accelerator {
+  // Each type represents an Accelerator (Add-On) supported by Cloud Data Fusion
+  // service.
+  enum AcceleratorType {
+    // Default value, if unspecified.
+    ACCELERATOR_TYPE_UNSPECIFIED = 0;
+
+    // Change Data Capture accelerator for CDF.
+    CDC = 1;
+
+    // Cloud Healthcare accelerator for CDF. This accelerator is to enable Cloud
+    // Healthcare specific CDF plugins developed by Healthcare team.
+    HEALTHCARE = 2;
+
+    // Contact Center AI Insights
+    // This accelerator is used to enable import and export pipelines
+    // custom built to streamline CCAI Insights processing.
+    CCAI_INSIGHTS = 3;
+  }
+
+  // Different values possible for the state of an accelerator.
+  enum State {
+    // Default value, do not use.
+    STATE_UNSPECIFIED = 0;
+
+    // Indicates that the accelerator is enabled and available to use.
+    ENABLED = 1;
+
+    // Indicates that the accelerator is disabled and not available to use.
+    DISABLED = 2;
+
+    // Indicates that accelerator state is currently unknown.
+    // Requests for enable, disable could be retried while in this state.
+    UNKNOWN = 3;
+  }
+
+  // The type of an accelator for a CDF instance.
+  AcceleratorType accelerator_type = 1;
+
+  // The state of the accelerator.
+  State state = 2;
+}
+
+// The crypto key configuration. This field is used by the Customer-managed
+// encryption keys (CMEK) feature.
+message CryptoKeyConfig {
+  // The name of the key which is used to encrypt/decrypt customer data. For key
+  // in Cloud KMS, the key should be in the format of
+  // `projects/*/locations/*/keyRings/*/cryptoKeys/*`.
+  string key_reference = 1;
+}
+
+// Represents a Data Fusion instance.
+message Instance {
+  // Represents the type of Data Fusion instance. Each type is configured with
+  // the default settings for processing and memory.
+  enum Type {
+    // No type specified. The instance creation will fail.
+    TYPE_UNSPECIFIED = 0;
+
+    // Basic Data Fusion instance. In Basic type, the user will be able to
+    // create data pipelines using point and click UI. However, there are
+    // certain limitations, such as fewer number of concurrent pipelines, no
+    // support for streaming pipelines, etc.
+    BASIC = 1;
+
+    // Enterprise Data Fusion instance. In Enterprise type, the user will have
+    // all features available, such as support for streaming pipelines, higher
+    // number of concurrent pipelines, etc.
+    ENTERPRISE = 2;
+
+    // Developer Data Fusion instance. In Developer type, the user will have all
+    // features available but with restrictive capabilities. This is to help
+    // enterprises design and develop their data ingestion and integration
+    // pipelines at low cost.
+    DEVELOPER = 3;
+  }
+
+  // Represents the state of a Data Fusion instance
+  enum State {
+    // Instance does not have a state yet
+    STATE_UNSPECIFIED = 0;
+
+    // Instance is being created
+    CREATING = 1;
+
+    // Instance is active and ready for requests. This corresponds to 'RUNNING'
+    // in datafusion.v1beta1.
+    ACTIVE = 2;
+
+    // Instance creation failed
+    FAILED = 3;
+
+    // Instance is being deleted
+    DELETING = 4;
+
+    // Instance is being upgraded
+    UPGRADING = 5;
+
+    // Instance is being restarted
+    RESTARTING = 6;
+
+    // Instance is being updated on customer request
+    UPDATING = 7;
+
+    // Instance is being auto-updated
+    AUTO_UPDATING = 8;
+
+    // Instance is being auto-upgraded
+    AUTO_UPGRADING = 9;
+
+    // Instance is disabled
+    DISABLED = 10;
+  }
+
+  // The reason for disabling the instance if the state is DISABLED.
+  enum DisabledReason {
+    // This is an unknown reason for disabling.
+    DISABLED_REASON_UNSPECIFIED = 0;
+
+    // The KMS key used by the instance is either revoked or denied access to
+    KMS_KEY_ISSUE = 1;
+  }
+
+  // Output only. The name of this instance is in the form of
+  // projects/{project}/locations/{location}/instances/{instance}.
+  string name = 1;
+
+  // A description of this instance.
+  string description = 2;
+
+  // Required. Instance type.
+  Type type = 3;
+
+  // Option to enable Stackdriver Logging.
+  bool enable_stackdriver_logging = 4;
+
+  // Option to enable Stackdriver Monitoring.
+  bool enable_stackdriver_monitoring = 5;
+
+  // Specifies whether the Data Fusion instance should be private. If set to
+  // true, all Data Fusion nodes will have private IP addresses and will not be
+  // able to access the public internet.
+  bool private_instance = 6;
+
+  // Network configuration options. These are required when a private Data
+  // Fusion instance is to be created.
+  NetworkConfig network_config = 7;
+
+  // The resource labels for instance to use to annotate any related underlying
+  // resources such as Compute Engine VMs. The character '=' is not allowed to
+  // be used within the labels.
+  map<string, string> labels = 8;
+
+  // Map of additional options used to configure the behavior of
+  // Data Fusion instance.
+  map<string, string> options = 9;
+
+  // Output only. The time the instance was created.
+  google.protobuf.Timestamp create_time = 10;
+
+  // Output only. The time the instance was last updated.
+  google.protobuf.Timestamp update_time = 11;
+
+  // Output only. The current state of this Data Fusion instance.
+  State state = 12;
+
+  // Output only. Additional information about the current state of this Data
+  // Fusion instance if available.
+  string state_message = 13;
+
+  // Output only. Endpoint on which the Data Fusion UI is accessible.
+  string service_endpoint = 14;
+
+  // Name of the zone in which the Data Fusion instance will be created. Only
+  // DEVELOPER instances use this field.
+  string zone = 15;
+
+  // Current version of the Data Fusion. Only specifiable in Update.
+  string version = 16;
+
+  // Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID.
+  string service_account = 17;
+
+  // Display name for an instance.
+  string display_name = 18;
+
+  // Available versions that the instance can be upgraded to using
+  // UpdateInstanceRequest.
+  repeated Version available_version = 19;
+
+  // Output only. Endpoint on which the REST APIs is accessible.
+  string api_endpoint = 20;
+
+  // Output only. Cloud Storage bucket generated by Data Fusion in the customer project.
+  string gcs_bucket = 21;
+
+  // List of accelerators enabled for this CDF instance.
+  repeated Accelerator accelerators = 22;
+
+  // Output only. P4 service account for the customer project.
+  string p4_service_account = 23;
+
+  // Output only. The name of the tenant project.
+  string tenant_project_id = 24;
+
+  // User-managed service account to set on Dataproc when Cloud Data Fusion
+  // creates Dataproc to run data processing pipelines.
+  //
+  // This allows users to have fine-grained access control on Dataproc's
+  // accesses to cloud resources.
+  string dataproc_service_account = 25;
+
+  // Option to enable granular role-based access control.
+  bool enable_rbac = 27;
+
+  // The crypto key configuration. This field is used by the Customer-Managed
+  // Encryption Keys (CMEK) feature.
+  CryptoKeyConfig crypto_key_config = 28;
+
+  // Output only. If the instance state is DISABLED, the reason for disabling the instance.
+  repeated DisabledReason disabled_reason = 29;
+
+  // Option to enable and pass metadata for event publishing.
+  EventPublishConfig event_publish_config = 30;
+
+  // Option to enable granular zone separation.
+  bool enable_zone_separation = 31;
+}
+
+// Confirguration of PubSubEventWriter.
+message EventPublishConfig {
+  // Required. Option to enable Event Publishing.
+  bool enabled = 1;
+
+  // Required. The resource name of the Pub/Sub topic.
+  // Format: projects/{project_id}/topics/{topic_id}
+  string topic = 2;
+}
+
+// DNS peering configuration. These configurations are used to create
+// DNS peering with the customer Cloud DNS.
+message DnsPeering {
+  // Required. The resource name of the dns peering zone.
+  // Format:
+  // projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering}
+  string name = 1;
+
+  // Required. The dns name suffix of the zone.
+  string domain = 2;
+
+  // Optional. Optional description of the dns zone.
+  string description = 3;
+
+  // Optional. Optional target project to which dns peering should happen.
+  string target_project = 4;
+
+  // Optional. Optional target network to which dns peering should happen.
+  string target_network = 5;
+}
+
+// The data within all Instance events.
+message InstanceEventData {
+  // Optional. The Instance event payload. Unset for deletion events.
+  optional Instance payload = 1;
+}
+
+// The data within all DnsPeering events.
+message DnsPeeringEventData {
+  // Optional. The DnsPeering event payload. Unset for deletion events.
+  optional DnsPeering payload = 1;
+}
