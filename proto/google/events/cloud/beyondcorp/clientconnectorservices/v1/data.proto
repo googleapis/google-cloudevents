@@ -1,0 +1,137 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.beyondcorp.clientconnectorservices.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Clientconnectorservices.V1";
+
+// Message describing ClientConnectorService object.
+message ClientConnectorService {
+  // Settings of how to connect to the ClientGateway.
+  // One of the following options should be set.
+  message Ingress {
+    // The basic ingress config for ClientGateways.
+    message Config {
+      // The setting used to configure ClientGateways.
+      // It is adding routes to the client's routing table
+      // after the connection is established.
+      message DestinationRoute {
+        // Required. The network address of the subnet
+        // for which the packet is routed to the ClientGateway.
+        string address = 1;
+
+        // Required. The network mask of the subnet
+        // for which the packet is routed to the ClientGateway.
+        string netmask = 2;
+      }
+
+      // The protocol used to connect to the server.
+      enum TransportProtocol {
+        // Default value. This value is unused.
+        TRANSPORT_PROTOCOL_UNSPECIFIED = 0;
+
+        // TCP protocol.
+        TCP = 1;
+      }
+
+      // Required. Immutable. The transport protocol used between the client and
+      // the server.
+      TransportProtocol transport_protocol = 1;
+
+      // Required. The settings used to configure basic ClientGateways.
+      repeated DestinationRoute destination_routes = 2;
+    }
+
+    oneof ingress_config {
+      // The basic ingress config for ClientGateways.
+      Config config = 1;
+    }
+  }
+
+  // The details of the egress info. One of the following options should be set.
+  message Egress {
+    // The peered VPC owned by the consumer project.
+    message PeeredVpc {
+      // Required. The name of the peered VPC owned by the consumer project.
+      string network_vpc = 1;
+    }
+
+    oneof destination_type {
+      // A VPC from the consumer project.
+      PeeredVpc peered_vpc = 1;
+    }
+  }
+
+  // Represents the different states of a ClientConnectorService.
+  enum State {
+    // Default value. This value is unused.
+    STATE_UNSPECIFIED = 0;
+
+    // ClientConnectorService is being created.
+    CREATING = 1;
+
+    // ClientConnectorService is being updated.
+    UPDATING = 2;
+
+    // ClientConnectorService is being deleted.
+    DELETING = 3;
+
+    // ClientConnectorService is running.
+    RUNNING = 4;
+
+    // ClientConnectorService is down and may be restored in the future.
+    // This happens when CCFE sends ProjectState = OFF.
+    DOWN = 5;
+
+    // ClientConnectorService encountered an error and is in an indeterministic
+    // state.
+    ERROR = 6;
+  }
+
+  // Required. Name of resource. The name is ignored during creation.
+  string name = 1;
+
+  // Output only. [Output only] Create time stamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update time stamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. User-provided name.
+  // The display name should follow certain format.
+  // * Must be 6 to 30 characters in length.
+  // * Can only contain lowercase letters, numbers, and hyphens.
+  // * Must start with a letter.
+  string display_name = 4;
+
+  // Required. The details of the ingress settings.
+  Ingress ingress = 6;
+
+  // Required. The details of the egress settings.
+  Egress egress = 7;
+
+  // Output only. The operational state of the ClientConnectorService.
+  State state = 8;
+}
+
+// The data within all ClientConnectorService events.
+message ClientConnectorServiceEventData {
+  // Optional. The ClientConnectorService event payload. Unset for deletion
+  // events.
+  optional ClientConnectorService payload = 1;
+}
