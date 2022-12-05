@@ -1,0 +1,59 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/ChannelConnectionEventData.json",
+  "name": "ChannelConnectionEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.ChannelConnectionEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.channelConnection.v1.created",
+    "google.cloud.eventarc.channelConnection.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ChannelConnectionEventData",
+  "definitions": {
+    "ChannelConnectionEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ChannelConnection",
+          "additionalProperties": true,
+          "description": "The ChannelConnection event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Channel Connection Event Data",
+      "description": "The data within all ChannelConnection events."
+    },
+    "ChannelConnection": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. The name of the connection."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server assigned ID of the resource. The server guarantees uniqueness and immutability until deleted."
+        },
+        "channel": {
+          "type": "string",
+          "description": "Required. The name of the connected subscriber Channel. This is a weak reference to avoid cross project and cross accounts references. This must be in `projects/{project}/location/{location}/channels/{channel_id}` format."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Channel Connection",
+      "description": "A representation of the ChannelConnection resource. A ChannelConnection is a resource which event providers create during the activation process to establish a connection between the provider and the subscriber channel."
+    }
+  }
+}

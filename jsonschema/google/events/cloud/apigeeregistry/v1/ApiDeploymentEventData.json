@@ -1,0 +1,103 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiDeploymentEventData.json",
+  "name": "ApiDeploymentEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigeeregistry.v1",
+  "datatype": "google.events.cloud.apigeeregistry.v1.ApiDeploymentEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigeeregistry.apiDeployment.v1.created",
+    "google.cloud.apigeeregistry.apiDeployment.v1.updated",
+    "google.cloud.apigeeregistry.apiDeployment.v1.deleted"
+  ],
+  "product": "Apigee Registry",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ApiDeploymentEventData",
+  "definitions": {
+    "ApiDeploymentEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ApiDeployment",
+          "additionalProperties": true,
+          "description": "Optional. The ApiDeployment event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Deployment Event Data",
+      "description": "The data within all ApiDeployment events."
+    },
+    "ApiDeployment": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Resource name."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-meaningful name."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description."
+        },
+        "revisionId": {
+          "type": "string",
+          "description": "Output only. Immutable. The revision ID of the deployment. A new revision is committed whenever the deployment contents are changed. The format is an 8-character hexadecimal string."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Creation timestamp; when the deployment resource was created.",
+          "format": "date-time"
+        },
+        "revisionCreateTime": {
+          "type": "string",
+          "description": "Output only. Revision creation timestamp; when the represented revision was created.",
+          "format": "date-time"
+        },
+        "revisionUpdateTime": {
+          "type": "string",
+          "description": "Output only. Last update timestamp: when the represented revision was last modified.",
+          "format": "date-time"
+        },
+        "apiSpecRevision": {
+          "type": "string",
+          "description": "The full resource name (including revision ID) of the spec of the API being served by the deployment. Changes to this value will update the revision. Format: `apis/{api}/deployments/{deployment}`"
+        },
+        "endpointUri": {
+          "type": "string",
+          "description": "The address where the deployment is serving. Changes to this value will update the revision."
+        },
+        "externalChannelUri": {
+          "type": "string",
+          "description": "The address of the external channel of the API (e.g., the Developer Portal). Changes to this value will not affect the revision."
+        },
+        "intendedAudience": {
+          "type": "string",
+          "description": "Text briefly identifying the intended audience of the API. Changes to this value will not affect the revision."
+        },
+        "accessGuidance": {
+          "type": "string",
+          "description": "Text briefly describing how to access the endpoint. Changes to this value will not affect the revision."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels attach identifying metadata to resources. Identifying metadata can be used to filter list operations. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. No more than 64 user labels can be associated with one resource (System labels are excluded). See https://goo.gl/xmQnxf for more information and examples of labels. System reserved label keys are prefixed with `apigeeregistry.googleapis.com/` and cannot be changed."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations attach non-identifying metadata to resources. Annotation keys and values are less restricted than those of labels, but should be generally used for small values of broad interest. Larger, topic- specific metadata should be stored in Artifacts."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Deployment",
+      "description": "Describes a service running at particular address that provides a particular version of an API. ApiDeployments have revisions which correspond to different configurations of a single deployment in time. Revision identifiers should be updated whenever the served API spec or endpoint address changes."
+    }
+  }
+}
