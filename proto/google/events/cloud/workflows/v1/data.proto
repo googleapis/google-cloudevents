@@ -1,0 +1,103 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.workflows.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Workflows.V1";
+
+// Workflow program to be executed by Workflows.
+message Workflow {
+  // Describes the current state of workflow deployment. More states may be
+  // added in the future.
+  enum State {
+    // Invalid state.
+    STATE_UNSPECIFIED = 0;
+
+    // The workflow has been deployed successfully and is serving.
+    ACTIVE = 1;
+  }
+
+  // The resource name of the workflow.
+  // Format: projects/{project}/locations/{location}/workflows/{workflow}
+  string name = 1;
+
+  // Description of the workflow provided by the user.
+  // Must be at most 1000 unicode characters long.
+  string description = 2;
+
+  // Output only. State of the workflow deployment.
+  State state = 3;
+
+  // Output only. The revision of the workflow.
+  // A new revision of a workflow is created as a result of updating the
+  // following properties of a workflow:
+  //
+  // - [Service account][google.cloud.workflows.v1.Workflow.service_account]
+  // - [Workflow code to be
+  // executed][google.cloud.workflows.v1.Workflow.source_contents]
+  //
+  // The format is "000001-a4d", where the first 6 characters define
+  // the zero-padded revision ordinal number. They are followed by a hyphen and
+  // 3 hexadecimal random characters.
+  string revision_id = 4;
+
+  // Output only. The timestamp of when the workflow was created.
+  google.protobuf.Timestamp create_time = 5;
+
+  // Output only. The last update timestamp of the workflow.
+  google.protobuf.Timestamp update_time = 6;
+
+  // Output only. The timestamp that the latest revision of the workflow
+  // was created.
+  google.protobuf.Timestamp revision_create_time = 7;
+
+  // Labels associated with this workflow.
+  // Labels can contain at most 64 entries. Keys and values can be no longer
+  // than 63 characters and can only contain lowercase letters, numeric
+  // characters, underscores and dashes. Label keys must start with a letter.
+  // International characters are allowed.
+  map<string, string> labels = 8;
+
+  // The service account associated with the latest workflow version.
+  // This service account represents the identity of the workflow and determines
+  // what permissions the workflow has.
+  // Format: projects/{project}/serviceAccounts/{account} or {account}
+  //
+  // Using `-` as a wildcard for the `{project}` or not providing one at all
+  // will infer the project from the account. The `{account}` value can be the
+  // `email` address or the `unique_id` of the service account.
+  //
+  // If not provided, workflow will use the project's default service account.
+  // Modifying this field for an existing workflow results in a new workflow
+  // revision.
+  string service_account = 9;
+
+  // Required. Location of the workflow source code.
+  // Modifying this field for an existing workflow results in a new workflow
+  // revision.
+  oneof source_code {
+    // Workflow code to be executed. The size limit is 128KB.
+    string source_contents = 10;
+  }
+}
+
+// The data within all Workflow events.
+message WorkflowEventData {
+  // Optional. The Workflow event payload. Unset for deletion events.
+  optional Workflow payload = 1;
+}

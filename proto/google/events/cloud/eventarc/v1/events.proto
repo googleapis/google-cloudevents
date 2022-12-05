@@ -1,0 +1,108 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.eventarc.v1;
+
+import "google/events/cloud/eventarc/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Eventarc.V1";
+option (google.events.cloud_event_product) = "Eventarc";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "trigger"
+  description: "The resource ID of the Trigger triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "channel"
+  description: "The resource ID of the Channel triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "channelconnection"
+  description: "The resource ID of the ChannelConnection triggering the event."
+  camel_case_name: "channelConnection"
+};
+
+// The CloudEvent raised when a Trigger is created.
+message TriggerCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.created";
+  option (google.events.cloud_event_extension_name) = "trigger";
+
+  // The data associated with the event.
+  TriggerEventData data = 1;
+}
+
+// The CloudEvent raised when a Trigger is updated.
+message TriggerUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.updated";
+  option (google.events.cloud_event_extension_name) = "trigger";
+
+  // The data associated with the event.
+  TriggerEventData data = 1;
+}
+
+// The CloudEvent raised when a Trigger is deleted.
+message TriggerDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "trigger";
+
+  // The data associated with the event.
+  TriggerEventData data = 1;
+}
+
+// The CloudEvent raised when a Channel is created.
+message ChannelCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.created";
+  option (google.events.cloud_event_extension_name) = "channel";
+
+  // The data associated with the event.
+  ChannelEventData data = 1;
+}
+
+// The CloudEvent raised when a Channel is updated.
+message ChannelUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.updated";
+  option (google.events.cloud_event_extension_name) = "channel";
+
+  // The data associated with the event.
+  ChannelEventData data = 1;
+}
+
+// The CloudEvent raised when a Channel is deleted.
+message ChannelDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "channel";
+
+  // The data associated with the event.
+  ChannelEventData data = 1;
+}
+
+// The CloudEvent raised when a ChannelConnection is created.
+message ChannelConnectionCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.channelConnection.v1.created";
+  option (google.events.cloud_event_extension_name) = "channelconnection";
+
+  // The data associated with the event.
+  ChannelConnectionEventData data = 1;
+}
+
+// The CloudEvent raised when a ChannelConnection is deleted.
+message ChannelConnectionDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.eventarc.channelConnection.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "channelconnection";
+
+  // The data associated with the event.
+  ChannelConnectionEventData data = 1;
+}

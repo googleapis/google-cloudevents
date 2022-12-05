@@ -1,0 +1,365 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.apigeeregistry.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Apigeeregistry.V1";
+
+// An Instance represents the instance resources of the Registry.
+// Currently, only one instance is allowed for each project.
+message Instance {
+  // Available configurations to provision an Instance.
+  message Config {
+    // Output only. The GCP location where the Instance resides.
+    string location = 1;
+
+    // Required. The Customer Managed Encryption Key (CMEK) used for data
+    // encryption. The CMEK name should follow the format of
+    // `projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)`,
+    // where the `location` must match InstanceConfig.location.
+    string cmek_key_name = 2;
+  }
+
+  // State of the Instance.
+  enum State {
+    // The default value. This value is used if the state is omitted.
+    STATE_UNSPECIFIED = 0;
+
+    // The Instance has not been initialized or has been deleted.
+    INACTIVE = 1;
+
+    // The Instance is being created.
+    CREATING = 2;
+
+    // The Instance has been created and is ready for use.
+    ACTIVE = 3;
+
+    // The Instance is being updated.
+    UPDATING = 4;
+
+    // The Instance is being deleted.
+    DELETING = 5;
+
+    // The Instance encountered an error during a state change.
+    FAILED = 6;
+  }
+
+  // Format: `projects/*/locations/*/instance`.
+  // Currently only `locations/global` is supported.
+  string name = 1;
+
+  // Output only. Creation timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Last update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Output only. The current state of the Instance.
+  State state = 4;
+
+  // Output only. Extra information of Instance.State if the state is `FAILED`.
+  string state_message = 5;
+
+  // Required. Config of the Instance.
+  Config config = 6;
+}
+
+// A top-level description of an API.
+// Produced by producers and are commitments to provide services.
+message Api {
+  // Resource name.
+  string name = 1;
+
+  // Human-meaningful name.
+  string display_name = 2;
+
+  // A detailed description.
+  string description = 3;
+
+  // Output only. Creation timestamp.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. Last update timestamp.
+  google.protobuf.Timestamp update_time = 5;
+
+  // A user-definable description of the availability of this service.
+  // Format: free-form, but we expect single words that describe availability,
+  // e.g., "NONE", "TESTING", "PREVIEW", "GENERAL", "DEPRECATED", "SHUTDOWN".
+  string availability = 6;
+
+  // The recommended version of the API.
+  // Format:
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}`
+  string recommended_version = 7;
+
+  // The recommended deployment of the API.
+  // Format:
+  // `projects/{project}/locations/{location}/apis/{api}/deployments/{deployment}`
+  string recommended_deployment = 8;
+
+  // Labels attach identifying metadata to resources. Identifying metadata can
+  // be used to filter list operations.
+  //
+  // Label keys and values can be no longer than 64 characters
+  // (Unicode codepoints), can only contain lowercase letters, numeric
+  // characters, underscores, and dashes. International characters are allowed.
+  // No more than 64 user labels can be associated with one resource (System
+  // labels are excluded).
+  //
+  // See https://goo.gl/xmQnxf for more information and examples of labels.
+  // System reserved label keys are prefixed with
+  // `apigeeregistry.googleapis.com/` and cannot be changed.
+  map<string, string> labels = 9;
+
+  // Annotations attach non-identifying metadata to resources.
+  //
+  // Annotation keys and values are less restricted than those of labels, but
+  // should be generally used for small values of broad interest. Larger, topic-
+  // specific metadata should be stored in Artifacts.
+  map<string, string> annotations = 10;
+}
+
+// Describes a particular version of an API.
+// ApiVersions are what consumers actually use.
+message ApiVersion {
+  // Resource name.
+  string name = 1;
+
+  // Human-meaningful name.
+  string display_name = 2;
+
+  // A detailed description.
+  string description = 3;
+
+  // Output only. Creation timestamp.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. Last update timestamp.
+  google.protobuf.Timestamp update_time = 5;
+
+  // A user-definable description of the lifecycle phase of this API version.
+  // Format: free-form, but we expect single words that describe API maturity,
+  // e.g., "CONCEPT", "DESIGN", "DEVELOPMENT", "STAGING", "PRODUCTION",
+  // "DEPRECATED", "RETIRED".
+  string state = 6;
+
+  // Labels attach identifying metadata to resources. Identifying metadata can
+  // be used to filter list operations.
+  //
+  // Label keys and values can be no longer than 64 characters
+  // (Unicode codepoints), can only contain lowercase letters, numeric
+  // characters, underscores and dashes. International characters are allowed.
+  // No more than 64 user labels can be associated with one resource (System
+  // labels are excluded).
+  //
+  // See https://goo.gl/xmQnxf for more information and examples of labels.
+  // System reserved label keys are prefixed with
+  // `apigeeregistry.googleapis.com/` and cannot be changed.
+  map<string, string> labels = 7;
+
+  // Annotations attach non-identifying metadata to resources.
+  //
+  // Annotation keys and values are less restricted than those of labels, but
+  // should be generally used for small values of broad interest. Larger, topic-
+  // specific metadata should be stored in Artifacts.
+  map<string, string> annotations = 8;
+}
+
+// Describes a version of an API in a structured way.
+// ApiSpecs provide formal descriptions that consumers can use to use a version.
+// ApiSpec resources are intended to be fully-resolved descriptions of an
+// ApiVersion. When specs consist of multiple files, these should be bundled
+// together (e.g., in a zip archive) and stored as a unit. Multiple specs can
+// exist to provide representations in different API description formats.
+// Synchronization of these representations would be provided by tooling and
+// background services.
+message ApiSpec {
+  // Resource name.
+  string name = 1;
+
+  // A possibly-hierarchical name used to refer to the spec from other specs.
+  string filename = 2;
+
+  // A detailed description.
+  string description = 3;
+
+  // Output only. Immutable. The revision ID of the spec.
+  // A new revision is committed whenever the spec contents are changed.
+  // The format is an 8-character hexadecimal string.
+  string revision_id = 4;
+
+  // Output only. Creation timestamp; when the spec resource was created.
+  google.protobuf.Timestamp create_time = 5;
+
+  // Output only. Revision creation timestamp; when the represented revision was
+  // created.
+  google.protobuf.Timestamp revision_create_time = 6;
+
+  // Output only. Last update timestamp: when the represented revision was last
+  // modified.
+  google.protobuf.Timestamp revision_update_time = 7;
+
+  // A style (format) descriptor for this spec that is specified as a Media Type
+  // (https://en.wikipedia.org/wiki/Media_type). Possible values include
+  // `application/vnd.apigee.proto`, `application/vnd.apigee.openapi`, and
+  // `application/vnd.apigee.graphql`, with possible suffixes representing
+  // compression types. These hypothetical names are defined in the vendor tree
+  // defined in RFC6838 (https://tools.ietf.org/html/rfc6838) and are not final.
+  // Content types can specify compression. Currently only GZip compression is
+  // supported (indicated with "+gzip").
+  string mime_type = 8;
+
+  // Output only. The size of the spec file in bytes. If the spec is gzipped,
+  // this is the size of the uncompressed spec.
+  int32 size_bytes = 9;
+
+  // Output only. A SHA-256 hash of the spec's contents. If the spec is gzipped,
+  // this is the hash of the uncompressed spec.
+  string hash = 10;
+
+  // The original source URI of the spec (if one exists).
+  // This is an external location that can be used for reference purposes
+  // but which may not be authoritative since this external resource may
+  // change after the spec is retrieved.
+  string source_uri = 11;
+
+  // Labels attach identifying metadata to resources. Identifying metadata can
+  // be used to filter list operations.
+  //
+  // Label keys and values can be no longer than 64 characters
+  // (Unicode codepoints), can only contain lowercase letters, numeric
+  // characters, underscores and dashes. International characters are allowed.
+  // No more than 64 user labels can be associated with one resource (System
+  // labels are excluded).
+  //
+  // See https://goo.gl/xmQnxf for more information and examples of labels.
+  // System reserved label keys are prefixed with
+  // `apigeeregistry.googleapis.com/` and cannot be changed.
+  map<string, string> labels = 14;
+
+  // Annotations attach non-identifying metadata to resources.
+  //
+  // Annotation keys and values are less restricted than those of labels, but
+  // should be generally used for small values of broad interest. Larger, topic-
+  // specific metadata should be stored in Artifacts.
+  map<string, string> annotations = 15;
+}
+
+// Describes a service running at particular address that
+// provides a particular version of an API. ApiDeployments have revisions which
+// correspond to different configurations of a single deployment in time.
+// Revision identifiers should be updated whenever the served API spec or
+// endpoint address changes.
+message ApiDeployment {
+  // Resource name.
+  string name = 1;
+
+  // Human-meaningful name.
+  string display_name = 2;
+
+  // A detailed description.
+  string description = 3;
+
+  // Output only. Immutable. The revision ID of the deployment.
+  // A new revision is committed whenever the deployment contents are changed.
+  // The format is an 8-character hexadecimal string.
+  string revision_id = 4;
+
+  // Output only. Creation timestamp; when the deployment resource was created.
+  google.protobuf.Timestamp create_time = 5;
+
+  // Output only. Revision creation timestamp; when the represented revision was
+  // created.
+  google.protobuf.Timestamp revision_create_time = 6;
+
+  // Output only. Last update timestamp: when the represented revision was last
+  // modified.
+  google.protobuf.Timestamp revision_update_time = 7;
+
+  // The full resource name (including revision ID) of the spec of the API being
+  // served by the deployment. Changes to this value will update the revision.
+  // Format: `apis/{api}/deployments/{deployment}`
+  string api_spec_revision = 8;
+
+  // The address where the deployment is serving. Changes to this value will
+  // update the revision.
+  string endpoint_uri = 9;
+
+  // The address of the external channel of the API (e.g., the Developer
+  // Portal). Changes to this value will not affect the revision.
+  string external_channel_uri = 10;
+
+  // Text briefly identifying the intended audience of the API. Changes to this
+  // value will not affect the revision.
+  string intended_audience = 11;
+
+  // Text briefly describing how to access the endpoint. Changes to this value
+  // will not affect the revision.
+  string access_guidance = 12;
+
+  // Labels attach identifying metadata to resources. Identifying metadata can
+  // be used to filter list operations.
+  //
+  // Label keys and values can be no longer than 64 characters
+  // (Unicode codepoints), can only contain lowercase letters, numeric
+  // characters, underscores and dashes. International characters are allowed.
+  // No more than 64 user labels can be associated with one resource (System
+  // labels are excluded).
+  //
+  // See https://goo.gl/xmQnxf for more information and examples of labels.
+  // System reserved label keys are prefixed with
+  // `apigeeregistry.googleapis.com/` and cannot be changed.
+  map<string, string> labels = 14;
+
+  // Annotations attach non-identifying metadata to resources.
+  //
+  // Annotation keys and values are less restricted than those of labels, but
+  // should be generally used for small values of broad interest. Larger, topic-
+  // specific metadata should be stored in Artifacts.
+  map<string, string> annotations = 15;
+}
+
+// The data within all ApiVersion events.
+message ApiVersionEventData {
+  // Optional. The ApiVersion event payload. Unset for deletion events.
+  optional ApiVersion payload = 1;
+}
+
+// The data within all Instance events.
+message InstanceEventData {
+  // Optional. The Instance event payload. Unset for deletion events.
+  optional Instance payload = 1;
+}
+
+// The data within all ApiSpec events.
+message ApiSpecEventData {
+  // Optional. The ApiSpec event payload. Unset for deletion events.
+  optional ApiSpec payload = 1;
+}
+
+// The data within all ApiDeployment events.
+message ApiDeploymentEventData {
+  // Optional. The ApiDeployment event payload. Unset for deletion events.
+  optional ApiDeployment payload = 1;
+}
+
+// The data within all Api events.
+message ApiEventData {
+  // Optional. The Api event payload. Unset for deletion events.
+  optional Api payload = 1;
+}

@@ -1,0 +1,79 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.datafusion.v1;
+
+import "google/events/cloud/datafusion/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Datafusion.V1";
+option (google.events.cloud_event_product) = "Cloud Data Fusion";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "instance"
+  description: "The resource ID of the Instance triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "dnspeering"
+  description: "The resource ID of the DnsPeering triggering the event."
+  camel_case_name: "dnsPeering"
+};
+
+// The CloudEvent raised when an Instance is created.
+message InstanceCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.created";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is deleted.
+message InstanceDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is updated.
+message InstanceUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.updated";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when a DnsPeering is created.
+message DnsPeeringCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datafusion.dnsPeering.v1.created";
+  option (google.events.cloud_event_extension_name) = "instance";
+  option (google.events.cloud_event_extension_name) = "dnspeering";
+
+  // The data associated with the event.
+  DnsPeeringEventData data = 1;
+}
+
+// The CloudEvent raised when a DnsPeering is deleted.
+message DnsPeeringDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datafusion.dnsPeering.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "instance";
+  option (google.events.cloud_event_extension_name) = "dnspeering";
+
+  // The data associated with the event.
+  DnsPeeringEventData data = 1;
+}
