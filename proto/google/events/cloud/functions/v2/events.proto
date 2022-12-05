@@ -1,0 +1,57 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.functions.v2;
+
+import "google/events/cloud/functions/v2/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Functions.V2";
+option (google.events.cloud_event_product) = "Cloud Functions";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "function"
+  description: "The resource ID of the Function triggering the event."
+};
+
+// The CloudEvent raised when a Function is created.
+message FunctionCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.functions.function.v2.created";
+  option (google.events.cloud_event_extension_name) = "function";
+
+  // The data associated with the event.
+  FunctionEventData data = 1;
+}
+
+// The CloudEvent raised when a Function is updated.
+message FunctionUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.functions.function.v2.updated";
+  option (google.events.cloud_event_extension_name) = "function";
+
+  // The data associated with the event.
+  FunctionEventData data = 1;
+}
+
+// The CloudEvent raised when a Function is deleted.
+message FunctionDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.functions.function.v2.deleted";
+  option (google.events.cloud_event_extension_name) = "function";
+
+  // The data associated with the event.
+  FunctionEventData data = 1;
+}
