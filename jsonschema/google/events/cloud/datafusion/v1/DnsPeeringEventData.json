@@ -1,0 +1,57 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datafusion/v1/DnsPeeringEventData.json",
+  "name": "DnsPeeringEventData",
+  "examples": [],
+  "package": "google.events.cloud.datafusion.v1",
+  "datatype": "google.events.cloud.datafusion.v1.DnsPeeringEventData",
+  "cloudeventTypes": [
+    "google.cloud.datafusion.dnsPeering.v1.created",
+    "google.cloud.datafusion.dnsPeering.v1.deleted"
+  ],
+  "product": "Cloud Data Fusion",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DnsPeeringEventData",
+  "definitions": {
+    "DnsPeeringEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DnsPeering",
+          "additionalProperties": true,
+          "description": "Optional. The DnsPeering event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dns Peering Event Data",
+      "description": "The data within all DnsPeering events."
+    },
+    "DnsPeering": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. The resource name of the dns peering zone. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering}"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Required. The dns name suffix of the zone."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Optional description of the dns zone."
+        },
+        "targetProject": {
+          "type": "string",
+          "description": "Optional. Optional target project to which dns peering should happen."
+        },
+        "targetNetwork": {
+          "type": "string",
+          "description": "Optional. Optional target network to which dns peering should happen."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dns Peering",
+      "description": "DNS peering configuration. These configurations are used to create DNS peering with the customer Cloud DNS."
+    }
+  }
+}

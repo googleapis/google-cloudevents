@@ -3,6 +3,65 @@
   "version": 1,
   "schemas": [
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiDeploymentEventData.json",
+      "product": "Apigee Registry",
+      "name": "ApiDeploymentEventData",
+      "description": "The data within all ApiDeployment events.",
+      "datatype": "google.events.cloud.apigeeregistry.v1.ApiDeploymentEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigeeregistry.apiDeployment.v1.created",
+        "google.cloud.apigeeregistry.apiDeployment.v1.updated",
+        "google.cloud.apigeeregistry.apiDeployment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiEventData.json",
+      "product": "Apigee Registry",
+      "name": "ApiEventData",
+      "description": "The data within all Api events.",
+      "datatype": "google.events.cloud.apigeeregistry.v1.ApiEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigeeregistry.api.v1.created",
+        "google.cloud.apigeeregistry.api.v1.updated",
+        "google.cloud.apigeeregistry.api.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiSpecEventData.json",
+      "product": "Apigee Registry",
+      "name": "ApiSpecEventData",
+      "description": "The data within all ApiSpec events.",
+      "datatype": "google.events.cloud.apigeeregistry.v1.ApiSpecEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigeeregistry.apiSpec.v1.created",
+        "google.cloud.apigeeregistry.apiSpec.v1.updated",
+        "google.cloud.apigeeregistry.apiSpec.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiVersionEventData.json",
+      "product": "Apigee Registry",
+      "name": "ApiVersionEventData",
+      "description": "The data within all ApiVersion events.",
+      "datatype": "google.events.cloud.apigeeregistry.v1.ApiVersionEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigeeregistry.apiVersion.v1.created",
+        "google.cloud.apigeeregistry.apiVersion.v1.updated",
+        "google.cloud.apigeeregistry.apiVersion.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/InstanceEventData.json",
+      "product": "Apigee Registry",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.apigeeregistry.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigeeregistry.instance.v1.created",
+        "google.cloud.apigeeregistry.instance.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
       "product": "Cloud Audit Logs",
       "name": "LogEntryData",
@@ -10,6 +69,64 @@
       "datatype": "google.events.cloud.audit.v1.LogEntryData",
       "cloudeventTypes": [
         "google.cloud.audit.log.v1.written"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/appconnections/v1/AppConnectionEventData.json",
+      "product": "BeyondCorp",
+      "name": "AppConnectionEventData",
+      "description": "The data within all AppConnection events.",
+      "datatype": "google.events.cloud.beyondcorp.appconnections.v1.AppConnectionEventData",
+      "cloudeventTypes": [
+        "google.cloud.beyondcorp.appconnections.appConnection.v1.created",
+        "google.cloud.beyondcorp.appconnections.appConnection.v1.updated",
+        "google.cloud.beyondcorp.appconnections.appConnection.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/appconnectors/v1/AppConnectorEventData.json",
+      "product": "BeyondCorp",
+      "name": "AppConnectorEventData",
+      "description": "The data within all AppConnector events.",
+      "datatype": "google.events.cloud.beyondcorp.appconnectors.v1.AppConnectorEventData",
+      "cloudeventTypes": [
+        "google.cloud.beyondcorp.appconnectors.appConnector.v1.created",
+        "google.cloud.beyondcorp.appconnectors.appConnector.v1.updated",
+        "google.cloud.beyondcorp.appconnectors.appConnector.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/appgateways/v1/AppGatewayEventData.json",
+      "product": "BeyondCorp",
+      "name": "AppGatewayEventData",
+      "description": "The data within all AppGateway events.",
+      "datatype": "google.events.cloud.beyondcorp.appgateways.v1.AppGatewayEventData",
+      "cloudeventTypes": [
+        "google.cloud.beyondcorp.appgateways.appGateway.v1.created",
+        "google.cloud.beyondcorp.appgateways.appGateway.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/clientconnectorservices/v1/ClientConnectorServiceEventData.json",
+      "product": "BeyondCorp",
+      "name": "ClientConnectorServiceEventData",
+      "description": "The data within all ClientConnectorService events.",
+      "datatype": "google.events.cloud.beyondcorp.clientconnectorservices.v1.ClientConnectorServiceEventData",
+      "cloudeventTypes": [
+        "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.created",
+        "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.updated",
+        "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/clientgateways/v1/ClientGatewayEventData.json",
+      "product": "BeyondCorp",
+      "name": "ClientGatewayEventData",
+      "description": "The data within all ClientGateway events.",
+      "datatype": "google.events.cloud.beyondcorp.clientgateways.v1.ClientGatewayEventData",
+      "cloudeventTypes": [
+        "google.cloud.beyondcorp.clientgateways.clientGateway.v1.created",
+        "google.cloud.beyondcorp.clientgateways.clientGateway.v1.deleted"
       ]
     },
     {
@@ -23,6 +140,64 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datafusion/v1/DnsPeeringEventData.json",
+      "product": "Cloud Data Fusion",
+      "name": "DnsPeeringEventData",
+      "description": "The data within all DnsPeering events.",
+      "datatype": "google.events.cloud.datafusion.v1.DnsPeeringEventData",
+      "cloudeventTypes": [
+        "google.cloud.datafusion.dnsPeering.v1.created",
+        "google.cloud.datafusion.dnsPeering.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datafusion/v1/InstanceEventData.json",
+      "product": "Cloud Data Fusion",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.datafusion.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.datafusion.instance.v1.created",
+        "google.cloud.datafusion.instance.v1.deleted",
+        "google.cloud.datafusion.instance.v1.updated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/ChannelConnectionEventData.json",
+      "product": "Eventarc",
+      "name": "ChannelConnectionEventData",
+      "description": "The data within all ChannelConnection events.",
+      "datatype": "google.events.cloud.eventarc.v1.ChannelConnectionEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.channelConnection.v1.created",
+        "google.cloud.eventarc.channelConnection.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/ChannelEventData.json",
+      "product": "Eventarc",
+      "name": "ChannelEventData",
+      "description": "The data within all Channel events.",
+      "datatype": "google.events.cloud.eventarc.v1.ChannelEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.channel.v1.created",
+        "google.cloud.eventarc.channel.v1.updated",
+        "google.cloud.eventarc.channel.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/TriggerEventData.json",
+      "product": "Eventarc",
+      "name": "TriggerEventData",
+      "description": "The data within all Trigger events.",
+      "datatype": "google.events.cloud.eventarc.v1.TriggerEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.trigger.v1.created",
+        "google.cloud.eventarc.trigger.v1.updated",
+        "google.cloud.eventarc.trigger.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/firestore/v1/DocumentEventData.json",
       "product": "Cloud Firestore",
       "name": "DocumentEventData",
@@ -33,6 +208,18 @@
         "google.cloud.firestore.document.v1.updated",
         "google.cloud.firestore.document.v1.deleted",
         "google.cloud.firestore.document.v1.written"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/functions/v2/FunctionEventData.json",
+      "product": "Cloud Functions",
+      "name": "FunctionEventData",
+      "description": "The data within all Function events.",
+      "datatype": "google.events.cloud.functions.v2.FunctionEventData",
+      "cloudeventTypes": [
+        "google.cloud.functions.function.v2.created",
+        "google.cloud.functions.function.v2.updated",
+        "google.cloud.functions.function.v2.deleted"
       ]
     },
     {
@@ -57,6 +244,18 @@
         "google.cloud.iot.v1.DeviceManager.CreateDeviceRegistry",
         "google.cloud.iot.v1.DeviceManager.UpdateDeviceRegistry",
         "google.cloud.iot.v1.DeviceManager.DeleteDeviceRegistry"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/memcache/v1/InstanceEventData.json",
+      "product": "Cloud Memorystore for Memcached",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.memcache.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.memcache.instance.v1.created",
+        "google.cloud.memcache.instance.v1.updated",
+        "google.cloud.memcache.instance.v1.deleted"
       ]
     },
     {
@@ -90,6 +289,18 @@
         "google.cloud.storage.object.v1.archived",
         "google.cloud.storage.object.v1.deleted",
         "google.cloud.storage.object.v1.metadataUpdated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/workflows/v1/WorkflowEventData.json",
+      "product": "Workflows",
+      "name": "WorkflowEventData",
+      "description": "The data within all Workflow events.",
+      "datatype": "google.events.cloud.workflows.v1.WorkflowEventData",
+      "cloudeventTypes": [
+        "google.cloud.workflows.workflow.v1.created",
+        "google.cloud.workflows.workflow.v1.deleted",
+        "google.cloud.workflows.workflow.v1.updated"
       ]
     },
     {

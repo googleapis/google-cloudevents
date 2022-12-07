@@ -1,0 +1,104 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/InstanceEventData.json",
+  "name": "InstanceEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigeeregistry.v1",
+  "datatype": "google.events.cloud.apigeeregistry.v1.InstanceEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigeeregistry.instance.v1.created",
+    "google.cloud.apigeeregistry.instance.v1.deleted"
+  ],
+  "product": "Apigee Registry",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/InstanceEventData",
+  "definitions": {
+    "InstanceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Instance",
+          "additionalProperties": true,
+          "description": "Optional. The Instance event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Event Data",
+      "description": "The data within all Instance events."
+    },
+    "Instance": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Format: `projects/*/locations/*/instance`. Currently only `locations/global` is supported."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Creation timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Last update timestamp.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "INACTIVE",
+            1,
+            "CREATING",
+            2,
+            "ACTIVE",
+            3,
+            "UPDATING",
+            4,
+            "DELETING",
+            5,
+            "FAILED",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of the Instance."
+        },
+        "stateMessage": {
+          "type": "string",
+          "description": "Output only. Extra information of Instance.State if the state is `FAILED`."
+        },
+        "config": {
+          "$ref": "#/definitions/Config",
+          "additionalProperties": true,
+          "description": "Required. Config of the Instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance",
+      "description": "An Instance represents the instance resources of the Registry. Currently, only one instance is allowed for each project."
+    },
+    "Config": {
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Output only. The GCP location where the Instance resides."
+        },
+        "cmekKeyName": {
+          "type": "string",
+          "description": "Required. The Customer Managed Encryption Key (CMEK) used for data encryption. The CMEK name should follow the format of `projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)`, where the `location` must match InstanceConfig.location."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Config",
+      "description": "Available configurations to provision an Instance."
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/ChannelEventData.json",
+  "name": "ChannelEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.ChannelEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.channel.v1.created",
+    "google.cloud.eventarc.channel.v1.updated",
+    "google.cloud.eventarc.channel.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ChannelEventData",
+  "definitions": {
+    "ChannelEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Channel",
+          "additionalProperties": true,
+          "description": "The Channel event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Channel Event Data",
+      "description": "The data within all Channel events."
+    },
+    "Channel": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        },
+        "provider": {
+          "type": "string",
+          "description": "The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: `projects/{project}/locations/{location}/providers/{provider_id}`."
+        },
+        "pubsubTopic": {
+          "type": "string",
+          "description": "Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: `projects/{project}/topics/{topic_id}`."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "ACTIVE",
+            2,
+            "INACTIVE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State lists all the possible states of a Channel"
+        },
+        "activationToken": {
+          "type": "string",
+          "description": "Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing."
+        },
+        "cryptoKeyName": {
+          "type": "string",
+          "description": "Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Channel",
+      "description": "A representation of the Channel resource. A Channel is a resource on which event providers publish their events. The published events are delivered through the transport associated with the channel. Note that a channel is associated with exactly one event provider."
+    }
+  }
+}
