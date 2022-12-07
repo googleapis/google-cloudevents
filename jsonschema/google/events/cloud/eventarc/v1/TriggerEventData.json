@@ -1,0 +1,283 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/TriggerEventData.json",
+  "name": "TriggerEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.TriggerEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.trigger.v1.created",
+    "google.cloud.eventarc.trigger.v1.updated",
+    "google.cloud.eventarc.trigger.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/TriggerEventData",
+  "definitions": {
+    "TriggerEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Trigger",
+          "additionalProperties": true,
+          "description": "The Trigger event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Trigger Event Data",
+      "description": "The data within all Trigger events."
+    },
+    "CloudRun": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "Required. The name of the Cloud Run service being addressed. See https://cloud.google.com/run/docs/reference/rest/v1/namespaces.services. Only services located in the same project as the trigger object can be addressed."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. The relative path on the Cloud Run service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: \"/route\", \"route\", \"route/subroute\"."
+        },
+        "region": {
+          "type": "string",
+          "description": "Required. The region the Cloud Run service is deployed in."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run",
+      "description": "Represents a Cloud Run destination."
+    },
+    "Destination": {
+      "properties": {
+        "cloudRun": {
+          "$ref": "#/definitions/CloudRun",
+          "additionalProperties": true,
+          "description": "Cloud Run fully-managed resource that receives the events. The resource should be in the same project as the trigger."
+        },
+        "cloudFunction": {
+          "type": "string",
+          "description": "The Cloud Function resource name. Only Cloud Functions V2 is supported. Format: `projects/{project}/locations/{location}/functions/{function}`"
+        },
+        "gke": {
+          "$ref": "#/definitions/GKE",
+          "additionalProperties": true,
+          "description": "A GKE service capable of receiving events. The service should be running in the same project as the trigger."
+        },
+        "workflow": {
+          "type": "string",
+          "description": "The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: `projects/{project}/locations/{location}/workflows/{workflow}`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Destination",
+      "description": "Represents a target of an invocation over HTTP."
+    },
+    "EventFilter": {
+      "properties": {
+        "attribute": {
+          "type": "string",
+          "description": "Required. The name of a CloudEvents attribute. Currently, only a subset of attributes are supported for filtering. All triggers MUST provide a filter for the 'type' attribute."
+        },
+        "value": {
+          "type": "string",
+          "description": "Required. The value for the attribute."
+        },
+        "operator": {
+          "type": "string",
+          "description": "Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The only allowed value is `match-path-pattern`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Event Filter",
+      "description": "Filters events based on exact matches on the CloudEvents attributes."
+    },
+    "GKE": {
+      "properties": {
+        "cluster": {
+          "type": "string",
+          "description": "Required. The name of the cluster the GKE service is running in. The cluster must be running in the same project as the trigger being created."
+        },
+        "location": {
+          "type": "string",
+          "description": "Required. The name of the Google Compute Engine in which the cluster resides, which can either be compute zone (for example, us-central1-a) for the zonal clusters or region (for example, us-central1) for regional clusters."
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Required. The namespace the GKE service is running in."
+        },
+        "service": {
+          "type": "string",
+          "description": "Required. Name of the GKE service."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: \"/route\", \"route\", \"route/subroute\"."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "GKE",
+      "description": "Represents a GKE destination."
+    },
+    "Pubsub": {
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "Optional. The name of the Pub/Sub topic created and managed by Eventarc as a transport for the event delivery. Format: `projects/{PROJECT_ID}/topics/{TOPIC_NAME}`. You can set an existing topic for triggers of the type `google.cloud.pubsub.topic.v1.messagePublished`. The topic you provide here is not deleted by Eventarc at trigger deletion."
+        },
+        "subscription": {
+          "type": "string",
+          "description": "Output only. The name of the Pub/Sub subscription created and managed by Eventarc as a transport for the event delivery. Format: `projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Pubsub",
+      "description": "Represents a Pub/Sub transport."
+    },
+    "StateCondition": {
+      "properties": {
+        "code": {
+          "enum": [
+            "OK",
+            0,
+            "CANCELLED",
+            1,
+            "UNKNOWN",
+            2,
+            "INVALID_ARGUMENT",
+            3,
+            "DEADLINE_EXCEEDED",
+            4,
+            "NOT_FOUND",
+            5,
+            "ALREADY_EXISTS",
+            6,
+            "PERMISSION_DENIED",
+            7,
+            "UNAUTHENTICATED",
+            16,
+            "RESOURCE_EXHAUSTED",
+            8,
+            "FAILED_PRECONDITION",
+            9,
+            "ABORTED",
+            10,
+            "OUT_OF_RANGE",
+            11,
+            "UNIMPLEMENTED",
+            12,
+            "INTERNAL",
+            13,
+            "UNAVAILABLE",
+            14,
+            "DATA_LOSS",
+            15
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "The canonical error codes for gRPC APIs. Sometimes multiple error codes may apply.  Services should return the most specific error code that applies.  For example, prefer `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply. Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable message."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "State Condition",
+      "description": "A condition that is part of the trigger state computation."
+    },
+    "Transport": {
+      "properties": {
+        "pubsub": {
+          "$ref": "#/definitions/Pubsub",
+          "additionalProperties": true,
+          "description": "The Pub/Sub topic and subscription used by Eventarc as a transport intermediary."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Transport",
+      "description": "Represents the transport intermediaries created for the trigger to deliver events."
+    },
+    "Trigger": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server-assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        },
+        "eventFilters": {
+          "items": {
+            "$ref": "#/definitions/EventFilter"
+          },
+          "type": "array",
+          "description": "Required. Unordered list. The list of filters that applies to event attributes. Only events that match all the provided filters are sent to the destination."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have the `iam.serviceAccounts.actAs` permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts?hl=en#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. To create Audit Log triggers, the service account should also have the `roles/eventarc.eventReceiver` IAM role."
+        },
+        "destination": {
+          "$ref": "#/definitions/Destination",
+          "additionalProperties": true,
+          "description": "Required. Destination specifies where the events should be sent to."
+        },
+        "transport": {
+          "$ref": "#/definitions/Transport",
+          "additionalProperties": true,
+          "description": "Optional. To deliver messages, Eventarc might use other GCP products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User labels attached to the triggers that can be used to group resources."
+        },
+        "channel": {
+          "type": "string",
+          "description": "Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners."
+        },
+        "conditions": {
+          "additionalProperties": {
+            "$ref": "#/definitions/StateCondition",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. The reason(s) why a trigger is in FAILED state."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Trigger",
+      "description": "A representation of the trigger resource."
+    }
+  }
+}

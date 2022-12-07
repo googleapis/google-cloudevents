@@ -19,6 +19,7 @@ package google.events;
 import "google/protobuf/descriptor.proto";
 
 option csharp_namespace = "Google.Events.Protobuf";
+option java_multiple_files = true;
 
 extend google.protobuf.MessageOptions {
   // The CloudEvent type (e.g. "google.cloud.storage.object.v1.finalized")

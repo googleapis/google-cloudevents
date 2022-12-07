@@ -1,0 +1,54 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.workflows.v1;
+
+import "google/events/cloud/workflows/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Workflows.V1";
+option (google.events.cloud_event_product) = "Workflows";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "workflow"
+  description: "The resource ID of the Workflow triggering the event."
+};
+
+// The CloudEvent raised when a Workflow is created.
+message WorkflowCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.workflows.workflow.v1.created";
+  option (google.events.cloud_event_extension_name) = "workflow";
+
+  // The data associated with the event.
+  WorkflowEventData data = 1;
+}
+
+// The CloudEvent raised when a Workflow is deleted.
+message WorkflowDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.workflows.workflow.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "workflow";
+
+  // The data associated with the event.
+  WorkflowEventData data = 1;
+}
+
+// The CloudEvent raised when a Workflow is updated.
+message WorkflowUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.workflows.workflow.v1.updated";
+  option (google.events.cloud_event_extension_name) = "workflow";
+
+  // The data associated with the event.
+  WorkflowEventData data = 1;
+}

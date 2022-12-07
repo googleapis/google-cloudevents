@@ -1,0 +1,86 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiEventData.json",
+  "name": "ApiEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigeeregistry.v1",
+  "datatype": "google.events.cloud.apigeeregistry.v1.ApiEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigeeregistry.api.v1.created",
+    "google.cloud.apigeeregistry.api.v1.updated",
+    "google.cloud.apigeeregistry.api.v1.deleted"
+  ],
+  "product": "Apigee Registry",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ApiEventData",
+  "definitions": {
+    "ApiEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Api",
+          "additionalProperties": true,
+          "description": "Optional. The Api event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Event Data",
+      "description": "The data within all Api events."
+    },
+    "Api": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Resource name."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-meaningful name."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Creation timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Last update timestamp.",
+          "format": "date-time"
+        },
+        "availability": {
+          "type": "string",
+          "description": "A user-definable description of the availability of this service. Format: free-form, but we expect single words that describe availability, e.g., \"NONE\", \"TESTING\", \"PREVIEW\", \"GENERAL\", \"DEPRECATED\", \"SHUTDOWN\"."
+        },
+        "recommendedVersion": {
+          "type": "string",
+          "description": "The recommended version of the API. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}`"
+        },
+        "recommendedDeployment": {
+          "type": "string",
+          "description": "The recommended deployment of the API. Format: `projects/{project}/locations/{location}/apis/{api}/deployments/{deployment}`"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels attach identifying metadata to resources. Identifying metadata can be used to filter list operations. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. No more than 64 user labels can be associated with one resource (System labels are excluded). See https://goo.gl/xmQnxf for more information and examples of labels. System reserved label keys are prefixed with `apigeeregistry.googleapis.com/` and cannot be changed."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations attach non-identifying metadata to resources. Annotation keys and values are less restricted than those of labels, but should be generally used for small values of broad interest. Larger, topic- specific metadata should be stored in Artifacts."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api",
+      "description": "A top-level description of an API. Produced by producers and are commitments to provide services."
+    }
+  }
+}
