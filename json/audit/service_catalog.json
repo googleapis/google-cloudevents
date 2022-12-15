@@ -6296,7 +6296,7 @@
     },
     {
       "serviceName": "clouddeploy.googleapis.com",
-      "displayName": "Cloud Deployment Manager",
+      "displayName": "Cloud Deploy",
       "methods": [
         {
           "methodName": "GetIamPolicy"
@@ -17091,7 +17091,7 @@
     },
     {
       "serviceName": "memcache.googleapis.com",
-      "displayName": "Cloud Memcache",
+      "displayName": "Cloud Memorystore for Memcached",
       "methods": [
         {
           "methodName": "google.cloud.memcache.v1.CloudMemcache.ApplyParameters"
