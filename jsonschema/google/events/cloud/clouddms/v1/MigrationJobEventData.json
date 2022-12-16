@@ -1,0 +1,376 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/clouddms/v1/MigrationJobEventData.json",
+  "name": "MigrationJobEventData",
+  "examples": [],
+  "package": "google.events.cloud.clouddms.v1",
+  "datatype": "google.events.cloud.clouddms.v1.MigrationJobEventData",
+  "cloudeventTypes": [
+    "google.cloud.clouddms.migrationJob.v1.created",
+    "google.cloud.clouddms.migrationJob.v1.updated",
+    "google.cloud.clouddms.migrationJob.v1.deleted"
+  ],
+  "product": "Database Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MigrationJobEventData",
+  "definitions": {
+    "MigrationJobEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/MigrationJob",
+          "additionalProperties": true,
+          "description": "Optional. The MigrationJob event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migration Job Event Data",
+      "description": "The data within all MigrationJob events."
+    },
+    "DatabaseType": {
+      "properties": {
+        "provider": {
+          "enum": [
+            "DATABASE_PROVIDER_UNSPECIFIED",
+            0,
+            "CLOUDSQL",
+            1,
+            "RDS",
+            2,
+            "AURORA",
+            3,
+            "ALLOYDB",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Provider",
+          "description": "The database providers."
+        },
+        "engine": {
+          "enum": [
+            "DATABASE_ENGINE_UNSPECIFIED",
+            0,
+            "MYSQL",
+            1,
+            "POSTGRESQL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Engine",
+          "description": "The database engine types."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Database Type",
+      "description": "A message defining the database engine and provider."
+    },
+    "MigrationJob": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC \"Zulu\" format, accurate to nanoseconds. Example: \"2014-10-02T15:01:23.045123456Z\".",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC \"Zulu\" format, accurate to nanoseconds. Example: \"2014-10-02T15:01:23.045123456Z\".",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of \"key\": \"value\" pairs. Example: `{ \"name\": \"wrench\", \"mass\": \"1.3kg\", \"count\": \"3\" }`."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The migration job display name."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "MAINTENANCE",
+            1,
+            "DRAFT",
+            2,
+            "CREATING",
+            3,
+            "NOT_STARTED",
+            4,
+            "RUNNING",
+            5,
+            "FAILED",
+            6,
+            "COMPLETED",
+            7,
+            "DELETING",
+            8,
+            "STOPPING",
+            9,
+            "STOPPED",
+            10,
+            "DELETED",
+            11,
+            "UPDATING",
+            12,
+            "STARTING",
+            13,
+            "RESTARTING",
+            14,
+            "RESUMING",
+            15
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current migration job states."
+        },
+        "phase": {
+          "enum": [
+            "PHASE_UNSPECIFIED",
+            0,
+            "FULL_DUMP",
+            1,
+            "CDC",
+            2,
+            "PROMOTE_IN_PROGRESS",
+            3,
+            "WAITING_FOR_SOURCE_WRITES_TO_STOP",
+            4,
+            "PREPARING_THE_DUMP",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Phase",
+          "description": "The current migration job phase."
+        },
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "ONE_TIME",
+            1,
+            "CONTINUOUS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "The type of migration job (one-time or continuous)."
+        },
+        "dumpPath": {
+          "type": "string",
+          "description": "The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). This field and the \"dump_flags\" field are mutually exclusive."
+        },
+        "dumpFlags": {
+          "$ref": "#/definitions/DumpFlags",
+          "additionalProperties": true,
+          "description": "The initial dump flags. This field and the \"dump_path\" field are mutually exclusive."
+        },
+        "source": {
+          "type": "string",
+          "description": "Required. The resource name (URI) of the source connection profile."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Required. The resource name (URI) of the destination connection profile."
+        },
+        "reverseSshConnectivity": {
+          "$ref": "#/definitions/ReverseSshConnectivity",
+          "additionalProperties": true,
+          "description": "The details needed to communicate to the source over Reverse SSH tunnel connectivity."
+        },
+        "vpcPeeringConnectivity": {
+          "$ref": "#/definitions/VpcPeeringConnectivity",
+          "additionalProperties": true,
+          "description": "The details of the VPC network that the source database is located in."
+        },
+        "staticIpConnectivity": {
+          "$ref": "#/definitions/StaticIpConnectivity",
+          "additionalProperties": true,
+          "description": "static ip connectivity data (default, no additional details needed)."
+        },
+        "duration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: \"3.5s\".",
+          "format": "regex"
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. The error details in case of state FAILED."
+        },
+        "sourceDatabase": {
+          "$ref": "#/definitions/DatabaseType",
+          "additionalProperties": true,
+          "description": "The database engine type and provider of the source."
+        },
+        "destinationDatabase": {
+          "$ref": "#/definitions/DatabaseType",
+          "additionalProperties": true,
+          "description": "The database engine type and provider of the destination."
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. If the migration job is completed, the time when it was completed.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migration Job",
+      "description": "Represents a Database Migration Service migration job object."
+    },
+    "DumpFlag": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the flag"
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the flag."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dump Flag",
+      "description": "Dump flag definition."
+    },
+    "DumpFlags": {
+      "properties": {
+        "dumpFlags": {
+          "items": {
+            "$ref": "#/definitions/DumpFlag"
+          },
+          "type": "array",
+          "description": "The flags for the initial dump."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dump Flags",
+      "description": "Dump flags definition."
+    },
+    "ReverseSshConnectivity": {
+      "properties": {
+        "vmIp": {
+          "type": "string",
+          "description": "Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel."
+        },
+        "vmPort": {
+          "type": "integer",
+          "description": "Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel."
+        },
+        "vm": {
+          "type": "string",
+          "description": "The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel."
+        },
+        "vpc": {
+          "type": "string",
+          "description": "The name of the VPC to peer with the Cloud SQL private network."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Reverse Ssh Connectivity",
+      "description": "The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC."
+    },
+    "StaticIpConnectivity": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Static Ip Connectivity",
+      "description": "The source database will allow incoming connections from the destination database's public IP. You can retrieve the Cloud SQL instance's public IP from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required."
+    },
+    "VpcPeeringConnectivity": {
+      "properties": {
+        "vpc": {
+          "type": "string",
+          "description": "The name of the VPC network to peer with the Cloud SQL private network."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpc Peering Connectivity",
+      "description": "The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

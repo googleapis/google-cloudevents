@@ -1,0 +1,93 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/ApiEventData.json",
+  "name": "ApiEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigateway.v1",
+  "datatype": "google.events.cloud.apigateway.v1.ApiEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigateway.api.v1.created",
+    "google.cloud.apigateway.api.v1.updated",
+    "google.cloud.apigateway.api.v1.deleted"
+  ],
+  "product": "API Gateway",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ApiEventData",
+  "definitions": {
+    "ApiEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Api",
+          "additionalProperties": true,
+          "description": "Optional. The Api event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Event Data",
+      "description": "The data within all Api events."
+    },
+    "Api": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Resource name of the API. Format: projects/{project}/locations/global/apis/{api}"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Created time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Updated time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Display name."
+        },
+        "managedService": {
+          "type": "string",
+          "description": "Optional. Immutable. The name of a Google Managed Service ( https://cloud.google.com/service-infrastructure/docs/glossary#managed). If not specified, a new Service will automatically be created in the same project as this API."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "FAILED",
+            3,
+            "DELETING",
+            4,
+            "UPDATING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "All the possible API states."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api",
+      "description": "An API that can be served by one or more Gateways."
+    }
+  }
+}

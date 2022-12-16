@@ -1,0 +1,70 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/RouteEventData.json",
+  "name": "RouteEventData",
+  "examples": [],
+  "package": "google.events.cloud.datastream.v1",
+  "datatype": "google.events.cloud.datastream.v1.RouteEventData",
+  "cloudeventTypes": [
+    "google.cloud.datastream.route.v1.created",
+    "google.cloud.datastream.route.v1.deleted"
+  ],
+  "product": "Datastream",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/RouteEventData",
+  "definitions": {
+    "RouteEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Route",
+          "additionalProperties": true,
+          "description": "Optional. The Route event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Event Data",
+      "description": "The data within all Route events."
+    },
+    "Route": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The resource's name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create time of the resource.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update time of the resource.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. Display name."
+        },
+        "destinationAddress": {
+          "type": "string",
+          "description": "Required. Destination address for connection"
+        },
+        "destinationPort": {
+          "type": "integer",
+          "description": "Destination port for connection"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route",
+      "description": "The route resource is the child of the private connection resource, used for defining a route for a private connection."
+    }
+  }
+}

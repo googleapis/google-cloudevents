@@ -1,0 +1,166 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/ApiConfigEventData.json",
+  "name": "ApiConfigEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigateway.v1",
+  "datatype": "google.events.cloud.apigateway.v1.ApiConfigEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigateway.apiConfig.v1.created",
+    "google.cloud.apigateway.apiConfig.v1.updated",
+    "google.cloud.apigateway.apiConfig.v1.deleted"
+  ],
+  "product": "API Gateway",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ApiConfigEventData",
+  "definitions": {
+    "ApiConfigEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ApiConfig",
+          "additionalProperties": true,
+          "description": "Optional. The ApiConfig event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Config Event Data",
+      "description": "The data within all ApiConfig events."
+    },
+    "ApiConfig": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config}"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Created time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Updated time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Display name."
+        },
+        "gatewayServiceAccount": {
+          "type": "string",
+          "description": "Immutable. The Google Cloud IAM Service Account that Gateways serving this config should use to authenticate to other services. This may either be the Service Account's email (`{ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com`) or its full resource name (`projects/{PROJECT}/accounts/{UNIQUE_ID}`). This is most often used when the service is a GCP resource such as a Cloud Run Service or an IAP-secured service."
+        },
+        "serviceConfigId": {
+          "type": "string",
+          "description": "Output only. The ID of the associated Service Config ( https://cloud.google.com/service-infrastructure/docs/glossary#config)."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "FAILED",
+            3,
+            "DELETING",
+            4,
+            "UPDATING",
+            5,
+            "ACTIVATING",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "All the possible API Config states."
+        },
+        "openapiDocuments": {
+          "items": {
+            "$ref": "#/definitions/OpenApiDocument"
+          },
+          "type": "array",
+          "description": "Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included."
+        },
+        "grpcServices": {
+          "items": {
+            "$ref": "#/definitions/GrpcServiceDefinition"
+          },
+          "type": "array",
+          "description": "Optional. gRPC service definition files. If specified, openapi_documents must not be included."
+        },
+        "managedServiceConfigs": {
+          "items": {
+            "$ref": "#/definitions/File"
+          },
+          "type": "array",
+          "description": "Optional. Service Configuration files. At least one must be included when using gRPC service definitions. See https://cloud.google.com/endpoints/docs/grpc/grpc-service-config#service_configuration_overview for the expected file contents. If multiple files are specified, the files are merged with the following rules: * All singular scalar fields are merged using \"last one wins\" semantics in the order of the files uploaded. * Repeated fields are concatenated. * Singular embedded messages are merged using these rules for nested fields."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Config",
+      "description": "An API Configuration is a combination of settings for both the Managed Service and Gateways serving this API Config."
+    },
+    "File": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The file path (full or relative path). This is typically the path of the file when it is uploaded."
+        },
+        "contents": {
+          "type": "string",
+          "description": "The bytes that constitute the file.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "File",
+      "description": "A lightweight description of a file."
+    },
+    "GrpcServiceDefinition": {
+      "properties": {
+        "source": {
+          "items": {
+            "$ref": "#/definitions/File"
+          },
+          "type": "array",
+          "description": "Optional. Uncompiled proto files associated with the descriptor set, used for display purposes (server-side compilation is not supported). These should match the inputs to 'protoc' command used to generate file_descriptor_set."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Grpc Service Definition",
+      "description": "A gRPC service definition."
+    },
+    "OpenApiDocument": {
+      "properties": {
+        "document": {
+          "$ref": "#/definitions/File",
+          "additionalProperties": true,
+          "description": "The OpenAPI Specification document file."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Open Api Document",
+      "description": "An OpenAPI Specification Document describing an API."
+    }
+  }
+}

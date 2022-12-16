@@ -1,0 +1,112 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateMapEventData.json",
+  "name": "CertificateMapEventData",
+  "examples": [],
+  "package": "google.events.cloud.certificatemanager.v1",
+  "datatype": "google.events.cloud.certificatemanager.v1.CertificateMapEventData",
+  "cloudeventTypes": [
+    "google.cloud.certificatemanager.certificateMap.v1.created",
+    "google.cloud.certificatemanager.certificateMap.v1.updated",
+    "google.cloud.certificatemanager.certificateMap.v1.deleted"
+  ],
+  "product": "Certificate Manager",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/CertificateMapEventData",
+  "definitions": {
+    "CertificateMapEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/CertificateMap",
+          "additionalProperties": true,
+          "description": "Optional. The CertificateMap event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate Map Event Data",
+      "description": "The data within all CertificateMap events."
+    },
+    "CertificateMap": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*/locations/*/certificateMaps/*`."
+        },
+        "description": {
+          "type": "string",
+          "description": "One or more paragraphs of text description of a certificate map."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation timestamp of a Certificate Map.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update timestamp of a Certificate Map.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Set of labels associated with a Certificate Map."
+        },
+        "gclbTargets": {
+          "items": {
+            "$ref": "#/definitions/GclbTarget"
+          },
+          "type": "array",
+          "description": "Output only. A list of GCLB targets that use this Certificate Map. A Target Proxy is only present on this list if it's attached to a Forwarding Rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate Map",
+      "description": "Defines a collection of certificate configurations."
+    },
+    "GclbTarget": {
+      "properties": {
+        "targetHttpsProxy": {
+          "type": "string",
+          "description": "Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*/global/targetHttpsProxies/*`."
+        },
+        "targetSslProxy": {
+          "type": "string",
+          "description": "Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*/global/targetSslProxies/*`."
+        },
+        "ipConfigs": {
+          "items": {
+            "$ref": "#/definitions/IpConfig"
+          },
+          "type": "array",
+          "description": "Output only. IP configurations for this Target Proxy where the Certificate Map is serving."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gclb Target",
+      "description": "Describes a Target Proxy that uses this Certificate Map."
+    },
+    "IpConfig": {
+      "properties": {
+        "ipAddress": {
+          "type": "string",
+          "description": "Output only. An external IP address."
+        },
+        "ports": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "description": "Output only. Ports."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Ip Config",
+      "description": "Defines IP configuration where this Certificate Map is serving."
+    }
+  }
+}
