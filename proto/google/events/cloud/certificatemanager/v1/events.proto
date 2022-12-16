@@ -1,0 +1,192 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.certificatemanager.v1;
+
+import "google/events/cloud/certificatemanager/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Certificatemanager.V1";
+option (google.events.cloud_event_product) = "Certificate Manager";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "certificate"
+  description: "The resource ID of the Certificate triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "certificatemap"
+  description: "The resource ID of the CertificateMap triggering the event."
+  camel_case_name: "certificateMap"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "certificatemapentry"
+  description: "The resource ID of the CertificateMapEntry triggering the event."
+  camel_case_name: "certificateMapEntry"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "dnsauthorization"
+  description: "The resource ID of the DnsAuthorization triggering the event."
+  camel_case_name: "dnsAuthorization"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "certificateissuanceconfig"
+  description: "The resource ID of the CertificateIssuanceConfig triggering the event."
+  camel_case_name: "certificateIssuanceConfig"
+};
+
+// The CloudEvent raised when a Certificate is created.
+message CertificateCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificate.v1.created";
+  option (google.events.cloud_event_extension_name) = "certificate";
+
+  // The data associated with the event.
+  CertificateEventData data = 1;
+}
+
+// The CloudEvent raised when a Certificate is updated.
+message CertificateUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificate.v1.updated";
+  option (google.events.cloud_event_extension_name) = "certificate";
+
+  // The data associated with the event.
+  CertificateEventData data = 1;
+}
+
+// The CloudEvent raised when a Certificate is deleted.
+message CertificateDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificate.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "certificate";
+
+  // The data associated with the event.
+  CertificateEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMap is created.
+message CertificateMapCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMap.v1.created";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+
+  // The data associated with the event.
+  CertificateMapEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMap is updated.
+message CertificateMapUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMap.v1.updated";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+
+  // The data associated with the event.
+  CertificateMapEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMap is deleted.
+message CertificateMapDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMap.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+
+  // The data associated with the event.
+  CertificateMapEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMapEntry is created.
+message CertificateMapEntryCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMapEntry.v1.created";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+  option (google.events.cloud_event_extension_name) = "certificatemapentry";
+
+  // The data associated with the event.
+  CertificateMapEntryEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMapEntry is updated.
+message CertificateMapEntryUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMapEntry.v1.updated";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+  option (google.events.cloud_event_extension_name) = "certificatemapentry";
+
+  // The data associated with the event.
+  CertificateMapEntryEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateMapEntry is deleted.
+message CertificateMapEntryDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateMapEntry.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "certificatemap";
+  option (google.events.cloud_event_extension_name) = "certificatemapentry";
+
+  // The data associated with the event.
+  CertificateMapEntryEventData data = 1;
+}
+
+// The CloudEvent raised when a DnsAuthorization is created.
+message DnsAuthorizationCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.dnsAuthorization.v1.created";
+  option (google.events.cloud_event_extension_name) = "dnsauthorization";
+
+  // The data associated with the event.
+  DnsAuthorizationEventData data = 1;
+}
+
+// The CloudEvent raised when a DnsAuthorization is updated.
+message DnsAuthorizationUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.dnsAuthorization.v1.updated";
+  option (google.events.cloud_event_extension_name) = "dnsauthorization";
+
+  // The data associated with the event.
+  DnsAuthorizationEventData data = 1;
+}
+
+// The CloudEvent raised when a DnsAuthorization is deleted.
+message DnsAuthorizationDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.dnsAuthorization.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "dnsauthorization";
+
+  // The data associated with the event.
+  DnsAuthorizationEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateIssuanceConfig is created.
+message CertificateIssuanceConfigCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateIssuanceConfig.v1.created";
+  option (google.events.cloud_event_extension_name) =
+      "certificateissuanceconfig";
+
+  // The data associated with the event.
+  CertificateIssuanceConfigEventData data = 1;
+}
+
+// The CloudEvent raised when a CertificateIssuanceConfig is deleted.
+message CertificateIssuanceConfigDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.certificatemanager.certificateIssuanceConfig.v1.deleted";
+  option (google.events.cloud_event_extension_name) =
+      "certificateissuanceconfig";
+
+  // The data associated with the event.
+  CertificateIssuanceConfigEventData data = 1;
+}
