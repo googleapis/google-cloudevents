@@ -21,6 +21,7 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/context/attribute_context.proto";
 import "google/rpc/status.proto";
+import "storage/datapol/annotations/proto/semantic_annotations.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
 
@@ -289,7 +290,7 @@ message RequestMetadata {
   // be the VM's internal IPv4 address, otherwise the `caller_ip` will be
   // redacted to "gce-internal-ip".
   // See https://cloud.google.com/compute/docs/vpc/ for more information.
-  string caller_ip = 1;
+  string caller_ip = 1 [(datapol.semantic_type) = ST_IP_ADDRESS];
 
   // The user agent of the caller.
   // This information is not authenticated and should be treated accordingly.
