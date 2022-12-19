@@ -1,0 +1,261 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateEventData.json",
+  "name": "CertificateEventData",
+  "examples": [],
+  "package": "google.events.cloud.certificatemanager.v1",
+  "datatype": "google.events.cloud.certificatemanager.v1.CertificateEventData",
+  "cloudeventTypes": [
+    "google.cloud.certificatemanager.certificate.v1.created",
+    "google.cloud.certificatemanager.certificate.v1.updated",
+    "google.cloud.certificatemanager.certificate.v1.deleted"
+  ],
+  "product": "Certificate Manager",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/CertificateEventData",
+  "definitions": {
+    "CertificateEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Certificate",
+          "additionalProperties": true,
+          "description": "Optional. The Certificate event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate Event Data",
+      "description": "The data within all Certificate events."
+    },
+    "Certificate": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*/locations/*/certificates/*`."
+        },
+        "description": {
+          "type": "string",
+          "description": "One or more paragraphs of text description of a certificate."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation timestamp of a Certificate.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last update timestamp of a Certificate.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Set of labels associated with a Certificate."
+        },
+        "selfManaged": {
+          "$ref": "#/definitions/SelfManagedCertificate",
+          "additionalProperties": true,
+          "description": "If set, defines data of a self-managed certificate."
+        },
+        "managed": {
+          "$ref": "#/definitions/ManagedCertificate",
+          "additionalProperties": true,
+          "description": "If set, contains configuration and state of a managed certificate."
+        },
+        "sanDnsnames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Output only. The list of Subject Alternative Names of dnsName type defined in the certificate (see RFC 5280 4.2.1.6). Managed certificates that haven't been provisioned yet have this field populated with a value of the managed.domains field."
+        },
+        "pemCertificate": {
+          "type": "string",
+          "description": "Output only. The PEM-encoded certificate chain."
+        },
+        "expireTime": {
+          "type": "string",
+          "description": "Output only. The expiry timestamp of a Certificate.",
+          "format": "date-time"
+        },
+        "scope": {
+          "enum": [
+            "DEFAULT",
+            0,
+            "EDGE_CACHE",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Scope",
+          "description": "Certificate scope."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate",
+      "description": "Defines TLS certificate."
+    },
+    "ManagedCertificate": {
+      "properties": {
+        "domains": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Immutable. The domains for which a managed SSL certificate will be generated. Wildcard domains are only supported with DNS challenge resolution."
+        },
+        "dnsAuthorizations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Immutable. Authorizations that will be used for performing domain authorization."
+        },
+        "issuanceConfig": {
+          "type": "string",
+          "description": "Immutable. The resource name for a [CertificateIssuanceConfig][google.cloud.certificatemanager.v1.CertificateIssuanceConfig] used to configure private PKI certificates in the format `projects/*/locations/*/certificateIssuanceConfigs/*`. If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PROVISIONING",
+            1,
+            "FAILED",
+            2,
+            "ACTIVE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State"
+        },
+        "provisioningIssue": {
+          "$ref": "#/definitions/ProvisioningIssue",
+          "additionalProperties": true,
+          "description": "Output only. Information about issues with provisioning a Managed Certificate."
+        },
+        "authorizationAttemptInfo": {
+          "items": {
+            "$ref": "#/definitions/AuthorizationAttemptInfo"
+          },
+          "type": "array",
+          "description": "Output only. Detailed state of the latest authorization attempt for each domain specified for managed certificate resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Managed Certificate",
+      "description": "Configuration and state of a Managed Certificate. Certificate Manager provisions and renews Managed Certificates automatically, for as long as it's authorized to do so."
+    },
+    "AuthorizationAttemptInfo": {
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Domain name of the authorization attempt."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "AUTHORIZING",
+            1,
+            "AUTHORIZED",
+            6,
+            "FAILED",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State"
+        },
+        "failureReason": {
+          "enum": [
+            "FAILURE_REASON_UNSPECIFIED",
+            0,
+            "CONFIG",
+            1,
+            "CAA",
+            2,
+            "RATE_LIMITED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Failure Reason"
+        },
+        "details": {
+          "type": "string",
+          "description": "Output only. Human readable explanation for reaching the state. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use FailureReason enum."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Authorization Attempt Info",
+      "description": "State of the latest attempt to authorize a domain for certificate issuance."
+    },
+    "ProvisioningIssue": {
+      "properties": {
+        "reason": {
+          "enum": [
+            "REASON_UNSPECIFIED",
+            0,
+            "AUTHORIZATION_ISSUE",
+            1,
+            "RATE_LIMITED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Reason"
+        },
+        "details": {
+          "type": "string",
+          "description": "Output only. Human readable explanation about the issue. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use Reason enum."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Provisioning Issue",
+      "description": "Information about issues with provisioning a Managed Certificate."
+    },
+    "SelfManagedCertificate": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Self Managed Certificate",
+      "description": "Certificate data for a SelfManaged Certificate. SelfManaged Certificates are uploaded by the user. Updating such certificates before they expire remains the user's responsibility."
+    }
+  }
+}
