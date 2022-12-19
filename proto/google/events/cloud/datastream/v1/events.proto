@@ -1,0 +1,133 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.datastream.v1;
+
+import "google/events/cloud/datastream/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Datastream.V1";
+option (google.events.cloud_event_product) = "Datastream";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "connectionprofile"
+  description: "The resource ID of the ConnectionProfile triggering the event."
+  camel_case_name: "connectionProfile"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "stream"
+  description: "The resource ID of the Stream triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "privateconnection"
+  description: "The resource ID of the PrivateConnection triggering the event."
+  camel_case_name: "privateConnection"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "route"
+  description: "The resource ID of the Route triggering the event."
+};
+
+// The CloudEvent raised when a ConnectionProfile is created.
+message ConnectionProfileCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.connectionProfile.v1.created";
+  option (google.events.cloud_event_extension_name) = "connectionprofile";
+
+  // The data associated with the event.
+  ConnectionProfileEventData data = 1;
+}
+
+// The CloudEvent raised when a ConnectionProfile is updated.
+message ConnectionProfileUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.connectionProfile.v1.updated";
+  option (google.events.cloud_event_extension_name) = "connectionprofile";
+
+  // The data associated with the event.
+  ConnectionProfileEventData data = 1;
+}
+
+// The CloudEvent raised when a ConnectionProfile is deleted.
+message ConnectionProfileDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.connectionProfile.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "connectionprofile";
+
+  // The data associated with the event.
+  ConnectionProfileEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is created.
+message StreamCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.stream.v1.created";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is updated.
+message StreamUpdatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.stream.v1.updated";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is deleted.
+message StreamDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.stream.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when a PrivateConnection is created.
+message PrivateConnectionCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.privateConnection.v1.created";
+  option (google.events.cloud_event_extension_name) = "privateconnection";
+
+  // The data associated with the event.
+  PrivateConnectionEventData data = 1;
+}
+
+// The CloudEvent raised when a PrivateConnection is deleted.
+message PrivateConnectionDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.privateConnection.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "privateconnection";
+
+  // The data associated with the event.
+  PrivateConnectionEventData data = 1;
+}
+
+// The CloudEvent raised when a Route is created.
+message RouteCreatedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.route.v1.created";
+  option (google.events.cloud_event_extension_name) = "privateconnection";
+  option (google.events.cloud_event_extension_name) = "route";
+
+  // The data associated with the event.
+  RouteEventData data = 1;
+}
+
+// The CloudEvent raised when a Route is deleted.
+message RouteDeletedEvent {
+  option (google.events.cloud_event_type) = "google.cloud.datastream.route.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "privateconnection";
+  option (google.events.cloud_event_extension_name) = "route";
+
+  // The data associated with the event.
+  RouteEventData data = 1;
+}
