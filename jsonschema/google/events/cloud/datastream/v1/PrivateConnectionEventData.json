@@ -1,0 +1,146 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/PrivateConnectionEventData.json",
+  "name": "PrivateConnectionEventData",
+  "examples": [],
+  "package": "google.events.cloud.datastream.v1",
+  "datatype": "google.events.cloud.datastream.v1.PrivateConnectionEventData",
+  "cloudeventTypes": [
+    "google.cloud.datastream.privateConnection.v1.created",
+    "google.cloud.datastream.privateConnection.v1.deleted"
+  ],
+  "product": "Datastream",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/PrivateConnectionEventData",
+  "definitions": {
+    "PrivateConnectionEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/PrivateConnection",
+          "additionalProperties": true,
+          "description": "Optional. The PrivateConnection event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Private Connection Event Data",
+      "description": "The data within all PrivateConnection events."
+    },
+    "Error": {
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "A title that explains the reason for the error."
+        },
+        "errorUuid": {
+          "type": "string",
+          "description": "A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message containing more information about the error that occurred."
+        },
+        "errorTime": {
+          "type": "string",
+          "description": "The time when the error occurred.",
+          "format": "date-time"
+        },
+        "details": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Additional information about the error."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Error",
+      "description": "Represent a user-facing Error."
+    },
+    "PrivateConnection": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The resource's name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create time of the resource.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update time of the resource.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. Display name."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "CREATED",
+            2,
+            "FAILED",
+            3,
+            "DELETING",
+            4,
+            "FAILED_TO_DELETE",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Private Connection state."
+        },
+        "error": {
+          "$ref": "#/definitions/Error",
+          "additionalProperties": true,
+          "description": "Output only. In case of error, the details of the error in a user-friendly format."
+        },
+        "vpcPeeringConfig": {
+          "$ref": "#/definitions/VpcPeeringConfig",
+          "additionalProperties": true,
+          "description": "VPC Peering Config."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Private Connection",
+      "description": "The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network."
+    },
+    "VpcPeeringConfig": {
+      "properties": {
+        "vpc": {
+          "type": "string",
+          "description": "Required. Fully qualified name of the VPC that Datastream will peer to. Format: `projects/{project}/global/{networks}/{name}`"
+        },
+        "subnet": {
+          "type": "string",
+          "description": "Required. A free subnet for peering. (CIDR of /29)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpc Peering Config",
+      "description": "The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC."
+    }
+  }
+}

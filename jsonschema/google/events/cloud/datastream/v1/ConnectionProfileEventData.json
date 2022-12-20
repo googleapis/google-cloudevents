@@ -1,0 +1,263 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/ConnectionProfileEventData.json",
+  "name": "ConnectionProfileEventData",
+  "examples": [],
+  "package": "google.events.cloud.datastream.v1",
+  "datatype": "google.events.cloud.datastream.v1.ConnectionProfileEventData",
+  "cloudeventTypes": [
+    "google.cloud.datastream.connectionProfile.v1.created",
+    "google.cloud.datastream.connectionProfile.v1.updated",
+    "google.cloud.datastream.connectionProfile.v1.deleted"
+  ],
+  "product": "Datastream",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ConnectionProfileEventData",
+  "definitions": {
+    "ConnectionProfileEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ConnectionProfile",
+          "additionalProperties": true,
+          "description": "Optional. The ConnectionProfile event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connection Profile Event Data",
+      "description": "The data within all ConnectionProfile events."
+    },
+    "BigQueryProfile": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Big Query Profile",
+      "description": "BigQuery warehouse profile."
+    },
+    "ConnectionProfile": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The resource's name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create time of the resource.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update time of the resource.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. Display name."
+        },
+        "oracleProfile": {
+          "$ref": "#/definitions/OracleProfile",
+          "additionalProperties": true,
+          "description": "Oracle ConnectionProfile configuration."
+        },
+        "gcsProfile": {
+          "$ref": "#/definitions/GcsProfile",
+          "additionalProperties": true,
+          "description": "Cloud Storage ConnectionProfile configuration."
+        },
+        "mysqlProfile": {
+          "$ref": "#/definitions/MysqlProfile",
+          "additionalProperties": true,
+          "description": "MySQL ConnectionProfile configuration."
+        },
+        "bigqueryProfile": {
+          "$ref": "#/definitions/BigQueryProfile",
+          "additionalProperties": true,
+          "description": "BigQuery Connection Profile configuration."
+        },
+        "postgresqlProfile": {
+          "$ref": "#/definitions/PostgresqlProfile",
+          "additionalProperties": true,
+          "description": "PostgreSQL Connection Profile configuration."
+        },
+        "staticServiceIpConnectivity": {
+          "$ref": "#/definitions/StaticServiceIpConnectivity",
+          "additionalProperties": true,
+          "description": "Static Service IP connectivity."
+        },
+        "forwardSshConnectivity": {
+          "$ref": "#/definitions/ForwardSshTunnelConnectivity",
+          "additionalProperties": true,
+          "description": "Forward SSH tunnel connectivity."
+        },
+        "privateConnectivity": {
+          "$ref": "#/definitions/PrivateConnectivity",
+          "additionalProperties": true,
+          "description": "Private connectivity."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connection Profile",
+      "description": "A set of reusable connection configurations to be used as a source or destination for a stream."
+    },
+    "ForwardSshTunnelConnectivity": {
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "Required. Hostname for the SSH tunnel."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. Username for the SSH tunnel."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for the SSH tunnel, default value is 22."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Forward Ssh Tunnel Connectivity",
+      "description": "Forward SSH Tunnel connectivity."
+    },
+    "GcsProfile": {
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "description": "Required. The Cloud Storage bucket name."
+        },
+        "rootPath": {
+          "type": "string",
+          "description": "The root path inside the Cloud Storage bucket."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gcs Profile",
+      "description": "Cloud Storage bucket profile."
+    },
+    "MysqlProfile": {
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "Required. Hostname for the MySQL connection."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for the MySQL connection, default value is 3306."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. Username for the MySQL connection."
+        },
+        "sslConfig": {
+          "$ref": "#/definitions/MysqlSslConfig",
+          "additionalProperties": true,
+          "description": "SSL configuration for the MySQL connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mysql Profile",
+      "description": "MySQL database profile."
+    },
+    "MysqlSslConfig": {
+      "properties": {
+        "clientKeySet": {
+          "type": "boolean",
+          "description": "Output only. Indicates whether the client_key field is set."
+        },
+        "clientCertificateSet": {
+          "type": "boolean",
+          "description": "Output only. Indicates whether the client_certificate field is set."
+        },
+        "caCertificateSet": {
+          "type": "boolean",
+          "description": "Output only. Indicates whether the ca_certificate field is set."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mysql Ssl Config",
+      "description": "MySQL SSL configuration information."
+    },
+    "OracleProfile": {
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "Required. Hostname for the Oracle connection."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for the Oracle connection, default value is 1521."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. Username for the Oracle connection."
+        },
+        "databaseService": {
+          "type": "string",
+          "description": "Required. Database for the Oracle connection."
+        },
+        "connectionAttributes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Connection string attributes"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Oracle Profile",
+      "description": "Oracle database profile."
+    },
+    "PostgresqlProfile": {
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "Required. Hostname for the PostgreSQL connection."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port for the PostgreSQL connection, default value is 5432."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. Username for the PostgreSQL connection."
+        },
+        "database": {
+          "type": "string",
+          "description": "Required. Database for the PostgreSQL connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Postgresql Profile",
+      "description": "PostgreSQL database profile."
+    },
+    "PrivateConnectivity": {
+      "properties": {
+        "privateConnection": {
+          "type": "string",
+          "description": "Required. A reference to a private connection resource. Format: `projects/{project}/locations/{location}/privateConnections/{name}`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Private Connectivity",
+      "description": "Private Connectivity"
+    },
+    "StaticServiceIpConnectivity": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Static Service Ip Connectivity",
+      "description": "Static IP address connectivity."
+    }
+  }
+}

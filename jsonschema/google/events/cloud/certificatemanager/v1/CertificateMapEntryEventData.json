@@ -1,0 +1,112 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateMapEntryEventData.json",
+  "name": "CertificateMapEntryEventData",
+  "examples": [],
+  "package": "google.events.cloud.certificatemanager.v1",
+  "datatype": "google.events.cloud.certificatemanager.v1.CertificateMapEntryEventData",
+  "cloudeventTypes": [
+    "google.cloud.certificatemanager.certificateMapEntry.v1.created",
+    "google.cloud.certificatemanager.certificateMapEntry.v1.updated",
+    "google.cloud.certificatemanager.certificateMapEntry.v1.deleted"
+  ],
+  "product": "Certificate Manager",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/CertificateMapEntryEventData",
+  "definitions": {
+    "CertificateMapEntryEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/CertificateMapEntry",
+          "additionalProperties": true,
+          "description": "Optional. The CertificateMapEntry event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate Map Entry Event Data",
+      "description": "The data within all CertificateMapEntry events."
+    },
+    "CertificateMapEntry": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*/locations/*/certificateMaps/*/certificateMapEntries/*`."
+        },
+        "description": {
+          "type": "string",
+          "description": "One or more paragraphs of text description of a certificate map entry."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation timestamp of a Certificate Map Entry.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update timestamp of a Certificate Map Entry.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Set of labels associated with a Certificate Map Entry."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "A Hostname (FQDN, e.g. `example.com`) or a wildcard hostname expression (`*.example.com`) for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for selecting a proper certificate."
+        },
+        "matcher": {
+          "enum": [
+            "MATCHER_UNSPECIFIED",
+            0,
+            "PRIMARY",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Matcher",
+          "description": "Defines predefined cases other than SNI-hostname match when this configuration should be applied."
+        },
+        "certificates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A set of Certificates defines for the given `hostname`. There can be defined up to fifteen certificates in each Certificate Map Entry. Each certificate must match pattern `projects/*/locations/*/certificates/*`."
+        },
+        "state": {
+          "enum": [
+            "SERVING_STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "PENDING",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Serving State",
+          "description": "Defines set of serving states associated with a resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Certificate Map Entry",
+      "description": "Defines a certificate map entry."
+    }
+  }
+}

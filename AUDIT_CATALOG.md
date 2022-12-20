@@ -2297,7 +2297,7 @@ gcloud eventarc triggers create my-trigger \
 - `ListDebuggees`
 - `SetBreakpoint`
 
-### Cloud Deployment Manager
+### Cloud Deploy
 
 #### `serviceName`
 
@@ -6228,7 +6228,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.longrunning.Operations.GetOperation`
 - `google.longrunning.Operations.ListOperations`
 
-### Cloud Memcache
+### Cloud Memorystore for Memcached
 
 #### `serviceName`
 

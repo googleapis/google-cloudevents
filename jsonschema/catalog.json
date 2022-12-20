@@ -3,6 +3,42 @@
   "version": 1,
   "schemas": [
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/ApiConfigEventData.json",
+      "product": "API Gateway",
+      "name": "ApiConfigEventData",
+      "description": "The data within all ApiConfig events.",
+      "datatype": "google.events.cloud.apigateway.v1.ApiConfigEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigateway.apiConfig.v1.created",
+        "google.cloud.apigateway.apiConfig.v1.updated",
+        "google.cloud.apigateway.apiConfig.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/ApiEventData.json",
+      "product": "API Gateway",
+      "name": "ApiEventData",
+      "description": "The data within all Api events.",
+      "datatype": "google.events.cloud.apigateway.v1.ApiEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigateway.api.v1.created",
+        "google.cloud.apigateway.api.v1.updated",
+        "google.cloud.apigateway.api.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/GatewayEventData.json",
+      "product": "API Gateway",
+      "name": "GatewayEventData",
+      "description": "The data within all Gateway events.",
+      "datatype": "google.events.cloud.apigateway.v1.GatewayEventData",
+      "cloudeventTypes": [
+        "google.cloud.apigateway.gateway.v1.created",
+        "google.cloud.apigateway.gateway.v1.updated",
+        "google.cloud.apigateway.gateway.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigeeregistry/v1/ApiDeploymentEventData.json",
       "product": "Apigee Registry",
       "name": "ApiDeploymentEventData",
@@ -130,6 +166,65 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateEventData.json",
+      "product": "Certificate Manager",
+      "name": "CertificateEventData",
+      "description": "The data within all Certificate events.",
+      "datatype": "google.events.cloud.certificatemanager.v1.CertificateEventData",
+      "cloudeventTypes": [
+        "google.cloud.certificatemanager.certificate.v1.created",
+        "google.cloud.certificatemanager.certificate.v1.updated",
+        "google.cloud.certificatemanager.certificate.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateIssuanceConfigEventData.json",
+      "product": "Certificate Manager",
+      "name": "CertificateIssuanceConfigEventData",
+      "description": "The data within all CertificateIssuanceConfig events.",
+      "datatype": "google.events.cloud.certificatemanager.v1.CertificateIssuanceConfigEventData",
+      "cloudeventTypes": [
+        "google.cloud.certificatemanager.certificateIssuanceConfig.v1.created",
+        "google.cloud.certificatemanager.certificateIssuanceConfig.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateMapEntryEventData.json",
+      "product": "Certificate Manager",
+      "name": "CertificateMapEntryEventData",
+      "description": "The data within all CertificateMapEntry events.",
+      "datatype": "google.events.cloud.certificatemanager.v1.CertificateMapEntryEventData",
+      "cloudeventTypes": [
+        "google.cloud.certificatemanager.certificateMapEntry.v1.created",
+        "google.cloud.certificatemanager.certificateMapEntry.v1.updated",
+        "google.cloud.certificatemanager.certificateMapEntry.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/CertificateMapEventData.json",
+      "product": "Certificate Manager",
+      "name": "CertificateMapEventData",
+      "description": "The data within all CertificateMap events.",
+      "datatype": "google.events.cloud.certificatemanager.v1.CertificateMapEventData",
+      "cloudeventTypes": [
+        "google.cloud.certificatemanager.certificateMap.v1.created",
+        "google.cloud.certificatemanager.certificateMap.v1.updated",
+        "google.cloud.certificatemanager.certificateMap.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/DnsAuthorizationEventData.json",
+      "product": "Certificate Manager",
+      "name": "DnsAuthorizationEventData",
+      "description": "The data within all DnsAuthorization events.",
+      "datatype": "google.events.cloud.certificatemanager.v1.DnsAuthorizationEventData",
+      "cloudeventTypes": [
+        "google.cloud.certificatemanager.dnsAuthorization.v1.created",
+        "google.cloud.certificatemanager.dnsAuthorization.v1.updated",
+        "google.cloud.certificatemanager.dnsAuthorization.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/cloudbuild/v1/BuildEventData.json",
       "product": "Cloud Build",
       "name": "BuildEventData",
@@ -137,6 +232,30 @@
       "datatype": "google.events.cloud.cloudbuild.v1.BuildEventData",
       "cloudeventTypes": [
         "google.cloud.cloudbuild.build.v1.statusChanged"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/clouddms/v1/ConnectionProfileEventData.json",
+      "product": "Database Migration",
+      "name": "ConnectionProfileEventData",
+      "description": "The data within all ConnectionProfile events.",
+      "datatype": "google.events.cloud.clouddms.v1.ConnectionProfileEventData",
+      "cloudeventTypes": [
+        "google.cloud.clouddms.connectionProfile.v1.created",
+        "google.cloud.clouddms.connectionProfile.v1.updated",
+        "google.cloud.clouddms.connectionProfile.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/clouddms/v1/MigrationJobEventData.json",
+      "product": "Database Migration",
+      "name": "MigrationJobEventData",
+      "description": "The data within all MigrationJob events.",
+      "datatype": "google.events.cloud.clouddms.v1.MigrationJobEventData",
+      "cloudeventTypes": [
+        "google.cloud.clouddms.migrationJob.v1.created",
+        "google.cloud.clouddms.migrationJob.v1.updated",
+        "google.cloud.clouddms.migrationJob.v1.deleted"
       ]
     },
     {
@@ -160,6 +279,52 @@
         "google.cloud.datafusion.instance.v1.created",
         "google.cloud.datafusion.instance.v1.deleted",
         "google.cloud.datafusion.instance.v1.updated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/ConnectionProfileEventData.json",
+      "product": "Datastream",
+      "name": "ConnectionProfileEventData",
+      "description": "The data within all ConnectionProfile events.",
+      "datatype": "google.events.cloud.datastream.v1.ConnectionProfileEventData",
+      "cloudeventTypes": [
+        "google.cloud.datastream.connectionProfile.v1.created",
+        "google.cloud.datastream.connectionProfile.v1.updated",
+        "google.cloud.datastream.connectionProfile.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/PrivateConnectionEventData.json",
+      "product": "Datastream",
+      "name": "PrivateConnectionEventData",
+      "description": "The data within all PrivateConnection events.",
+      "datatype": "google.events.cloud.datastream.v1.PrivateConnectionEventData",
+      "cloudeventTypes": [
+        "google.cloud.datastream.privateConnection.v1.created",
+        "google.cloud.datastream.privateConnection.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/RouteEventData.json",
+      "product": "Datastream",
+      "name": "RouteEventData",
+      "description": "The data within all Route events.",
+      "datatype": "google.events.cloud.datastream.v1.RouteEventData",
+      "cloudeventTypes": [
+        "google.cloud.datastream.route.v1.created",
+        "google.cloud.datastream.route.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/StreamEventData.json",
+      "product": "Datastream",
+      "name": "StreamEventData",
+      "description": "The data within all Stream events.",
+      "datatype": "google.events.cloud.datastream.v1.StreamEventData",
+      "cloudeventTypes": [
+        "google.cloud.datastream.stream.v1.created",
+        "google.cloud.datastream.stream.v1.updated",
+        "google.cloud.datastream.stream.v1.deleted"
       ]
     },
     {

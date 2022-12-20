@@ -1,0 +1,92 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/certificatemanager/v1/DnsAuthorizationEventData.json",
+  "name": "DnsAuthorizationEventData",
+  "examples": [],
+  "package": "google.events.cloud.certificatemanager.v1",
+  "datatype": "google.events.cloud.certificatemanager.v1.DnsAuthorizationEventData",
+  "cloudeventTypes": [
+    "google.cloud.certificatemanager.dnsAuthorization.v1.created",
+    "google.cloud.certificatemanager.dnsAuthorization.v1.updated",
+    "google.cloud.certificatemanager.dnsAuthorization.v1.deleted"
+  ],
+  "product": "Certificate Manager",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DnsAuthorizationEventData",
+  "definitions": {
+    "DnsAuthorizationEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DnsAuthorization",
+          "additionalProperties": true,
+          "description": "Optional. The DnsAuthorization event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dns Authorization Event Data",
+      "description": "The data within all DnsAuthorization events."
+    },
+    "DnsAuthorization": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*/locations/*/dnsAuthorizations/*`."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation timestamp of a DnsAuthorization.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last update timestamp of a DnsAuthorization.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Set of labels associated with a DnsAuthorization."
+        },
+        "description": {
+          "type": "string",
+          "description": "One or more paragraphs of text description of a DnsAuthorization."
+        },
+        "domain": {
+          "type": "string",
+          "description": "Required. Immutable. A domain that is being authorized. A DnsAuthorization resource covers a single domain and its wildcard, e.g. authorization for `example.com` can be used to issue certificates for `example.com` and `*.example.com`."
+        },
+        "dnsResourceRecord": {
+          "$ref": "#/definitions/DnsResourceRecord",
+          "additionalProperties": true,
+          "description": "Output only. DNS Resource Record that needs to be added to DNS configuration."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dns Authorization",
+      "description": "A DnsAuthorization resource describes a way to perform domain authorization for certificate issuance."
+    },
+    "DnsResourceRecord": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Fully qualified name of the DNS Resource Record. e.g. `_acme-challenge.example.com`"
+        },
+        "type": {
+          "type": "string",
+          "description": "Output only. Type of the DNS Resource Record. Currently always set to \"CNAME\"."
+        },
+        "data": {
+          "type": "string",
+          "description": "Output only. Data of the DNS Resource Record."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dns Resource Record",
+      "description": "The structure describing the DNS Resource Record that needs to be added to DNS configuration for the authorization to be usable by certificate."
+    }
+  }
+}

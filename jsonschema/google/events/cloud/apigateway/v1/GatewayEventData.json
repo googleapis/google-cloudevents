@@ -1,0 +1,97 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/GatewayEventData.json",
+  "name": "GatewayEventData",
+  "examples": [],
+  "package": "google.events.cloud.apigateway.v1",
+  "datatype": "google.events.cloud.apigateway.v1.GatewayEventData",
+  "cloudeventTypes": [
+    "google.cloud.apigateway.gateway.v1.created",
+    "google.cloud.apigateway.gateway.v1.updated",
+    "google.cloud.apigateway.gateway.v1.deleted"
+  ],
+  "product": "API Gateway",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/GatewayEventData",
+  "definitions": {
+    "GatewayEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Gateway",
+          "additionalProperties": true,
+          "description": "Optional. The Gateway event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway Event Data",
+      "description": "The data within all Gateway events."
+    },
+    "Gateway": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway}"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Created time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Updated time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Display name."
+        },
+        "apiConfig": {
+          "type": "string",
+          "description": "Required. Resource name of the API Config for this Gateway. Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig}"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "FAILED",
+            3,
+            "DELETING",
+            4,
+            "UPDATING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "All the possible Gateway states."
+        },
+        "defaultHostname": {
+          "type": "string",
+          "description": "Output only. The default API Gateway host name of the form `{gateway_id}-{hash}.{region_code}.gateway.dev`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway",
+      "description": "A Gateway is an API-aware HTTP proxy. It performs API-Method and/or API-Consumer specific actions based on an API Config such as authentication, policy enforcement, and backend selection."
+    }
+  }
+}
