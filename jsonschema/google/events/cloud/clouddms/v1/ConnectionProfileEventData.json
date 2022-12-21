@@ -1,0 +1,623 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/clouddms/v1/ConnectionProfileEventData.json",
+  "name": "ConnectionProfileEventData",
+  "examples": [],
+  "package": "google.events.cloud.clouddms.v1",
+  "datatype": "google.events.cloud.clouddms.v1.ConnectionProfileEventData",
+  "cloudeventTypes": [
+    "google.cloud.clouddms.connectionProfile.v1.created",
+    "google.cloud.clouddms.connectionProfile.v1.updated",
+    "google.cloud.clouddms.connectionProfile.v1.deleted"
+  ],
+  "product": "Database Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ConnectionProfileEventData",
+  "definitions": {
+    "ConnectionProfileEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ConnectionProfile",
+          "additionalProperties": true,
+          "description": "Optional. The ConnectionProfile event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connection Profile Event Data",
+      "description": "The data within all ConnectionProfile events."
+    },
+    "AlloyDbConnectionProfile": {
+      "properties": {
+        "clusterId": {
+          "type": "string",
+          "description": "Required. The AlloyDB cluster ID that this connection profile is associated with."
+        },
+        "settings": {
+          "$ref": "#/definitions/AlloyDbSettings",
+          "additionalProperties": true,
+          "description": "Immutable. Metadata used to create the destination AlloyDB cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Alloy Db Connection Profile",
+      "description": "Specifies required connection parameters, and the parameters required to create an AlloyDB destination cluster."
+    },
+    "AlloyDbSettings": {
+      "properties": {
+        "vpcNetwork": {
+          "type": "string",
+          "description": "Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: \"projects/{project_number}/global/networks/{network_id}\". This is required to create a cluster."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels for the AlloyDB cluster created by DMS. An object containing a list of 'key', 'value' pairs."
+        },
+        "primaryInstanceSettings": {
+          "$ref": "#/definitions/PrimaryInstanceSettings",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Alloy Db Settings",
+      "description": "Settings for creating an AlloyDB cluster."
+    },
+    "PrimaryInstanceSettings": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. The ID of the AlloyDB primary instance. The ID must satisfy the regex expression \"[a-z0-9-]+\"."
+        },
+        "machineConfig": {
+          "$ref": "#/definitions/MachineConfig",
+          "additionalProperties": true,
+          "description": "Configuration for the machines that host the underlying database engine."
+        },
+        "databaseFlags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Database flags to pass to AlloyDB when DMS is creating the AlloyDB cluster and instances. See the AlloyDB documentation for how these can be used."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels for the AlloyDB primary instance created by DMS. An object containing a list of 'key', 'value' pairs."
+        },
+        "privateIp": {
+          "type": "string",
+          "description": "Output only. The private IP address for the Instance. This is the connection endpoint for an end-user application."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Primary Instance Settings",
+      "description": "Settings for the cluster's primary instance"
+    },
+    "MachineConfig": {
+      "properties": {
+        "cpuCount": {
+          "type": "integer",
+          "description": "The number of CPU's in the VM instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Machine Config",
+      "description": "MachineConfig describes the configuration of a machine."
+    },
+    "CloudSqlConnectionProfile": {
+      "properties": {
+        "cloudSqlId": {
+          "type": "string",
+          "description": "Output only. The Cloud SQL instance ID that this connection profile is associated with."
+        },
+        "settings": {
+          "$ref": "#/definitions/CloudSqlSettings",
+          "additionalProperties": true,
+          "description": "Immutable. Metadata used to create the destination Cloud SQL database."
+        },
+        "privateIp": {
+          "type": "string",
+          "description": "Output only. The Cloud SQL database instance's private IP."
+        },
+        "publicIp": {
+          "type": "string",
+          "description": "Output only. The Cloud SQL database instance's public IP."
+        },
+        "additionalPublicIp": {
+          "type": "string",
+          "description": "Output only. The Cloud SQL database instance's additional (outgoing) public IP. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Sql Connection Profile",
+      "description": "Specifies required connection parameters, and, optionally, the parameters required to create a Cloud SQL destination database instance."
+    },
+    "CloudSqlSettings": {
+      "properties": {
+        "databaseVersion": {
+          "enum": [
+            "SQL_DATABASE_VERSION_UNSPECIFIED",
+            0,
+            "MYSQL_5_6",
+            1,
+            "MYSQL_5_7",
+            2,
+            "POSTGRES_9_6",
+            3,
+            "POSTGRES_11",
+            4,
+            "POSTGRES_10",
+            5,
+            "MYSQL_8_0",
+            6,
+            "POSTGRES_12",
+            7,
+            "POSTGRES_13",
+            8,
+            "POSTGRES_14",
+            17
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Database Version",
+          "description": "The database engine type and version."
+        },
+        "userLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of \"key\": \"value\" pairs. Example: `{ \"name\": \"wrench\", \"mass\": \"18kg\", \"count\": \"3\" }`."
+        },
+        "tier": {
+          "type": "string",
+          "description": "The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances) or `db-custom-1-3840` (PostgreSQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings)."
+        },
+        "storageAutoResizeLimit": {
+          "additionalProperties": true,
+          "type": "integer",
+          "description": "The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit."
+        },
+        "activationPolicy": {
+          "enum": [
+            "SQL_ACTIVATION_POLICY_UNSPECIFIED",
+            0,
+            "ALWAYS",
+            1,
+            "NEVER",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Activation Policy",
+          "description": "Specifies when the instance should be activated."
+        },
+        "ipConfig": {
+          "$ref": "#/definitions/SqlIpConfig",
+          "additionalProperties": true,
+          "description": "The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled."
+        },
+        "autoStorageIncrease": {
+          "additionalProperties": true,
+          "type": "boolean",
+          "description": "[default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB."
+        },
+        "databaseFlags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The database flags passed to the Cloud SQL instance at startup. An object containing a list of \"key\": value pairs. Example: { \"name\": \"wrench\", \"mass\": \"1.3kg\", \"count\": \"3\" }."
+        },
+        "dataDiskType": {
+          "enum": [
+            "SQL_DATA_DISK_TYPE_UNSPECIFIED",
+            0,
+            "PD_SSD",
+            1,
+            "PD_HDD",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Data Disk Type",
+          "description": "The storage options for Cloud SQL databases."
+        },
+        "dataDiskSizeGb": {
+          "additionalProperties": true,
+          "type": "integer",
+          "description": "The storage capacity available to the database, in GB. The minimum (and default) size is 10GB."
+        },
+        "zone": {
+          "type": "string",
+          "description": "The Google Cloud Platform zone where your Cloud SQL database instance is located."
+        },
+        "secondaryZone": {
+          "type": "string",
+          "description": "Optional. The Google Cloud Platform zone where the failover Cloud SQL database instance is located. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available)."
+        },
+        "sourceId": {
+          "type": "string",
+          "description": "The Database Migration Service source connection profile ID, in the format: `projects/my_project_name/locations/us-central1/connectionProfiles/connection_profile_ID`"
+        },
+        "rootPasswordSet": {
+          "type": "boolean",
+          "description": "Output only. Indicates If this connection profile root password is stored."
+        },
+        "collation": {
+          "type": "string",
+          "description": "The Cloud SQL default instance level collation."
+        },
+        "cmekKeyName": {
+          "type": "string",
+          "description": "The KMS key name used for the csql instance."
+        },
+        "availabilityType": {
+          "enum": [
+            "SQL_AVAILABILITY_TYPE_UNSPECIFIED",
+            0,
+            "ZONAL",
+            1,
+            "REGIONAL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Availability Type",
+          "description": "The availability type of the given Cloud SQL instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Sql Settings",
+      "description": "Settings for creating a Cloud SQL database instance."
+    },
+    "ConnectionProfile": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC \"Zulu\" format, accurate to nanoseconds. Example: \"2014-10-02T15:01:23.045123456Z\".",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC \"Zulu\" format, accurate to nanoseconds. Example: \"2014-10-02T15:01:23.045123456Z\".",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of \"key\": \"value\" pairs. Example: `{ \"name\": \"wrench\", \"mass\": \"1.3kg\", \"count\": \"3\" }`."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "DRAFT",
+            1,
+            "CREATING",
+            2,
+            "READY",
+            3,
+            "UPDATING",
+            4,
+            "DELETING",
+            5,
+            "DELETED",
+            6,
+            "FAILED",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current connection profile state (e.g. DRAFT, READY, or FAILED)."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The connection profile display name."
+        },
+        "mysql": {
+          "$ref": "#/definitions/MySqlConnectionProfile",
+          "additionalProperties": true,
+          "description": "A MySQL database connection profile."
+        },
+        "postgresql": {
+          "$ref": "#/definitions/PostgreSqlConnectionProfile",
+          "additionalProperties": true,
+          "description": "A PostgreSQL database connection profile."
+        },
+        "cloudsql": {
+          "$ref": "#/definitions/CloudSqlConnectionProfile",
+          "additionalProperties": true,
+          "description": "A CloudSQL database connection profile."
+        },
+        "alloydb": {
+          "$ref": "#/definitions/AlloyDbConnectionProfile",
+          "additionalProperties": true,
+          "description": "An AlloyDB cluster connection profile."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. The error details in case of state FAILED."
+        },
+        "provider": {
+          "enum": [
+            "DATABASE_PROVIDER_UNSPECIFIED",
+            0,
+            "CLOUDSQL",
+            1,
+            "RDS",
+            2,
+            "AURORA",
+            3,
+            "ALLOYDB",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Provider",
+          "description": "The database providers."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connection Profile",
+      "description": "A connection profile definition."
+    },
+    "MySqlConnectionProfile": {
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Required. The IP or hostname of the source MySQL database."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Required. The network port of the source MySQL database."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service."
+        },
+        "passwordSet": {
+          "type": "boolean",
+          "description": "Output only. Indicates If this connection profile password is stored."
+        },
+        "ssl": {
+          "$ref": "#/definitions/SslConfig",
+          "additionalProperties": true,
+          "description": "SSL configuration for the destination to connect to the source database."
+        },
+        "cloudSqlId": {
+          "type": "string",
+          "description": "If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "My Sql Connection Profile",
+      "description": "Specifies connection parameters required specifically for MySQL databases."
+    },
+    "PostgreSqlConnectionProfile": {
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Required. The IP or hostname of the source PostgreSQL database."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Required. The network port of the source PostgreSQL database."
+        },
+        "username": {
+          "type": "string",
+          "description": "Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service."
+        },
+        "passwordSet": {
+          "type": "boolean",
+          "description": "Output only. Indicates If this connection profile password is stored."
+        },
+        "ssl": {
+          "$ref": "#/definitions/SslConfig",
+          "additionalProperties": true,
+          "description": "SSL configuration for the destination to connect to the source database."
+        },
+        "cloudSqlId": {
+          "type": "string",
+          "description": "If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source."
+        },
+        "networkArchitecture": {
+          "enum": [
+            "NETWORK_ARCHITECTURE_UNSPECIFIED",
+            0,
+            "NETWORK_ARCHITECTURE_OLD_CSQL_PRODUCER",
+            1,
+            "NETWORK_ARCHITECTURE_NEW_CSQL_PRODUCER",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Network Architecture"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Postgre Sql Connection Profile",
+      "description": "Specifies connection parameters required specifically for PostgreSQL databases."
+    },
+    "SqlAclEntry": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The allowlisted value for the access control list."
+        },
+        "expireTime": {
+          "type": "string",
+          "description": "The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`.",
+          "format": "date-time"
+        },
+        "label": {
+          "type": "string",
+          "description": "A label to identify this entry."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Sql Acl Entry",
+      "description": "An entry for an Access Control list."
+    },
+    "SqlIpConfig": {
+      "properties": {
+        "enableIpv4": {
+          "additionalProperties": true,
+          "type": "boolean",
+          "description": "Whether the instance should be assigned an IPv4 address or not."
+        },
+        "privateNetwork": {
+          "type": "string",
+          "description": "The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set."
+        },
+        "requireSsl": {
+          "additionalProperties": true,
+          "type": "boolean",
+          "description": "Whether SSL connections over IP should be enforced or not."
+        },
+        "authorizedNetworks": {
+          "items": {
+            "$ref": "#/definitions/SqlAclEntry"
+          },
+          "type": "array",
+          "description": "The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Sql Ip Config",
+      "description": "IP Management configuration."
+    },
+    "SslConfig": {
+      "properties": {
+        "type": {
+          "enum": [
+            "SSL_TYPE_UNSPECIFIED",
+            0,
+            "SERVER_ONLY",
+            1,
+            "SERVER_CLIENT",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Ssl Type",
+          "description": "Specifies The kind of ssl configuration used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Ssl Config",
+      "description": "SSL configuration information."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

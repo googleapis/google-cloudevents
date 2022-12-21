@@ -1,0 +1,255 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.apigateway.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Apigateway.V1";
+
+// An API that can be served by one or more Gateways.
+message Api {
+  // All the possible API states.
+  enum State {
+    // API does not have a state yet.
+    STATE_UNSPECIFIED = 0;
+
+    // API is being created.
+    CREATING = 1;
+
+    // API is active.
+    ACTIVE = 2;
+
+    // API creation failed.
+    FAILED = 3;
+
+    // API is being deleted.
+    DELETING = 4;
+
+    // API is being updated.
+    UPDATING = 5;
+  }
+
+  // Output only. Resource name of the API.
+  // Format: projects/{project}/locations/global/apis/{api}
+  string name = 1;
+
+  // Output only. Created time.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Updated time.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Resource labels to represent user-provided metadata.
+  // Refer to cloud documentation on labels for more details.
+  // https://cloud.google.com/compute/docs/labeling-resources
+  map<string, string> labels = 4;
+
+  // Optional. Display name.
+  string display_name = 5;
+
+  // Optional. Immutable. The name of a Google Managed Service (
+  // https://cloud.google.com/service-infrastructure/docs/glossary#managed).
+  // If not specified, a new Service will automatically be created in the same
+  // project as this API.
+  string managed_service = 7;
+
+  // Output only. State of the API.
+  State state = 12;
+}
+
+// An API Configuration is a combination of settings for both the Managed
+// Service and Gateways serving this API Config.
+message ApiConfig {
+  // A lightweight description of a file.
+  message File {
+    // The file path (full or relative path). This is typically the path of the
+    // file when it is uploaded.
+    string path = 1;
+
+    // The bytes that constitute the file.
+    bytes contents = 2;
+  }
+
+  // An OpenAPI Specification Document describing an API.
+  message OpenApiDocument {
+    // The OpenAPI Specification document file.
+    File document = 1;
+  }
+
+  // A gRPC service definition.
+  message GrpcServiceDefinition {
+    // Optional. Uncompiled proto files associated with the descriptor set, used
+    // for display purposes (server-side compilation is not supported). These
+    // should match the inputs to 'protoc' command used to generate
+    // file_descriptor_set.
+    repeated File source = 2;
+  }
+
+  // All the possible API Config states.
+  enum State {
+    // API Config does not have a state yet.
+    STATE_UNSPECIFIED = 0;
+
+    // API Config is being created and deployed to the API Controller.
+    CREATING = 1;
+
+    // API Config is ready for use by Gateways.
+    ACTIVE = 2;
+
+    // API Config creation failed.
+    FAILED = 3;
+
+    // API Config is being deleted.
+    DELETING = 4;
+
+    // API Config is being updated.
+    UPDATING = 5;
+
+    // API Config settings are being activated in downstream systems.
+    // API Configs in this state cannot be used by Gateways.
+    ACTIVATING = 6;
+  }
+
+  // Output only. Resource name of the API Config.
+  // Format: projects/{project}/locations/global/apis/{api}/configs/{api_config}
+  string name = 1;
+
+  // Output only. Created time.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Updated time.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Resource labels to represent user-provided metadata.
+  // Refer to cloud documentation on labels for more details.
+  // https://cloud.google.com/compute/docs/labeling-resources
+  map<string, string> labels = 4;
+
+  // Optional. Display name.
+  string display_name = 5;
+
+  // Immutable. The Google Cloud IAM Service Account that Gateways serving this
+  // config should use to authenticate to other services. This may either be the
+  // Service Account's email
+  // (`{ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com`) or its full resource
+  // name (`projects/{PROJECT}/accounts/{UNIQUE_ID}`). This is most often used
+  // when the service is a GCP resource such as a Cloud Run Service or an
+  // IAP-secured service.
+  string gateway_service_account = 14;
+
+  // Output only. The ID of the associated Service Config (
+  // https://cloud.google.com/service-infrastructure/docs/glossary#config).
+  string service_config_id = 12;
+
+  // Output only. State of the API Config.
+  State state = 8;
+
+  // Optional. OpenAPI specification documents. If specified, grpc_services and
+  // managed_service_configs must not be included.
+  repeated OpenApiDocument openapi_documents = 9;
+
+  // Optional. gRPC service definition files. If specified, openapi_documents
+  // must not be included.
+  repeated GrpcServiceDefinition grpc_services = 10;
+
+  // Optional. Service Configuration files. At least one must be included when
+  // using gRPC service definitions. See
+  // https://cloud.google.com/endpoints/docs/grpc/grpc-service-config#service_configuration_overview
+  // for the expected file contents.
+  //
+  // If multiple files are specified, the files are merged with the following
+  // rules:
+  // * All singular scalar fields are merged using "last one wins" semantics in
+  // the order of the files uploaded.
+  // * Repeated fields are concatenated.
+  // * Singular embedded messages are merged using these rules for nested
+  // fields.
+  repeated File managed_service_configs = 11;
+}
+
+// A Gateway is an API-aware HTTP proxy. It performs API-Method and/or
+// API-Consumer specific actions based on an API Config such as authentication,
+// policy enforcement, and backend selection.
+message Gateway {
+  // All the possible Gateway states.
+  enum State {
+    // Gateway does not have a state yet.
+    STATE_UNSPECIFIED = 0;
+
+    // Gateway is being created.
+    CREATING = 1;
+
+    // Gateway is running and ready for requests.
+    ACTIVE = 2;
+
+    // Gateway creation failed.
+    FAILED = 3;
+
+    // Gateway is being deleted.
+    DELETING = 4;
+
+    // Gateway is being updated.
+    UPDATING = 5;
+  }
+
+  // Output only. Resource name of the Gateway.
+  // Format: projects/{project}/locations/{location}/gateways/{gateway}
+  string name = 1;
+
+  // Output only. Created time.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Updated time.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Resource labels to represent user-provided metadata.
+  // Refer to cloud documentation on labels for more details.
+  // https://cloud.google.com/compute/docs/labeling-resources
+  map<string, string> labels = 4;
+
+  // Optional. Display name.
+  string display_name = 5;
+
+  // Required. Resource name of the API Config for this Gateway.
+  // Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig}
+  string api_config = 6;
+
+  // Output only. The current state of the Gateway.
+  State state = 7;
+
+  // Output only. The default API Gateway host name of the form
+  // `{gateway_id}-{hash}.{region_code}.gateway.dev`.
+  string default_hostname = 9;
+}
+
+// The data within all Gateway events.
+message GatewayEventData {
+  // Optional. The Gateway event payload. Unset for deletion events.
+  optional Gateway payload = 1;
+}
+
+// The data within all ApiConfig events.
+message ApiConfigEventData {
+  // Optional. The ApiConfig event payload. Unset for deletion events.
+  optional ApiConfig payload = 1;
+}
+
+// The data within all Api events.
+message ApiEventData {
+  // Optional. The Api event payload. Unset for deletion events.
+  optional Api payload = 1;
+}
