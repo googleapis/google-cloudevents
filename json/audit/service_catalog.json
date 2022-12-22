@@ -2,7 +2,7 @@
   "services": [
     {
       "serviceName": "accessapproval.googleapis.com",
-      "displayName": "Access Approval",
+      "displayName": "Access Approval - test",
       "methods": [
         {
           "methodName": "google.cloud.accessapproval.v1.AccessApproval.ApproveApprovalRequest"
