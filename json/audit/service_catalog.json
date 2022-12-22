@@ -2,7 +2,7 @@
   "services": [
     {
       "serviceName": "accessapproval.googleapis.com",
-      "displayName": "Access Approval",
+      "displayName": "Access  Approval",
       "methods": [
         {
           "methodName": "google.cloud.accessapproval.v1.AccessApproval.ApproveApprovalRequest"
@@ -679,6 +679,9 @@
           "methodName": "google.admin.AdminService.customerTakeoutCreated"
         },
         {
+          "methodName": "google.admin.AdminService.customerTakeoutFailed"
+        },
+        {
           "methodName": "google.admin.AdminService.customerTakeoutSucceeded"
         },
         {
@@ -877,9 +880,6 @@
           "methodName": "google.admin.AdminService.meetInteropCreateGateway"
         },
         {
-          "methodName": "google.admin.AdminService.meetInteropDeleteGateway"
-        },
-        {
           "methodName": "google.admin.AdminService.meetInteropModifyGateway"
         },
         {
@@ -1063,6 +1063,9 @@
           "methodName": "google.admin.AdminService.securityInvestigationActionRetry"
         },
         {
+          "methodName": "google.admin.AdminService.securityInvestigationActionVerificationConfirmation"
+        },
+        {
           "methodName": "google.admin.AdminService.securityInvestigationActionVerificationRequest"
         },
         {
@@ -1091,9 +1094,6 @@
         },
         {
           "methodName": "google.admin.AdminService.securityInvestigationObjectDuplicateInvestigation"
-        },
-        {
-          "methodName": "google.admin.AdminService.securityInvestigationObjectOwnershipTransfer"
         },
         {
           "methodName": "google.admin.AdminService.securityInvestigationObjectSaveInvestigation"
@@ -1553,6 +1553,9 @@
           "methodName": "google.cloud.aiplatform.ui.JobService.CreateDataLabelingJob"
         },
         {
+          "methodName": "google.cloud.aiplatform.ui.JobService.CreateHyperparameterTuningJob"
+        },
+        {
           "methodName": "google.cloud.aiplatform.ui.JobService.CreateModelDeploymentMonitoringJob"
         },
         {
@@ -1665,6 +1668,9 @@
         },
         {
           "methodName": "google.cloud.aiplatform.ui.MetadataService.QueryExecutionInputsAndOutputs"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.ui.MetadataService.RemoveContextChildren"
         },
         {
           "methodName": "google.cloud.aiplatform.ui.MigrationService.BatchMigrateResources"
@@ -1784,6 +1790,9 @@
           "methodName": "google.cloud.aiplatform.ui.TensorboardService.GetTensorboard"
         },
         {
+          "methodName": "google.cloud.aiplatform.ui.TensorboardService.GetTensorboardExperiment"
+        },
+        {
           "methodName": "google.cloud.aiplatform.ui.TensorboardService.ListTensorboards"
         },
         {
@@ -1838,9 +1847,6 @@
           "methodName": "google.cloud.aiplatform.v1.DatasetService.ListDatasets"
         },
         {
-          "methodName": "google.cloud.aiplatform.v1.DatasetService.ListSavedQueries"
-        },
-        {
           "methodName": "google.cloud.aiplatform.v1.DatasetService.UpdateDataset"
         },
         {
@@ -1869,6 +1875,9 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1.FeaturestoreOnlineServingService.StreamingReadFeatureValues"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.v1.FeaturestoreOnlineServingService.WriteFeatureValues"
         },
         {
           "methodName": "google.cloud.aiplatform.v1.FeaturestoreService.BatchCreateFeatures"
@@ -1973,9 +1982,6 @@
           "methodName": "google.cloud.aiplatform.v1.JobService.CancelCustomJob"
         },
         {
-          "methodName": "google.cloud.aiplatform.v1.JobService.CancelDataLabelingJob"
-        },
-        {
           "methodName": "google.cloud.aiplatform.v1.JobService.CancelHyperparameterTuningJob"
         },
         {
@@ -2052,9 +2058,6 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1.JobService.ResumeModelDeploymentMonitoringJob"
-        },
-        {
-          "methodName": "google.cloud.aiplatform.v1.JobService.SearchModelDeploymentMonitoringStatsAnomalies"
         },
         {
           "methodName": "google.cloud.aiplatform.v1.JobService.UpdateModelDeploymentMonitoringJob"
@@ -2249,9 +2252,6 @@
           "methodName": "google.cloud.aiplatform.v1.SpecialistPoolService.CreateSpecialistPool"
         },
         {
-          "methodName": "google.cloud.aiplatform.v1.SpecialistPoolService.DeleteSpecialistPool"
-        },
-        {
           "methodName": "google.cloud.aiplatform.v1.TensorboardService.BatchCreateTensorboardRuns"
         },
         {
@@ -2313,6 +2313,9 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1.TensorboardService.UpdateTensorboard"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.v1.TensorboardService.UpdateTensorboardExperiment"
         },
         {
           "methodName": "google.cloud.aiplatform.v1.TensorboardService.UpdateTensorboardTimeSeries"
@@ -2717,9 +2720,6 @@
           "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ImportModelEvaluation"
         },
         {
-          "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ListModelEvaluationSlices"
-        },
-        {
           "methodName": "google.cloud.aiplatform.v1beta1.ModelService.ListModelEvaluations"
         },
         {
@@ -2736,9 +2736,6 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.PipelineService.CancelPipelineJob"
-        },
-        {
-          "methodName": "google.cloud.aiplatform.v1beta1.PipelineService.CancelTrainingPipeline"
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.PipelineService.CreatePipelineJob"
@@ -2804,6 +2801,12 @@
           "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.GetTensorboard"
         },
         {
+          "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.GetTensorboardExperiment"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.ListTensorboardExperiments"
+        },
+        {
           "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.ListTensorboards"
         },
         {
@@ -2811,6 +2814,9 @@
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.ReadTensorboardTimeSeriesData"
+        },
+        {
+          "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.UpdateTensorboard"
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.TensorboardService.WriteTensorboardExperimentData"
@@ -2831,13 +2837,7 @@
           "methodName": "google.cloud.aiplatform.v1beta1.VizierService.DeleteStudy"
         },
         {
-          "methodName": "google.cloud.aiplatform.v1beta1.VizierService.GetTrial"
-        },
-        {
           "methodName": "google.cloud.aiplatform.v1beta1.VizierService.ListOptimalTrials"
-        },
-        {
-          "methodName": "google.cloud.aiplatform.v1beta1.VizierService.ListStudies"
         },
         {
           "methodName": "google.cloud.aiplatform.v1beta1.VizierService.SuggestTrials"
@@ -2856,6 +2856,42 @@
       "methods": [
         {
           "methodName": "alloydb.instances.query"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.CreateBackup"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.CreateCluster"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.CreateInstance"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.DeleteBackup"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.DeleteCluster"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.DeleteInstance"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.FailoverInstance"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.ListClusters"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.RestartInstance"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.RestoreCluster"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.UpdateCluster"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1.AlloyDBAdmin.UpdateInstance"
         },
         {
           "methodName": "google.cloud.alloydb.v1beta.AlloyDBAdmin.BatchCreateInstances"
@@ -2910,6 +2946,9 @@
         },
         {
           "methodName": "google.cloud.alloydb.v1beta.AlloyDBAdmin.ListInstances"
+        },
+        {
+          "methodName": "google.cloud.alloydb.v1beta.AlloyDBAdmin.PromoteCluster"
         },
         {
           "methodName": "google.cloud.alloydb.v1beta.AlloyDBAdmin.RestartInstance"
@@ -3191,9 +3230,6 @@
         },
         {
           "methodName": "google.cloud.apigee.v1.ArchiveDeploymentService.GenerateUploadUrl"
-        },
-        {
-          "methodName": "google.cloud.apigee.v1.ArchiveDeploymentService.GetArchiveDeployment"
         },
         {
           "methodName": "google.cloud.apigee.v1.ArchiveDeploymentService.ListArchiveDeployments"
@@ -3895,9 +3931,6 @@
           "methodName": "google.cloud.apigee.v1.SecurityReportService.GetSecurityReport"
         },
         {
-          "methodName": "google.cloud.apigee.v1.SecurityReportService.GetSecurityReportResult"
-        },
-        {
           "methodName": "google.cloud.apigee.v1.SecurityReportService.GetSecurityReportResultView"
         },
         {
@@ -4113,12 +4146,6 @@
           "methodName": "google.api.apikeys.v1.ApiKeys.CreateApiKey"
         },
         {
-          "methodName": "google.api.apikeys.v1.ApiKeys.DeleteApiKey"
-        },
-        {
-          "methodName": "google.api.apikeys.v1.ApiKeys.DeleteApiKeys"
-        },
-        {
           "methodName": "google.api.apikeys.v1.ApiKeys.PatchApiKey"
         },
         {
@@ -4187,9 +4214,6 @@
         },
         {
           "methodName": "com.google.appengine.legacy.index_created"
-        },
-        {
-          "methodName": "com.google.appengine.legacy.queue_created"
         },
         {
           "methodName": "com.google.appengine.legacy.queue_updated"
@@ -4357,6 +4381,9 @@
       "methods": [
         {
           "methodName": "Apt-DistRoot"
+        },
+        {
+          "methodName": "Apt-ViewArchIndexFile"
         },
         {
           "methodName": "Apt-ViewIndexFile"
@@ -4647,9 +4674,6 @@
           "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.DeleteVersion"
         },
         {
-          "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.DownloadFile"
-        },
-        {
           "methodName": "google.devtools.artifactregistry.v1beta2.ArtifactRegistry.GetFile"
         },
         {
@@ -4770,6 +4794,9 @@
           "methodName": "google.cloud.assuredworkloads.v1beta1.AssuredWorkloadsService.UpdateWorkload"
         },
         {
+          "methodName": "google.cloud.assuredworkloads.versioning.v1.AssuredWorkloadsV1MainService.GetWorkload"
+        },
+        {
           "methodName": "google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.AnalyzeWorkloadMove"
         },
         {
@@ -4783,9 +4810,6 @@
         },
         {
           "methodName": "google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.ListWorkloads"
-        },
-        {
-          "methodName": "google.cloud.assuredworkloads.versioning.v1beta1.AssuredWorkloadsV1MainService.UpdateWorkload"
         },
         {
           "methodName": "google.cloud.assuredworkloads.versioning.v1main.AssuredWorkloadsV1MainService.AcknowledgeViolation"
@@ -5271,6 +5295,9 @@
         },
         {
           "methodName": "google.cloud.beyondcorp.clientgateways.v1.ClientGatewaysService.ListClientGateways"
+        },
+        {
+          "methodName": "google.longrunning.Operations.GetOperation"
         }
       ]
     },
@@ -5557,9 +5584,6 @@
           "methodName": "google.cloud.bigquery.migration.v2.MigrationService.DeleteMigrationWorkflow"
         },
         {
-          "methodName": "google.cloud.bigquery.migration.v2.MigrationService.GetMigrationSubtask"
-        },
-        {
           "methodName": "google.cloud.bigquery.migration.v2.MigrationService.GetMigrationWorkflow"
         },
         {
@@ -5573,6 +5597,9 @@
         },
         {
           "methodName": "google.cloud.bigquery.migration.v2.SqlTranslationService.TranslateQuery"
+        },
+        {
+          "methodName": "google.cloud.bigquery.migration.v2main.MigrationService.ListMigrationWorkflows"
         }
       ],
       "apiDocsUrl": "https://cloud.google.com/bigquery/docs/reference/migration/rpc"
@@ -5761,6 +5788,9 @@
         },
         {
           "methodName": "google.bigtable.admin.v2.BigtableTableAdmin.ListBackups"
+        },
+        {
+          "methodName": "google.bigtable.admin.v2.BigtableTableAdmin.ListSnapshots"
         },
         {
           "methodName": "google.bigtable.admin.v2.BigtableTableAdmin.ListTables"
@@ -6389,24 +6419,6 @@
       "displayName": "Cloud Error Reporting",
       "methods": [
         {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorGroupService.GetGroup"
-        },
-        {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorGroupService.UpdateGroup"
-        },
-        {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorStatsService.DeleteEvents"
-        },
-        {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorStatsService.ListEvents"
-        },
-        {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorStatsService.ListGroupStats"
-        },
-        {
-          "methodName": "google.devtools.clouderrorreporting.v1.ErrorStatsService.ListServices"
-        },
-        {
           "methodName": "google.devtools.clouderrorreporting.v1beta1.ErrorGroupService.GetGroup"
         },
         {
@@ -6825,6 +6837,9 @@
           "methodName": "GetOrganization"
         },
         {
+          "methodName": "GetOrganizationConfig"
+        },
+        {
           "methodName": "GetProject"
         },
         {
@@ -6871,6 +6886,9 @@
         },
         {
           "methodName": "UpdateFolder"
+        },
+        {
+          "methodName": "UpdateOrganizationConfig"
         },
         {
           "methodName": "UpdateProject"
@@ -6940,9 +6958,6 @@
         },
         {
           "methodName": "google.cloud.resourcemanager.v3.Projects.GetProject"
-        },
-        {
-          "methodName": "google.cloud.resourcemanager.v3.Projects.GetProjectAncestry"
         },
         {
           "methodName": "google.cloud.resourcemanager.v3.Projects.ListProjects"
@@ -8492,6 +8507,9 @@
           "methodName": "beta.compute.networkFirewallPolicies.get"
         },
         {
+          "methodName": "beta.compute.networkFirewallPolicies.getAssociation"
+        },
+        {
           "methodName": "beta.compute.networkFirewallPolicies.getIamPolicy"
         },
         {
@@ -9167,6 +9185,9 @@
           "methodName": "beta.compute.regionUrlMaps.insert"
         },
         {
+          "methodName": "beta.compute.regionUrlMaps.invalidateCache"
+        },
+        {
           "methodName": "beta.compute.regionUrlMaps.list"
         },
         {
@@ -9656,6 +9677,9 @@
           "methodName": "beta.compute.urlMaps.update"
         },
         {
+          "methodName": "beta.compute.urlMaps.validate"
+        },
+        {
           "methodName": "beta.compute.vpnGateways.aggregatedList"
         },
         {
@@ -9737,9 +9761,6 @@
           "methodName": "compute.httpsHealthChecks.insert"
         },
         {
-          "methodName": "compute.httpsHealthChecks.update"
-        },
-        {
           "methodName": "compute.images.insert"
         },
         {
@@ -9753,9 +9774,6 @@
         },
         {
           "methodName": "compute.instanceTemplates.get"
-        },
-        {
-          "methodName": "compute.instances.delete"
         },
         {
           "methodName": "compute.instances.get"
@@ -10583,6 +10601,9 @@
           "methodName": "v1.compute.networkEdgeSecurityServices.aggregatedList"
         },
         {
+          "methodName": "v1.compute.networkEdgeSecurityServices.delete"
+        },
+        {
           "methodName": "v1.compute.networkEndpointGroups.aggregatedList"
         },
         {
@@ -11144,9 +11165,6 @@
           "methodName": "v1.compute.regionSecurityPolicies.delete"
         },
         {
-          "methodName": "v1.compute.regionSecurityPolicies.get"
-        },
-        {
           "methodName": "v1.compute.regionSecurityPolicies.insert"
         },
         {
@@ -11166,6 +11184,9 @@
         },
         {
           "methodName": "v1.compute.regionSslPolicies.delete"
+        },
+        {
+          "methodName": "v1.compute.regionSslPolicies.get"
         },
         {
           "methodName": "v1.compute.regionSslPolicies.insert"
@@ -11627,6 +11648,9 @@
           "methodName": "v1.compute.targetSslProxies.setSslPolicy"
         },
         {
+          "methodName": "v1.compute.targetTcpProxies.aggregatedList"
+        },
+        {
           "methodName": "v1.compute.targetTcpProxies.delete"
         },
         {
@@ -11799,6 +11823,9 @@
         },
         {
           "methodName": "google.cloud.contactcenterinsights.v1.ContactCenterInsights.DeleteConversation"
+        },
+        {
+          "methodName": "google.cloud.contactcenterinsights.v1.ContactCenterInsights.DeleteIssue"
         },
         {
           "methodName": "google.cloud.contactcenterinsights.v1.ContactCenterInsights.DeleteIssueModel"
@@ -12764,6 +12791,12 @@
           "methodName": "google.cloud.dataproc.v1.JobController.UpdateJob"
         },
         {
+          "methodName": "google.cloud.dataproc.v1.NodeGroupController.CreateNodeGroup"
+        },
+        {
+          "methodName": "google.cloud.dataproc.v1.NodeGroupController.ResizeNodeGroup"
+        },
+        {
           "methodName": "google.cloud.dataproc.v1.SessionController.CreateSession"
         },
         {
@@ -13186,9 +13219,6 @@
       "methods": [
         {
           "methodName": "google.cloud.dialogflow.aam.v2beta1.AamAdminTool.DisplayStats"
-        },
-        {
-          "methodName": "google.cloud.dialogflow.aam.v2beta1.AamAdminTool.ExportAdminToolMetricsCsvReport"
         },
         {
           "methodName": "google.cloud.dialogflow.aam.v2beta1.AamDatasets.CreateAamDataset"
@@ -13695,9 +13725,6 @@
           "methodName": "google.cloud.dialogflow.v2beta1.Documents.BatchUpdateSmartMessagingEntries"
         },
         {
-          "methodName": "google.cloud.dialogflow.v2beta1.Documents.ClusterSmartMessagingEntries"
-        },
-        {
           "methodName": "google.cloud.dialogflow.v2beta1.Documents.CreateDocument"
         },
         {
@@ -13944,9 +13971,6 @@
           "methodName": "google.cloud.dialogflow.v2beta1.PhoneNumberOrders.CreatePhoneNumberOrder"
         },
         {
-          "methodName": "google.cloud.dialogflow.v2beta1.PhoneNumberOrders.GetPhoneNumberOrder"
-        },
-        {
           "methodName": "google.cloud.dialogflow.v2beta1.PhoneNumberOrders.ListPhoneNumberOrders"
         },
         {
@@ -14043,6 +14067,14 @@
       "apiDocsUrl": "https://cloud.google.com/dialogflow/es/docs/reference/rest/v2-overview"
     },
     {
+      "serviceName": "discoveryengine.googleapis.com",
+      "methods": [
+        {
+          "methodName": "google.longrunning.Operations.GetOperation"
+        }
+      ]
+    },
+    {
       "serviceName": "dlp.googleapis.com",
       "displayName": "Cloud Data Loss Prevention",
       "methods": [
@@ -14084,9 +14116,6 @@
         },
         {
           "methodName": "google.privacy.dlp.v2.DlpService.DeleteStoredInfoType"
-        },
-        {
-          "methodName": "google.privacy.dlp.v2.DlpService.FinishDlpJob"
         },
         {
           "methodName": "google.privacy.dlp.v2.DlpService.GetDeidentifyTemplate"
@@ -14425,10 +14454,19 @@
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.EnableProcessor"
         },
         {
+          "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.EvaluateProcessorVersion"
+        },
+        {
+          "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.GetEvaluation"
+        },
+        {
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.GetProcessor"
         },
         {
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.GetProcessorVersion"
+        },
+        {
+          "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.ListEvaluations"
         },
         {
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.ListProcessorVersions"
@@ -14444,6 +14482,9 @@
         },
         {
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.SetDefaultProcessorVersion"
+        },
+        {
+          "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.TrainProcessorVersion"
         },
         {
           "methodName": "google.cloud.documentai.v1beta3.DocumentProcessorService.UndeployProcessorVersion"
@@ -14565,6 +14606,23 @@
       "apiDocsUrl": "https://cloud.google.com/domains/docs/reference/rest"
     },
     {
+      "serviceName": "enterpriseknowledgegraph.googleapis.com",
+      "methods": [
+        {
+          "methodName": "google.cloud.enterpriseknowledgegraph.v1.EnterpriseKnowledgeGraphService.CancelEntityReconciliationJob"
+        },
+        {
+          "methodName": "google.cloud.enterpriseknowledgegraph.v1.EnterpriseKnowledgeGraphService.CreateEntityReconciliationJob"
+        },
+        {
+          "methodName": "google.cloud.enterpriseknowledgegraph.v1.EnterpriseKnowledgeGraphService.DeleteEntityReconciliationJob"
+        },
+        {
+          "methodName": "google.cloud.enterpriseknowledgegraph.v1.EnterpriseKnowledgeGraphService.GetEntityReconciliationJob"
+        }
+      ]
+    },
+    {
       "serviceName": "essentialcontacts.googleapis.com",
       "displayName": "Essential Contacts",
       "methods": [
@@ -14582,6 +14640,9 @@
         },
         {
           "methodName": "google.cloud.essentialcontacts.v1.EssentialContactsService.ListContacts"
+        },
+        {
+          "methodName": "google.cloud.essentialcontacts.v1.EssentialContactsService.SendTestMessage"
         },
         {
           "methodName": "google.cloud.essentialcontacts.v1.EssentialContactsService.UpdateContact"
@@ -14614,7 +14675,13 @@
           "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.CreateContact"
         },
         {
+          "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.GetContact"
+        },
+        {
           "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.ListContacts"
+        },
+        {
+          "methodName": "google.cloud.essentialcontacts.v1main.EssentialContactsService.UpdateContact"
         }
       ]
     },
@@ -14735,9 +14802,6 @@
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.CreateInstance"
         },
         {
-          "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.CreateShare"
-        },
-        {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.CreateSnapshot"
         },
         {
@@ -14745,9 +14809,6 @@
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.DeleteInstance"
-        },
-        {
-          "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.DeleteShare"
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.DeleteSnapshot"
@@ -14759,9 +14820,6 @@
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.GetInstance"
         },
         {
-          "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.GetShare"
-        },
-        {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.GetSnapshot"
         },
         {
@@ -14769,9 +14827,6 @@
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.ListInstances"
-        },
-        {
-          "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.ListShares"
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.ListSnapshots"
@@ -14787,9 +14842,6 @@
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.UpdateInstance"
-        },
-        {
-          "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.UpdateShare"
         },
         {
           "methodName": "google.cloud.filestore.v1beta1.CloudFilestoreManager.UpdateSnapshot"
@@ -14915,6 +14967,21 @@
         },
         {
           "methodName": "google.firebase.database.v1.RealtimeDatabase.Listen"
+        },
+        {
+          "methodName": "google.firebase.database.v1.RealtimeDatabase.OnDisconnectCancel"
+        },
+        {
+          "methodName": "google.firebase.database.v1.RealtimeDatabase.OnDisconnectPut"
+        },
+        {
+          "methodName": "google.firebase.database.v1.RealtimeDatabase.OnDisconnectUpdate"
+        },
+        {
+          "methodName": "google.firebase.database.v1.RealtimeDatabase.Read"
+        },
+        {
+          "methodName": "google.firebase.database.v1.RealtimeDatabase.RunOnDisconnect"
         },
         {
           "methodName": "google.firebase.database.v1.RealtimeDatabase.Unlisten"
@@ -15262,21 +15329,6 @@
           "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.DeleteGameServerCluster"
         },
         {
-          "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.GetGameServerCluster"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.ListGameServerClusters"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.PreviewCreateGameServerCluster"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.PreviewDeleteGameServerCluster"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.PreviewUpdateGameServerCluster"
-        },
-        {
           "methodName": "google.cloud.gaming.v1beta.GameServerClustersService.UpdateGameServerCluster"
         },
         {
@@ -15286,31 +15338,10 @@
           "methodName": "google.cloud.gaming.v1beta.GameServerConfigsService.DeleteGameServerConfig"
         },
         {
-          "methodName": "google.cloud.gaming.v1beta.GameServerConfigsService.GetGameServerConfig"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerConfigsService.ListGameServerConfigs"
-        },
-        {
           "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.CreateGameServerDeployment"
         },
         {
           "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.DeleteGameServerDeployment"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.FetchDeploymentState"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.GetGameServerDeployment"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.GetGameServerDeploymentRollout"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.ListGameServerDeployments"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.PreviewGameServerDeploymentRollout"
         },
         {
           "methodName": "google.cloud.gaming.v1beta.GameServerDeploymentsService.UpdateGameServerDeployment"
@@ -15323,15 +15354,6 @@
         },
         {
           "methodName": "google.cloud.gaming.v1beta.RealmsService.DeleteRealm"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.RealmsService.GetRealm"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.RealmsService.ListRealms"
-        },
-        {
-          "methodName": "google.cloud.gaming.v1beta.RealmsService.PreviewRealmUpdate"
         },
         {
           "methodName": "google.cloud.gaming.v1beta.RealmsService.UpdateRealm"
@@ -15411,10 +15433,16 @@
           "methodName": "google.cloud.gkehub.v1beta.GkeHub.CreateFeature"
         },
         {
+          "methodName": "google.cloud.gkehub.v1beta.GkeHub.CreateScope"
+        },
+        {
           "methodName": "google.cloud.gkehub.v1beta.GkeHub.DeleteFeature"
         },
         {
           "methodName": "google.cloud.gkehub.v1beta.GkeHub.DeleteMembership"
+        },
+        {
+          "methodName": "google.cloud.gkehub.v1beta.GkeHub.DeleteScope"
         },
         {
           "methodName": "google.cloud.gkehub.v1beta.GkeHub.GetFeature"
@@ -16123,6 +16151,12 @@
           "methodName": "google.cloud.healthcare.v1beta1.fhir.stu3.grpc.FhirGRPCService.ConditionalCreateResource"
         },
         {
+          "methodName": "google.cloud.healthcare.v1beta1.fhir.stu3.grpc.FhirGRPCService.ConditionalDeleteResource"
+        },
+        {
+          "methodName": "google.cloud.healthcare.v1beta1.fhir.stu3.grpc.FhirGRPCService.ConditionalUpdateResource"
+        },
+        {
           "methodName": "google.cloud.healthcare.v1beta1.fhir.stu3.grpc.FhirGRPCService.CreateResource"
         },
         {
@@ -16721,10 +16755,16 @@
           "methodName": "google.cloud.identitytoolkit.v1.SessionManagementService.CreateSessionCookie"
         },
         {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.CreateDefaultSupportedIdpConfig"
+        },
+        {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.CreateInboundSamlConfig"
         },
         {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.CreateOAuthIdpConfig"
+        },
+        {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.DeleteDefaultSupportedIdpConfig"
         },
         {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.DeleteInboundSamlConfig"
@@ -16733,13 +16773,25 @@
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.DeleteOAuthIdpConfig"
         },
         {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.GetDefaultSupportedIdpConfig"
+        },
+        {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.GetInboundSamlConfig"
+        },
+        {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.GetOAuthIdpConfig"
+        },
+        {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.ListDefaultSupportedIdpConfigs"
         },
         {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.ListInboundSamlConfigs"
         },
         {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.ListOAuthIdpConfigs"
+        },
+        {
+          "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.UpdateDefaultSupportedIdpConfig"
         },
         {
           "methodName": "google.cloud.identitytoolkit.v2beta1.ProjectConfigService.UpdateInboundSamlConfig"
@@ -16764,6 +16816,230 @@
         }
       ],
       "apiDocsUrl": "https://cloud.google.com/identity-platform/docs/reference/rest"
+    },
+    {
+      "serviceName": "k8s.io",
+      "methods": [
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.deletecollection"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.get"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterrolebindings.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.deletecollection"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.get"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.clusterroles.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.configmaps.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.deployments.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.gitrepos.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.horizontalpodautoscalers.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.jobs.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.networkpolicies.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.deletecollection"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.get"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.rolebindings.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.deletecollection"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.get"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.roles.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.secrets.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.serviceaccounts.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.servicemonitors.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1.services.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterrolebindings.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.clusterroles.watch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.rolebindings.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.rolebindings.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.rolebindings.list"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.rolebindings.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.rolebindings.update"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.roles.create"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.roles.delete"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.roles.patch"
+        },
+        {
+          "methodName": "io.k8s.authorization.rbac.v1beta1.roles.update"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.create"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.delete"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.finalize.update"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.get"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.list"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.patch"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.proxy"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.status.update"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.update"
+        },
+        {
+          "methodName": "io.k8s.core.v1.namespaces.watch"
+        }
+      ]
     },
     {
       "serviceName": "lifesciences.googleapis.com",
@@ -17024,6 +17300,9 @@
           "methodName": "google.cloud.managedidentities.v1beta1.ManagedIdentitiesService.DisableMigration"
         },
         {
+          "methodName": "google.cloud.managedidentities.v1beta1.ManagedIdentitiesService.DomainJoinMachine"
+        },
+        {
           "methodName": "google.cloud.managedidentities.v1beta1.ManagedIdentitiesService.EnableMigration"
         },
         {
@@ -17234,6 +17513,9 @@
           "methodName": "google.cloud.metastore.v1.DataprocMetastoreFederation.UpdateFederation"
         },
         {
+          "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.AlterMetadataResourceLocation"
+        },
+        {
           "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.CreateBackup"
         },
         {
@@ -17270,6 +17552,12 @@
           "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.ListServices"
         },
         {
+          "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.MoveTableToDatabase"
+        },
+        {
+          "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.QueryMetadata"
+        },
+        {
           "methodName": "google.cloud.metastore.v1beta.DataprocMetastore.RestoreService"
         },
         {
@@ -17295,6 +17583,9 @@
         },
         {
           "methodName": "google.cloud.metastore.v1main.DataprocMetastore.ListBackups"
+        },
+        {
+          "methodName": "google.cloud.metastore.v1main.DataprocMetastore.MoveTableToDatabase"
         },
         {
           "methodName": "google.longrunning.Operations.DeleteOperation"
@@ -17612,6 +17903,15 @@
           "methodName": "google.monitoring.v3.ServiceMonitoringService.UpdateServiceLevelObjective"
         },
         {
+          "methodName": "google.monitoring.v3.SnoozeService.CreateSnooze"
+        },
+        {
+          "methodName": "google.monitoring.v3.SnoozeService.ListSnoozes"
+        },
+        {
+          "methodName": "google.monitoring.v3.SnoozeService.UpdateSnooze"
+        },
+        {
           "methodName": "google.monitoring.v3.TimeSeriesFilterService.FormatTimeSeriesFilter"
         },
         {
@@ -17686,9 +17986,6 @@
         },
         {
           "methodName": "google.cloud.networkconnectivity.v1.PolicyBasedRoutingService.DeletePolicyBasedRoute"
-        },
-        {
-          "methodName": "google.cloud.networkconnectivity.v1.PolicyBasedRoutingService.GetPolicyBasedRoute"
         },
         {
           "methodName": "google.longrunning.Operations.CancelOperation"
@@ -17831,6 +18128,9 @@
         },
         {
           "methodName": "google.cloud.networksecurity.v1beta1.NetworkSecurity.GetServerTlsPolicy"
+        },
+        {
+          "methodName": "google.cloud.networksecurity.v1beta1.NetworkSecurity.ListServerTlsPolicies"
         },
         {
           "methodName": "google.cloud.networksecurity.v1beta1.NetworkSecurity.UpdateAuthorizationPolicy"
@@ -18042,12 +18342,6 @@
         },
         {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.DeleteEndpointPolicy"
-        },
-        {
-          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.DeleteGateway"
-        },
-        {
-          "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.DeleteGrpcRoute"
         },
         {
           "methodName": "google.cloud.networkservices.v1beta1.NetworkServices.DeleteMesh"
@@ -18780,9 +19074,6 @@
         },
         {
           "methodName": "google.pubsub.v1beta2.Subscriber.ListSubscriptions"
-        },
-        {
-          "methodName": "google.pubsub.v1beta2.Subscriber.ModifyPushConfig"
         }
       ],
       "apiDocsUrl": "https://cloud.google.com/pubsub/docs/reference/rest"
@@ -19146,6 +19437,9 @@
         },
         {
           "methodName": "google.devtools.remoteworkers.v1test2.Reservations.GetReservation"
+        },
+        {
+          "methodName": "google.longrunning.Operations.CancelOperation"
         }
       ],
       "apiDocsUrl": "https://cloud.google.com/sdk/gcloud/reference/alpha/remote-build-execution"
@@ -19459,6 +19753,9 @@
         {
           "methodName": "google.cloud.run.v1.AuthorizedDomains.ListAuthorizedDomains",
           "description": "Cloud Run authorized domains listed"
+        },
+        {
+          "methodName": "google.cloud.run.v1.Configurations.DeleteConfiguration"
         },
         {
           "methodName": "google.cloud.run.v1.Configurations.GetConfiguration"
@@ -19876,6 +20173,9 @@
           "methodName": "google.cloud.securitycenter.v1.SecurityCenter.ListNotificationConfigs"
         },
         {
+          "methodName": "google.cloud.securitycenter.v1.SecurityCenter.ListResourceValueConfigs"
+        },
+        {
           "methodName": "google.cloud.securitycenter.v1.SecurityCenter.ListSources"
         },
         {
@@ -20210,6 +20510,9 @@
           "methodName": "google.api.apikeys.v2.ApiKeys.DeleteKey"
         },
         {
+          "methodName": "google.api.apikeys.v2.ApiKeys.UndeleteKey"
+        },
+        {
           "methodName": "google.api.apikeys.v2.ApiKeys.UpdateKey"
         },
         {
@@ -20308,6 +20611,9 @@
           "methodName": "google.devtools.sourcerepo.v1.SourceRepo.SetIamPolicy",
           "description": "IAM Policy Set",
           "apiDocsUrl": "https://cloud.google.com/source-repositories/docs/reference/rest/v1/projects.repos/setIamPolicy"
+        },
+        {
+          "methodName": "google.devtools.sourcerepo.v1.SourceRepo.SyncRepo"
         },
         {
           "methodName": "google.devtools.sourcerepo.v1.SourceRepo.UpdateProjectConfig",
@@ -20617,6 +20923,9 @@
           "methodName": "google.cloud.translation.v3.TranslationService.TranslateText"
         },
         {
+          "methodName": "google.cloud.translation.v3.TranslationService.UpdateGlossary"
+        },
+        {
           "methodName": "google.cloud.translation.v3.TranslationService.UpdateGlossaryEntry"
         },
         {
@@ -20912,10 +21221,76 @@
       "serviceName": "visionai.googleapis.com",
       "methods": [
         {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.AddApplicationStreamInput"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.CreateApplication"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.CreateApplicationInstances"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.CreateDraft"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.CreateProcessor"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.DeleteApplication"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.DeleteApplicationInstances"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.DeleteDraft"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.DeleteProcessor"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.DeployApplication"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.GetApplication"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.GetDraft"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.ListApplications"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.ListDrafts"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.ListInstances"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.ListPrebuiltProcessors"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.ListProcessors"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.RemoveApplicationStreamInput"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.UndeployApplication"
+        },
+        {
           "methodName": "google.cloud.visionai.v1.AppPlatform.UpdateApplication"
         },
         {
           "methodName": "google.cloud.visionai.v1.AppPlatform.UpdateApplicationInstances"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.UpdateApplicationStreamInput"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.UpdateDraft"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.AppPlatform.UpdateProcessor"
         },
         {
           "methodName": "google.cloud.visionai.v1.LiveVideoAnalytics.CreateAnalysis"
@@ -20963,6 +21338,9 @@
           "methodName": "google.cloud.visionai.v1.StreamsService.GetStream"
         },
         {
+          "methodName": "google.cloud.visionai.v1.StreamsService.GetStreamThumbnail"
+        },
+        {
           "methodName": "google.cloud.visionai.v1.StreamsService.UpdateCluster"
         },
         {
@@ -20973,6 +21351,81 @@
         },
         {
           "methodName": "google.cloud.visionai.v1.StreamsService.UpdateStream"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.ClipAsset"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.CreateAnnotation"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.CreateAsset"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.CreateCorpus"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.CreateDataSchema"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.CreateSearchConfig"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.DeleteAnnotation"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.DeleteAsset"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.DeleteCorpus"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.DeleteDataSchema"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.DeleteSearchConfig"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GenerateHlsUri"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GetAnnotation"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GetAsset"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GetCorpus"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GetDataSchema"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.GetSearchConfig"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.IngestAsset"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.ListAssets"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.ListCorpora"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.ListDataSchemas"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.SearchAssets"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.UpdateAnnotation"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.UpdateCorpus"
+        },
+        {
+          "methodName": "google.cloud.visionai.v1.Warehouse.UpdateDataSchema"
         },
         {
           "methodName": "google.longrunning.Operations.DeleteOperation"
@@ -21068,9 +21521,6 @@
           "methodName": "google.cloud.vmmigration.v1.VmMigration.GetMigratingVm"
         },
         {
-          "methodName": "google.cloud.vmmigration.v1.VmMigration.GetReplicationCycle"
-        },
-        {
           "methodName": "google.cloud.vmmigration.v1.VmMigration.GetSource"
         },
         {
@@ -21096,9 +21546,6 @@
         },
         {
           "methodName": "google.cloud.vmmigration.v1.VmMigration.ListMigratingVms"
-        },
-        {
-          "methodName": "google.cloud.vmmigration.v1.VmMigration.ListReplicationCycles"
         },
         {
           "methodName": "google.cloud.vmmigration.v1.VmMigration.ListSources"
@@ -21255,6 +21702,9 @@
           "methodName": "google.cloud.vmwareengine.v1.VmwareEngine.ListPrivateClouds"
         },
         {
+          "methodName": "google.cloud.vmwareengine.v1.VmwareEngine.ListSubnets"
+        },
+        {
           "methodName": "google.cloud.vmwareengine.v1.VmwareEngine.ListVmwareEngineNetworks"
         },
         {
@@ -21348,9 +21798,6 @@
         },
         {
           "methodName": "google.cloud.websecurityscanner.v1.WebSecurityScanner.GetScanRun"
-        },
-        {
-          "methodName": "google.cloud.websecurityscanner.v1.WebSecurityScanner.ListFindingTypeStats"
         },
         {
           "methodName": "google.cloud.websecurityscanner.v1.WebSecurityScanner.ListScanConfigs"
