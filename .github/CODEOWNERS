@@ -6,5 +6,5 @@
 
 *           @googleapis/torus-dpe
 
-proto/      @googleapis/cloudevents-admins
-json/audit/ @googleapis/cloudevents-admins
+proto/      @googleapis/eventarc-team
+json/audit/ @googleapis/eventarc-team
