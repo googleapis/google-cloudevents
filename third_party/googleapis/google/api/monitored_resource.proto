@@ -16,6 +16,8 @@ syntax = "proto3";
 
 package google.api;
 
+option go_package = "github.com/googleapis/google-cloudevents-go/third_party/googleapis/google/api;api";
+
 // Note: this is a much-reduced version of the proto at
 // https://github.com/googleapis/googleapis/blob/master/google/api/monitored_resource.proto
 // to avoid other dependencies leaking into events.
