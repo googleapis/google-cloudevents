@@ -24,8 +24,8 @@
     "typescript": "~4.9.0"
   },
   "dependencies": {
-    "mkdirp": "^1.0.4",
     "quicktype-core": "^20.0.0",
+    "mkdirp": "^2.0.0",
     "recursive-readdir": "^2.2.2",
     "yargs": "^17.0.0"
   }
