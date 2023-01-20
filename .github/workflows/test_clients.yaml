@@ -71,12 +71,11 @@ jobs:
           distribution: temurin
 
       - name: Setup Protoc
-        working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
-        run: ./tools/setup-protoc.sh
+        run: ${{ env.LIBRARY_CHECKOUT_PATH }}/tools/setup-protoc.sh
 
       - name: Run the generator
         working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
         run: ./tools/build.sh
         env:
-          PROTOC_PATH: tmp/protobuf/bin/protoc
+          PROTOC_PATH: ${{ github.workspace }}/tmp/protobuf/bin/protoc
           DATA_SOURCE_PATH: ${{ github.workspace }}/${{ env.DATA_SOURCE_CHECKOUT_PATH }}
