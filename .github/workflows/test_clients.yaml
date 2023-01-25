@@ -29,14 +29,15 @@ jobs:
     env:
       DOTNET_NOLOGO: true
     steps:
-    - name: Check out repo
+    - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Check out google-cloudevents-dotnet
+    - name: .NET Library > Checkout Repository
       uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents-dotnet
         path: google-cloudevents-dotnet
+
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v3
       with:
@@ -44,3 +45,36 @@ jobs:
 
     - name: Run smoke tests
       run: google-cloudevents-dotnet/validate-schema.sh .
+
+  java:
+    runs-on: ubuntu-latest
+    env:
+      LIBRARY_CHECKOUT_PATH: library
+      DATA_SOURCE_CHECKOUT_PATH: google-cloudevents
+    steps:
+      - name: Java Library > Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          repository: googleapis/google-cloudevents-java
+          path: ${{ env.LIBRARY_CHECKOUT_PATH }}
+
+      - name: Proto Schemas > Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Setup Protoc
+        run: ${{ env.LIBRARY_CHECKOUT_PATH }}/tools/setup-protoc.sh
+
+      - name: Run the generator
+        working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
+        run: ./tools/build.sh
+        env:
+          PROTOC_PATH: ${{ github.workspace }}/tmp/protobuf/bin/protoc
+          DATA_SOURCE_PATH: ${{ github.workspace }}/${{ env.DATA_SOURCE_CHECKOUT_PATH }}
