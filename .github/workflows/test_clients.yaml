@@ -22,10 +22,10 @@ on:
       - '.github/workflows/test_clients.yaml'
 
 jobs:
-  # When other languages support schema validation too, we can
-  # have a separate job per language
   dotnet:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       DOTNET_NOLOGO: true
     steps:
@@ -48,6 +48,8 @@ jobs:
 
   java:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       LIBRARY_CHECKOUT_PATH: library
       DATA_SOURCE_CHECKOUT_PATH: google-cloudevents
@@ -78,3 +80,42 @@ jobs:
         env:
           PROTOC_PATH: ${{ github.workspace }}/tmp/protobuf/bin/protoc
           DATA_SOURCE_PATH: ${{ github.workspace }}/${{ env.DATA_SOURCE_CHECKOUT_PATH }}
+
+  golang:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: library # sync with env.LIBRARY_CHECKOUT_PATH
+    env:
+      # Library & Data Source repos using side-by-side checkout.
+      LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
+      DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
+      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
+    
+    steps:
+    - name: Go Library > Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        path: ${{ env.LIBRARY_CHECKOUT_PATH }}
+    
+    - name: Proto Schemas > Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        repository: googleapis/google-cloudevents
+        path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
+
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.x
+
+    - name: Install the generator
+      run: bash tools/setup-generator.sh
+
+    - name: Run the generator
+      run: bash ./generate-code.sh
+      env:
+        GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
+    
