@@ -108,10 +108,10 @@ jobs:
         go-version: 1.19.x
 
     - name: Set Environment
-      run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" >> $GITHUB_ENV
+      run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" | tee -a $GITHUB_ENV
 
     - name: Install the generator
-      run: pwd; bash tools/setup-generator.sh
+      run: pwd; ls; bash tools/setup-generator.sh
       working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
 
     - name: Run the generator
