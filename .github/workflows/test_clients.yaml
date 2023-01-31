@@ -119,4 +119,5 @@ jobs:
       working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
+        GOFLAGS: "-v"
 
