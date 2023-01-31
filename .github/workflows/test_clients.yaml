@@ -85,14 +85,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    defaults:
-      run:
-        working-directory: library # sync with env.LIBRARY_CHECKOUT_PATH
     env:
       # Library & Data Source repos using side-by-side checkout.
       LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
       DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
-      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
     
     steps:
     - name: Go Library > Checkout Repository
@@ -111,11 +107,16 @@ jobs:
       with:
         go-version: 1.19.x
 
+    - name: Set Environment
+      run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" >> $GITHUB_ENV
+
     - name: Install the generator
-      run: bash tools/setup-generator.sh
+      run: pwd; bash tools/setup-generator.sh
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
 
     - name: Run the generator
-      run: bash ./generate-code.sh
+      run: pwd; bash ./generate-code.sh
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
-    
+
