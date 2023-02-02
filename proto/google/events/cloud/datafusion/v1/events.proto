@@ -19,7 +19,7 @@ package google.events.cloud.datafusion.v1;
 import "google/events/cloud/datafusion/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Datafusion.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.DataFusion.V1";
 option (google.events.cloud_event_product) = "Cloud Data Fusion";
 option (google.events.cloud_event_extension_attribute) = {
   name: "instance"
@@ -33,7 +33,8 @@ option (google.events.cloud_event_extension_attribute) = {
 
 // The CloudEvent raised when an Instance is created.
 message InstanceCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.datafusion.instance.v1.created";
   option (google.events.cloud_event_extension_name) = "instance";
 
   // The data associated with the event.
@@ -42,7 +43,8 @@ message InstanceCreatedEvent {
 
 // The CloudEvent raised when an Instance is deleted.
 message InstanceDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.datafusion.instance.v1.deleted";
   option (google.events.cloud_event_extension_name) = "instance";
 
   // The data associated with the event.
@@ -51,7 +53,8 @@ message InstanceDeletedEvent {
 
 // The CloudEvent raised when an Instance is updated.
 message InstanceUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.datafusion.instance.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.datafusion.instance.v1.updated";
   option (google.events.cloud_event_extension_name) = "instance";
 
   // The data associated with the event.
@@ -60,7 +63,8 @@ message InstanceUpdatedEvent {
 
 // The CloudEvent raised when a DnsPeering is created.
 message DnsPeeringCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.datafusion.dnsPeering.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.datafusion.dnsPeering.v1.created";
   option (google.events.cloud_event_extension_name) = "instance";
   option (google.events.cloud_event_extension_name) = "dnspeering";
 
@@ -70,7 +74,8 @@ message DnsPeeringCreatedEvent {
 
 // The CloudEvent raised when a DnsPeering is deleted.
 message DnsPeeringDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.datafusion.dnsPeering.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.datafusion.dnsPeering.v1.deleted";
   option (google.events.cloud_event_extension_name) = "instance";
   option (google.events.cloud_event_extension_name) = "dnspeering";
 

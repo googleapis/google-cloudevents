@@ -18,7 +18,7 @@ package google.events.cloud.beyondcorp.clientconnectorservices.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Clientconnectorservices.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientConnectorServices.V1";
 
 // Message describing ClientConnectorService object.
 message ClientConnectorService {

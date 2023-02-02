@@ -19,7 +19,7 @@ package google.events.cloud.apigateway.v1;
 import "google/events/cloud/apigateway/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Apigateway.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.ApiGateway.V1";
 option (google.events.cloud_event_product) = "API Gateway";
 option (google.events.cloud_event_extension_attribute) = {
   name: "gateway"

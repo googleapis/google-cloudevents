@@ -19,7 +19,7 @@ package google.events.cloud.apigeeregistry.v1;
 import "google/events/cloud/apigeeregistry/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Apigeeregistry.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.ApigeeRegistry.V1";
 option (google.events.cloud_event_product) = "Apigee Registry";
 option (google.events.cloud_event_extension_attribute) = {
   name: "instance"

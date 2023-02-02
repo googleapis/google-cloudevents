@@ -18,7 +18,7 @@ package google.events.cloud.beyondcorp.appconnectors.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Appconnectors.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.AppConnectors.V1";
 
 // ResourceInfo represents the information/status of an app connector resource.
 // Such as:

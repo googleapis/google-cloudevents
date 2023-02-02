@@ -19,7 +19,7 @@ package google.events.cloud.certificatemanager.v1;
 import "google/events/cloud/certificatemanager/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Certificatemanager.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.CertificateManager.V1";
 option (google.events.cloud_event_product) = "Certificate Manager";
 option (google.events.cloud_event_extension_attribute) = {
   name: "certificate"
