@@ -19,7 +19,7 @@ package google.events.cloud.certificatemanager.v1;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Certificatemanager.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.CertificateManager.V1";
 
 // CertificateIssuanceConfig specifies how to issue and manage a certificate.
 message CertificateIssuanceConfig {
@@ -36,7 +36,8 @@ message CertificateIssuanceConfig {
 
     oneof kind {
       // Defines a CertificateAuthorityServiceConfig.
-      CertificateAuthorityServiceConfig certificate_authority_service_config = 1;
+      CertificateAuthorityServiceConfig certificate_authority_service_config =
+          1;
     }
   }
 
@@ -69,16 +70,16 @@ message CertificateIssuanceConfig {
   // One or more paragraphs of text description of a CertificateIssuanceConfig.
   string description = 5;
 
-  // Required. The CA that issues the workload certificate. It includes the CA address,
-  // type, authentication to CA service, etc.
+  // Required. The CA that issues the workload certificate. It includes the CA
+  // address, type, authentication to CA service, etc.
   CertificateAuthorityConfig certificate_authority_config = 6;
 
   // Required. Workload certificate lifetime requested.
   google.protobuf.Duration lifetime = 7;
 
-  // Required. Specifies the percentage of elapsed time of the certificate lifetime to
-  // wait before renewing the certificate. Must be a number between 1-99,
-  // inclusive.
+  // Required. Specifies the percentage of elapsed time of the certificate
+  // lifetime to wait before renewing the certificate. Must be a number between
+  // 1-99, inclusive.
   int32 rotation_window_percentage = 8;
 
   // Required. The key algorithm to use when generating the private key.
@@ -90,9 +91,7 @@ message Certificate {
   // Certificate data for a SelfManaged Certificate.
   // SelfManaged Certificates are uploaded by the user. Updating such
   // certificates before they expire remains the user's responsibility.
-  message SelfManagedCertificate {
-
-  }
+  message SelfManagedCertificate {}
 
   // Configuration and state of a Managed Certificate.
   // Certificate Manager provisions and renews Managed Certificates
@@ -117,9 +116,9 @@ message Certificate {
       // Output only. Reason for provisioning failures.
       Reason reason = 1;
 
-      // Output only. Human readable explanation about the issue. Provided to help address
-      // the configuration issues.
-      // Not guaranteed to be stable. For programmatic access use Reason enum.
+      // Output only. Human readable explanation about the issue. Provided to
+      // help address the configuration issues. Not guaranteed to be stable. For
+      // programmatic access use Reason enum.
       string details = 2;
     }
 
@@ -164,13 +163,13 @@ message Certificate {
       // Output only. State of the domain for managed certificate issuance.
       State state = 2;
 
-      // Output only. Reason for failure of the authorization attempt for the domain.
+      // Output only. Reason for failure of the authorization attempt for the
+      // domain.
       FailureReason failure_reason = 3;
 
-      // Output only. Human readable explanation for reaching the state. Provided to help
-      // address the configuration issues.
-      // Not guaranteed to be stable. For programmatic access use FailureReason
-      // enum.
+      // Output only. Human readable explanation for reaching the state.
+      // Provided to help address the configuration issues. Not guaranteed to be
+      // stable. For programmatic access use FailureReason enum.
       string details = 4;
     }
 
@@ -193,15 +192,18 @@ message Certificate {
       ACTIVE = 3;
     }
 
-    // Immutable. The domains for which a managed SSL certificate will be generated.
-    // Wildcard domains are only supported with DNS challenge resolution.
+    // Immutable. The domains for which a managed SSL certificate will be
+    // generated. Wildcard domains are only supported with DNS challenge
+    // resolution.
     repeated string domains = 1;
 
-    // Immutable. Authorizations that will be used for performing domain authorization.
+    // Immutable. Authorizations that will be used for performing domain
+    // authorization.
     repeated string dns_authorizations = 2;
 
-    // Immutable. The resource name for a [CertificateIssuanceConfig][google.cloud.certificatemanager.v1.CertificateIssuanceConfig] used to configure
-    // private PKI certificates in the format
+    // Immutable. The resource name for a
+    // [CertificateIssuanceConfig][google.cloud.certificatemanager.v1.CertificateIssuanceConfig]
+    // used to configure private PKI certificates in the format
     // `projects/*/locations/*/certificateIssuanceConfigs/*`.
     // If this field is not set, the certificates will instead be publicly
     // signed as documented at
@@ -211,11 +213,12 @@ message Certificate {
     // Output only. State of the managed certificate resource.
     State state = 4;
 
-    // Output only. Information about issues with provisioning a Managed Certificate.
+    // Output only. Information about issues with provisioning a Managed
+    // Certificate.
     ProvisioningIssue provisioning_issue = 3;
 
-    // Output only. Detailed state of the latest authorization attempt for each domain
-    // specified for managed certificate resource.
+    // Output only. Detailed state of the latest authorization attempt for each
+    // domain specified for managed certificate resource.
     repeated AuthorizationAttemptInfo authorization_attempt_info = 5;
   }
 
@@ -254,10 +257,10 @@ message Certificate {
     ManagedCertificate managed = 11;
   }
 
-  // Output only. The list of Subject Alternative Names of dnsName type defined in the
-  // certificate (see RFC 5280 4.2.1.6).
-  // Managed certificates that haven't been provisioned yet have this field
-  // populated with a value of the managed.domains field.
+  // Output only. The list of Subject Alternative Names of dnsName type defined
+  // in the certificate (see RFC 5280 4.2.1.6). Managed certificates that
+  // haven't been provisioned yet have this field populated with a value of the
+  // managed.domains field.
   repeated string san_dnsnames = 6;
 
   // Output only. The PEM-encoded certificate chain.
@@ -285,11 +288,13 @@ message CertificateMap {
 
     // A Target Proxy to which this map is attached to.
     oneof target_proxy {
-      // Output only. This field returns the resource name in the following format:
+      // Output only. This field returns the resource name in the following
+      // format:
       // `//compute.googleapis.com/projects/*/global/targetHttpsProxies/*`.
       string target_https_proxy = 1;
 
-      // Output only. This field returns the resource name in the following format:
+      // Output only. This field returns the resource name in the following
+      // format:
       // `//compute.googleapis.com/projects/*/global/targetSslProxies/*`.
       string target_ssl_proxy = 3;
     }
@@ -407,12 +412,14 @@ message DnsAuthorization {
   // One or more paragraphs of text description of a DnsAuthorization.
   string description = 5;
 
-  // Required. Immutable. A domain that is being authorized. A DnsAuthorization resource covers a
-  // single domain and its wildcard, e.g. authorization for `example.com` can
-  // be used to issue certificates for `example.com` and `*.example.com`.
+  // Required. Immutable. A domain that is being authorized. A DnsAuthorization
+  // resource covers a single domain and its wildcard, e.g. authorization for
+  // `example.com` can be used to issue certificates for `example.com` and
+  // `*.example.com`.
   string domain = 6;
 
-  // Output only. DNS Resource Record that needs to be added to DNS configuration.
+  // Output only. DNS Resource Record that needs to be added to DNS
+  // configuration.
   DnsResourceRecord dns_resource_record = 10;
 }
 
@@ -436,7 +443,8 @@ message DnsAuthorizationEventData {
 
 // The data within all CertificateIssuanceConfig events.
 message CertificateIssuanceConfigEventData {
-  // Optional. The CertificateIssuanceConfig event payload. Unset for deletion events.
+  // Optional. The CertificateIssuanceConfig event payload. Unset for deletion
+  // events.
   optional CertificateIssuanceConfig payload = 1;
 }
 

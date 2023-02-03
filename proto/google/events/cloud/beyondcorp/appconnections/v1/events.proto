@@ -19,7 +19,7 @@ package google.events.cloud.beyondcorp.appconnections.v1;
 import "google/events/cloud/beyondcorp/appconnections/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Appconnections.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.AppConnections.V1";
 option (google.events.cloud_event_product) = "BeyondCorp";
 option (google.events.cloud_event_extension_attribute) = {
   name: "appconnection"
@@ -29,7 +29,8 @@ option (google.events.cloud_event_extension_attribute) = {
 
 // The CloudEvent raised when an AppConnection is created.
 message AppConnectionCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.appconnections.appConnection.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.appconnections.appConnection.v1.created";
   option (google.events.cloud_event_extension_name) = "appconnection";
 
   // The data associated with the event.
@@ -38,7 +39,8 @@ message AppConnectionCreatedEvent {
 
 // The CloudEvent raised when an AppConnection is updated.
 message AppConnectionUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.appconnections.appConnection.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.appconnections.appConnection.v1.updated";
   option (google.events.cloud_event_extension_name) = "appconnection";
 
   // The data associated with the event.
@@ -47,7 +49,8 @@ message AppConnectionUpdatedEvent {
 
 // The CloudEvent raised when an AppConnection is deleted.
 message AppConnectionDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.appconnections.appConnection.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.appconnections.appConnection.v1.deleted";
   option (google.events.cloud_event_extension_name) = "appconnection";
 
   // The data associated with the event.

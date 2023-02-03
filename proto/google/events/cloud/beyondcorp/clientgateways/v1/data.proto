@@ -18,7 +18,7 @@ package google.events.cloud.beyondcorp.clientgateways.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Clientgateways.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientGateways.V1";
 
 // Message describing ClientGateway object.
 message ClientGateway {

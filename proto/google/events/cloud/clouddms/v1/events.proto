@@ -19,7 +19,7 @@ package google.events.cloud.clouddms.v1;
 import "google/events/cloud/clouddms/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Clouddms.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudDms.V1";
 option (google.events.cloud_event_product) = "Database Migration";
 option (google.events.cloud_event_extension_attribute) = {
   name: "migrationjob"
@@ -34,7 +34,8 @@ option (google.events.cloud_event_extension_attribute) = {
 
 // The CloudEvent raised when a MigrationJob is created.
 message MigrationJobCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.migrationJob.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.migrationJob.v1.created";
   option (google.events.cloud_event_extension_name) = "migrationjob";
 
   // The data associated with the event.
@@ -43,7 +44,8 @@ message MigrationJobCreatedEvent {
 
 // The CloudEvent raised when a MigrationJob is updated.
 message MigrationJobUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.migrationJob.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.migrationJob.v1.updated";
   option (google.events.cloud_event_extension_name) = "migrationjob";
 
   // The data associated with the event.
@@ -52,7 +54,8 @@ message MigrationJobUpdatedEvent {
 
 // The CloudEvent raised when a MigrationJob is deleted.
 message MigrationJobDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.migrationJob.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.migrationJob.v1.deleted";
   option (google.events.cloud_event_extension_name) = "migrationjob";
 
   // The data associated with the event.
@@ -61,7 +64,8 @@ message MigrationJobDeletedEvent {
 
 // The CloudEvent raised when a ConnectionProfile is created.
 message ConnectionProfileCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.connectionProfile.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.connectionProfile.v1.created";
   option (google.events.cloud_event_extension_name) = "connectionprofile";
 
   // The data associated with the event.
@@ -70,7 +74,8 @@ message ConnectionProfileCreatedEvent {
 
 // The CloudEvent raised when a ConnectionProfile is updated.
 message ConnectionProfileUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.connectionProfile.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.connectionProfile.v1.updated";
   option (google.events.cloud_event_extension_name) = "connectionprofile";
 
   // The data associated with the event.
@@ -79,7 +84,8 @@ message ConnectionProfileUpdatedEvent {
 
 // The CloudEvent raised when a ConnectionProfile is deleted.
 message ConnectionProfileDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.clouddms.connectionProfile.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.clouddms.connectionProfile.v1.deleted";
   option (google.events.cloud_event_extension_name) = "connectionprofile";
 
   // The data associated with the event.

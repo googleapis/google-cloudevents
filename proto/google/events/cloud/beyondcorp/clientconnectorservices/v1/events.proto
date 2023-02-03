@@ -19,7 +19,7 @@ package google.events.cloud.beyondcorp.clientconnectorservices.v1;
 import "google/events/cloud/beyondcorp/clientconnectorservices/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Clientconnectorservices.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientConnectorServices.V1";
 option (google.events.cloud_event_product) = "BeyondCorp";
 option (google.events.cloud_event_extension_attribute) = {
   name: "clientconnectorservice"
@@ -29,7 +29,8 @@ option (google.events.cloud_event_extension_attribute) = {
 
 // The CloudEvent raised when a ClientConnectorService is created.
 message ClientConnectorServiceCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.created";
   option (google.events.cloud_event_extension_name) = "clientconnectorservice";
 
   // The data associated with the event.
@@ -38,7 +39,8 @@ message ClientConnectorServiceCreatedEvent {
 
 // The CloudEvent raised when a ClientConnectorService is updated.
 message ClientConnectorServiceUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.updated";
   option (google.events.cloud_event_extension_name) = "clientconnectorservice";
 
   // The data associated with the event.
@@ -47,7 +49,8 @@ message ClientConnectorServiceUpdatedEvent {
 
 // The CloudEvent raised when a ClientConnectorService is deleted.
 message ClientConnectorServiceDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.clientconnectorservices.clientConnectorService.v1.deleted";
   option (google.events.cloud_event_extension_name) = "clientconnectorservice";
 
   // The data associated with the event.

@@ -19,7 +19,7 @@ package google.events.cloud.beyondcorp.clientgateways.v1;
 import "google/events/cloud/beyondcorp/clientgateways/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Beyondcorp.Clientgateways.V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientGateways.V1";
 option (google.events.cloud_event_product) = "BeyondCorp";
 option (google.events.cloud_event_extension_attribute) = {
   name: "clientgateway"
@@ -29,7 +29,8 @@ option (google.events.cloud_event_extension_attribute) = {
 
 // The CloudEvent raised when a ClientGateway is created.
 message ClientGatewayCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.clientgateways.clientGateway.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.clientgateways.clientGateway.v1.created";
   option (google.events.cloud_event_extension_name) = "clientgateway";
 
   // The data associated with the event.
@@ -38,7 +39,8 @@ message ClientGatewayCreatedEvent {
 
 // The CloudEvent raised when a ClientGateway is deleted.
 message ClientGatewayDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.beyondcorp.clientgateways.clientGateway.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.beyondcorp.clientgateways.clientGateway.v1.deleted";
   option (google.events.cloud_event_extension_name) = "clientgateway";
 
   // The data associated with the event.
