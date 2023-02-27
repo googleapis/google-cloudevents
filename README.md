@@ -98,6 +98,4 @@ The following repositories contain data structures per language for types define
 - [Python](https://github.com/googleapis/google-cloudevents-python)
 - [Go](https://github.com/googleapis/google-cloudevents-go)
 - [Java](https://github.com/googleapis/google-cloudevents-java)
-- [PHP](https://github.com/googleapis/google-cloudevents-php)
-- [Ruby](https://github.com/googleapis/google-cloudevents-ruby)
 - [.NET](https://github.com/googleapis/google-cloudevents-dotnet)
