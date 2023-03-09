@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.3](https://github.com/googleapis/google-cloudevents/compare/v2.0.2...v2.0.3) (2023-03-09)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency mkdirp to v2 ([#475](https://github.com/googleapis/google-cloudevents/issues/475)) ([c68ca4a](https://github.com/googleapis/google-cloudevents/commit/c68ca4a814413dac97bb08529521b9aa8fff0957))
+* **deps:** Update dependency quicktype-core to v20 ([#474](https://github.com/googleapis/google-cloudevents/issues/474)) ([2ccdd87](https://github.com/googleapis/google-cloudevents/commit/2ccdd878f1f54d27e0ca3826428267a91305cd51))
+* **deps:** Update dependency quicktype-core to v21 ([#478](https://github.com/googleapis/google-cloudevents/issues/478)) ([621eae7](https://github.com/googleapis/google-cloudevents/commit/621eae760c88e3ff05bed8fa315afd5ba2679352))
+* Fix C# namespaces ([#483](https://github.com/googleapis/google-cloudevents/issues/483)) ([c2710d4](https://github.com/googleapis/google-cloudevents/commit/c2710d4bcef8e566e04b5bb966a50e279ea3c9f0))
+
 ## [2.0.2](https://github.com/googleapis/google-cloudevents/compare/v2.0.1...v2.0.2) (2022-08-18)
 
 
