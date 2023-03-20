@@ -23,7 +23,7 @@ runs:
         node-version: "12"
 
     - name: Setup Go for proto2jsonschema script
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v4
       with:
         go-version: "1.14"
 
