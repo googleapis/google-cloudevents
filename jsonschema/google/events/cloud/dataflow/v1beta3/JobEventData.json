@@ -1,0 +1,868 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataflow/v1beta3/JobEventData.json",
+  "name": "JobEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataflow.v1beta3",
+  "datatype": "google.events.cloud.dataflow.v1beta3.JobEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataflow.job.v1beta3.statusChanged"
+  ],
+  "product": "Cloud Dataflow",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/JobEventData",
+  "definitions": {
+    "JobEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Job",
+          "additionalProperties": true,
+          "description": "The Job event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job Event Data",
+      "description": "The data within all Job events."
+    },
+    "AutoscalingSettings": {
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "AUTOSCALING_ALGORITHM_UNKNOWN",
+            0,
+            "AUTOSCALING_ALGORITHM_NONE",
+            1,
+            "AUTOSCALING_ALGORITHM_BASIC",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Autoscaling Algorithm",
+          "description": "Specifies the algorithm used to determine the number of worker processes to run at any given point in time, based on the amount of data left to process, the number of workers, and how quickly existing workers are processing data."
+        },
+        "maxNumWorkers": {
+          "type": "integer",
+          "description": "The maximum number of workers to cap scaling at."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Autoscaling Settings",
+      "description": "Settings for WorkerPool autoscaling."
+    },
+    "BigQueryIODetails": {
+      "properties": {
+        "table": {
+          "type": "string",
+          "description": "Table accessed in the connection."
+        },
+        "dataset": {
+          "type": "string",
+          "description": "Dataset accessed in the connection."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Project accessed in the connection."
+        },
+        "query": {
+          "type": "string",
+          "description": "Query used to access data in the connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Big Query IO Details",
+      "description": "Metadata for a BigQuery connector used by the job."
+    },
+    "BigTableIODetails": {
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "ProjectId accessed in the connection."
+        },
+        "instanceId": {
+          "type": "string",
+          "description": "InstanceId accessed in the connection."
+        },
+        "tableId": {
+          "type": "string",
+          "description": "TableId accessed in the connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Big Table IO Details",
+      "description": "Metadata for a Cloud Bigtable connector used by the job."
+    },
+    "DatastoreIODetails": {
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Namespace used in the connection."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "ProjectId accessed in the connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Datastore IO Details",
+      "description": "Metadata for a Datastore connector used by the job."
+    },
+    "DebugOptions": {
+      "properties": {
+        "enableHotKeyLogging": {
+          "type": "boolean",
+          "description": "When true, enables the logging of the literal hot key to the user's Cloud Logging."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Debug Options",
+      "description": "Describes any options that have an effect on the debugging of pipelines."
+    },
+    "Environment": {
+      "properties": {
+        "tempStoragePrefix": {
+          "type": "string",
+          "description": "The prefix of the resources the system should use for temporary storage.  The system will append the suffix \"/temp-{JOBNAME} to this resource prefix, where {JOBNAME} is the value of the job_name field.  The resulting bucket and object prefix is used as the prefix of the resources used to store temporary data needed during the job execution.  NOTE: This will override the value in taskrunner_settings. The supported resource type is: Google Cloud Storage:   storage.googleapis.com/{bucket}/{object}   bucket.storage.googleapis.com/{object}"
+        },
+        "clusterManagerApiService": {
+          "type": "string",
+          "description": "The type of cluster manager API to use.  If unknown or unspecified, the service will attempt to choose a reasonable default.  This should be in the form of the API service name, e.g. \"compute.googleapis.com\"."
+        },
+        "experiments": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of experiments to enable. This field should be used for SDK related experiments and not for service related experiments. The proper field for service related experiments is service_options."
+        },
+        "serviceOptions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of service options to enable. This field should be used for service related experiments only. These experiments, when graduating to GA, should be replaced by dedicated fields or become default (i.e. always on)."
+        },
+        "serviceKmsKeyName": {
+          "type": "string",
+          "description": "If set, contains the Cloud KMS key identifier used to encrypt data at rest, AKA a Customer Managed Encryption Key (CMEK). Format:   projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY"
+        },
+        "workerPools": {
+          "items": {
+            "$ref": "#/definitions/WorkerPool"
+          },
+          "type": "array",
+          "description": "The worker pools. At least one \"harness\" worker pool must be specified in order for the job to have workers."
+        },
+        "userAgent": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "A description of the process that generated the request."
+        },
+        "version": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "A structure describing which components and their versions of the service are required in order to run the job."
+        },
+        "dataset": {
+          "type": "string",
+          "description": "The dataset for the current project where various workflow related tables are stored. The supported resource type is: Google BigQuery:   bigquery.googleapis.com/{dataset}"
+        },
+        "sdkPipelineOptions": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "The Cloud Dataflow SDK pipeline options specified by the user. These options are passed through the service and are used to recreate the SDK pipeline options on the worker in a language agnostic and platform independent way."
+        },
+        "serviceAccountEmail": {
+          "type": "string",
+          "description": "Identity to run virtual machines as. Defaults to the default account."
+        },
+        "flexResourceSchedulingGoal": {
+          "enum": [
+            "FLEXRS_UNSPECIFIED",
+            0,
+            "FLEXRS_SPEED_OPTIMIZED",
+            1,
+            "FLEXRS_COST_OPTIMIZED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Flex Resource Scheduling Goal",
+          "description": "Specifies the resource to optimize for in Flexible Resource Scheduling."
+        },
+        "workerRegion": {
+          "type": "string",
+          "description": "The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. \"us-west1\". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region."
+        },
+        "workerZone": {
+          "type": "string",
+          "description": "The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. \"us-west1-a\". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity."
+        },
+        "shuffleMode": {
+          "enum": [
+            "SHUFFLE_MODE_UNSPECIFIED",
+            0,
+            "VM_BASED",
+            1,
+            "SERVICE_BASED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Shuffle Mode",
+          "description": "Specifies the shuffle mode used by a [google.dataflow.v1beta3.Job], which determines the approach data is shuffled during processing. More details in: https://cloud.google.com/dataflow/docs/guides/deploying-a-pipeline#dataflow-shuffle"
+        },
+        "debugOptions": {
+          "$ref": "#/definitions/DebugOptions",
+          "additionalProperties": true,
+          "description": "Any debugging options to be supplied to the job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Environment",
+      "description": "Describes the environment in which a Dataflow Job runs."
+    },
+    "ExecutionStageState": {
+      "properties": {
+        "executionStageName": {
+          "type": "string",
+          "description": "The name of the execution stage."
+        },
+        "executionStageState": {
+          "enum": [
+            "JOB_STATE_UNKNOWN",
+            0,
+            "JOB_STATE_STOPPED",
+            1,
+            "JOB_STATE_RUNNING",
+            2,
+            "JOB_STATE_DONE",
+            3,
+            "JOB_STATE_FAILED",
+            4,
+            "JOB_STATE_CANCELLED",
+            5,
+            "JOB_STATE_UPDATED",
+            6,
+            "JOB_STATE_DRAINING",
+            7,
+            "JOB_STATE_DRAINED",
+            8,
+            "JOB_STATE_PENDING",
+            9,
+            "JOB_STATE_CANCELLING",
+            10,
+            "JOB_STATE_QUEUED",
+            11,
+            "JOB_STATE_RESOURCE_CLEANING_UP",
+            12
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Job State",
+          "description": "Describes the overall state of a [google.dataflow.v1beta3.Job][google.dataflow.v1beta3.Job]."
+        },
+        "currentStateTime": {
+          "type": "string",
+          "description": "The time at which the stage transitioned to this state.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Stage State",
+      "description": "A message describing the state of a particular execution stage."
+    },
+    "FileIODetails": {
+      "properties": {
+        "filePattern": {
+          "type": "string",
+          "description": "File Pattern used to access files by the connector."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "File IO Details",
+      "description": "Metadata for a File connector used by the job."
+    },
+    "Job": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of this job. This field is set by the Cloud Dataflow service when the Job is created, and is immutable for the life of the job."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "The ID of the Cloud Platform project that the job belongs to."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user-specified Cloud Dataflow job name. Only one Job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a Job with the same name as an already-existing Job, the attempt returns the existing Job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?`"
+        },
+        "type": {
+          "enum": [
+            "JOB_TYPE_UNKNOWN",
+            0,
+            "JOB_TYPE_BATCH",
+            1,
+            "JOB_TYPE_STREAMING",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Job Type",
+          "description": "Specifies the processing model used by a [google.dataflow.v1beta3.Job], which determines the way the Job is managed by the Cloud Dataflow service (how workers are scheduled, how inputs are sharded, etc)."
+        },
+        "environment": {
+          "$ref": "#/definitions/Environment",
+          "additionalProperties": true,
+          "description": "The environment for the job."
+        },
+        "stepsLocation": {
+          "type": "string",
+          "description": "The Cloud Storage location where the steps are stored."
+        },
+        "currentState": {
+          "enum": [
+            "JOB_STATE_UNKNOWN",
+            0,
+            "JOB_STATE_STOPPED",
+            1,
+            "JOB_STATE_RUNNING",
+            2,
+            "JOB_STATE_DONE",
+            3,
+            "JOB_STATE_FAILED",
+            4,
+            "JOB_STATE_CANCELLED",
+            5,
+            "JOB_STATE_UPDATED",
+            6,
+            "JOB_STATE_DRAINING",
+            7,
+            "JOB_STATE_DRAINED",
+            8,
+            "JOB_STATE_PENDING",
+            9,
+            "JOB_STATE_CANCELLING",
+            10,
+            "JOB_STATE_QUEUED",
+            11,
+            "JOB_STATE_RESOURCE_CLEANING_UP",
+            12
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Job State",
+          "description": "Describes the overall state of a [google.dataflow.v1beta3.Job][google.dataflow.v1beta3.Job]."
+        },
+        "currentStateTime": {
+          "type": "string",
+          "description": "The timestamp associated with the current state.",
+          "format": "date-time"
+        },
+        "requestedState": {
+          "enum": [
+            "JOB_STATE_UNKNOWN",
+            0,
+            "JOB_STATE_STOPPED",
+            1,
+            "JOB_STATE_RUNNING",
+            2,
+            "JOB_STATE_DONE",
+            3,
+            "JOB_STATE_FAILED",
+            4,
+            "JOB_STATE_CANCELLED",
+            5,
+            "JOB_STATE_UPDATED",
+            6,
+            "JOB_STATE_DRAINING",
+            7,
+            "JOB_STATE_DRAINED",
+            8,
+            "JOB_STATE_PENDING",
+            9,
+            "JOB_STATE_CANCELLING",
+            10,
+            "JOB_STATE_QUEUED",
+            11,
+            "JOB_STATE_RESOURCE_CLEANING_UP",
+            12
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Job State",
+          "description": "Describes the overall state of a [google.dataflow.v1beta3.Job][google.dataflow.v1beta3.Job]."
+        },
+        "executionInfo": {
+          "$ref": "#/definitions/JobExecutionInfo",
+          "additionalProperties": true,
+          "description": "Deprecated."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service.",
+          "format": "date-time"
+        },
+        "replaceJobId": {
+          "type": "string",
+          "description": "If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job."
+        },
+        "clientRequestId": {
+          "type": "string",
+          "description": "The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it."
+        },
+        "replacedByJobId": {
+          "type": "string",
+          "description": "If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job."
+        },
+        "tempFiles": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage:    storage.googleapis.com/{bucket}/{object}    bucket.storage.googleapis.com/{object}"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User-defined labels for this job. The labels map can contain no more than 64 entries.  Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp:  [\\p{Ll}\\p{Lo}][\\p{Ll}\\p{Lo}\\p{N}_-]{0,62} * Values must conform to regexp:  [\\p{Ll}\\p{Lo}\\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size."
+        },
+        "location": {
+          "type": "string",
+          "description": "The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job."
+        },
+        "stageStates": {
+          "items": {
+            "$ref": "#/definitions/ExecutionStageState"
+          },
+          "type": "array",
+          "description": "This field may be mutated by the Cloud Dataflow service; callers cannot mutate it."
+        },
+        "jobMetadata": {
+          "$ref": "#/definitions/JobMetadata",
+          "additionalProperties": true,
+          "description": "This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service.",
+          "format": "date-time"
+        },
+        "createdFromSnapshotId": {
+          "type": "string",
+          "description": "If this is specified, the job's initial state is populated from the given snapshot."
+        },
+        "satisfiesPzs": {
+          "type": "boolean",
+          "description": "Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job",
+      "description": "Defines a job to be run by the Cloud Dataflow service. Do not enter confidential information when you supply string values using the API. Fields stripped from source Job proto: - steps - pipeline_description - transform_name_mapping"
+    },
+    "JobExecutionInfo": {
+      "properties": {
+        "stages": {
+          "additionalProperties": {
+            "$ref": "#/definitions/JobExecutionStageInfo",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "A mapping from each stage to the information about that stage."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job Execution Info",
+      "description": "Additional information about how a Cloud Dataflow job will be executed that isn't contained in the submitted job."
+    },
+    "JobExecutionStageInfo": {
+      "properties": {
+        "stepName": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The steps associated with the execution stage. Note that stages may have several steps, and that a given step might be run by more than one stage."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job Execution Stage Info",
+      "description": "Contains information about how a particular [google.dataflow.v1beta3.Step][google.dataflow.v1beta3.Step] will be executed."
+    },
+    "JobMetadata": {
+      "properties": {
+        "sdkVersion": {
+          "$ref": "#/definitions/SdkVersion",
+          "additionalProperties": true,
+          "description": "The SDK version used to run the job."
+        },
+        "spannerDetails": {
+          "items": {
+            "$ref": "#/definitions/SpannerIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a Spanner source used in the Dataflow job."
+        },
+        "bigqueryDetails": {
+          "items": {
+            "$ref": "#/definitions/BigQueryIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a BigQuery source used in the Dataflow job."
+        },
+        "bigTableDetails": {
+          "items": {
+            "$ref": "#/definitions/BigTableIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a Cloud Bigtable source used in the Dataflow job."
+        },
+        "pubsubDetails": {
+          "items": {
+            "$ref": "#/definitions/PubSubIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a Pub/Sub source used in the Dataflow job."
+        },
+        "fileDetails": {
+          "items": {
+            "$ref": "#/definitions/FileIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a File source used in the Dataflow job."
+        },
+        "datastoreDetails": {
+          "items": {
+            "$ref": "#/definitions/DatastoreIODetails"
+          },
+          "type": "array",
+          "description": "Identification of a Datastore source used in the Dataflow job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job Metadata",
+      "description": "Metadata available primarily for filtering jobs. Will be included in the ListJob response and Job SUMMARY view."
+    },
+    "Package": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the package."
+        },
+        "location": {
+          "type": "string",
+          "description": "The resource to read the package from. The supported resource type is: Google Cloud Storage:   storage.googleapis.com/{bucket}   bucket.storage.googleapis.com/"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Package",
+      "description": "The packages that must be installed in order for a worker to run the steps of the Cloud Dataflow job that will be assigned to its worker pool. This is the mechanism by which the Cloud Dataflow SDK causes code to be loaded onto the workers. For example, the Cloud Dataflow Java SDK might use this to install jars containing the user's code and all of the various dependencies (libraries, data files, etc.) required in order for that code to run."
+    },
+    "PubSubIODetails": {
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "Topic accessed in the connection."
+        },
+        "subscription": {
+          "type": "string",
+          "description": "Subscription used in the connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Pub Sub IO Details",
+      "description": "Metadata for a Pub/Sub connector used by the job."
+    },
+    "SdkHarnessContainerImage": {
+      "properties": {
+        "containerImage": {
+          "type": "string",
+          "description": "A docker container image that resides in Google Container Registry."
+        },
+        "useSingleCorePerContainer": {
+          "type": "boolean",
+          "description": "If true, recommends the Dataflow service to use only one core per SDK container instance with this image. If false (or unset) recommends using more than one core per SDK container instance with this image for efficiency. Note that Dataflow service may choose to override this property if needed."
+        },
+        "environmentId": {
+          "type": "string",
+          "description": "Environment ID for the Beam runner API proto Environment that corresponds to the current SDK Harness."
+        },
+        "capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The set of capabilities enumerated in the above Environment proto. See also [beam_runner_api.proto](https://github.com/apache/beam/blob/master/model/pipeline/src/main/proto/org/apache/beam/model/pipeline/v1/beam_runner_api.proto)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Sdk Harness Container Image",
+      "description": "Defines an SDK harness container for executing Dataflow pipelines."
+    },
+    "SdkVersion": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The version of the SDK used to run the job."
+        },
+        "versionDisplayName": {
+          "type": "string",
+          "description": "A readable string describing the version of the SDK."
+        },
+        "sdkSupportStatus": {
+          "enum": [
+            "UNKNOWN",
+            0,
+            "SUPPORTED",
+            1,
+            "STALE",
+            2,
+            "DEPRECATED",
+            3,
+            "UNSUPPORTED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sdk Support Status",
+          "description": "The support status of the SDK used to run the job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Sdk Version",
+      "description": "The version of the SDK used to run the job."
+    },
+    "SpannerIODetails": {
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "ProjectId accessed in the connection."
+        },
+        "instanceId": {
+          "type": "string",
+          "description": "InstanceId accessed in the connection."
+        },
+        "databaseId": {
+          "type": "string",
+          "description": "DatabaseId accessed in the connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spanner IO Details",
+      "description": "Metadata for a Spanner connector used by the job."
+    },
+    "WorkerPool": {
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The kind of the worker pool; currently only `harness` and `shuffle` are supported."
+        },
+        "numWorkers": {
+          "type": "integer",
+          "description": "Number of Google Compute Engine workers in this pool needed to execute the job.  If zero or unspecified, the service will attempt to choose a reasonable default."
+        },
+        "packages": {
+          "items": {
+            "$ref": "#/definitions/Package"
+          },
+          "type": "array",
+          "description": "Packages to be installed on workers."
+        },
+        "defaultPackageSet": {
+          "enum": [
+            "DEFAULT_PACKAGE_SET_UNKNOWN",
+            0,
+            "DEFAULT_PACKAGE_SET_NONE",
+            1,
+            "DEFAULT_PACKAGE_SET_JAVA",
+            2,
+            "DEFAULT_PACKAGE_SET_PYTHON",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Default Package Set",
+          "description": "The default set of packages to be staged on a pool of workers."
+        },
+        "machineType": {
+          "type": "string",
+          "description": "Machine type (e.g. \"n1-standard-1\").  If empty or unspecified, the service will attempt to choose a reasonable default."
+        },
+        "teardownPolicy": {
+          "enum": [
+            "TEARDOWN_POLICY_UNKNOWN",
+            0,
+            "TEARDOWN_ALWAYS",
+            1,
+            "TEARDOWN_ON_SUCCESS",
+            2,
+            "TEARDOWN_NEVER",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Teardown Policy",
+          "description": "Specifies what happens to a resource when a Cloud Dataflow [google.dataflow.v1beta3.Job][google.dataflow.v1beta3.Job] has completed."
+        },
+        "diskSizeGb": {
+          "type": "integer",
+          "description": "Size of root disk for VMs, in GB.  If zero or unspecified, the service will attempt to choose a reasonable default."
+        },
+        "diskType": {
+          "type": "string",
+          "description": "Type of root disk for VMs.  If empty or unspecified, the service will attempt to choose a reasonable default."
+        },
+        "diskSourceImage": {
+          "type": "string",
+          "description": "Fully qualified source image for disks."
+        },
+        "zone": {
+          "type": "string",
+          "description": "Zone to run the worker pools in.  If empty or unspecified, the service will attempt to choose a reasonable default."
+        },
+        "onHostMaintenance": {
+          "type": "string",
+          "description": "The action to take on host maintenance, as defined by the Google Compute Engine API."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Metadata to set on the Google Compute Engine VMs."
+        },
+        "autoscalingSettings": {
+          "$ref": "#/definitions/AutoscalingSettings",
+          "additionalProperties": true,
+          "description": "Settings for autoscaling of this WorkerPool."
+        },
+        "network": {
+          "type": "string",
+          "description": "Network to which VMs will be assigned.  If empty or unspecified, the service will use the network \"default\"."
+        },
+        "subnetwork": {
+          "type": "string",
+          "description": "Subnetwork to which VMs will be assigned, if desired.  Expected to be of the form \"regions/REGION/subnetworks/SUBNETWORK\"."
+        },
+        "workerHarnessContainerImage": {
+          "type": "string",
+          "description": "Required. Docker container image that executes the Cloud Dataflow worker harness, residing in Google Container Registry. Deprecated for the Fn API path. Use sdk_harness_container_images instead."
+        },
+        "numThreadsPerWorker": {
+          "type": "integer",
+          "description": "The number of threads per worker harness. If empty or unspecified, the service will choose a number of threads (according to the number of cores on the selected machine type for batch, or 1 by convention for streaming)."
+        },
+        "ipConfiguration": {
+          "enum": [
+            "WORKER_IP_UNSPECIFIED",
+            0,
+            "WORKER_IP_PUBLIC",
+            1,
+            "WORKER_IP_PRIVATE",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Worker IP Address Configuration",
+          "description": "Specifies how IP addresses should be allocated to the worker machines."
+        },
+        "sdkHarnessContainerImages": {
+          "items": {
+            "$ref": "#/definitions/SdkHarnessContainerImage"
+          },
+          "type": "array",
+          "description": "Set of SDK harness containers needed to execute this pipeline. This will only be set in the Fn API path. For non-cross-language pipelines this should have only one entry. Cross-language pipelines will have two or more entries."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Worker Pool",
+      "description": "Describes one particular pool of Cloud Dataflow workers to be instantiated by the Cloud Dataflow service in order to perform the computations required by a job.  Note that a workflow job may use multiple pools, in order to match the various computational requirements of the various stages of the job."
+    }
+  }
+}

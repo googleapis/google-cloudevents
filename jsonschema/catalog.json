@@ -259,6 +259,16 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataflow/v1beta3/JobEventData.json",
+      "product": "Cloud Dataflow",
+      "name": "JobEventData",
+      "description": "The data within all Job events.",
+      "datatype": "google.events.cloud.dataflow.v1beta3.JobEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataflow.job.v1beta3.statusChanged"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datafusion/v1/DnsPeeringEventData.json",
       "product": "Cloud Data Fusion",
       "name": "DnsPeeringEventData",
