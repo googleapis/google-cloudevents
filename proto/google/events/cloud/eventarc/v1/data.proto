@@ -90,7 +90,7 @@ message Channel {
   // by the provider to register the channel for publishing.
   string activation_token = 10;
 
-  // Optional. Resource name of a KMS crypto key (managed by the user) used to
+  // Resource name of a KMS crypto key (managed by the user) used to
   // encrypt/decrypt their event data.
   //
   // It must match the pattern
@@ -165,7 +165,7 @@ message Trigger {
   // Required. Destination specifies where the events should be sent to.
   Destination destination = 10;
 
-  // Optional. To deliver messages, Eventarc might use other GCP
+  // Optional. To deliver messages, Eventarc might use other Google Cloud
   // products as a transport intermediary. This field contains a reference to
   // that transport intermediary. This information can be used for debugging
   // purposes.
@@ -182,6 +182,11 @@ message Trigger {
 
   // Output only. The reason(s) why a trigger is in FAILED state.
   map<string, StateCondition> conditions = 15;
+
+  // Optional. EventDataContentType specifies the type of payload in MIME
+  // format that is expected from the CloudEvent data field. This is set to
+  // `application/json` if the value is not defined.
+  string event_data_content_type = 16;
 
   // Output only. This checksum is computed by the server based on the value of
   // other fields, and might be sent only on create requests to ensure that the
@@ -225,6 +230,10 @@ message Destination {
 
     // The Cloud Function resource name. Only Cloud Functions V2 is supported.
     // Format: `projects/{project}/locations/{location}/functions/{function}`
+    //
+    // This is a read-only field. Creating Cloud Functions V2 triggers is only
+    // supported via the Cloud Functions product. An error will be returned if
+    // the user sets this value.
     string cloud_function = 2;
 
     // A GKE service capable of receiving events. The service should be running
