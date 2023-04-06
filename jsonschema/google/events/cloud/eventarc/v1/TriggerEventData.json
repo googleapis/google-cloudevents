@@ -55,7 +55,7 @@
         },
         "cloudFunction": {
           "type": "string",
-          "description": "The Cloud Function resource name. Only Cloud Functions V2 is supported. Format: `projects/{project}/locations/{location}/functions/{function}`"
+          "description": "The Cloud Function resource name. Only Cloud Functions V2 is supported. Format: `projects/{project}/locations/{location}/functions/{function}` This is a read-only field. Creating Cloud Functions V2 triggers is only supported via the Cloud Functions product. An error will be returned if the user sets this value."
         },
         "gke": {
           "$ref": "#/definitions/GKE",
@@ -248,7 +248,7 @@
         "transport": {
           "$ref": "#/definitions/Transport",
           "additionalProperties": true,
-          "description": "Optional. To deliver messages, Eventarc might use other GCP products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes."
+          "description": "Optional. To deliver messages, Eventarc might use other Google Cloud products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes."
         },
         "labels": {
           "additionalProperties": {
@@ -268,6 +268,10 @@
           },
           "type": "object",
           "description": "Output only. The reason(s) why a trigger is in FAILED state."
+        },
+        "eventDataContentType": {
+          "type": "string",
+          "description": "Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to `application/json` if the value is not defined."
         },
         "etag": {
           "type": "string",

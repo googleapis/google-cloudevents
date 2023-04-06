@@ -82,7 +82,7 @@
         },
         "cryptoKeyName": {
           "type": "string",
-          "description": "Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+          "description": "Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
         }
       },
       "additionalProperties": true,
