@@ -22,6 +22,8 @@ import "google/type/date.proto";
 option csharp_namespace = "Google.Events.Protobuf.Firebase.FirebaseAlerts.V1";
 option java_package = "com.google.events.firebase.firebasealerts.v1";
 option java_outer_classname = "CloudEventPayloadProto";
+option php_namespace = "Google\\Events\\Firebase\\FirebaseAlerts\\V1";
+option ruby_package = "Google::Events::Firebase::FirebaseAlerts::V1";
 
 // -- Crashlytics
 

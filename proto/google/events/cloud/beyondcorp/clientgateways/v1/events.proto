@@ -20,6 +20,8 @@ import "google/events/cloud/beyondcorp/clientgateways/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientGateways.V1";
+option php_namespace = "Google\\Events\\Cloud\\BeyondCorp\\ClientGateways\\V1";
+option ruby_package = "Google::Events::Cloud::BeyondCorp::ClientGateways::V1";
 option (google.events.cloud_event_product) = "BeyondCorp";
 option (google.events.cloud_event_extension_attribute) = {
   name: "clientgateway"

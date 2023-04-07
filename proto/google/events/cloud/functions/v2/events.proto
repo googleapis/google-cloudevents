@@ -20,6 +20,8 @@ import "google/events/cloud/functions/v2/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Functions.V2";
+option php_namespace = "Google\\Events\\Cloud\\Functions\\V2";
+option ruby_package = "Google::Events::Cloud::Functions::V2";
 option (google.events.cloud_event_product) = "Cloud Functions";
 option (google.events.cloud_event_extension_attribute) = {
   name: "function"

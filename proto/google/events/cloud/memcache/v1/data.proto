@@ -22,6 +22,8 @@ import "google/type/dayofweek.proto";
 import "google/type/timeofday.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Memcache.V1";
+option php_namespace = "Google\\Events\\Cloud\\Memcache\\V1";
+option ruby_package = "Google::Events::Cloud::Memcache::V1";
 
 // A Memorystore for Memcached instance
 message Instance {

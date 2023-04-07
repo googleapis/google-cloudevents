@@ -19,6 +19,8 @@ package google.events.cloud.workflows.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Workflows.V1";
+option php_namespace = "Google\\Events\\Cloud\\Workflows\\V1";
+option ruby_package = "Google::Events::Cloud::Workflows::V1";
 
 // Workflow program to be executed by Workflows.
 message Workflow {

@@ -19,6 +19,8 @@ package google.events.cloud.datafusion.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.DataFusion.V1";
+option php_namespace = "Google\\Events\\Cloud\\DataFusion\\V1";
+option ruby_package = "Google::Events::Cloud::DataFusion::V1";
 
 // Network configuration for a Data Fusion instance. These configurations
 // are used for peering with the customer network. Configurations are optional

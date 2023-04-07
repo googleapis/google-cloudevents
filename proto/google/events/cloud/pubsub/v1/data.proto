@@ -19,6 +19,8 @@ package google.events.cloud.pubsub.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.PubSub.V1";
+option php_namespace = "Google\\Events\\Cloud\\PubSub\\V1";
+option ruby_package = "Google::Events::Cloud::PubSub::V1";
 
 // The event data when a message is published to a topic.
 message MessagePublishedData {

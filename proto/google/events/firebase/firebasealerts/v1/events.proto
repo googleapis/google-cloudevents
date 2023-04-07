@@ -20,6 +20,8 @@ import "google/events/cloudevent.proto";
 import "google/events/firebase/firebasealerts/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.FirebaseAlerts.V1";
+option php_namespace = "Google\\Events\\Firebase\\FirebaseAlerts\\V1";
+option ruby_package = "Google::Events::Firebase::FirebaseAlerts::V1";
 option (google.events.cloud_event_product) = "Firebase Alerts";
 option (google.events.cloud_event_extension_attribute) = {
   name: "alerttype"

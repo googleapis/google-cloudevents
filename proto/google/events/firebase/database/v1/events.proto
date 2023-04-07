@@ -20,6 +20,8 @@ import "google/events/cloudevent.proto";
 import "google/events/firebase/database/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
+option php_namespace = "Google\\Events\\Firebase\\Database\\V1";
+option ruby_package = "Google::Events::Firebase::Database::V1";
 option (google.events.cloud_event_product) = "Firebase Realtime Database";
 option (google.events.cloud_event_extension_attribute) = {
   name: "instance"

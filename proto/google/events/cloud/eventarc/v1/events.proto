@@ -20,6 +20,8 @@ import "google/events/cloud/eventarc/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Eventarc.V1";
+option php_namespace = "Google\\Events\\Cloud\\Eventarc\\V1";
+option ruby_package = "Google::Events::Cloud::Eventarc::V1";
 option (google.events.cloud_event_product) = "Eventarc";
 option (google.events.cloud_event_extension_attribute) = {
   name: "trigger"

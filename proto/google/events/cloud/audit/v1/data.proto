@@ -23,6 +23,8 @@ import "google/rpc/context/attribute_context.proto";
 import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Audit.V1";
+option php_namespace = "Google\\Events\\Cloud\\Audit\\V1";
+option ruby_package = "Google::Events::Cloud::Audit::V1";
 
 // The data within all Cloud Audit Logs log entry events.
 message LogEntryData {

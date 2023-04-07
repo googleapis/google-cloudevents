@@ -19,6 +19,8 @@ package google.events.cloud.beyondcorp.appgateways.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.AppGateways.V1";
+option php_namespace = "Google\\Events\\Cloud\\BeyondCorp\\AppGateways\\V1";
+option ruby_package = "Google::Events::Cloud::BeyondCorp::AppGateways::V1";
 
 // A BeyondCorp AppGateway resource represents a BeyondCorp protected AppGateway
 // to a remote application. It creates all the necessary GCP components needed

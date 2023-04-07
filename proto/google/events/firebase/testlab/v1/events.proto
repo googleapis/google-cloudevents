@@ -20,6 +20,8 @@ import "google/events/cloudevent.proto";
 import "google/events/firebase/testlab/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.TestLab.V1";
+option php_namespace = "Google\\Events\\Firebase\\TestLab\\V1";
+option ruby_package = "Google::Events::Firebase::TestLab::V1";
 option (google.events.cloud_event_product) = "Firebase Test Lab";
 
 // The CloudEvent raised when a TestMatrix is completed

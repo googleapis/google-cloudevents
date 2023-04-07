@@ -20,6 +20,8 @@ import "google/protobuf/timestamp.proto";
 import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Iot.V1";
+option php_namespace = "Google\\Events\\Cloud\\Iot\\V1";
+option ruby_package = "Google::Events::Cloud::Iot::V1";
 
 // The device resource.
 message Device {

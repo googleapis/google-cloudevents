@@ -22,6 +22,8 @@ option csharp_namespace = "Google.Events.Protobuf.Firebase.TestLab.V1";
 option java_package = "com.google.events.firebase.testlab.v1";
 option java_outer_classname = "DataProto";
 option java_multiple_files = true;
+option php_namespace = "Google\\Events\\Firebase\\TestLab\\V1";
+option ruby_package = "Google::Events::Firebase::TestLab::V1";
 
 // The data within all Firebase test matrix events.
 message TestMatrixEventData {

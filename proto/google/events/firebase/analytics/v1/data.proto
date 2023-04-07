@@ -17,6 +17,8 @@ syntax = "proto3";
 package google.events.firebase.analytics.v1;
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Analytics.V1";
+option php_namespace = "Google\\Events\\Firebase\\Analytics\\V1";
+option ruby_package = "Google::Events::Firebase::Analytics::V1";
 
 // The data within Firebase Analytics log events.
 message AnalyticsLogData {

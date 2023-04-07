@@ -20,6 +20,8 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.FirebaseAlerts.V1";
+option php_namespace = "Google\\Events\\Firebase\\FirebaseAlerts\\V1";
+option ruby_package = "Google::Events::Firebase::FirebaseAlerts::V1";
 
 // The data within all Firebase Alerts.
 message AlertData {
