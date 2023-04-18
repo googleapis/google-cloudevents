@@ -20,6 +20,8 @@ import "google/events/cloudevent.proto";
 import "google/events/firebase/analytics/v1/data.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Analytics.V1";
+option php_namespace = "Google\\Events\\Firebase\\Analytics\\V1";
+option ruby_package = "Google::Events::Firebase::Analytics::V1";
 option (google.events.cloud_event_product) = "Google Analytics for Firebase";
 
 // The CloudEvent raised when a Firebase Analytics log is written.

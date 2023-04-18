@@ -20,6 +20,8 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V1";
+option php_namespace = "Google\\Events\\Firebase\\Auth\\V1";
+option ruby_package = "Google::Events::Firebase::Auth::V1";
 
 // The data within all Firebase Auth events.
 message AuthEventData {

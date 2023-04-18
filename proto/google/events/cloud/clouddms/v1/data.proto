@@ -22,6 +22,8 @@ import "google/protobuf/wrappers.proto";
 import "google/rpc/status.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudDms.V1";
+option php_namespace = "Google\\Events\\Cloud\\CloudDms\\V1";
+option ruby_package = "Google::Events::Cloud::CloudDMS::V1";
 
 // SSL configuration information.
 message SslConfig {

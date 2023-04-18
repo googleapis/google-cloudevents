@@ -19,6 +19,8 @@ package google.events.cloud.beyondcorp.clientgateways.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.BeyondCorp.ClientGateways.V1";
+option php_namespace = "Google\\Events\\Cloud\\BeyondCorp\\ClientGateways\\V1";
+option ruby_package = "Google::Events::Cloud::BeyondCorp::ClientGateways::V1";
 
 // Message describing ClientGateway object.
 message ClientGateway {

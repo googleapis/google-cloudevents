@@ -20,6 +20,8 @@ import "google/events/cloud/clouddms/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudDms.V1";
+option php_namespace = "Google\\Events\\Cloud\\CloudDms\\V1";
+option ruby_package = "Google::Events::Cloud::CloudDMS::V1";
 option (google.events.cloud_event_product) = "Database Migration";
 option (google.events.cloud_event_extension_attribute) = {
   name: "migrationjob"

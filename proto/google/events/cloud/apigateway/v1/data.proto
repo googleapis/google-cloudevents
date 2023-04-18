@@ -19,6 +19,8 @@ package google.events.cloud.apigateway.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.ApiGateway.V1";
+option php_namespace = "Google\\Events\\Cloud\\ApiGateway\\V1";
+option ruby_package = "Google::Events::Cloud::ApiGateway::V1";
 
 // An API that can be served by one or more Gateways.
 message Api {

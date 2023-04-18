@@ -20,6 +20,8 @@ import "google/events/cloud/dataflow/v1beta3/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Events\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Events::Cloud::Dataflow::V1beta3";
 option (google.events.cloud_event_product) = "Cloud Dataflow";
 option (google.events.cloud_event_extension_attribute) = {
   name: "job"

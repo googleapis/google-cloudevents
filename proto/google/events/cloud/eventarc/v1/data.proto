@@ -20,6 +20,8 @@ import "google/protobuf/timestamp.proto";
 import "google/rpc/code.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Eventarc.V1";
+option php_namespace = "Google\\Events\\Cloud\\Eventarc\\V1";
+option ruby_package = "Google::Events::Cloud::Eventarc::V1";
 
 // A representation of the Channel resource.
 // A Channel is a resource on which event providers publish their events.

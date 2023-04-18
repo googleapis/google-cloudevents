@@ -19,6 +19,8 @@ package google.events.firebase.database.v1;
 import "google/protobuf/struct.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Database.V1";
+option php_namespace = "Google\\Events\\Firebase\\Database\\V1";
+option ruby_package = "Google::Events::Firebase::Database::V1";
 
 // The data within all Firebase Real Time Database reference events.
 message ReferenceEventData {

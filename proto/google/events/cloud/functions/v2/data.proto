@@ -19,6 +19,8 @@ package google.events.cloud.functions.v2;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Functions.V2";
+option php_namespace = "Google\\Events\\Cloud\\Functions\\V2";
+option ruby_package = "Google::Events::Cloud::Functions::V2";
 
 // Describes a Cloud Function that contains user computation executed in
 // response to an event. It encapsulates function and trigger configurations.

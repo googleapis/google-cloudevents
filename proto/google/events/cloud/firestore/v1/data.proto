@@ -21,6 +21,8 @@ import "google/protobuf/timestamp.proto";
 import "google/type/latlng.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
+option php_namespace = "Google\\Events\\Cloud\\Firestore\\V1";
+option ruby_package = "Google::Events::Cloud::Firestore::V1";
 
 // The data within all Firestore document events.
 message DocumentEventData {

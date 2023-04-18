@@ -20,6 +20,8 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.CloudBuild.V1";
+option php_namespace = "Google\\Events\\Cloud\\CloudBuild\\V1";
+option ruby_package = "Google::Events::Cloud::CloudBuild::V1";
 
 // Build event data for Google Cloud Platform API operations.
 message BuildEventData {

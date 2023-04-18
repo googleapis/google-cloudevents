@@ -20,6 +20,8 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.CertificateManager.V1";
+option php_namespace = "Google\\Events\\Cloud\\CertificateManager\\V1";
+option ruby_package = "Google::Events::Cloud::CertificateManager::V1";
 
 // CertificateIssuanceConfig specifies how to issue and manage a certificate.
 message CertificateIssuanceConfig {

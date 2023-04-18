@@ -19,6 +19,8 @@ package google.events.cloud.apigeeregistry.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.ApigeeRegistry.V1";
+option php_namespace = "Google\\Events\\Cloud\\ApigeeRegistry\\V1";
+option ruby_package = "Google::Events::Cloud::ApigeeRegistry::V1";
 
 // An Instance represents the instance resources of the Registry.
 // Currently, only one instance is allowed for each project.

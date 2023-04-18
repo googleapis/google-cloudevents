@@ -20,6 +20,8 @@ import "google/events/cloud/datastream/v1/data.proto";
 import "google/events/cloudevent.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.Datastream.V1";
+option php_namespace = "Google\\Events\\Cloud\\Datastream\\V1";
+option ruby_package = "Google::Events::Cloud::Datastream::V1";
 option (google.events.cloud_event_product) = "Datastream";
 option (google.events.cloud_event_extension_attribute) = {
   name: "connectionprofile"
