@@ -23,11 +23,26 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
 option php_namespace = "Google\\Events\\Cloud\\Firestore\\V1";
 option ruby_package = "Google::Events::Cloud::Firestore::V1";
 option (google.events.cloud_event_product) = "Cloud Firestore";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "database"
+  description: "The Firestore database name. The default database name is \"(default)\"."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "namespace"
+  description: "The Firestore database namespace. Applicable to database instances running in Datastore mode only. The default namespace is \"(default)\"."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "document"
+  description: "Pattern to match for the resource."
+};
 
 // The CloudEvent raised when a Firestore document is created.
 message DocumentCreatedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.firestore.document.v1.created";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
 
   // The data associated with the event.
   DocumentEventData data = 1;
@@ -37,6 +52,9 @@ message DocumentCreatedEvent {
 message DocumentUpdatedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.firestore.document.v1.updated";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
 
   // The data associated with the event.
   DocumentEventData data = 1;
@@ -46,6 +64,9 @@ message DocumentUpdatedEvent {
 message DocumentDeletedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.firestore.document.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
 
   // The data associated with the event.
   DocumentEventData data = 1;
@@ -56,6 +77,9 @@ message DocumentDeletedEvent {
 message DocumentWrittenEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.firestore.document.v1.written";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
 
   // The data associated with the event.
   DocumentEventData data = 1;
