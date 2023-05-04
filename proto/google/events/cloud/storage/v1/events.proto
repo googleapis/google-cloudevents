@@ -23,11 +23,16 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.Storage.V1";
 option php_namespace = "Google\\Events\\Cloud\\Storage\\V1";
 option ruby_package = "Google::Events::Cloud::Storage::V1";
 option (google.events.cloud_event_product) = "Cloud Storage";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "bucket"
+  description: "The bucket name being watched."
+};
 
 // The CloudEvent raised when an object is finalized in Google Cloud Storage.
 message ObjectFinalizedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.storage.object.v1.finalized";
+  option (google.events.cloud_event_extension_name) = "bucket";
 
   // The data associated with the event.
   StorageObjectData data = 1;
@@ -37,6 +42,7 @@ message ObjectFinalizedEvent {
 message ObjectArchivedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.storage.object.v1.archived";
+  option (google.events.cloud_event_extension_name) = "bucket";
 
   // The data associated with the event.
   StorageObjectData data = 1;
@@ -46,6 +52,7 @@ message ObjectArchivedEvent {
 message ObjectDeletedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.storage.object.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "bucket";
 
   // The data associated with the event.
   StorageObjectData data = 1;
@@ -56,6 +63,7 @@ message ObjectDeletedEvent {
 message ObjectMetadataUpdatedEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.storage.object.v1.metadataUpdated";
+  option (google.events.cloud_event_extension_name) = "bucket";
 
   // The data associated with the event.
   StorageObjectData data = 1;
