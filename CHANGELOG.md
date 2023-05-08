@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.4](https://github.com/googleapis/google-cloudevents/compare/v2.0.3...v2.0.4) (2023-04-28)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency mkdirp to v3 ([#500](https://github.com/googleapis/google-cloudevents/issues/500)) ([fa5ccbe](https://github.com/googleapis/google-cloudevents/commit/fa5ccbe7735d8585149c55b4443b8d59b10f11fc))
+* Fix Ruby and PHP namespaces ([#499](https://github.com/googleapis/google-cloudevents/issues/499)) ([5c65bb4](https://github.com/googleapis/google-cloudevents/commit/5c65bb4da92e93d3b64267cfa58c3fbc1c1c0a08))
+
 ## [2.0.3](https://github.com/googleapis/google-cloudevents/compare/v2.0.2...v2.0.3) (2023-03-09)
 
 
