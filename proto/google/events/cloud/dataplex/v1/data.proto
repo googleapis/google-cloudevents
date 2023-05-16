@@ -1,0 +1,1872 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.dataplex.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Dataplex.V1";
+
+// A lake is a centralized repository for managing enterprise data across the
+// organization distributed across many cloud projects, and stored in a variety
+// of storage services such as Google Cloud Storage and BigQuery. The resources
+// attached to a lake are referred to as managed resources. Data within these
+// managed resources can be structured or unstructured. A lake provides data
+// admins with tools to organize, secure and manage their data at scale, and
+// provides data scientists and data engineers an integrated experience to
+// easily search, discover, analyze and transform data and associated metadata.
+message Lake {
+  // Settings to manage association of Dataproc Metastore with a lake.
+  message Metastore {
+    // Optional. A relative reference to the Dataproc Metastore
+    // (https://cloud.google.com/dataproc-metastore/docs) service associated
+    // with the lake:
+    // `projects/{project_id}/locations/{location_id}/services/{service_id}`
+    string service = 1;
+  }
+
+  // Status of Lake and Dataproc Metastore service instance association.
+  message MetastoreStatus {
+    // Current state of association.
+    enum State {
+      // Unspecified.
+      STATE_UNSPECIFIED = 0;
+
+      // A Metastore service instance is not associated with the lake.
+      NONE = 1;
+
+      // A Metastore service instance is attached to the lake.
+      READY = 2;
+
+      // Attach/detach is in progress.
+      UPDATING = 3;
+
+      // Attach/detach could not be done due to errors.
+      ERROR = 4;
+    }
+
+    // Current state of association.
+    State state = 1;
+
+    // Additional information about the current status.
+    string message = 2;
+
+    // Last update time of the metastore status of the lake.
+    google.protobuf.Timestamp update_time = 3;
+
+    // The URI of the endpoint used to access the Metastore service.
+    string endpoint = 4;
+  }
+
+  // Output only. The relative resource name of the lake, of the form:
+  // `projects/{project_number}/locations/{location_id}/lakes/{lake_id}`.
+  string name = 1;
+
+  // Optional. User friendly display name.
+  string display_name = 2;
+
+  // Output only. System generated globally unique ID for the lake. This ID will
+  // be different if the lake is deleted and re-created with the same name.
+  string uid = 3;
+
+  // Output only. The time when the lake was created.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. The time when the lake was last updated.
+  google.protobuf.Timestamp update_time = 5;
+
+  // Optional. User-defined labels for the lake.
+  map<string, string> labels = 6;
+
+  // Optional. Description of the lake.
+  string description = 7;
+
+  // Output only. Current state of the lake.
+  State state = 8;
+
+  // Output only. Service account associated with this lake. This service
+  // account must be authorized to access or operate on resources managed by the
+  // lake.
+  string service_account = 9;
+
+  // Optional. Settings to manage lake and Dataproc Metastore service instance
+  // association.
+  Metastore metastore = 102;
+
+  // Output only. Aggregated status of the underlying assets of the lake.
+  AssetStatus asset_status = 103;
+
+  // Output only. Metastore status of the lake.
+  MetastoreStatus metastore_status = 104;
+}
+
+// Aggregated status of the underlying assets of a lake or zone.
+message AssetStatus {
+  // Last update time of the status.
+  google.protobuf.Timestamp update_time = 1;
+
+  // Number of active assets.
+  int32 active_assets = 2;
+
+  // Number of assets that are in process of updating the security policy on
+  // attached resources.
+  int32 security_policy_applying_assets = 3;
+}
+
+// A zone represents a logical group of related assets within a lake. A zone can
+// be used to map to organizational structure or represent stages of data
+// readiness from raw to curated. It provides managing behavior that is shared
+// or inherited by all contained assets.
+message Zone {
+  // Settings for resources attached as assets within a zone.
+  message ResourceSpec {
+    // Location type of the resources attached to a zone.
+    enum LocationType {
+      // Unspecified location type.
+      LOCATION_TYPE_UNSPECIFIED = 0;
+
+      // Resources that are associated with a single region.
+      SINGLE_REGION = 1;
+
+      // Resources that are associated with a multi-region location.
+      MULTI_REGION = 2;
+    }
+
+    // Required. Immutable. The location type of the resources that are allowed
+    // to be attached to the assets within this zone.
+    LocationType location_type = 1;
+  }
+
+  // Settings to manage the metadata discovery and publishing in a zone.
+  message DiscoverySpec {
+    // Describe CSV and similar semi-structured data formats.
+    message CsvOptions {
+      // Optional. The number of rows to interpret as header rows that should be
+      // skipped when reading data rows.
+      int32 header_rows = 1;
+
+      // Optional. The delimiter being used to separate values. This defaults to
+      // ','.
+      string delimiter = 2;
+
+      // Optional. The character encoding of the data. The default is UTF-8.
+      string encoding = 3;
+
+      // Optional. Whether to disable the inference of data type for CSV data.
+      // If true, all columns will be registered as strings.
+      bool disable_type_inference = 4;
+    }
+
+    // Describe JSON data format.
+    message JsonOptions {
+      // Optional. The character encoding of the data. The default is UTF-8.
+      string encoding = 1;
+
+      // Optional. Whether to disable the inference of data type for Json data.
+      // If true, all columns will be registered as their primitive types
+      // (strings, number or boolean).
+      bool disable_type_inference = 2;
+    }
+
+    // Required. Whether discovery is enabled.
+    bool enabled = 1;
+
+    // Optional. The list of patterns to apply for selecting data to include
+    // during discovery if only a subset of the data should considered. For
+    // Cloud Storage bucket assets, these are interpreted as glob patterns used
+    // to match object names. For BigQuery dataset assets, these are interpreted
+    // as patterns to match table names.
+    repeated string include_patterns = 2;
+
+    // Optional. The list of patterns to apply for selecting data to exclude
+    // during discovery.  For Cloud Storage bucket assets, these are interpreted
+    // as glob patterns used to match object names. For BigQuery dataset assets,
+    // these are interpreted as patterns to match table names.
+    repeated string exclude_patterns = 3;
+
+    // Optional. Configuration for CSV data.
+    CsvOptions csv_options = 4;
+
+    // Optional. Configuration for Json data.
+    JsonOptions json_options = 5;
+
+    // Determines when discovery is triggered.
+    oneof trigger {
+      // Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for
+      // running discovery periodically. Successive discovery runs must be
+      // scheduled at least 60 minutes apart. The default value is to run
+      // discovery every 60 minutes. To explicitly set a timezone to the cron
+      // tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or
+      // TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string
+      // from IANA time zone database. For example, `CRON_TZ=America/New_York 1
+      // * * * *`, or `TZ=America/New_York 1 * * * *`.
+      string schedule = 10;
+    }
+  }
+
+  // Type of zone.
+  enum Type {
+    // Zone type not specified.
+    TYPE_UNSPECIFIED = 0;
+
+    // A zone that contains data that needs further processing before it is
+    // considered generally ready for consumption and analytics workloads.
+    RAW = 1;
+
+    // A zone that contains data that is considered to be ready for broader
+    // consumption and analytics workloads. Curated structured data stored in
+    // Cloud Storage must conform to certain file formats (parquet, avro and
+    // orc) and organized in a hive-compatible directory layout.
+    CURATED = 2;
+  }
+
+  // Output only. The relative resource name of the zone, of the form:
+  // `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
+  string name = 1;
+
+  // Optional. User friendly display name.
+  string display_name = 2;
+
+  // Output only. System generated globally unique ID for the zone. This ID will
+  // be different if the zone is deleted and re-created with the same name.
+  string uid = 3;
+
+  // Output only. The time when the zone was created.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. The time when the zone was last updated.
+  google.protobuf.Timestamp update_time = 5;
+
+  // Optional. User defined labels for the zone.
+  map<string, string> labels = 6;
+
+  // Optional. Description of the zone.
+  string description = 7;
+
+  // Output only. Current state of the zone.
+  State state = 8;
+
+  // Required. Immutable. The type of the zone.
+  Type type = 9;
+
+  // Optional. Specification of the discovery feature applied to data in this
+  // zone.
+  DiscoverySpec discovery_spec = 103;
+
+  // Required. Specification of the resources that are referenced by the assets
+  // within this zone.
+  ResourceSpec resource_spec = 104;
+
+  // Output only. Aggregated status of the underlying assets of the zone.
+  AssetStatus asset_status = 105;
+}
+
+// An asset represents a cloud resource that is being managed within a lake as a
+// member of a zone.
+message Asset {
+  // Security policy status of the asset. Data security policy, i.e., readers,
+  // writers & owners, should be specified in the lake/zone/asset IAM policy.
+  message SecurityStatus {
+    // The state of the security policy.
+    enum State {
+      // State unspecified.
+      STATE_UNSPECIFIED = 0;
+
+      // Security policy has been successfully applied to the attached resource.
+      READY = 1;
+
+      // Security policy is in the process of being applied to the attached
+      // resource.
+      APPLYING = 2;
+
+      // Security policy could not be applied to the attached resource due to
+      // errors.
+      ERROR = 3;
+    }
+
+    // The current state of the security policy applied to the attached
+    // resource.
+    State state = 1;
+
+    // Additional information about the current state.
+    string message = 2;
+
+    // Last update time of the status.
+    google.protobuf.Timestamp update_time = 3;
+  }
+
+  // Settings to manage the metadata discovery and publishing for an asset.
+  message DiscoverySpec {
+    // Describe CSV and similar semi-structured data formats.
+    message CsvOptions {
+      // Optional. The number of rows to interpret as header rows that should be
+      // skipped when reading data rows.
+      int32 header_rows = 1;
+
+      // Optional. The delimiter being used to separate values. This defaults to
+      // ','.
+      string delimiter = 2;
+
+      // Optional. The character encoding of the data. The default is UTF-8.
+      string encoding = 3;
+
+      // Optional. Whether to disable the inference of data type for CSV data.
+      // If true, all columns will be registered as strings.
+      bool disable_type_inference = 4;
+    }
+
+    // Describe JSON data format.
+    message JsonOptions {
+      // Optional. The character encoding of the data. The default is UTF-8.
+      string encoding = 1;
+
+      // Optional. Whether to disable the inference of data type for Json data.
+      // If true, all columns will be registered as their primitive types
+      // (strings, number or boolean).
+      bool disable_type_inference = 2;
+    }
+
+    // Optional. Whether discovery is enabled.
+    bool enabled = 1;
+
+    // Optional. The list of patterns to apply for selecting data to include
+    // during discovery if only a subset of the data should considered.  For
+    // Cloud Storage bucket assets, these are interpreted as glob patterns used
+    // to match object names. For BigQuery dataset assets, these are interpreted
+    // as patterns to match table names.
+    repeated string include_patterns = 2;
+
+    // Optional. The list of patterns to apply for selecting data to exclude
+    // during discovery.  For Cloud Storage bucket assets, these are interpreted
+    // as glob patterns used to match object names. For BigQuery dataset assets,
+    // these are interpreted as patterns to match table names.
+    repeated string exclude_patterns = 3;
+
+    // Optional. Configuration for CSV data.
+    CsvOptions csv_options = 4;
+
+    // Optional. Configuration for Json data.
+    JsonOptions json_options = 5;
+
+    // Determines when discovery is triggered.
+    oneof trigger {
+      // Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for
+      // running discovery periodically. Successive discovery runs must be
+      // scheduled at least 60 minutes apart. The default value is to run
+      // discovery every 60 minutes. To explicitly set a timezone to the cron
+      // tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or
+      // TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string
+      // from IANA time zone database. For example, `CRON_TZ=America/New_York 1
+      // * * * *`, or `TZ=America/New_York 1 * * * *`.
+      string schedule = 10;
+    }
+  }
+
+  // Identifies the cloud resource that is referenced by this asset.
+  message ResourceSpec {
+    // Type of resource.
+    enum Type {
+      // Type not specified.
+      TYPE_UNSPECIFIED = 0;
+
+      // Cloud Storage bucket.
+      STORAGE_BUCKET = 1;
+
+      // BigQuery dataset.
+      BIGQUERY_DATASET = 2;
+    }
+
+    // Access Mode determines how data stored within the resource is read. This
+    // is only applicable to storage bucket assets.
+    enum AccessMode {
+      // Access mode unspecified.
+      ACCESS_MODE_UNSPECIFIED = 0;
+
+      // Default. Data is accessed directly using storage APIs.
+      DIRECT = 1;
+
+      // Data is accessed through a managed interface using BigQuery APIs.
+      MANAGED = 2;
+    }
+
+    // Immutable. Relative name of the cloud resource that contains the data
+    // that is being managed within a lake. For example:
+    //   `projects/{project_number}/buckets/{bucket_id}`
+    //   `projects/{project_number}/datasets/{dataset_id}`
+    string name = 1;
+
+    // Required. Immutable. Type of resource.
+    Type type = 2;
+
+    // Optional. Determines how read permissions are handled for each asset and
+    // their associated tables. Only available to storage buckets assets.
+    AccessMode read_access_mode = 5;
+  }
+
+  // Status of the resource referenced by an asset.
+  message ResourceStatus {
+    // The state of a resource.
+    enum State {
+      // State unspecified.
+      STATE_UNSPECIFIED = 0;
+
+      // Resource does not have any errors.
+      READY = 1;
+
+      // Resource has errors.
+      ERROR = 2;
+    }
+
+    // The current state of the managed resource.
+    State state = 1;
+
+    // Additional information about the current state.
+    string message = 2;
+
+    // Last update time of the status.
+    google.protobuf.Timestamp update_time = 3;
+
+    // Output only. Service account associated with the BigQuery Connection.
+    string managed_access_identity = 4;
+  }
+
+  // Status of discovery for an asset.
+  message DiscoveryStatus {
+    // The aggregated data statistics for the asset reported by discovery.
+    message Stats {
+      // The count of data items within the referenced resource.
+      int64 data_items = 1;
+
+      // The number of stored data bytes within the referenced resource.
+      int64 data_size = 2;
+
+      // The count of table entities within the referenced resource.
+      int64 tables = 3;
+
+      // The count of fileset entities within the referenced resource.
+      int64 filesets = 4;
+    }
+
+    // Current state of discovery.
+    enum State {
+      // State is unspecified.
+      STATE_UNSPECIFIED = 0;
+
+      // Discovery for the asset is scheduled.
+      SCHEDULED = 1;
+
+      // Discovery for the asset is running.
+      IN_PROGRESS = 2;
+
+      // Discovery for the asset is currently paused (e.g. due to a lack
+      // of available resources). It will be automatically resumed.
+      PAUSED = 3;
+
+      // Discovery for the asset is disabled.
+      DISABLED = 5;
+    }
+
+    // The current status of the discovery feature.
+    State state = 1;
+
+    // Additional information about the current state.
+    string message = 2;
+
+    // Last update time of the status.
+    google.protobuf.Timestamp update_time = 3;
+
+    // The start time of the last discovery run.
+    google.protobuf.Timestamp last_run_time = 4;
+
+    // Data Stats of the asset reported by discovery.
+    Stats stats = 6;
+
+    // The duration of the last discovery run.
+    google.protobuf.Duration last_run_duration = 7;
+  }
+
+  // Output only. The relative resource name of the asset, of the form:
+  // `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}`.
+  string name = 1;
+
+  // Optional. User friendly display name.
+  string display_name = 2;
+
+  // Output only. System generated globally unique ID for the asset. This ID
+  // will be different if the asset is deleted and re-created with the same
+  // name.
+  string uid = 3;
+
+  // Output only. The time when the asset was created.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. The time when the asset was last updated.
+  google.protobuf.Timestamp update_time = 5;
+
+  // Optional. User defined labels for the asset.
+  map<string, string> labels = 6;
+
+  // Optional. Description of the asset.
+  string description = 7;
+
+  // Output only. Current state of the asset.
+  State state = 8;
+
+  // Required. Specification of the resource that is referenced by this asset.
+  ResourceSpec resource_spec = 100;
+
+  // Output only. Status of the resource referenced by this asset.
+  ResourceStatus resource_status = 101;
+
+  // Output only. Status of the security policy applied to resource referenced
+  // by this asset.
+  SecurityStatus security_status = 103;
+
+  // Optional. Specification of the discovery feature applied to data referenced
+  // by this asset. When this spec is left unset, the asset will use the spec
+  // set on the parent zone.
+  DiscoverySpec discovery_spec = 106;
+
+  // Output only. Status of the discovery feature applied to data referenced by
+  // this asset.
+  DiscoveryStatus discovery_status = 107;
+}
+
+// State of a resource.
+enum State {
+  // State is not specified.
+  STATE_UNSPECIFIED = 0;
+
+  // Resource is active, i.e., ready to use.
+  ACTIVE = 1;
+
+  // Resource is under creation.
+  CREATING = 2;
+
+  // Resource is under deletion.
+  DELETING = 3;
+
+  // Resource is active but has unresolved actions.
+  ACTION_REQUIRED = 4;
+}
+
+// Environment represents a user-visible compute infrastructure for analytics
+// within a lake.
+message Environment {
+  // Configuration for the underlying infrastructure used to run workloads.
+  message InfrastructureSpec {
+    // Compute resources associated with the analyze interactive workloads.
+    message ComputeResources {
+      // Optional. Size in GB of the disk. Default is 100 GB.
+      int32 disk_size_gb = 1;
+
+      // Optional. Total number of nodes in the sessions created for this
+      // environment.
+      int32 node_count = 2;
+
+      // Optional. Max configurable nodes.
+      // If max_node_count > node_count, then auto-scaling is enabled.
+      int32 max_node_count = 3;
+    }
+
+    // Software Runtime Configuration to run Analyze.
+    message OsImageRuntime {
+      // Required. Dataplex Image version.
+      string image_version = 1;
+
+      // Optional. List of Java jars to be included in the runtime environment.
+      // Valid input includes Cloud Storage URIs to Jar binaries.
+      // For example, gs://bucket-name/my/path/to/file.jar
+      repeated string java_libraries = 2;
+
+      // Optional. A list of python packages to be installed.
+      // Valid formats include Cloud Storage URI to a PIP installable library.
+      // For example, gs://bucket-name/my/path/to/lib.tar.gz
+      repeated string python_packages = 3;
+
+      // Optional. Spark properties to provide configuration for use in sessions
+      // created for this environment. The properties to set on daemon config
+      // files. Property keys are specified in `prefix:property` format. The
+      // prefix must be "spark".
+      map<string, string> properties = 4;
+    }
+
+    // Hardware config
+    oneof resources {
+      // Optional. Compute resources needed for analyze interactive workloads.
+      ComputeResources compute = 50;
+    }
+
+    // Software config
+    oneof runtime {
+      // Required. Software Runtime Configuration for analyze interactive
+      // workloads.
+      OsImageRuntime os_image = 100;
+    }
+  }
+
+  // Configuration for sessions created for this environment.
+  message SessionSpec {
+    // Optional. The idle time configuration of the session. The session will be
+    // auto-terminated at the end of this period.
+    google.protobuf.Duration max_idle_duration = 1;
+
+    // Optional. If True, this causes sessions to be pre-created and available
+    // for faster startup to enable interactive exploration use-cases. This
+    // defaults to False to avoid additional billed charges. These can only be
+    // set to True for the environment with name set to "default", and with
+    // default configuration.
+    bool enable_fast_startup = 2;
+  }
+
+  // Status of sessions created for this environment.
+  message SessionStatus {
+    // Output only. Queries over sessions to mark whether the environment is
+    // currently active or not
+    bool active = 1;
+  }
+
+  // URI Endpoints to access sessions associated with the Environment.
+  message Endpoints {
+    // Output only. URI to serve notebook APIs
+    string notebooks = 1;
+
+    // Output only. URI to serve SQL APIs
+    string sql = 2;
+  }
+
+  // Output only. The relative resource name of the environment, of the form:
+  // projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}
+  string name = 1;
+
+  // Optional. User friendly display name.
+  string display_name = 2;
+
+  // Output only. System generated globally unique ID for the environment. This
+  // ID will be different if the environment is deleted and re-created with the
+  // same name.
+  string uid = 3;
+
+  // Output only. Environment creation time.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. The time when the environment was last updated.
+  google.protobuf.Timestamp update_time = 5;
+
+  // Optional. User defined labels for the environment.
+  map<string, string> labels = 6;
+
+  // Optional. Description of the environment.
+  string description = 7;
+
+  // Output only. Current state of the environment.
+  State state = 8;
+
+  // Required. Infrastructure specification for the Environment.
+  InfrastructureSpec infrastructure_spec = 100;
+
+  // Optional. Configuration for sessions created for this environment.
+  SessionSpec session_spec = 101;
+
+  // Output only. Status of sessions created for this environment.
+  SessionStatus session_status = 102;
+
+  // Output only. URI Endpoints to access sessions associated with the
+  // Environment.
+  Endpoints endpoints = 200;
+}
+
+// DataScan scheduling and trigger settings.
+message Trigger {
+  // The scan runs once via `RunDataScan` API.
+  message OnDemand {}
+
+  // The scan is scheduled to run periodically.
+  message Schedule {
+    // Required. [Cron](https://en.wikipedia.org/wiki/Cron) schedule for running
+    // scans periodically.
+    //
+    // To explicitly set a timezone in the cron tab, apply a prefix in the
+    // cron tab: **"CRON_TZ=${IANA_TIME_ZONE}"** or **"TZ=${IANA_TIME_ZONE}"**.
+    // The **${IANA_TIME_ZONE}** may only be a valid string from IANA time zone
+    // database
+    // ([wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)).
+    // For example, `CRON_TZ=America/New_York 1 * * * *`, or
+    // `TZ=America/New_York 1 * * * *`.
+    //
+    // This field is required for Schedule scans.
+    string cron = 1;
+  }
+
+  // DataScan scheduling and trigger settings.
+  //
+  // If not specified, the default is `onDemand`.
+  oneof mode {
+    // The scan runs once via `RunDataScan` API.
+    OnDemand on_demand = 100;
+
+    // The scan is scheduled to run periodically.
+    Schedule schedule = 101;
+  }
+}
+
+// The data source for DataScan.
+message DataSource {
+  // The source is required and immutable. Once it is set, it cannot be change
+  // to others.
+  oneof source {
+    // Immutable. The Dataplex entity that represents the data source (e.g.
+    // BigQuery table) for DataScan, of the form:
+    // `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    string entity = 100;
+  }
+}
+
+// The data scanned during processing (e.g. in incremental DataScan)
+message ScannedData {
+  // A data range denoted by a pair of start/end values of a field.
+  message IncrementalField {
+    // The field that contains values which monotonically increases over time
+    // (e.g. a timestamp column).
+    string field = 1;
+
+    // Value that marks the start of the range.
+    string start = 2;
+
+    // Value that marks the end of the range.
+    string end = 3;
+  }
+
+  // The range of scanned data
+  oneof data_range {
+    // The range denoted by values of an incremental field
+    IncrementalField incremental_field = 1;
+  }
+}
+
+// DataProfileScan related setting.
+message DataProfileSpec {}
+
+// DataProfileResult defines the output of DataProfileScan. Each field of the
+// table will have field type specific profile result.
+message DataProfileResult {
+  // Contains name, type, mode and field type specific profile information.
+  message Profile {
+    // A field within a table.
+    message Field {
+      // The profile information for each field type.
+      message ProfileInfo {
+        // The profile information for a string type field.
+        message StringFieldInfo {
+          // Minimum length of non-null values in the scanned data.
+          int64 min_length = 1;
+
+          // Maximum length of non-null values in the scanned data.
+          int64 max_length = 2;
+
+          // Average length of non-null values in the scanned data.
+          double average_length = 3;
+        }
+
+        // The profile information for an integer type field.
+        message IntegerFieldInfo {
+          // Average of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          double average = 1;
+
+          // Standard deviation of non-null values in the scanned data. NaN, if
+          // the field has a NaN.
+          double standard_deviation = 3;
+
+          // Minimum of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          int64 min = 4;
+
+          // A quartile divides the number of data points into four parts, or
+          // quarters, of more-or-less equal size. Three main quartiles used
+          // are: The first quartile (Q1) splits off the lowest 25% of data from
+          // the highest 75%. It is also known as the lower or 25th empirical
+          // quartile, as 25% of the data is below this point. The second
+          // quartile (Q2) is the median of a data set. So, 50% of the data lies
+          // below this point. The third quartile (Q3) splits off the highest
+          // 25% of data from the lowest 75%. It is known as the upper or 75th
+          // empirical quartile, as 75% of the data lies below this point.
+          // Here, the quartiles is provided as an ordered list of quartile
+          // values for the scanned data, occurring in order Q1, median, Q3.
+          repeated int64 quartiles = 6;
+
+          // Maximum of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          int64 max = 5;
+        }
+
+        // The profile information for a double type field.
+        message DoubleFieldInfo {
+          // Average of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          double average = 1;
+
+          // Standard deviation of non-null values in the scanned data. NaN, if
+          // the field has a NaN.
+          double standard_deviation = 3;
+
+          // Minimum of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          double min = 4;
+
+          // A quartile divides the number of data points into four parts, or
+          // quarters, of more-or-less equal size. Three main quartiles used
+          // are: The first quartile (Q1) splits off the lowest 25% of data from
+          // the highest 75%. It is also known as the lower or 25th empirical
+          // quartile, as 25% of the data is below this point. The second
+          // quartile (Q2) is the median of a data set. So, 50% of the data lies
+          // below this point. The third quartile (Q3) splits off the highest
+          // 25% of data from the lowest 75%. It is known as the upper or 75th
+          // empirical quartile, as 75% of the data lies below this point.
+          // Here, the quartiles is provided as an ordered list of quartile
+          // values for the scanned data, occurring in order Q1, median, Q3.
+          repeated double quartiles = 6;
+
+          // Maximum of non-null values in the scanned data. NaN, if the field
+          // has a NaN.
+          double max = 5;
+        }
+
+        // Top N non-null values in the scanned data.
+        message TopNValue {
+          // String value of a top N non-null value.
+          string value = 1;
+
+          // Count of the corresponding value in the scanned data.
+          int64 count = 2;
+        }
+
+        // Ratio of rows with null value against total scanned rows.
+        double null_ratio = 2;
+
+        // Ratio of rows with distinct values against total scanned rows.
+        // Not available for complex non-groupable field type RECORD and fields
+        // with REPEATABLE mode.
+        double distinct_ratio = 3;
+
+        // The list of top N non-null values and number of times they occur in
+        // the scanned data. N is 10 or equal to the number of distinct values
+        // in the field, whichever is smaller. Not available for complex
+        // non-groupable field type RECORD and fields with REPEATABLE mode.
+        repeated TopNValue top_n_values = 4;
+
+        // Structural and profile information for specific field type. Not
+        // available, if mode is REPEATABLE.
+        oneof field_info {
+          // String type field information.
+          StringFieldInfo string_profile = 101;
+
+          // Integer type field information.
+          IntegerFieldInfo integer_profile = 102;
+
+          // Double type field information.
+          DoubleFieldInfo double_profile = 103;
+        }
+      }
+
+      // The name of the field.
+      string name = 1;
+
+      // The field data type. Possible values include:
+      //
+      // * STRING
+      // * BYTE
+      // * INT64
+      // * INT32
+      // * INT16
+      // * DOUBLE
+      // * FLOAT
+      // * DECIMAL
+      // * BOOLEAN
+      // * BINARY
+      // * TIMESTAMP
+      // * DATE
+      // * TIME
+      // * NULL
+      // * RECORD
+      string type = 2;
+
+      // The mode of the field. Possible values include:
+      //
+      // * REQUIRED, if it is a required field.
+      // * NULLABLE, if it is an optional field.
+      // * REPEATED, if it is a repeated field.
+      string mode = 3;
+
+      // Profile information for the corresponding field.
+      ProfileInfo profile = 4;
+    }
+
+    // List of fields with structural and profile information for each field.
+    repeated Field fields = 2;
+  }
+
+  // The count of rows scanned.
+  int64 row_count = 3;
+
+  // The profile information per field.
+  Profile profile = 4;
+
+  // The data scanned for this result.
+  ScannedData scanned_data = 5;
+}
+
+// DataQualityScan related setting.
+message DataQualitySpec {
+  // The list of rules to evaluate against a data source. At least one rule is
+  // required.
+  repeated DataQualityRule rules = 1;
+}
+
+// The output of a DataQualityScan.
+message DataQualityResult {
+  // Overall data quality result -- `true` if all rules passed.
+  bool passed = 5;
+
+  // A list of results at the dimension level.
+  repeated DataQualityDimensionResult dimensions = 2;
+
+  // A list of all the rules in a job, and their results.
+  repeated DataQualityRuleResult rules = 3;
+
+  // The count of rows processed.
+  int64 row_count = 4;
+
+  // The data scanned for this result.
+  ScannedData scanned_data = 7;
+}
+
+// DataQualityRuleResult provides a more detailed, per-rule view of the results.
+message DataQualityRuleResult {
+  // The rule specified in the DataQualitySpec, as is.
+  DataQualityRule rule = 1;
+
+  // Whether the rule passed or failed.
+  bool passed = 7;
+
+  // The number of rows a rule was evaluated against. This field is only valid
+  // for ColumnMap type rules.
+  //
+  // Evaluated count can be configured to either
+  //
+  // * include all rows (default) - with `null` rows automatically failing rule
+  // evaluation, or
+  // * exclude `null` rows from the `evaluated_count`, by setting
+  // `ignore_nulls = true`.
+  int64 evaluated_count = 9;
+
+  // The number of rows which passed a rule evaluation.
+  // This field is only valid for ColumnMap type rules.
+  int64 passed_count = 8;
+
+  // The number of rows with null values in the specified column.
+  int64 null_count = 5;
+
+  // The ratio of **passed_count / evaluated_count**.
+  // This field is only valid for ColumnMap type rules.
+  double pass_ratio = 6;
+
+  // The query to find rows that did not pass this rule.
+  // Only applies to ColumnMap and RowCondition rules.
+  string failing_rows_query = 10;
+}
+
+// DataQualityDimensionResult provides a more detailed, per-dimension view of
+// the results.
+message DataQualityDimensionResult {
+  // Whether the dimension passed or failed.
+  bool passed = 3;
+}
+
+// A rule captures data quality intent about a data source.
+message DataQualityRule {
+  // Evaluates whether each column value lies between a specified range.
+  message RangeExpectation {
+    // Optional. The minimum column value allowed for a row to pass this
+    // validation. At least one of `min_value` and `max_value` need to be
+    // provided.
+    string min_value = 1;
+
+    // Optional. The maximum column value allowed for a row to pass this
+    // validation. At least one of `min_value` and `max_value` need to be
+    // provided.
+    string max_value = 2;
+
+    // Optional. Whether each value needs to be strictly greater than ('>') the
+    // minimum, or if equality is allowed.
+    //
+    // Only relevant if a `min_value` has been defined. Default = false.
+    bool strict_min_enabled = 3;
+
+    // Optional. Whether each value needs to be strictly lesser than ('<') the
+    // maximum, or if equality is allowed.
+    //
+    // Only relevant if a `max_value` has been defined. Default = false.
+    bool strict_max_enabled = 4;
+  }
+
+  // Evaluates whether each column value is null.
+  message NonNullExpectation {}
+
+  // Evaluates whether each column value is contained by a specified set.
+  message SetExpectation {
+    // Expected values for the column value.
+    repeated string values = 1;
+  }
+
+  // Evaluates whether each column value matches a specified regex.
+  message RegexExpectation {
+    // A regular expression the column value is expected to match.
+    string regex = 1;
+  }
+
+  // Evaluates whether the column has duplicates.
+  message UniquenessExpectation {}
+
+  // Evaluates whether the column aggregate statistic lies between a specified
+  // range.
+  message StatisticRangeExpectation {
+    enum ColumnStatistic {
+      // Unspecified statistic type
+      STATISTIC_UNDEFINED = 0;
+
+      // Evaluate the column mean
+      MEAN = 1;
+
+      // Evaluate the column min
+      MIN = 2;
+
+      // Evaluate the column max
+      MAX = 3;
+    }
+
+    ColumnStatistic statistic = 1;
+
+    // The minimum column statistic value allowed for a row to pass this
+    // validation.
+    //
+    // At least one of `min_value` and `max_value` need to be provided.
+    string min_value = 2;
+
+    // The maximum column statistic value allowed for a row to pass this
+    // validation.
+    //
+    // At least one of `min_value` and `max_value` need to be provided.
+    string max_value = 3;
+
+    // Whether column statistic needs to be strictly greater than ('>')
+    // the minimum, or if equality is allowed.
+    //
+    // Only relevant if a `min_value` has been defined. Default = false.
+    bool strict_min_enabled = 4;
+
+    // Whether column statistic needs to be strictly lesser than ('<') the
+    // maximum, or if equality is allowed.
+    //
+    // Only relevant if a `max_value` has been defined. Default = false.
+    bool strict_max_enabled = 5;
+  }
+
+  // Evaluates whether each row passes the specified condition.
+  //
+  // The SQL expression needs to use BigQuery standard SQL syntax and should
+  // produce a boolean value per row as the result.
+  //
+  // Example: col1 >= 0 AND col2 < 10
+  message RowConditionExpectation {
+    // The SQL expression.
+    string sql_expression = 1;
+  }
+
+  // Evaluates whether the provided expression is true.
+  //
+  // The SQL expression needs to use BigQuery standard SQL syntax and should
+  // produce a scalar boolean result.
+  //
+  // Example: MIN(col1) >= 0
+  message TableConditionExpectation {
+    // The SQL expression.
+    string sql_expression = 1;
+  }
+
+  oneof rule_type {
+    // ColumnMap rule which evaluates whether each column value lies between a
+    // specified range.
+    RangeExpectation range_expectation = 1;
+
+    // ColumnMap rule which evaluates whether each column value is null.
+    NonNullExpectation non_null_expectation = 2;
+
+    // ColumnMap rule which evaluates whether each column value is contained by
+    // a specified set.
+    SetExpectation set_expectation = 3;
+
+    // ColumnMap rule which evaluates whether each column value matches a
+    // specified regex.
+    RegexExpectation regex_expectation = 4;
+
+    // ColumnAggregate rule which evaluates whether the column has duplicates.
+    UniquenessExpectation uniqueness_expectation = 100;
+
+    // ColumnAggregate rule which evaluates whether the column aggregate
+    // statistic lies between a specified range.
+    StatisticRangeExpectation statistic_range_expectation = 101;
+
+    // Table rule which evaluates whether each row passes the specified
+    // condition.
+    RowConditionExpectation row_condition_expectation = 200;
+
+    // Table rule which evaluates whether the provided expression is true.
+    TableConditionExpectation table_condition_expectation = 201;
+  }
+
+  // Optional. The unnested column which this rule is evaluated against.
+  string column = 500;
+
+  // Optional. Rows with `null` values will automatically fail a rule, unless
+  // `ignore_null` is `true`. In that case, such `null` rows are trivially
+  // considered passing.
+  //
+  // Only applicable to ColumnMap rules.
+  bool ignore_null = 501;
+
+  // Required. The dimension a rule belongs to. Results are also aggregated at
+  // the dimension level. Supported dimensions are **["COMPLETENESS",
+  // "ACCURACY", "CONSISTENCY", "VALIDITY", "UNIQUENESS", "INTEGRITY"]**
+  string dimension = 502;
+
+  // Optional. The minimum ratio of **passing_rows / total_rows** required to
+  // pass this rule, with a range of [0.0, 1.0].
+  //
+  // 0 indicates default value (i.e. 1.0).
+  double threshold = 503;
+}
+
+// ResourceAccessSpec holds the access control configuration to be enforced
+// on the resources, for example, Cloud Storage bucket, BigQuery dataset,
+// BigQuery table.
+message ResourceAccessSpec {
+  // Optional. The format of strings follows the pattern followed by IAM in the
+  // bindings. user:{email}, serviceAccount:{email} group:{email}.
+  // The set of principals to be granted reader role on the resource.
+  repeated string readers = 1;
+
+  // Optional. The set of principals to be granted writer role on the resource.
+  repeated string writers = 2;
+
+  // Optional. The set of principals to be granted owner role on the resource.
+  repeated string owners = 3;
+}
+
+// DataAccessSpec holds the access control configuration to be enforced on data
+// stored within resources (eg: rows, columns in BigQuery Tables). When
+// associated with data, the data is only accessible to
+// principals explicitly granted access through the DataAccessSpec. Principals
+// with access to the containing resource are not implicitly granted access.
+message DataAccessSpec {
+  // Optional. The format of strings follows the pattern followed by IAM in the
+  // bindings. user:{email}, serviceAccount:{email} group:{email}.
+  // The set of principals to be granted reader role on data
+  // stored within resources.
+  repeated string readers = 1;
+}
+
+// DataTaxonomy represents a set of hierarchical DataAttributes resources,
+// grouped with a common theme Eg: 'SensitiveDataTaxonomy' can have attributes
+// to manage PII data. It is defined at project level.
+message DataTaxonomy {
+  // Output only. The relative resource name of the DataTaxonomy, of the form:
+  // projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}.
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the dataTaxonomy. This
+  // ID will be different if the DataTaxonomy is deleted and re-created with the
+  // same name.
+  string uid = 2;
+
+  // Output only. The time when the DataTaxonomy was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the DataTaxonomy was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Optional. Description of the DataTaxonomy.
+  string description = 5;
+
+  // Optional. User friendly display name.
+  string display_name = 6;
+
+  // Optional. User-defined labels for the DataTaxonomy.
+  map<string, string> labels = 8;
+
+  // Output only. The number of attributes in the DataTaxonomy.
+  int32 attribute_count = 9;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 10;
+}
+
+// Denotes one dataAttribute in a dataTaxonomy, for example, PII.
+// DataAttribute resources can be defined in a hierarchy.
+// A single dataAttribute resource can contain specs of multiple types
+//
+// ```
+// PII
+//   - ResourceAccessSpec :
+//                 - readers :foo@bar.com
+//   - DataAccessSpec :
+//                 - readers :bar@foo.com
+// ```
+message DataAttribute {
+  // Output only. The relative resource name of the dataAttribute, of the form:
+  // projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}.
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the DataAttribute.
+  // This ID will be different if the DataAttribute is deleted and re-created
+  // with the same name.
+  string uid = 2;
+
+  // Output only. The time when the DataAttribute was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the DataAttribute was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Optional. Description of the DataAttribute.
+  string description = 5;
+
+  // Optional. User friendly display name.
+  string display_name = 6;
+
+  // Optional. User-defined labels for the DataAttribute.
+  map<string, string> labels = 7;
+
+  // Optional. The ID of the parent DataAttribute resource, should belong to the
+  // same data taxonomy. Circular dependency in parent chain is not valid.
+  // Maximum depth of the hierarchy allowed is 4.
+  // [a -> b -> c -> d -> e, depth = 4]
+  string parent_id = 8;
+
+  // Output only. The number of child attributes present for this attribute.
+  int32 attribute_count = 9;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 10;
+
+  // Optional. Specified when applied to a resource (eg: Cloud Storage bucket,
+  // BigQuery dataset, BigQuery table).
+  ResourceAccessSpec resource_access_spec = 100;
+
+  // Optional. Specified when applied to data stored on the resource (eg: rows,
+  // columns in BigQuery Tables).
+  DataAccessSpec data_access_spec = 101;
+}
+
+// DataAttributeBinding represents binding of attributes to resources. Eg: Bind
+// 'CustomerInfo' entity with 'PII' attribute.
+message DataAttributeBinding {
+  // Represents a subresource of a given resource, and associated bindings with
+  // it.
+  message Path {
+    // Required. The name identifier of the path.
+    // Nested columns should be of the form: 'country.state.city'.
+    string name = 1;
+
+    // Optional. List of attributes to be associated with the path of the
+    // resource, provided in the form:
+    // projects/{project}/locations/{location}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}
+    repeated string attributes = 2;
+  }
+
+  // Output only. The relative resource name of the Data Attribute Binding, of
+  // the form:
+  // projects/{project_number}/locations/{location}/dataAttributeBindings/{data_attribute_binding_id}
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the
+  // DataAttributeBinding. This ID will be different if the DataAttributeBinding
+  // is deleted and re-created with the same name.
+  string uid = 2;
+
+  // Output only. The time when the DataAttributeBinding was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the DataAttributeBinding was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Optional. Description of the DataAttributeBinding.
+  string description = 5;
+
+  // Optional. User friendly display name.
+  string display_name = 6;
+
+  // Optional. User-defined labels for the DataAttributeBinding.
+  map<string, string> labels = 7;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  // Etags must be used when calling the DeleteDataAttributeBinding and the
+  // UpdateDataAttributeBinding method.
+  string etag = 8;
+
+  // The reference to the resource that is associated to attributes.
+  oneof resource_reference {
+    // Optional. Immutable. The resource name of the resource that is associated
+    // to attributes. Presently, only entity resource is supported in the form:
+    // projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/entities/{entity_id}
+    // Must belong in the same project and region as the attribute binding, and
+    // there can only exist one active binding for a resource.
+    string resource = 100;
+  }
+
+  // Optional. List of attributes to be associated with the resource, provided
+  // in the form:
+  // projects/{project}/locations/{location}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}
+  repeated string attributes = 110;
+
+  // Optional. The list of paths for items within the associated resource (eg.
+  // columns within a table) along with attribute bindings.
+  repeated Path paths = 120;
+}
+
+// Represents a user-visible job which provides the insights for the related
+// data source.
+//
+// For example:
+//
+// * Data Quality: generates queries based on the rules and runs against the
+//   data to get data quality check results.
+// * Data Profile: analyzes the data in table(s) and generates insights about
+//   the structure, content and relationships (such as null percent,
+//   cardinality, min/max/mean, etc).
+message DataScan {
+  // DataScan execution settings.
+  message ExecutionSpec {
+    // Optional. Spec related to how often and when a scan should be triggered.
+    //
+    // If not specified, the default is `OnDemand`, which means the scan will
+    // not run until the user calls `RunDataScan` API.
+    Trigger trigger = 1;
+
+    // Spec related to incremental scan of the data
+    //
+    // When an option is selected for incremental scan, it cannot be unset or
+    // changed. If not specified, a data scan will run for all data in the
+    // table.
+    oneof incremental {
+      // Immutable. The unnested field (of type *Date* or *Timestamp*) that
+      // contains values which monotonically increase over time.
+      //
+      // If not specified, a data scan will run for all data in the table.
+      string field = 100;
+    }
+  }
+
+  // Status of the data scan execution.
+  message ExecutionStatus {
+    // The time when the latest DataScanJob started.
+    google.protobuf.Timestamp latest_job_start_time = 4;
+
+    // The time when the latest DataScanJob ended.
+    google.protobuf.Timestamp latest_job_end_time = 5;
+  }
+
+  // Output only. The relative resource name of the scan, of the form:
+  // `projects/{project}/locations/{location_id}/dataScans/{datascan_id}`,
+  // where `project` refers to a *project_id* or *project_number* and
+  // `location_id` refers to a GCP region.
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the scan. This ID will
+  // be different if the scan is deleted and re-created with the same name.
+  string uid = 2;
+
+  // Optional. Description of the scan.
+  //
+  // * Must be between 1-1024 characters.
+  string description = 3;
+
+  // Optional. User friendly display name.
+  //
+  // * Must be between 1-256 characters.
+  string display_name = 4;
+
+  // Optional. User-defined labels for the scan.
+  map<string, string> labels = 5;
+
+  // Output only. Current state of the DataScan.
+  State state = 6;
+
+  // Output only. The time when the scan was created.
+  google.protobuf.Timestamp create_time = 7;
+
+  // Output only. The time when the scan was last updated.
+  google.protobuf.Timestamp update_time = 8;
+
+  // Required. The data source for DataScan.
+  DataSource data = 9;
+
+  // Optional. DataScan execution settings.
+  //
+  // If not specified, the fields in it will use their default values.
+  ExecutionSpec execution_spec = 10;
+
+  // Output only. Status of the data scan execution.
+  ExecutionStatus execution_status = 11;
+
+  // Output only. The type of DataScan.
+  DataScanType type = 12;
+
+  // Data Scan related setting.
+  // It is required and immutable which means once data_quality_spec is set, it
+  // cannot be changed to data_profile_spec.
+  oneof spec {
+    // DataQualityScan related setting.
+    DataQualitySpec data_quality_spec = 100;
+
+    // DataProfileScan related setting.
+    DataProfileSpec data_profile_spec = 101;
+  }
+
+  // The result of the data scan.
+  oneof result {
+    // Output only. The result of the data quality scan.
+    DataQualityResult data_quality_result = 200;
+
+    // Output only. The result of the data profile scan.
+    DataProfileResult data_profile_result = 201;
+  }
+}
+
+// The type of DataScan.
+enum DataScanType {
+  // The DataScan type is unspecified.
+  DATA_SCAN_TYPE_UNSPECIFIED = 0;
+
+  // Data Quality scan.
+  DATA_QUALITY = 1;
+
+  // Data Profile scan.
+  DATA_PROFILE = 2;
+}
+
+// A task represents a user-visible job.
+message Task {
+  // Configuration for the underlying infrastructure used to run workloads.
+  message InfrastructureSpec {
+    // Batch compute resources associated with the task.
+    message BatchComputeResources {
+      // Optional. Total number of job executors.
+      // Executor Count should be between 2 and 100. [Default=2]
+      int32 executors_count = 1;
+
+      // Optional. Max configurable executors.
+      // If max_executors_count > executors_count, then auto-scaling is enabled.
+      // Max Executor Count should be between 2 and 1000. [Default=1000]
+      int32 max_executors_count = 2;
+    }
+
+    // Container Image Runtime Configuration used with Batch execution.
+    message ContainerImageRuntime {
+      // Optional. Container image to use.
+      string image = 1;
+
+      // Optional. A list of Java JARS to add to the classpath.
+      // Valid input includes Cloud Storage URIs to Jar binaries.
+      // For example, gs://bucket-name/my/path/to/file.jar
+      repeated string java_jars = 2;
+
+      // Optional. A list of python packages to be installed.
+      // Valid formats include Cloud Storage URI to a PIP installable library.
+      // For example, gs://bucket-name/my/path/to/lib.tar.gz
+      repeated string python_packages = 3;
+
+      // Optional. Override to common configuration of open source components
+      // installed on the Dataproc cluster. The properties to set on daemon
+      // config files. Property keys are specified in `prefix:property` format,
+      // for example `core:hadoop.tmp.dir`. For more information, see [Cluster
+      // properties](https://cloud.google.com/dataproc/docs/concepts/cluster-properties).
+      map<string, string> properties = 4;
+    }
+
+    // Cloud VPC Network used to run the infrastructure.
+    message VpcNetwork {
+      // The Cloud VPC network identifier.
+      oneof network_name {
+        // Optional. The Cloud VPC network in which the job is run. By default,
+        // the Cloud VPC network named Default within the project is used.
+        string network = 1;
+
+        // Optional. The Cloud VPC sub-network in which the job is run.
+        string sub_network = 2;
+      }
+
+      // Optional. List of network tags to apply to the job.
+      repeated string network_tags = 3;
+    }
+
+    // Hardware config.
+    oneof resources {
+      // Compute resources needed for a Task when using Dataproc Serverless.
+      BatchComputeResources batch = 52;
+    }
+
+    // Software config.
+    oneof runtime {
+      // Container Image Runtime Configuration.
+      ContainerImageRuntime container_image = 101;
+    }
+
+    // Networking config.
+    oneof network {
+      // Vpc network.
+      VpcNetwork vpc_network = 150;
+    }
+  }
+
+  // Task scheduling and trigger settings.
+  message TriggerSpec {
+    // Determines how often and when the job will run.
+    enum Type {
+      // Unspecified trigger type.
+      TYPE_UNSPECIFIED = 0;
+
+      // The task runs one-time shortly after Task Creation.
+      ON_DEMAND = 1;
+
+      // The task is scheduled to run periodically.
+      RECURRING = 2;
+    }
+
+    // Required. Immutable. Trigger type of the user-specified Task.
+    Type type = 5;
+
+    // Optional. The first run of the task will be after this time.
+    // If not specified, the task will run shortly after being submitted if
+    // ON_DEMAND and based on the schedule if RECURRING.
+    google.protobuf.Timestamp start_time = 6;
+
+    // Optional. Prevent the task from executing.
+    // This does not cancel already running tasks. It is intended to temporarily
+    // disable RECURRING tasks.
+    bool disabled = 4;
+
+    // Optional. Number of retry attempts before aborting.
+    // Set to zero to never attempt to retry a failed task.
+    int32 max_retries = 7;
+
+    // Trigger only applies for RECURRING tasks.
+    oneof trigger {
+      // Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for
+      // running tasks periodically. To explicitly set a timezone to the cron
+      // tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or
+      // "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid
+      // string from IANA time zone database. For example,
+      // `CRON_TZ=America/New_York 1 * * * *`, or `TZ=America/New_York 1 * * *
+      // *`. This field is required for RECURRING tasks.
+      string schedule = 100;
+    }
+  }
+
+  // Execution related settings, like retry and service_account.
+  message ExecutionSpec {
+    // Optional. The arguments to pass to the task.
+    // The args can use placeholders of the format ${placeholder} as
+    // part of key/value string. These will be interpolated before passing the
+    // args to the driver. Currently supported placeholders:
+    // - ${task_id}
+    // - ${job_time}
+    // To pass positional args, set the key as TASK_ARGS. The value should be a
+    // comma-separated string of all the positional arguments. To use a
+    // delimiter other than comma, refer to
+    // https://cloud.google.com/sdk/gcloud/reference/topic/escaping. In case of
+    // other keys being present in the args, then TASK_ARGS will be passed as
+    // the last argument.
+    map<string, string> args = 4;
+
+    // Required. Service account to use to execute a task.
+    // If not provided, the default Compute service account for the project is
+    // used.
+    string service_account = 5;
+
+    // Optional. The project in which jobs are run. By default, the project
+    // containing the Lake is used. If a project is provided, the
+    // [ExecutionSpec.service_account][google.cloud.dataplex.v1.Task.ExecutionSpec.service_account]
+    // must belong to this project.
+    string project = 7;
+
+    // Optional. The maximum duration after which the job execution is expired.
+    google.protobuf.Duration max_job_execution_lifetime = 8;
+
+    // Optional. The Cloud KMS key to use for encryption, of the form:
+    // `projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}`.
+    string kms_key = 9;
+  }
+
+  // User-specified config for running a Spark task.
+  message SparkTaskConfig {
+    // Required. The specification of the main method to call to drive the
+    // job. Specify either the jar file that contains the main class or the
+    // main class name.
+    oneof driver {
+      // The Cloud Storage URI of the jar file that contains the main class.
+      // The execution args are passed in as a sequence of named process
+      // arguments (`--key=value`).
+      string main_jar_file_uri = 100;
+
+      // The name of the driver's main class. The jar file that contains the
+      // class must be in the default CLASSPATH or specified in
+      // `jar_file_uris`.
+      // The execution args are passed in as a sequence of named process
+      // arguments (`--key=value`).
+      string main_class = 101;
+
+      // The Gcloud Storage URI of the main Python file to use as the driver.
+      // Must be a .py file. The execution args are passed in as a sequence of
+      // named process arguments (`--key=value`).
+      string python_script_file = 102;
+
+      // A reference to a query file. This can be the Cloud Storage URI of the
+      // query file or it can the path to a SqlScript Content. The execution
+      // args are used to declare a set of script variables
+      // (`set key="value";`).
+      string sql_script_file = 104;
+
+      // The query text.
+      // The execution args are used to declare a set of script variables
+      // (`set key="value";`).
+      string sql_script = 105;
+    }
+
+    // Optional. Cloud Storage URIs of files to be placed in the working
+    // directory of each executor.
+    repeated string file_uris = 3;
+
+    // Optional. Cloud Storage URIs of archives to be extracted into the working
+    // directory of each executor. Supported file types: .jar, .tar, .tar.gz,
+    // .tgz, and .zip.
+    repeated string archive_uris = 4;
+
+    // Optional. Infrastructure specification for the execution.
+    InfrastructureSpec infrastructure_spec = 6;
+  }
+
+  // Config for running scheduled notebooks.
+  message NotebookTaskConfig {
+    // Required. Path to input notebook. This can be the Cloud Storage URI of
+    // the notebook file or the path to a Notebook Content. The execution args
+    // are accessible as environment variables
+    // (`TASK_key=value`).
+    string notebook = 4;
+
+    // Optional. Infrastructure specification for the execution.
+    InfrastructureSpec infrastructure_spec = 3;
+
+    // Optional. Cloud Storage URIs of files to be placed in the working
+    // directory of each executor.
+    repeated string file_uris = 5;
+
+    // Optional. Cloud Storage URIs of archives to be extracted into the working
+    // directory of each executor. Supported file types: .jar, .tar, .tar.gz,
+    // .tgz, and .zip.
+    repeated string archive_uris = 6;
+  }
+
+  // Status of the task execution (e.g. Jobs).
+  message ExecutionStatus {
+    // Output only. Last update time of the status.
+    google.protobuf.Timestamp update_time = 3;
+
+    // Output only. latest job execution
+    Job latest_job = 9;
+  }
+
+  // Output only. The relative resource name of the task, of the form:
+  // projects/{project_number}/locations/{location_id}/lakes/{lake_id}/
+  // tasks/{task_id}.
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the task. This ID will
+  // be different if the task is deleted and re-created with the same name.
+  string uid = 2;
+
+  // Output only. The time when the task was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the task was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Optional. Description of the task.
+  string description = 5;
+
+  // Optional. User friendly display name.
+  string display_name = 6;
+
+  // Output only. Current state of the task.
+  State state = 7;
+
+  // Optional. User-defined labels for the task.
+  map<string, string> labels = 8;
+
+  // Required. Spec related to how often and when a task should be triggered.
+  TriggerSpec trigger_spec = 100;
+
+  // Required. Spec related to how a task is executed.
+  ExecutionSpec execution_spec = 101;
+
+  // Output only. Status of the latest task executions.
+  ExecutionStatus execution_status = 201;
+
+  // Task template specific user-specified config.
+  oneof config {
+    // Config related to running custom Spark tasks.
+    SparkTaskConfig spark = 300;
+
+    // Config related to running scheduled Notebooks.
+    NotebookTaskConfig notebook = 302;
+  }
+}
+
+// A job represents an instance of a task.
+message Job {
+  enum Service {
+    // Service used to run the job is unspecified.
+    SERVICE_UNSPECIFIED = 0;
+
+    // Dataproc service is used to run this job.
+    DATAPROC = 1;
+  }
+
+  enum State {
+    // The job state is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The job is running.
+    RUNNING = 1;
+
+    // The job is cancelling.
+    CANCELLING = 2;
+
+    // The job cancellation was successful.
+    CANCELLED = 3;
+
+    // The job completed successfully.
+    SUCCEEDED = 4;
+
+    // The job is no longer running due to an error.
+    FAILED = 5;
+
+    // The job was cancelled outside of Dataplex.
+    ABORTED = 6;
+  }
+
+  // Output only. The relative resource name of the job, of the form:
+  // `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}/jobs/{job_id}`.
+  string name = 1;
+
+  // Output only. System generated globally unique ID for the job.
+  string uid = 2;
+
+  // Output only. The time when the job was started.
+  google.protobuf.Timestamp start_time = 3;
+
+  // Output only. The time when the job ended.
+  google.protobuf.Timestamp end_time = 4;
+
+  // Output only. Execution state for the job.
+  State state = 5;
+
+  // Output only. The number of times the job has been retried (excluding the
+  // initial attempt).
+  uint32 retry_count = 6;
+
+  // Output only. The underlying service running a job.
+  Service service = 7;
+
+  // Output only. The full resource name for the job run under a particular
+  // service.
+  string service_job = 8;
+
+  // Output only. Additional information about the current state.
+  string message = 9;
+}
+
+// The data within all Task events.
+message TaskEventData {
+  // Optional. The Task event payload. Unset for deletion events.
+  optional Task payload = 1;
+}
+
+// The data within all Zone events.
+message ZoneEventData {
+  // Optional. The Zone event payload. Unset for deletion events.
+  optional Zone payload = 1;
+}
+
+// The data within all Asset events.
+message AssetEventData {
+  // Optional. The Asset event payload. Unset for deletion events.
+  optional Asset payload = 1;
+}
+
+// The data within all Environment events.
+message EnvironmentEventData {
+  // Optional. The Environment event payload. Unset for deletion events.
+  optional Environment payload = 1;
+}
+
+// The data within all DataTaxonomy events.
+message DataTaxonomyEventData {
+  // Optional. The DataTaxonomy event payload. Unset for deletion events.
+  optional DataTaxonomy payload = 1;
+}
+
+// The data within all DataAttributeBinding events.
+message DataAttributeBindingEventData {
+  // Optional. The DataAttributeBinding event payload. Unset for deletion
+  // events.
+  optional DataAttributeBinding payload = 1;
+}
+
+// The data within all DataScan events.
+message DataScanEventData {
+  // Optional. The DataScan event payload. Unset for deletion events.
+  optional DataScan payload = 1;
+}
+
+// The data within all Lake events.
+message LakeEventData {
+  // Optional. The Lake event payload. Unset for deletion events.
+  optional Lake payload = 1;
+}
+
+// The data within all DataAttribute events.
+message DataAttributeEventData {
+  // Optional. The DataAttribute event payload. Unset for deletion events.
+  optional DataAttribute payload = 1;
+}
