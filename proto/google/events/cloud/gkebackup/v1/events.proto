@@ -1,0 +1,167 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.gkebackup.v1;
+
+import "google/events/cloud/gkebackup/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.GkeBackup.V1";
+option (google.events.cloud_event_product) = "Backup for GKE";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "backupplan"
+  description: "The resource ID of the BackupPlan triggering the event."
+  camel_case_name: "backupPlan"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "backup"
+  description: "The resource ID of the Backup triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "restoreplan"
+  description: "The resource ID of the RestorePlan triggering the event."
+  camel_case_name: "restorePlan"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "restore"
+  description: "The resource ID of the Restore triggering the event."
+};
+
+// The CloudEvent raised when a BackupPlan is created.
+message BackupPlanCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backupPlan.v1.created";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+
+  // The data associated with the event.
+  BackupPlanEventData data = 1;
+}
+
+// The CloudEvent raised when a BackupPlan is updated.
+message BackupPlanUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backupPlan.v1.updated";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+
+  // The data associated with the event.
+  BackupPlanEventData data = 1;
+}
+
+// The CloudEvent raised when a BackupPlan is deleted.
+message BackupPlanDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backupPlan.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+
+  // The data associated with the event.
+  BackupPlanEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is created.
+message BackupCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backup.v1.created";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is updated.
+message BackupUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backup.v1.updated";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is deleted.
+message BackupDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.backup.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "backupplan";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a RestorePlan is created.
+message RestorePlanCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restorePlan.v1.created";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+
+  // The data associated with the event.
+  RestorePlanEventData data = 1;
+}
+
+// The CloudEvent raised when a RestorePlan is updated.
+message RestorePlanUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restorePlan.v1.updated";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+
+  // The data associated with the event.
+  RestorePlanEventData data = 1;
+}
+
+// The CloudEvent raised when a RestorePlan is deleted.
+message RestorePlanDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restorePlan.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+
+  // The data associated with the event.
+  RestorePlanEventData data = 1;
+}
+
+// The CloudEvent raised when a Restore is created.
+message RestoreCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restore.v1.created";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+  option (google.events.cloud_event_extension_name) = "restore";
+
+  // The data associated with the event.
+  RestoreEventData data = 1;
+}
+
+// The CloudEvent raised when a Restore is updated.
+message RestoreUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restore.v1.updated";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+  option (google.events.cloud_event_extension_name) = "restore";
+
+  // The data associated with the event.
+  RestoreEventData data = 1;
+}
+
+// The CloudEvent raised when a Restore is deleted.
+message RestoreDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.gkebackup.restore.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "restoreplan";
+  option (google.events.cloud_event_extension_name) = "restore";
+
+  // The data associated with the event.
+  RestoreEventData data = 1;
+}
