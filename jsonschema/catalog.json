@@ -292,6 +292,122 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/AssetEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "AssetEventData",
+      "description": "The data within all Asset events.",
+      "datatype": "google.events.cloud.dataplex.v1.AssetEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.asset.v1.created",
+        "google.cloud.dataplex.asset.v1.updated",
+        "google.cloud.dataplex.asset.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataAttributeBindingEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "DataAttributeBindingEventData",
+      "description": "The data within all DataAttributeBinding events.",
+      "datatype": "google.events.cloud.dataplex.v1.DataAttributeBindingEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.dataAttributeBinding.v1.created",
+        "google.cloud.dataplex.dataAttributeBinding.v1.updated",
+        "google.cloud.dataplex.dataAttributeBinding.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataAttributeEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "DataAttributeEventData",
+      "description": "The data within all DataAttribute events.",
+      "datatype": "google.events.cloud.dataplex.v1.DataAttributeEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.dataAttribute.v1.created",
+        "google.cloud.dataplex.dataAttribute.v1.updated",
+        "google.cloud.dataplex.dataAttribute.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataScanEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "DataScanEventData",
+      "description": "The data within all DataScan events.",
+      "datatype": "google.events.cloud.dataplex.v1.DataScanEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.dataScan.v1.created",
+        "google.cloud.dataplex.dataScan.v1.updated",
+        "google.cloud.dataplex.dataScan.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataTaxonomyEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "DataTaxonomyEventData",
+      "description": "The data within all DataTaxonomy events.",
+      "datatype": "google.events.cloud.dataplex.v1.DataTaxonomyEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.dataTaxonomy.v1.created",
+        "google.cloud.dataplex.dataTaxonomy.v1.updated",
+        "google.cloud.dataplex.dataTaxonomy.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/EnvironmentEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "EnvironmentEventData",
+      "description": "The data within all Environment events.",
+      "datatype": "google.events.cloud.dataplex.v1.EnvironmentEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.environment.v1.created",
+        "google.cloud.dataplex.environment.v1.updated",
+        "google.cloud.dataplex.environment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/LakeEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "LakeEventData",
+      "description": "The data within all Lake events.",
+      "datatype": "google.events.cloud.dataplex.v1.LakeEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.lake.v1.created",
+        "google.cloud.dataplex.lake.v1.updated",
+        "google.cloud.dataplex.lake.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/ScannedData.json",
+      "product": "Cloud Dataplex",
+      "name": "ScannedData",
+      "description": "The data scanned during processing (e.g. in incremental DataScan)",
+      "datatype": "google.events.cloud.dataplex.v1.ScannedData",
+      "cloudeventTypes": []
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/TaskEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "TaskEventData",
+      "description": "The data within all Task events.",
+      "datatype": "google.events.cloud.dataplex.v1.TaskEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.task.v1.created",
+        "google.cloud.dataplex.task.v1.updated",
+        "google.cloud.dataplex.task.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/ZoneEventData.json",
+      "product": "Cloud Dataplex",
+      "name": "ZoneEventData",
+      "description": "The data within all Zone events.",
+      "datatype": "google.events.cloud.dataplex.v1.ZoneEventData",
+      "cloudeventTypes": [
+        "google.cloud.dataplex.zone.v1.created",
+        "google.cloud.dataplex.zone.v1.updated",
+        "google.cloud.dataplex.zone.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/ConnectionProfileEventData.json",
       "product": "Datastream",
       "name": "ConnectionProfileEventData",
@@ -395,6 +511,54 @@
         "google.cloud.functions.function.v2.created",
         "google.cloud.functions.function.v2.updated",
         "google.cloud.functions.function.v2.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkebackup/v1/BackupEventData.json",
+      "product": "Backup for GKE",
+      "name": "BackupEventData",
+      "description": "The data within all Backup events.",
+      "datatype": "google.events.cloud.gkebackup.v1.BackupEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkebackup.backup.v1.created",
+        "google.cloud.gkebackup.backup.v1.updated",
+        "google.cloud.gkebackup.backup.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkebackup/v1/BackupPlanEventData.json",
+      "product": "Backup for GKE",
+      "name": "BackupPlanEventData",
+      "description": "The data within all BackupPlan events.",
+      "datatype": "google.events.cloud.gkebackup.v1.BackupPlanEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkebackup.backupPlan.v1.created",
+        "google.cloud.gkebackup.backupPlan.v1.updated",
+        "google.cloud.gkebackup.backupPlan.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkebackup/v1/RestoreEventData.json",
+      "product": "Backup for GKE",
+      "name": "RestoreEventData",
+      "description": "The data within all Restore events.",
+      "datatype": "google.events.cloud.gkebackup.v1.RestoreEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkebackup.restore.v1.created",
+        "google.cloud.gkebackup.restore.v1.updated",
+        "google.cloud.gkebackup.restore.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkebackup/v1/RestorePlanEventData.json",
+      "product": "Backup for GKE",
+      "name": "RestorePlanEventData",
+      "description": "The data within all RestorePlan events.",
+      "datatype": "google.events.cloud.gkebackup.v1.RestorePlanEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkebackup.restorePlan.v1.created",
+        "google.cloud.gkebackup.restorePlan.v1.updated",
+        "google.cloud.gkebackup.restorePlan.v1.deleted"
       ]
     },
     {

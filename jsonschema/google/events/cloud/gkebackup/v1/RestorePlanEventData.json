@@ -1,0 +1,291 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkebackup/v1/RestorePlanEventData.json",
+  "name": "RestorePlanEventData",
+  "examples": [],
+  "package": "google.events.cloud.gkebackup.v1",
+  "datatype": "google.events.cloud.gkebackup.v1.RestorePlanEventData",
+  "cloudeventTypes": [
+    "google.cloud.gkebackup.restorePlan.v1.created",
+    "google.cloud.gkebackup.restorePlan.v1.updated",
+    "google.cloud.gkebackup.restorePlan.v1.deleted"
+  ],
+  "product": "Backup for GKE",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/RestorePlanEventData",
+  "definitions": {
+    "RestorePlanEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/RestorePlan",
+          "additionalProperties": true,
+          "description": "Optional. The RestorePlan event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Restore Plan Event Data",
+      "description": "The data within all RestorePlan events."
+    },
+    "NamespacedName": {
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "The Namespace of the Kubernetes resource."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the Kubernetes resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Namespaced Name",
+      "description": "A reference to a namespaced resource in Kubernetes."
+    },
+    "NamespacedNames": {
+      "properties": {
+        "namespacedNames": {
+          "items": {
+            "$ref": "#/definitions/NamespacedName"
+          },
+          "type": "array",
+          "description": "A list of namespaced Kubernetes resources."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Namespaced Names",
+      "description": "A list of namespaced Kubernetes resources."
+    },
+    "Namespaces": {
+      "properties": {
+        "namespaces": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of Kubernetes Namespaces"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Namespaces",
+      "description": "A list of Kubernetes Namespaces"
+    },
+    "RestoreConfig": {
+      "properties": {
+        "volumeDataRestorePolicy": {
+          "enum": [
+            "VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED",
+            0,
+            "RESTORE_VOLUME_DATA_FROM_BACKUP",
+            1,
+            "REUSE_VOLUME_HANDLE_FROM_BACKUP",
+            2,
+            "NO_VOLUME_DATA_RESTORATION",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Volume Data Restore Policy",
+          "description": "Defines how volume data should be restored"
+        },
+        "clusterResourceConflictPolicy": {
+          "enum": [
+            "CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED",
+            0,
+            "USE_EXISTING_VERSION",
+            1,
+            "USE_BACKUP_VERSION",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Cluster Resource Conflict Policy",
+          "description": "Defines the behavior for handling the situation where cluster-scoped resources being restored already exist in the target cluster."
+        },
+        "namespacedResourceRestoreMode": {
+          "enum": [
+            "NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED",
+            0,
+            "DELETE_AND_RESTORE",
+            1,
+            "FAIL_ON_CONFLICT",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Namespaced Resource Restore Mode",
+          "description": "Defines the behavior for handling the situation where sets of namespaced resources being restored already exist in the target cluster."
+        },
+        "clusterResourceRestoreScope": {
+          "$ref": "#/definitions/ClusterResourceRestoreScope",
+          "additionalProperties": true,
+          "description": "Identifies the cluster-scoped resources to restore from the Backup. Not specifying it means NO cluster resource will be restored."
+        },
+        "allNamespaces": {
+          "type": "boolean",
+          "description": "Restore all namespaced resources in the Backup if set to \"True\". Specifying this field to \"False\" is an error."
+        },
+        "selectedNamespaces": {
+          "$ref": "#/definitions/Namespaces",
+          "additionalProperties": true,
+          "description": "A list of selected Namespaces to restore from the Backup. The listed Namespaces and all resources contained in them will be restored."
+        },
+        "selectedApplications": {
+          "$ref": "#/definitions/NamespacedNames",
+          "additionalProperties": true,
+          "description": "A list of selected ProtectedApplications to restore. The listed ProtectedApplications and all the resources to which they refer will be restored."
+        },
+        "substitutionRules": {
+          "items": {
+            "$ref": "#/definitions/SubstitutionRule"
+          },
+          "type": "array",
+          "description": "A list of transformation rules to be applied against Kubernetes resources as they are selected for restoration from a Backup. Rules are executed in order defined - this order matters, as changes made by a rule may impact the filtering logic of subsequent rules. An empty list means no substitution will occur."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Restore Config",
+      "description": "Configuration of a restore. Next id: 12"
+    },
+    "ClusterResourceRestoreScope": {
+      "properties": {
+        "selectedGroupKinds": {
+          "items": {
+            "$ref": "#/definitions/GroupKind"
+          },
+          "type": "array",
+          "description": "A list of cluster-scoped resource group kinds to restore from the backup. If specified, only the selected resources will be restored. Mutually exclusive to any other field in the message."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cluster Resource Restore Scope",
+      "description": "Defines the scope of cluster-scoped resources to restore. Some group kinds are not reasonable choices for a restore, and will cause an error if selected here. Any scope selection that would restore \"all valid\" resources automatically excludes these group kinds. - gkebackup.gke.io/BackupJob - gkebackup.gke.io/RestoreJob - metrics.k8s.io/NodeMetrics - migration.k8s.io/StorageState - migration.k8s.io/StorageVersionMigration - Node - snapshot.storage.k8s.io/VolumeSnapshotContent - storage.k8s.io/CSINode Some group kinds are driven by restore configuration elsewhere, and will cause an error if selected here. - Namespace - PersistentVolume"
+    },
+    "GroupKind": {
+      "properties": {
+        "resourceGroup": {
+          "type": "string",
+          "description": "API group string of a Kubernetes resource, e.g. \"apiextensions.k8s.io\", \"storage.k8s.io\", etc. Note: use empty string for core API group"
+        },
+        "resourceKind": {
+          "type": "string",
+          "description": "Kind of a Kubernetes resource, e.g. \"CustomResourceDefinition\", \"StorageClass\", etc."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Group Kind",
+      "description": "This is a direct map to the Kubernetes GroupKind type [GroupKind](https://godoc.org/k8s.io/apimachinery/pkg/runtime/schema#GroupKind) and is used for identifying specific \"types\" of resources to restore."
+    },
+    "SubstitutionRule": {
+      "properties": {
+        "targetNamespaces": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "(Filtering parameter) Any resource subject to substitution must be contained within one of the listed Kubernetes Namespace in the Backup. If this field is not provided, no namespace filtering will be performed (all resources in all Namespaces, including all cluster-scoped resources, will be candidates for substitution). To mix cluster-scoped and namespaced resources in the same rule, use an empty string (\"\") as one of the target namespaces."
+        },
+        "targetGroupKinds": {
+          "items": {
+            "$ref": "#/definitions/GroupKind"
+          },
+          "type": "array",
+          "description": "(Filtering parameter) Any resource subject to substitution must belong to one of the listed \"types\". If this field is not provided, no type filtering will be performed (all resources of all types matching previous filtering parameters will be candidates for substitution)."
+        },
+        "targetJsonPath": {
+          "type": "string",
+          "description": "Required. This is a [JSONPath] (https://kubernetes.io/docs/reference/kubectl/jsonpath/) expression that matches specific fields of candidate resources and it operates as both a filtering parameter (resources that are not matched with this expression will not be candidates for substitution) as well as a field identifier (identifies exactly which fields out of the candidate resources will be modified)."
+        },
+        "originalValuePattern": {
+          "type": "string",
+          "description": "(Filtering parameter) This is a [regular expression] (https://en.wikipedia.org/wiki/Regular_expression) that is compared against the fields matched by the target_json_path expression (and must also have passed the previous filters). Substitution will not be performed against fields whose value does not match this expression. If this field is NOT specified, then ALL fields matched by the target_json_path expression will undergo substitution. Note that an empty (e.g., \"\", rather than unspecified) value for this field will only match empty fields."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "This is the new value to set for any fields that pass the filtering and selection criteria. To remove a value from a Kubernetes resource, either leave this field unspecified, or set it to the empty string (\"\")."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Substitution Rule",
+      "description": "A transformation rule to be applied against Kubernetes resources as they are selected for restoration from a Backup. A rule contains both filtering logic (which resources are subject to substitution) and substitution logic."
+    },
+    "RestorePlan": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The full name of the RestorePlan resource. Format: `projects/*/locations/*/restorePlans/*`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when this RestorePlan resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when this RestorePlan resource was last updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "User specified descriptive string for this RestorePlan."
+        },
+        "backupPlan": {
+          "type": "string",
+          "description": "Required. Immutable. A reference to the [BackupPlan][google.cloud.gkebackup.v1.BackupPlan] from which Backups may be used as the source for Restores created via this RestorePlan. Format: `projects/*/locations/*/backupPlans/*`."
+        },
+        "cluster": {
+          "type": "string",
+          "description": "Required. Immutable. The target cluster into which Restores created via this RestorePlan will restore data. NOTE: the cluster's region must be the same as the RestorePlan. Valid formats:   - `projects/*/locations/*/clusters/*`   - `projects/*/zones/*/clusters/*`"
+        },
+        "restoreConfig": {
+          "$ref": "#/definitions/RestoreConfig",
+          "additionalProperties": true,
+          "description": "Required. Configuration of Restores created via this RestorePlan."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A set of custom labels supplied by user."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestorePlan`, and systems are expected to put that etag in the request to `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change will be applied to the same version of the resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Restore Plan",
+      "description": "The configuration of a potential series of Restore operations to be performed against Backups belong to a particular BackupPlan. Next id: 13"
+    }
+  }
+}

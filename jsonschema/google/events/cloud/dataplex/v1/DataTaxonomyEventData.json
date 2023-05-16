@@ -1,0 +1,79 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataTaxonomyEventData.json",
+  "name": "DataTaxonomyEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.DataTaxonomyEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.dataTaxonomy.v1.created",
+    "google.cloud.dataplex.dataTaxonomy.v1.updated",
+    "google.cloud.dataplex.dataTaxonomy.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DataTaxonomyEventData",
+  "definitions": {
+    "DataTaxonomyEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DataTaxonomy",
+          "additionalProperties": true,
+          "description": "Optional. The DataTaxonomy event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Taxonomy Event Data",
+      "description": "The data within all DataTaxonomy events."
+    },
+    "DataTaxonomy": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the DataTaxonomy, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the dataTaxonomy. This ID will be different if the DataTaxonomy is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the DataTaxonomy was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the DataTaxonomy was last updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the DataTaxonomy."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User-defined labels for the DataTaxonomy."
+        },
+        "attributeCount": {
+          "type": "integer",
+          "description": "Output only. The number of attributes in the DataTaxonomy."
+        },
+        "etag": {
+          "type": "string",
+          "description": "This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Taxonomy",
+      "description": "DataTaxonomy represents a set of hierarchical DataAttributes resources, grouped with a common theme Eg: 'SensitiveDataTaxonomy' can have attributes to manage PII data. It is defined at project level."
+    }
+  }
+}

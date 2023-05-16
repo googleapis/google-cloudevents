@@ -1,0 +1,765 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataScanEventData.json",
+  "name": "DataScanEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.DataScanEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.dataScan.v1.created",
+    "google.cloud.dataplex.dataScan.v1.updated",
+    "google.cloud.dataplex.dataScan.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DataScanEventData",
+  "definitions": {
+    "DataScanEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DataScan",
+          "additionalProperties": true,
+          "description": "Optional. The DataScan event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Scan Event Data",
+      "description": "The data within all DataScan events."
+    },
+    "DataProfileResult": {
+      "properties": {
+        "rowCount": {
+          "type": "integer",
+          "description": "The count of rows scanned."
+        },
+        "profile": {
+          "$ref": "#/definitions/Profile",
+          "additionalProperties": true,
+          "description": "The profile information per field."
+        },
+        "scannedData": {
+          "$ref": "#/definitions/ScannedData",
+          "additionalProperties": true,
+          "description": "The data scanned for this result."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Profile Result",
+      "description": "DataProfileResult defines the output of DataProfileScan. Each field of the table will have field type specific profile result."
+    },
+    "Profile": {
+      "properties": {
+        "fields": {
+          "items": {
+            "$ref": "#/definitions/Field"
+          },
+          "type": "array",
+          "description": "List of fields with structural and profile information for each field."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Profile",
+      "description": "Contains name, type, mode and field type specific profile information."
+    },
+    "Field": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the field."
+        },
+        "type": {
+          "type": "string",
+          "description": "The field data type. Possible values include: * STRING * BYTE * INT64 * INT32 * INT16 * DOUBLE * FLOAT * DECIMAL * BOOLEAN * BINARY * TIMESTAMP * DATE * TIME * NULL * RECORD"
+        },
+        "mode": {
+          "type": "string",
+          "description": "The mode of the field. Possible values include: * REQUIRED, if it is a required field. * NULLABLE, if it is an optional field. * REPEATED, if it is a repeated field."
+        },
+        "profile": {
+          "$ref": "#/definitions/ProfileInfo",
+          "additionalProperties": true,
+          "description": "Profile information for the corresponding field."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Field",
+      "description": "A field within a table."
+    },
+    "ProfileInfo": {
+      "properties": {
+        "nullRatio": {
+          "type": "number",
+          "description": "Ratio of rows with null value against total scanned rows."
+        },
+        "distinctRatio": {
+          "type": "number",
+          "description": "Ratio of rows with distinct values against total scanned rows. Not available for complex non-groupable field type RECORD and fields with REPEATABLE mode."
+        },
+        "topNValues": {
+          "items": {
+            "$ref": "#/definitions/TopNValue"
+          },
+          "type": "array",
+          "description": "The list of top N non-null values and number of times they occur in the scanned data. N is 10 or equal to the number of distinct values in the field, whichever is smaller. Not available for complex non-groupable field type RECORD and fields with REPEATABLE mode."
+        },
+        "stringProfile": {
+          "$ref": "#/definitions/StringFieldInfo",
+          "additionalProperties": true,
+          "description": "String type field information."
+        },
+        "integerProfile": {
+          "$ref": "#/definitions/IntegerFieldInfo",
+          "additionalProperties": true,
+          "description": "Integer type field information."
+        },
+        "doubleProfile": {
+          "$ref": "#/definitions/DoubleFieldInfo",
+          "additionalProperties": true,
+          "description": "Double type field information."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Profile Info",
+      "description": "The profile information for each field type."
+    },
+    "DoubleFieldInfo": {
+      "properties": {
+        "average": {
+          "type": "number",
+          "description": "Average of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "standardDeviation": {
+          "type": "number",
+          "description": "Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "min": {
+          "type": "number",
+          "description": "Minimum of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "quartiles": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array",
+          "description": "A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of quartile values for the scanned data, occurring in order Q1, median, Q3."
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum of non-null values in the scanned data. NaN, if the field has a NaN."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Double Field Info",
+      "description": "The profile information for a double type field."
+    },
+    "IntegerFieldInfo": {
+      "properties": {
+        "average": {
+          "type": "number",
+          "description": "Average of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "standardDeviation": {
+          "type": "number",
+          "description": "Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "min": {
+          "type": "integer",
+          "description": "Minimum of non-null values in the scanned data. NaN, if the field has a NaN."
+        },
+        "quartiles": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "description": "A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of quartile values for the scanned data, occurring in order Q1, median, Q3."
+        },
+        "max": {
+          "type": "integer",
+          "description": "Maximum of non-null values in the scanned data. NaN, if the field has a NaN."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Integer Field Info",
+      "description": "The profile information for an integer type field."
+    },
+    "StringFieldInfo": {
+      "properties": {
+        "minLength": {
+          "type": "integer",
+          "description": "Minimum length of non-null values in the scanned data."
+        },
+        "maxLength": {
+          "type": "integer",
+          "description": "Maximum length of non-null values in the scanned data."
+        },
+        "averageLength": {
+          "type": "number",
+          "description": "Average length of non-null values in the scanned data."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "String Field Info",
+      "description": "The profile information for a string type field."
+    },
+    "TopNValue": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "String value of a top N non-null value."
+        },
+        "count": {
+          "type": "integer",
+          "description": "Count of the corresponding value in the scanned data."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Top N Value",
+      "description": "Top N non-null values in the scanned data."
+    },
+    "DataProfileSpec": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Profile Spec",
+      "description": "DataProfileScan related setting."
+    },
+    "DataQualityDimensionResult": {
+      "properties": {
+        "passed": {
+          "type": "boolean",
+          "description": "Whether the dimension passed or failed."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Quality Dimension Result",
+      "description": "DataQualityDimensionResult provides a more detailed, per-dimension view of the results."
+    },
+    "DataQualityResult": {
+      "properties": {
+        "passed": {
+          "type": "boolean",
+          "description": "Overall data quality result -- `true` if all rules passed."
+        },
+        "dimensions": {
+          "items": {
+            "$ref": "#/definitions/DataQualityDimensionResult"
+          },
+          "type": "array",
+          "description": "A list of results at the dimension level."
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/DataQualityRuleResult"
+          },
+          "type": "array",
+          "description": "A list of all the rules in a job, and their results."
+        },
+        "rowCount": {
+          "type": "integer",
+          "description": "The count of rows processed."
+        },
+        "scannedData": {
+          "$ref": "#/definitions/ScannedData",
+          "additionalProperties": true,
+          "description": "The data scanned for this result."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Quality Result",
+      "description": "The output of a DataQualityScan."
+    },
+    "DataQualityRule": {
+      "properties": {
+        "rangeExpectation": {
+          "$ref": "#/definitions/RangeExpectation",
+          "additionalProperties": true,
+          "description": "ColumnMap rule which evaluates whether each column value lies between a specified range."
+        },
+        "nonNullExpectation": {
+          "$ref": "#/definitions/NonNullExpectation",
+          "additionalProperties": true,
+          "description": "ColumnMap rule which evaluates whether each column value is null."
+        },
+        "setExpectation": {
+          "$ref": "#/definitions/SetExpectation",
+          "additionalProperties": true,
+          "description": "ColumnMap rule which evaluates whether each column value is contained by a specified set."
+        },
+        "regexExpectation": {
+          "$ref": "#/definitions/RegexExpectation",
+          "additionalProperties": true,
+          "description": "ColumnMap rule which evaluates whether each column value matches a specified regex."
+        },
+        "uniquenessExpectation": {
+          "$ref": "#/definitions/UniquenessExpectation",
+          "additionalProperties": true,
+          "description": "ColumnAggregate rule which evaluates whether the column has duplicates."
+        },
+        "statisticRangeExpectation": {
+          "$ref": "#/definitions/StatisticRangeExpectation",
+          "additionalProperties": true,
+          "description": "ColumnAggregate rule which evaluates whether the column aggregate statistic lies between a specified range."
+        },
+        "rowConditionExpectation": {
+          "$ref": "#/definitions/RowConditionExpectation",
+          "additionalProperties": true,
+          "description": "Table rule which evaluates whether each row passes the specified condition."
+        },
+        "tableConditionExpectation": {
+          "$ref": "#/definitions/TableConditionExpectation",
+          "additionalProperties": true,
+          "description": "Table rule which evaluates whether the provided expression is true."
+        },
+        "column": {
+          "type": "string",
+          "description": "Optional. The unnested column which this rule is evaluated against."
+        },
+        "ignoreNull": {
+          "type": "boolean",
+          "description": "Optional. Rows with `null` values will automatically fail a rule, unless `ignore_null` is `true`. In that case, such `null` rows are trivially considered passing. Only applicable to ColumnMap rules."
+        },
+        "dimension": {
+          "type": "string",
+          "description": "Required. The dimension a rule belongs to. Results are also aggregated at the dimension level. Supported dimensions are **[\"COMPLETENESS\", \"ACCURACY\", \"CONSISTENCY\", \"VALIDITY\", \"UNIQUENESS\", \"INTEGRITY\"]**"
+        },
+        "threshold": {
+          "type": "number",
+          "description": "Optional. The minimum ratio of **passing_rows / total_rows** required to pass this rule, with a range of [0.0, 1.0]. 0 indicates default value (i.e. 1.0)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Quality Rule",
+      "description": "A rule captures data quality intent about a data source."
+    },
+    "NonNullExpectation": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Non Null Expectation",
+      "description": "Evaluates whether each column value is null."
+    },
+    "RangeExpectation": {
+      "properties": {
+        "minValue": {
+          "type": "string",
+          "description": "Optional. The minimum column value allowed for a row to pass this validation. At least one of `min_value` and `max_value` need to be provided."
+        },
+        "maxValue": {
+          "type": "string",
+          "description": "Optional. The maximum column value allowed for a row to pass this validation. At least one of `min_value` and `max_value` need to be provided."
+        },
+        "strictMinEnabled": {
+          "type": "boolean",
+          "description": "Optional. Whether each value needs to be strictly greater than ('>') the minimum, or if equality is allowed. Only relevant if a `min_value` has been defined. Default = false."
+        },
+        "strictMaxEnabled": {
+          "type": "boolean",
+          "description": "Optional. Whether each value needs to be strictly lesser than ('<') the maximum, or if equality is allowed. Only relevant if a `max_value` has been defined. Default = false."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Range Expectation",
+      "description": "Evaluates whether each column value lies between a specified range."
+    },
+    "RegexExpectation": {
+      "properties": {
+        "regex": {
+          "type": "string",
+          "description": "A regular expression the column value is expected to match."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Regex Expectation",
+      "description": "Evaluates whether each column value matches a specified regex."
+    },
+    "RowConditionExpectation": {
+      "properties": {
+        "sqlExpression": {
+          "type": "string",
+          "description": "The SQL expression."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Row Condition Expectation",
+      "description": "Evaluates whether each row passes the specified condition. The SQL expression needs to use BigQuery standard SQL syntax and should produce a boolean value per row as the result. Example: col1 >= 0 AND col2 < 10"
+    },
+    "SetExpectation": {
+      "properties": {
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Expected values for the column value."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Set Expectation",
+      "description": "Evaluates whether each column value is contained by a specified set."
+    },
+    "StatisticRangeExpectation": {
+      "properties": {
+        "statistic": {
+          "enum": [
+            "STATISTIC_UNDEFINED",
+            0,
+            "MEAN",
+            1,
+            "MIN",
+            2,
+            "MAX",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Column Statistic"
+        },
+        "minValue": {
+          "type": "string",
+          "description": "The minimum column statistic value allowed for a row to pass this validation. At least one of `min_value` and `max_value` need to be provided."
+        },
+        "maxValue": {
+          "type": "string",
+          "description": "The maximum column statistic value allowed for a row to pass this validation. At least one of `min_value` and `max_value` need to be provided."
+        },
+        "strictMinEnabled": {
+          "type": "boolean",
+          "description": "Whether column statistic needs to be strictly greater than ('>') the minimum, or if equality is allowed. Only relevant if a `min_value` has been defined. Default = false."
+        },
+        "strictMaxEnabled": {
+          "type": "boolean",
+          "description": "Whether column statistic needs to be strictly lesser than ('<') the maximum, or if equality is allowed. Only relevant if a `max_value` has been defined. Default = false."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Statistic Range Expectation",
+      "description": "Evaluates whether the column aggregate statistic lies between a specified range."
+    },
+    "TableConditionExpectation": {
+      "properties": {
+        "sqlExpression": {
+          "type": "string",
+          "description": "The SQL expression."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Table Condition Expectation",
+      "description": "Evaluates whether the provided expression is true. The SQL expression needs to use BigQuery standard SQL syntax and should produce a scalar boolean result. Example: MIN(col1) >= 0"
+    },
+    "UniquenessExpectation": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Uniqueness Expectation",
+      "description": "Evaluates whether the column has duplicates."
+    },
+    "DataQualityRuleResult": {
+      "properties": {
+        "rule": {
+          "$ref": "#/definitions/DataQualityRule",
+          "additionalProperties": true,
+          "description": "The rule specified in the DataQualitySpec, as is."
+        },
+        "passed": {
+          "type": "boolean",
+          "description": "Whether the rule passed or failed."
+        },
+        "evaluatedCount": {
+          "type": "integer",
+          "description": "The number of rows a rule was evaluated against. This field is only valid for ColumnMap type rules. Evaluated count can be configured to either * include all rows (default) - with `null` rows automatically failing rule evaluation, or * exclude `null` rows from the `evaluated_count`, by setting `ignore_nulls = true`."
+        },
+        "passedCount": {
+          "type": "integer",
+          "description": "The number of rows which passed a rule evaluation. This field is only valid for ColumnMap type rules."
+        },
+        "nullCount": {
+          "type": "integer",
+          "description": "The number of rows with null values in the specified column."
+        },
+        "passRatio": {
+          "type": "number",
+          "description": "The ratio of **passed_count / evaluated_count**. This field is only valid for ColumnMap type rules."
+        },
+        "failingRowsQuery": {
+          "type": "string",
+          "description": "The query to find rows that did not pass this rule. Only applies to ColumnMap and RowCondition rules."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Quality Rule Result",
+      "description": "DataQualityRuleResult provides a more detailed, per-rule view of the results."
+    },
+    "DataQualitySpec": {
+      "properties": {
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/DataQualityRule"
+          },
+          "type": "array",
+          "description": "The list of rules to evaluate against a data source. At least one rule is required."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Quality Spec",
+      "description": "DataQualityScan related setting."
+    },
+    "DataScan": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the scan, of the form: `projects/{project}/locations/{location_id}/dataScans/{datascan_id}`, where `project` refers to a *project_id* or *project_number* and `location_id` refers to a GCP region."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the scan. This ID will be different if the scan is deleted and re-created with the same name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the scan. * Must be between 1-1024 characters."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name. * Must be between 1-256 characters."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User-defined labels for the scan."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "CREATING",
+            2,
+            "DELETING",
+            3,
+            "ACTION_REQUIRED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of a resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the scan was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the scan was last updated.",
+          "format": "date-time"
+        },
+        "data": {
+          "$ref": "#/definitions/DataSource",
+          "additionalProperties": true,
+          "description": "Required. The data source for DataScan."
+        },
+        "executionSpec": {
+          "$ref": "#/definitions/ExecutionSpec",
+          "additionalProperties": true,
+          "description": "Optional. DataScan execution settings. If not specified, the fields in it will use their default values."
+        },
+        "executionStatus": {
+          "$ref": "#/definitions/ExecutionStatus",
+          "additionalProperties": true,
+          "description": "Output only. Status of the data scan execution."
+        },
+        "type": {
+          "enum": [
+            "DATA_SCAN_TYPE_UNSPECIFIED",
+            0,
+            "DATA_QUALITY",
+            1,
+            "DATA_PROFILE",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Data Scan Type",
+          "description": "The type of DataScan."
+        },
+        "dataQualitySpec": {
+          "$ref": "#/definitions/DataQualitySpec",
+          "additionalProperties": true,
+          "description": "DataQualityScan related setting."
+        },
+        "dataProfileSpec": {
+          "$ref": "#/definitions/DataProfileSpec",
+          "additionalProperties": true,
+          "description": "DataProfileScan related setting."
+        },
+        "dataQualityResult": {
+          "$ref": "#/definitions/DataQualityResult",
+          "additionalProperties": true,
+          "description": "Output only. The result of the data quality scan."
+        },
+        "dataProfileResult": {
+          "$ref": "#/definitions/DataProfileResult",
+          "additionalProperties": true,
+          "description": "Output only. The result of the data profile scan."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Scan",
+      "description": "Represents a user-visible job which provides the insights for the related data source. For example: * Data Quality: generates queries based on the rules and runs against the   data to get data quality check results. * Data Profile: analyzes the data in table(s) and generates insights about   the structure, content and relationships (such as null percent,   cardinality, min/max/mean, etc)."
+    },
+    "ExecutionSpec": {
+      "properties": {
+        "trigger": {
+          "$ref": "#/definitions/Trigger",
+          "additionalProperties": true,
+          "description": "Optional. Spec related to how often and when a scan should be triggered. If not specified, the default is `OnDemand`, which means the scan will not run until the user calls `RunDataScan` API."
+        },
+        "field": {
+          "type": "string",
+          "description": "Immutable. The unnested field (of type *Date* or *Timestamp*) that contains values which monotonically increase over time. If not specified, a data scan will run for all data in the table."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Spec",
+      "description": "DataScan execution settings."
+    },
+    "ExecutionStatus": {
+      "properties": {
+        "latestJobStartTime": {
+          "type": "string",
+          "description": "The time when the latest DataScanJob started.",
+          "format": "date-time"
+        },
+        "latestJobEndTime": {
+          "type": "string",
+          "description": "The time when the latest DataScanJob ended.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Status",
+      "description": "Status of the data scan execution."
+    },
+    "DataSource": {
+      "properties": {
+        "entity": {
+          "type": "string",
+          "description": "Immutable. The Dataplex entity that represents the data source (e.g. BigQuery table) for DataScan, of the form: `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Source",
+      "description": "The data source for DataScan."
+    },
+    "ScannedData": {
+      "properties": {
+        "incrementalField": {
+          "$ref": "#/definitions/IncrementalField",
+          "additionalProperties": true,
+          "description": "The range denoted by values of an incremental field"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scanned Data",
+      "description": "The data scanned during processing (e.g. in incremental DataScan)"
+    },
+    "IncrementalField": {
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The field that contains values which monotonically increases over time (e.g. a timestamp column)."
+        },
+        "start": {
+          "type": "string",
+          "description": "Value that marks the start of the range."
+        },
+        "end": {
+          "type": "string",
+          "description": "Value that marks the end of the range."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Incremental Field",
+      "description": "A data range denoted by a pair of start/end values of a field."
+    },
+    "Trigger": {
+      "properties": {
+        "onDemand": {
+          "$ref": "#/definitions/OnDemand",
+          "additionalProperties": true,
+          "description": "The scan runs once via `RunDataScan` API."
+        },
+        "schedule": {
+          "$ref": "#/definitions/Schedule",
+          "additionalProperties": true,
+          "description": "The scan is scheduled to run periodically."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Trigger",
+      "description": "DataScan scheduling and trigger settings."
+    },
+    "OnDemand": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "On Demand",
+      "description": "The scan runs once via `RunDataScan` API."
+    },
+    "Schedule": {
+      "properties": {
+        "cron": {
+          "type": "string",
+          "description": "Required. [Cron](https://en.wikipedia.org/wiki/Cron) schedule for running scans periodically. To explicitly set a timezone in the cron tab, apply a prefix in the cron tab: **\"CRON_TZ=${IANA_TIME_ZONE}\"** or **\"TZ=${IANA_TIME_ZONE}\"**. The **${IANA_TIME_ZONE}** may only be a valid string from IANA time zone database ([wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)). For example, `CRON_TZ=America/New_York 1 * * * *`, or `TZ=America/New_York 1 * * * *`. This field is required for Schedule scans."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Schedule",
+      "description": "The scan is scheduled to run periodically."
+    }
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/ZoneEventData.json",
+  "name": "ZoneEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.ZoneEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.zone.v1.created",
+    "google.cloud.dataplex.zone.v1.updated",
+    "google.cloud.dataplex.zone.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ZoneEventData",
+  "definitions": {
+    "ZoneEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Zone",
+          "additionalProperties": true,
+          "description": "Optional. The Zone event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Zone Event Data",
+      "description": "The data within all Zone events."
+    },
+    "AssetStatus": {
+      "properties": {
+        "updateTime": {
+          "type": "string",
+          "description": "Last update time of the status.",
+          "format": "date-time"
+        },
+        "activeAssets": {
+          "type": "integer",
+          "description": "Number of active assets."
+        },
+        "securityPolicyApplyingAssets": {
+          "type": "integer",
+          "description": "Number of assets that are in process of updating the security policy on attached resources."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Asset Status",
+      "description": "Aggregated status of the underlying assets of a lake or zone."
+    },
+    "Zone": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the zone, of the form: `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the zone. This ID will be different if the zone is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the zone was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the zone was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User defined labels for the zone."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the zone."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "CREATING",
+            2,
+            "DELETING",
+            3,
+            "ACTION_REQUIRED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of a resource."
+        },
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "RAW",
+            1,
+            "CURATED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "Type of zone."
+        },
+        "discoverySpec": {
+          "$ref": "#/definitions/DiscoverySpec",
+          "additionalProperties": true,
+          "description": "Optional. Specification of the discovery feature applied to data in this zone."
+        },
+        "resourceSpec": {
+          "$ref": "#/definitions/ResourceSpec",
+          "additionalProperties": true,
+          "description": "Required. Specification of the resources that are referenced by the assets within this zone."
+        },
+        "assetStatus": {
+          "$ref": "#/definitions/AssetStatus",
+          "additionalProperties": true,
+          "description": "Output only. Aggregated status of the underlying assets of the zone."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Zone",
+      "description": "A zone represents a logical group of related assets within a lake. A zone can be used to map to organizational structure or represent stages of data readiness from raw to curated. It provides managing behavior that is shared or inherited by all contained assets."
+    },
+    "DiscoverySpec": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Required. Whether discovery is enabled."
+        },
+        "includePatterns": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names."
+        },
+        "excludePatterns": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The list of patterns to apply for selecting data to exclude during discovery.  For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names."
+        },
+        "csvOptions": {
+          "$ref": "#/definitions/CsvOptions",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for CSV data."
+        },
+        "jsonOptions": {
+          "$ref": "#/definitions/JsonOptions",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for Json data."
+        },
+        "schedule": {
+          "type": "string",
+          "description": "Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: \"CRON_TZ=${IANA_TIME_ZONE}\" or TZ=${IANA_TIME_ZONE}\". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, `CRON_TZ=America/New_York 1 * * * *`, or `TZ=America/New_York 1 * * * *`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Discovery Spec",
+      "description": "Settings to manage the metadata discovery and publishing in a zone."
+    },
+    "CsvOptions": {
+      "properties": {
+        "headerRows": {
+          "type": "integer",
+          "description": "Optional. The number of rows to interpret as header rows that should be skipped when reading data rows."
+        },
+        "delimiter": {
+          "type": "string",
+          "description": "Optional. The delimiter being used to separate values. This defaults to ','."
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Optional. The character encoding of the data. The default is UTF-8."
+        },
+        "disableTypeInference": {
+          "type": "boolean",
+          "description": "Optional. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Csv Options",
+      "description": "Describe CSV and similar semi-structured data formats."
+    },
+    "JsonOptions": {
+      "properties": {
+        "encoding": {
+          "type": "string",
+          "description": "Optional. The character encoding of the data. The default is UTF-8."
+        },
+        "disableTypeInference": {
+          "type": "boolean",
+          "description": "Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Json Options",
+      "description": "Describe JSON data format."
+    },
+    "ResourceSpec": {
+      "properties": {
+        "locationType": {
+          "enum": [
+            "LOCATION_TYPE_UNSPECIFIED",
+            0,
+            "SINGLE_REGION",
+            1,
+            "MULTI_REGION",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Location Type",
+          "description": "Location type of the resources attached to a zone."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Resource Spec",
+      "description": "Settings for resources attached as assets within a zone."
+    }
+  }
+}

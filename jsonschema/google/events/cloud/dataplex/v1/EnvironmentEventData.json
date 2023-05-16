@@ -1,0 +1,232 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/EnvironmentEventData.json",
+  "name": "EnvironmentEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.EnvironmentEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.environment.v1.created",
+    "google.cloud.dataplex.environment.v1.updated",
+    "google.cloud.dataplex.environment.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/EnvironmentEventData",
+  "definitions": {
+    "EnvironmentEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Environment",
+          "additionalProperties": true,
+          "description": "Optional. The Environment event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Environment Event Data",
+      "description": "The data within all Environment events."
+    },
+    "Environment": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the environment, of the form: projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the environment. This ID will be different if the environment is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Environment creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the environment was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User defined labels for the environment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the environment."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "CREATING",
+            2,
+            "DELETING",
+            3,
+            "ACTION_REQUIRED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of a resource."
+        },
+        "infrastructureSpec": {
+          "$ref": "#/definitions/InfrastructureSpec",
+          "additionalProperties": true,
+          "description": "Required. Infrastructure specification for the Environment."
+        },
+        "sessionSpec": {
+          "$ref": "#/definitions/SessionSpec",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for sessions created for this environment."
+        },
+        "sessionStatus": {
+          "$ref": "#/definitions/SessionStatus",
+          "additionalProperties": true,
+          "description": "Output only. Status of sessions created for this environment."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/Endpoints",
+          "additionalProperties": true,
+          "description": "Output only. URI Endpoints to access sessions associated with the Environment."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Environment",
+      "description": "Environment represents a user-visible compute infrastructure for analytics within a lake."
+    },
+    "Endpoints": {
+      "properties": {
+        "notebooks": {
+          "type": "string",
+          "description": "Output only. URI to serve notebook APIs"
+        },
+        "sql": {
+          "type": "string",
+          "description": "Output only. URI to serve SQL APIs"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Endpoints",
+      "description": "URI Endpoints to access sessions associated with the Environment."
+    },
+    "InfrastructureSpec": {
+      "properties": {
+        "compute": {
+          "$ref": "#/definitions/ComputeResources",
+          "additionalProperties": true,
+          "description": "Optional. Compute resources needed for analyze interactive workloads."
+        },
+        "osImage": {
+          "$ref": "#/definitions/OsImageRuntime",
+          "additionalProperties": true,
+          "description": "Required. Software Runtime Configuration for analyze interactive workloads."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Infrastructure Spec",
+      "description": "Configuration for the underlying infrastructure used to run workloads."
+    },
+    "ComputeResources": {
+      "properties": {
+        "diskSizeGb": {
+          "type": "integer",
+          "description": "Optional. Size in GB of the disk. Default is 100 GB."
+        },
+        "nodeCount": {
+          "type": "integer",
+          "description": "Optional. Total number of nodes in the sessions created for this environment."
+        },
+        "maxNodeCount": {
+          "type": "integer",
+          "description": "Optional. Max configurable nodes. If max_node_count > node_count, then auto-scaling is enabled."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Compute Resources",
+      "description": "Compute resources associated with the analyze interactive workloads."
+    },
+    "OsImageRuntime": {
+      "properties": {
+        "imageVersion": {
+          "type": "string",
+          "description": "Required. Dataplex Image version."
+        },
+        "javaLibraries": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. List of Java jars to be included in the runtime environment. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar"
+        },
+        "pythonPackages": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Spark properties to provide configuration for use in sessions created for this environment. The properties to set on daemon config files. Property keys are specified in `prefix:property` format. The prefix must be \"spark\"."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Os Image Runtime",
+      "description": "Software Runtime Configuration to run Analyze."
+    },
+    "SessionSpec": {
+      "properties": {
+        "maxIdleDuration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. The idle time configuration of the session. The session will be auto-terminated at the end of this period.",
+          "format": "regex"
+        },
+        "enableFastStartup": {
+          "type": "boolean",
+          "description": "Optional. If True, this causes sessions to be pre-created and available for faster startup to enable interactive exploration use-cases. This defaults to False to avoid additional billed charges. These can only be set to True for the environment with name set to \"default\", and with default configuration."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Session Spec",
+      "description": "Configuration for sessions created for this environment."
+    },
+    "SessionStatus": {
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "description": "Output only. Queries over sessions to mark whether the environment is currently active or not"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Session Status",
+      "description": "Status of sessions created for this environment."
+    }
+  }
+}

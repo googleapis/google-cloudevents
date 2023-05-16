@@ -1,0 +1,137 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/DataAttributeEventData.json",
+  "name": "DataAttributeEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.DataAttributeEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.dataAttribute.v1.created",
+    "google.cloud.dataplex.dataAttribute.v1.updated",
+    "google.cloud.dataplex.dataAttribute.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DataAttributeEventData",
+  "definitions": {
+    "DataAttributeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DataAttribute",
+          "additionalProperties": true,
+          "description": "Optional. The DataAttribute event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Attribute Event Data",
+      "description": "The data within all DataAttribute events."
+    },
+    "DataAccessSpec": {
+      "properties": {
+        "readers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The format of strings follows the pattern followed by IAM in the bindings. user:{email}, serviceAccount:{email} group:{email}. The set of principals to be granted reader role on data stored within resources."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Access Spec",
+      "description": "DataAccessSpec holds the access control configuration to be enforced on data stored within resources (eg: rows, columns in BigQuery Tables). When associated with data, the data is only accessible to principals explicitly granted access through the DataAccessSpec. Principals with access to the containing resource are not implicitly granted access."
+    },
+    "DataAttribute": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the dataAttribute, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the DataAttribute. This ID will be different if the DataAttribute is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the DataAttribute was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the DataAttribute was last updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the DataAttribute."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User-defined labels for the DataAttribute."
+        },
+        "parentId": {
+          "type": "string",
+          "description": "Optional. The ID of the parent DataAttribute resource, should belong to the same data taxonomy. Circular dependency in parent chain is not valid. Maximum depth of the hierarchy allowed is 4. [a -> b -> c -> d -> e, depth = 4]"
+        },
+        "attributeCount": {
+          "type": "integer",
+          "description": "Output only. The number of child attributes present for this attribute."
+        },
+        "etag": {
+          "type": "string",
+          "description": "This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "resourceAccessSpec": {
+          "$ref": "#/definitions/ResourceAccessSpec",
+          "additionalProperties": true,
+          "description": "Optional. Specified when applied to a resource (eg: Cloud Storage bucket, BigQuery dataset, BigQuery table)."
+        },
+        "dataAccessSpec": {
+          "$ref": "#/definitions/DataAccessSpec",
+          "additionalProperties": true,
+          "description": "Optional. Specified when applied to data stored on the resource (eg: rows, columns in BigQuery Tables)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Attribute",
+      "description": "Denotes one dataAttribute in a dataTaxonomy, for example, PII. DataAttribute resources can be defined in a hierarchy. A single dataAttribute resource can contain specs of multiple types ``` PII   - ResourceAccessSpec :                 - readers :foo@bar.com   - DataAccessSpec :                 - readers :bar@foo.com ```"
+    },
+    "ResourceAccessSpec": {
+      "properties": {
+        "readers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The format of strings follows the pattern followed by IAM in the bindings. user:{email}, serviceAccount:{email} group:{email}. The set of principals to be granted reader role on the resource."
+        },
+        "writers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The set of principals to be granted writer role on the resource."
+        },
+        "owners": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The set of principals to be granted owner role on the resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Resource Access Spec",
+      "description": "ResourceAccessSpec holds the access control configuration to be enforced on the resources, for example, Cloud Storage bucket, BigQuery dataset, BigQuery table."
+    }
+  }
+}
