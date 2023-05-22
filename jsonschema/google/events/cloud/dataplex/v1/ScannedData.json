@@ -1,0 +1,46 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/ScannedData.json",
+  "name": "ScannedData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.ScannedData",
+  "cloudeventTypes": [],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ScannedData",
+  "definitions": {
+    "ScannedData": {
+      "properties": {
+        "incrementalField": {
+          "$ref": "#/definitions/IncrementalField",
+          "additionalProperties": true,
+          "description": "The range denoted by values of an incremental field"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scanned Data",
+      "description": "The data scanned during processing (e.g. in incremental DataScan)"
+    },
+    "IncrementalField": {
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The field that contains values which monotonically increases over time (e.g. a timestamp column)."
+        },
+        "start": {
+          "type": "string",
+          "description": "Value that marks the start of the range."
+        },
+        "end": {
+          "type": "string",
+          "description": "Value that marks the end of the range."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Incremental Field",
+      "description": "A data range denoted by a pair of start/end values of a field."
+    }
+  }
+}

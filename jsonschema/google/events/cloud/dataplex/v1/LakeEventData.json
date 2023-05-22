@@ -1,0 +1,192 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/LakeEventData.json",
+  "name": "LakeEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.LakeEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.lake.v1.created",
+    "google.cloud.dataplex.lake.v1.updated",
+    "google.cloud.dataplex.lake.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/LakeEventData",
+  "definitions": {
+    "LakeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Lake",
+          "additionalProperties": true,
+          "description": "Optional. The Lake event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Lake Event Data",
+      "description": "The data within all Lake events."
+    },
+    "AssetStatus": {
+      "properties": {
+        "updateTime": {
+          "type": "string",
+          "description": "Last update time of the status.",
+          "format": "date-time"
+        },
+        "activeAssets": {
+          "type": "integer",
+          "description": "Number of active assets."
+        },
+        "securityPolicyApplyingAssets": {
+          "type": "integer",
+          "description": "Number of assets that are in process of updating the security policy on attached resources."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Asset Status",
+      "description": "Aggregated status of the underlying assets of a lake or zone."
+    },
+    "Lake": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the lake, of the form: `projects/{project_number}/locations/{location_id}/lakes/{lake_id}`."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the lake. This ID will be different if the lake is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the lake was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the lake was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User-defined labels for the lake."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the lake."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "CREATING",
+            2,
+            "DELETING",
+            3,
+            "ACTION_REQUIRED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of a resource."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Output only. Service account associated with this lake. This service account must be authorized to access or operate on resources managed by the lake."
+        },
+        "metastore": {
+          "$ref": "#/definitions/Metastore",
+          "additionalProperties": true,
+          "description": "Optional. Settings to manage lake and Dataproc Metastore service instance association."
+        },
+        "assetStatus": {
+          "$ref": "#/definitions/AssetStatus",
+          "additionalProperties": true,
+          "description": "Output only. Aggregated status of the underlying assets of the lake."
+        },
+        "metastoreStatus": {
+          "$ref": "#/definitions/MetastoreStatus",
+          "additionalProperties": true,
+          "description": "Output only. Metastore status of the lake."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Lake",
+      "description": "A lake is a centralized repository for managing enterprise data across the organization distributed across many cloud projects, and stored in a variety of storage services such as Google Cloud Storage and BigQuery. The resources attached to a lake are referred to as managed resources. Data within these managed resources can be structured or unstructured. A lake provides data admins with tools to organize, secure and manage their data at scale, and provides data scientists and data engineers an integrated experience to easily search, discover, analyze and transform data and associated metadata."
+    },
+    "Metastore": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: `projects/{project_id}/locations/{location_id}/services/{service_id}`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metastore",
+      "description": "Settings to manage association of Dataproc Metastore with a lake."
+    },
+    "MetastoreStatus": {
+      "properties": {
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "NONE",
+            1,
+            "READY",
+            2,
+            "UPDATING",
+            3,
+            "ERROR",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Current state of association."
+        },
+        "message": {
+          "type": "string",
+          "description": "Additional information about the current status."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Last update time of the metastore status of the lake.",
+          "format": "date-time"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The URI of the endpoint used to access the Metastore service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metastore Status",
+      "description": "Status of Lake and Dataproc Metastore service instance association."
+    }
+  }
+}

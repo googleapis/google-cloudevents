@@ -1,0 +1,471 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataplex/v1/TaskEventData.json",
+  "name": "TaskEventData",
+  "examples": [],
+  "package": "google.events.cloud.dataplex.v1",
+  "datatype": "google.events.cloud.dataplex.v1.TaskEventData",
+  "cloudeventTypes": [
+    "google.cloud.dataplex.task.v1.created",
+    "google.cloud.dataplex.task.v1.updated",
+    "google.cloud.dataplex.task.v1.deleted"
+  ],
+  "product": "Cloud Dataplex",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/TaskEventData",
+  "definitions": {
+    "TaskEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Task",
+          "additionalProperties": true,
+          "description": "Optional. The Task event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Task Event Data",
+      "description": "The data within all Task events."
+    },
+    "Job": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the job, of the form: `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}/jobs/{job_id}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the job."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Output only. The time when the job was started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time when the job ended.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "CANCELLING",
+            2,
+            "CANCELLED",
+            3,
+            "SUCCEEDED",
+            4,
+            "FAILED",
+            5,
+            "ABORTED",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State"
+        },
+        "retryCount": {
+          "type": "integer",
+          "description": "Output only. The number of times the job has been retried (excluding the initial attempt)."
+        },
+        "service": {
+          "enum": [
+            "SERVICE_UNSPECIFIED",
+            0,
+            "DATAPROC",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Service"
+        },
+        "serviceJob": {
+          "type": "string",
+          "description": "Output only. The full resource name for the job run under a particular service."
+        },
+        "message": {
+          "type": "string",
+          "description": "Output only. Additional information about the current state."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Job",
+      "description": "A job represents an instance of a task."
+    },
+    "Task": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System generated globally unique ID for the task. This ID will be different if the task is deleted and re-created with the same name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the task was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the task was last updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the task."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. User friendly display name."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "CREATING",
+            2,
+            "DELETING",
+            3,
+            "ACTION_REQUIRED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of a resource."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User-defined labels for the task."
+        },
+        "triggerSpec": {
+          "$ref": "#/definitions/TriggerSpec",
+          "additionalProperties": true,
+          "description": "Required. Spec related to how often and when a task should be triggered."
+        },
+        "executionSpec": {
+          "$ref": "#/definitions/ExecutionSpec",
+          "additionalProperties": true,
+          "description": "Required. Spec related to how a task is executed."
+        },
+        "executionStatus": {
+          "$ref": "#/definitions/ExecutionStatus",
+          "additionalProperties": true,
+          "description": "Output only. Status of the latest task executions."
+        },
+        "spark": {
+          "$ref": "#/definitions/SparkTaskConfig",
+          "additionalProperties": true,
+          "description": "Config related to running custom Spark tasks."
+        },
+        "notebook": {
+          "$ref": "#/definitions/NotebookTaskConfig",
+          "additionalProperties": true,
+          "description": "Config related to running scheduled Notebooks."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Task",
+      "description": "A task represents a user-visible job."
+    },
+    "ExecutionSpec": {
+      "properties": {
+        "args": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The arguments to pass to the task. The args can use placeholders of the format ${placeholder} as part of key/value string. These will be interpolated before passing the args to the driver. Currently supported placeholders: - ${task_id} - ${job_time} To pass positional args, set the key as TASK_ARGS. The value should be a comma-separated string of all the positional arguments. To use a delimiter other than comma, refer to https://cloud.google.com/sdk/gcloud/reference/topic/escaping. In case of other keys being present in the args, then TASK_ARGS will be passed as the last argument."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Required. Service account to use to execute a task. If not provided, the default Compute service account for the project is used."
+        },
+        "project": {
+          "type": "string",
+          "description": "Optional. The project in which jobs are run. By default, the project containing the Lake is used. If a project is provided, the [ExecutionSpec.service_account][google.cloud.dataplex.v1.Task.ExecutionSpec.service_account] must belong to this project."
+        },
+        "maxJobExecutionLifetime": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. The maximum duration after which the job execution is expired.",
+          "format": "regex"
+        },
+        "kmsKey": {
+          "type": "string",
+          "description": "Optional. The Cloud KMS key to use for encryption, of the form: `projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Spec",
+      "description": "Execution related settings, like retry and service_account."
+    },
+    "ExecutionStatus": {
+      "properties": {
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Last update time of the status.",
+          "format": "date-time"
+        },
+        "latestJob": {
+          "$ref": "#/definitions/Job",
+          "additionalProperties": true,
+          "description": "Output only. latest job execution"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Status",
+      "description": "Status of the task execution (e.g. Jobs)."
+    },
+    "InfrastructureSpec": {
+      "properties": {
+        "batch": {
+          "$ref": "#/definitions/BatchComputeResources",
+          "additionalProperties": true,
+          "description": "Compute resources needed for a Task when using Dataproc Serverless."
+        },
+        "containerImage": {
+          "$ref": "#/definitions/ContainerImageRuntime",
+          "additionalProperties": true,
+          "description": "Container Image Runtime Configuration."
+        },
+        "vpcNetwork": {
+          "$ref": "#/definitions/VpcNetwork",
+          "additionalProperties": true,
+          "description": "Vpc network."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Infrastructure Spec",
+      "description": "Configuration for the underlying infrastructure used to run workloads."
+    },
+    "BatchComputeResources": {
+      "properties": {
+        "executorsCount": {
+          "type": "integer",
+          "description": "Optional. Total number of job executors. Executor Count should be between 2 and 100. [Default=2]"
+        },
+        "maxExecutorsCount": {
+          "type": "integer",
+          "description": "Optional. Max configurable executors. If max_executors_count > executors_count, then auto-scaling is enabled. Max Executor Count should be between 2 and 1000. [Default=1000]"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Batch Compute Resources",
+      "description": "Batch compute resources associated with the task."
+    },
+    "ContainerImageRuntime": {
+      "properties": {
+        "image": {
+          "type": "string",
+          "description": "Optional. Container image to use."
+        },
+        "javaJars": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar"
+        },
+        "pythonPackages": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz"
+        },
+        "properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Override to common configuration of open source components installed on the Dataproc cluster. The properties to set on daemon config files. Property keys are specified in `prefix:property` format, for example `core:hadoop.tmp.dir`. For more information, see [Cluster properties](https://cloud.google.com/dataproc/docs/concepts/cluster-properties)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Container Image Runtime",
+      "description": "Container Image Runtime Configuration used with Batch execution."
+    },
+    "VpcNetwork": {
+      "properties": {
+        "network": {
+          "type": "string",
+          "description": "Optional. The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used."
+        },
+        "subNetwork": {
+          "type": "string",
+          "description": "Optional. The Cloud VPC sub-network in which the job is run."
+        },
+        "networkTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. List of network tags to apply to the job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpc Network",
+      "description": "Cloud VPC Network used to run the infrastructure."
+    },
+    "NotebookTaskConfig": {
+      "properties": {
+        "notebook": {
+          "type": "string",
+          "description": "Required. Path to input notebook. This can be the Cloud Storage URI of the notebook file or the path to a Notebook Content. The execution args are accessible as environment variables (`TASK_key=value`)."
+        },
+        "infrastructureSpec": {
+          "$ref": "#/definitions/InfrastructureSpec",
+          "additionalProperties": true,
+          "description": "Optional. Infrastructure specification for the execution."
+        },
+        "fileUris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Cloud Storage URIs of files to be placed in the working directory of each executor."
+        },
+        "archiveUris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Notebook Task Config",
+      "description": "Config for running scheduled notebooks."
+    },
+    "SparkTaskConfig": {
+      "properties": {
+        "mainJarFileUri": {
+          "type": "string",
+          "description": "The Cloud Storage URI of the jar file that contains the main class. The execution args are passed in as a sequence of named process arguments (`--key=value`)."
+        },
+        "mainClass": {
+          "type": "string",
+          "description": "The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in `jar_file_uris`. The execution args are passed in as a sequence of named process arguments (`--key=value`)."
+        },
+        "pythonScriptFile": {
+          "type": "string",
+          "description": "The Gcloud Storage URI of the main Python file to use as the driver. Must be a .py file. The execution args are passed in as a sequence of named process arguments (`--key=value`)."
+        },
+        "sqlScriptFile": {
+          "type": "string",
+          "description": "A reference to a query file. This can be the Cloud Storage URI of the query file or it can the path to a SqlScript Content. The execution args are used to declare a set of script variables (`set key=\"value\";`)."
+        },
+        "sqlScript": {
+          "type": "string",
+          "description": "The query text. The execution args are used to declare a set of script variables (`set key=\"value\";`)."
+        },
+        "fileUris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Cloud Storage URIs of files to be placed in the working directory of each executor."
+        },
+        "archiveUris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip."
+        },
+        "infrastructureSpec": {
+          "$ref": "#/definitions/InfrastructureSpec",
+          "additionalProperties": true,
+          "description": "Optional. Infrastructure specification for the execution."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spark Task Config",
+      "description": "User-specified config for running a Spark task."
+    },
+    "TriggerSpec": {
+      "properties": {
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "ON_DEMAND",
+            1,
+            "RECURRING",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "Determines how often and when the job will run."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Optional. The first run of the task will be after this time. If not specified, the task will run shortly after being submitted if ON_DEMAND and based on the schedule if RECURRING.",
+          "format": "date-time"
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Optional. Prevent the task from executing. This does not cancel already running tasks. It is intended to temporarily disable RECURRING tasks."
+        },
+        "maxRetries": {
+          "type": "integer",
+          "description": "Optional. Number of retry attempts before aborting. Set to zero to never attempt to retry a failed task."
+        },
+        "schedule": {
+          "type": "string",
+          "description": "Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running tasks periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: \"CRON_TZ=${IANA_TIME_ZONE}\" or \"TZ=${IANA_TIME_ZONE}\". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, `CRON_TZ=America/New_York 1 * * * *`, or `TZ=America/New_York 1 * * * *`. This field is required for RECURRING tasks."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Trigger Spec",
+      "description": "Task scheduling and trigger settings."
+    }
+  }
+}
