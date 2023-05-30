@@ -1,0 +1,717 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.metastore.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/dayofweek.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Metastore.V1";
+option php_namespace = "Google\\Events\\Cloud\\Metastore\\V1";
+option ruby_package = "Google::Events::Cloud::Metastore::V1";
+
+// Represents a federation of multiple backend metastores.
+message Federation {
+  // The current state of the federation.
+  enum State {
+    // The state of the metastore federation is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The metastore federation is in the process of being created.
+    CREATING = 1;
+
+    // The metastore federation is running and ready to serve queries.
+    ACTIVE = 2;
+
+    // The metastore federation is being updated. It remains usable but cannot
+    // accept additional update requests or be deleted at this time.
+    UPDATING = 3;
+
+    // The metastore federation is undergoing deletion. It cannot be used.
+    DELETING = 4;
+
+    // The metastore federation has encountered an error and cannot be used. The
+    // metastore federation should be deleted.
+    ERROR = 5;
+  }
+
+  // Immutable. The relative resource name of the federation, of the
+  // form:
+  // projects/{project_number}/locations/{location_id}/federations/{federation_id}`.
+  string name = 1;
+
+  // Output only. The time when the metastore federation was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time when the metastore federation was last updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels for the metastore federation.
+  map<string, string> labels = 4;
+
+  // Immutable. The Apache Hive metastore version of the federation. All backend
+  // metastore versions must be compatible with the federation version.
+  string version = 5;
+
+  // A map from `BackendMetastore` rank to `BackendMetastore`s from which the
+  // federation service serves metadata at query time. The map key represents
+  // the order in which `BackendMetastore`s should be evaluated to resolve
+  // database names at query time and should be greater than or equal to zero. A
+  // `BackendMetastore` with a lower number will be evaluated before a
+  // `BackendMetastore` with a higher number.
+  map<int32, BackendMetastore> backend_metastores = 6;
+
+  // Output only. The federation endpoint.
+  string endpoint_uri = 7;
+
+  // Output only. The current state of the federation.
+  State state = 8;
+
+  // Output only. Additional information about the current state of the
+  // metastore federation, if available.
+  string state_message = 9;
+
+  // Output only. The globally unique resource identifier of the metastore
+  // federation.
+  string uid = 10;
+}
+
+// Represents a backend metastore for the federation.
+message BackendMetastore {
+  // The type of the backend metastore.
+  enum MetastoreType {
+    // The metastore type is not set.
+    METASTORE_TYPE_UNSPECIFIED = 0;
+
+    // The backend metastore is Dataproc Metastore.
+    DATAPROC_METASTORE = 3;
+  }
+
+  // The relative resource name of the metastore that is being federated.
+  // The formats of the relative resource names for the currently supported
+  // metastores are listed below:
+  //
+  // * BigQuery
+  //     * `projects/{project_id}`
+  // * Dataproc Metastore
+  //     * `projects/{project_id}/locations/{location}/services/{service_id}`
+  string name = 1;
+
+  // The type of the backend metastore.
+  MetastoreType metastore_type = 2;
+}
+
+// A managed metastore service that serves metadata queries.
+message Service {
+  // The current state of the metastore service.
+  enum State {
+    // The state of the metastore service is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The metastore service is in the process of being created.
+    CREATING = 1;
+
+    // The metastore service is running and ready to serve queries.
+    ACTIVE = 2;
+
+    // The metastore service is entering suspension. Its query-serving
+    // availability may cease unexpectedly.
+    SUSPENDING = 3;
+
+    // The metastore service is suspended and unable to serve queries.
+    SUSPENDED = 4;
+
+    // The metastore service is being updated. It remains usable but cannot
+    // accept additional update requests or be deleted at this time.
+    UPDATING = 5;
+
+    // The metastore service is undergoing deletion. It cannot be used.
+    DELETING = 6;
+
+    // The metastore service has encountered an error and cannot be used. The
+    // metastore service should be deleted.
+    ERROR = 7;
+  }
+
+  // Available service tiers.
+  enum Tier {
+    // The tier is not set.
+    TIER_UNSPECIFIED = 0;
+
+    // The developer tier provides limited scalability and no fault tolerance.
+    // Good for low-cost proof-of-concept.
+    DEVELOPER = 1;
+
+    // The enterprise tier provides multi-zone high availability, and sufficient
+    // scalability for enterprise-level Dataproc Metastore workloads.
+    ENTERPRISE = 3;
+  }
+
+  // Release channels bundle features of varying levels of stability. Newer
+  // features may be introduced initially into less stable release channels and
+  // can be automatically promoted into more stable release channels.
+  enum ReleaseChannel {
+    // Release channel is not specified.
+    RELEASE_CHANNEL_UNSPECIFIED = 0;
+
+    // The `CANARY` release channel contains the newest features, which may be
+    // unstable and subject to unresolved issues with no known workarounds.
+    // Services using the `CANARY` release channel are not subject to any SLAs.
+    CANARY = 1;
+
+    // The `STABLE` release channel contains features that are considered stable
+    // and have been validated for production use.
+    STABLE = 2;
+  }
+
+  // The backend database type for the metastore service.
+  enum DatabaseType {
+    // The DATABASE_TYPE is not set.
+    DATABASE_TYPE_UNSPECIFIED = 0;
+
+    // MySQL is used to persist the metastore data.
+    MYSQL = 1;
+
+    // Spanner is used to persist the metastore data.
+    SPANNER = 2;
+  }
+
+  // Configuration properties specific to the underlying metastore service
+  // technology (the software that serves metastore queries).
+  oneof metastore_config {
+    // Configuration information specific to running Hive metastore
+    // software as the metastore service.
+    HiveMetastoreConfig hive_metastore_config = 5;
+  }
+
+  // Immutable. The relative resource name of the metastore service, in the
+  // following format:
+  //
+  // `projects/{project_number}/locations/{location_id}/services/{service_id}`.
+  string name = 1;
+
+  // Output only. The time when the metastore service was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time when the metastore service was last updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels for the metastore service.
+  map<string, string> labels = 4;
+
+  // Immutable. The relative resource name of the VPC network on which the
+  // instance can be accessed. It is specified in the following form:
+  //
+  // `projects/{project_number}/global/networks/{network_id}`.
+  string network = 7;
+
+  // Output only. The URI of the endpoint used to access the metastore service.
+  string endpoint_uri = 8;
+
+  // The TCP port at which the metastore service is reached. Default: 9083.
+  int32 port = 9;
+
+  // Output only. The current state of the metastore service.
+  State state = 10;
+
+  // Output only. Additional information about the current state of the
+  // metastore service, if available.
+  string state_message = 11;
+
+  // Output only. A Cloud Storage URI (starting with `gs://`) that specifies
+  // where artifacts related to the metastore service are stored.
+  string artifact_gcs_uri = 12;
+
+  // The tier of the service.
+  Tier tier = 13;
+
+  // The one hour maintenance window of the metastore service. This specifies
+  // when the service can be restarted for maintenance purposes in UTC time.
+  // Maintenance window is not needed for services with the SPANNER
+  // database type.
+  MaintenanceWindow maintenance_window = 15;
+
+  // Output only. The globally unique resource identifier of the metastore
+  // service.
+  string uid = 16;
+
+  // Output only. The metadata management activities of the metastore service.
+  MetadataManagementActivity metadata_management_activity = 17;
+
+  // Immutable. The release channel of the service.
+  // If unspecified, defaults to `STABLE`.
+  ReleaseChannel release_channel = 19;
+
+  // Immutable. Information used to configure the Dataproc Metastore service to
+  // encrypt customer data at rest. Cannot be updated.
+  EncryptionConfig encryption_config = 20;
+
+  // The configuration specifying the network settings for the
+  // Dataproc Metastore service.
+  NetworkConfig network_config = 21;
+
+  // Immutable. The database type that the Metastore service stores its data.
+  DatabaseType database_type = 22;
+
+  // The configuration specifying telemetry settings for the Dataproc Metastore
+  // service. If unspecified defaults to `JSON`.
+  TelemetryConfig telemetry_config = 23;
+
+  // Scaling configuration of the metastore service.
+  ScalingConfig scaling_config = 24;
+}
+
+// Maintenance window. This specifies when Dataproc Metastore
+// may perform system maintenance operation to the service.
+message MaintenanceWindow {
+  // The hour of day (0-23) when the window starts.
+  google.protobuf.Int32Value hour_of_day = 1;
+
+  // The day of week, when the window starts.
+  google.type.DayOfWeek day_of_week = 2;
+}
+
+// Specifies configuration information specific to running Hive metastore
+// software as the metastore service.
+message HiveMetastoreConfig {
+  // Immutable. The Hive metastore schema version.
+  string version = 1;
+
+  // A mapping of Hive metastore configuration key-value pairs to apply to the
+  // Hive metastore (configured in `hive-site.xml`). The mappings
+  // override system defaults (some keys cannot be overridden). These
+  // overrides are also applied to auxiliary versions and can be further
+  // customized in the auxiliary version's `AuxiliaryVersionConfig`.
+  map<string, string> config_overrides = 2;
+
+  // Information used to configure the Hive metastore service as a service
+  // principal in a Kerberos realm. To disable Kerberos, use the `UpdateService`
+  // method and specify this field's path
+  // (`hive_metastore_config.kerberos_config`) in the request's `update_mask`
+  // while omitting this field from the request's `service`.
+  KerberosConfig kerberos_config = 3;
+
+  // A mapping of Hive metastore version to the auxiliary version
+  // configuration. When specified, a secondary Hive metastore service is
+  // created along with the primary service. All auxiliary versions must be less
+  // than the service's primary version. The key is the auxiliary service name
+  // and it must match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. This
+  // means that the first character must be a lowercase letter, and all the
+  // following characters must be hyphens, lowercase letters, or digits, except
+  // the last character, which cannot be a hyphen.
+  map<string, AuxiliaryVersionConfig> auxiliary_versions = 5;
+}
+
+// Configuration information for a Kerberos principal.
+message KerberosConfig {
+  // A Kerberos keytab file that can be used to authenticate a service principal
+  // with a Kerberos Key Distribution Center (KDC).
+  Secret keytab = 1;
+
+  // A Kerberos principal that exists in the both the keytab the KDC
+  // to authenticate as. A typical principal is of the form
+  // `primary/instance@REALM`, but there is no exact format.
+  string principal = 2;
+
+  // A Cloud Storage URI that specifies the path to a
+  // krb5.conf file. It is of the form `gs://{bucket_name}/path/to/krb5.conf`,
+  // although the file does not need to be named krb5.conf explicitly.
+  string krb5_config_gcs_uri = 3;
+}
+
+// A securely stored value.
+message Secret {
+  oneof value {
+    // The relative resource name of a Secret Manager secret version, in the
+    // following form:
+    //
+    // `projects/{project_number}/secrets/{secret_id}/versions/{version_id}`.
+    string cloud_secret = 2;
+  }
+}
+
+// Encryption settings for the service.
+message EncryptionConfig {
+  // The fully qualified customer provided Cloud KMS key name to use for
+  // customer data encryption, in the following form:
+  //
+  // `projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}`.
+  string kms_key = 1;
+}
+
+// Configuration information for the auxiliary service versions.
+message AuxiliaryVersionConfig {
+  // The Hive metastore version of the auxiliary service. It must be less
+  // than the primary Hive metastore service's version.
+  string version = 1;
+
+  // A mapping of Hive metastore configuration key-value pairs to apply to the
+  // auxiliary Hive metastore (configured in `hive-site.xml`) in addition to
+  // the primary version's overrides. If keys are present in both the auxiliary
+  // version's overrides and the primary version's overrides, the value from
+  // the auxiliary version's overrides takes precedence.
+  map<string, string> config_overrides = 2;
+
+  // Output only. The network configuration contains the endpoint URI(s) of the
+  // auxiliary Hive metastore service.
+  NetworkConfig network_config = 3;
+}
+
+// Network configuration for the Dataproc Metastore service.
+message NetworkConfig {
+  // Contains information of the customer's network configurations.
+  message Consumer {
+    oneof vpc_resource {
+      // Immutable. The subnetwork of the customer project from which an IP
+      // address is reserved and used as the Dataproc Metastore service's
+      // endpoint. It is accessible to hosts in the subnet and to all
+      // hosts in a subnet in the same region and same network. There must
+      // be at least one IP address available in the subnet's primary range. The
+      // subnet is specified in the following form:
+      //
+      // `projects/{project_number}/regions/{region_id}/subnetworks/{subnetwork_id}`
+      string subnetwork = 1;
+    }
+
+    // Output only. The URI of the endpoint used to access the metastore
+    // service.
+    string endpoint_uri = 3;
+  }
+
+  // Immutable. The consumer-side network configuration for the Dataproc
+  // Metastore instance.
+  repeated Consumer consumers = 1;
+}
+
+// Telemetry Configuration for the Dataproc Metastore service.
+message TelemetryConfig {
+  enum LogFormat {
+    // The LOG_FORMAT is not set.
+    LOG_FORMAT_UNSPECIFIED = 0;
+
+    // Logging output uses the legacy `textPayload` format.
+    LEGACY = 1;
+
+    // Logging output uses the `jsonPayload` format.
+    JSON = 2;
+  }
+
+  // The output format of the Dataproc Metastore service's logs.
+  LogFormat log_format = 1;
+}
+
+// The metadata management activities of the metastore service.
+message MetadataManagementActivity {
+  // Output only. The latest metadata exports of the metastore service.
+  repeated MetadataExport metadata_exports = 1;
+
+  // Output only. The latest restores of the metastore service.
+  repeated Restore restores = 2;
+}
+
+// A metastore resource that imports metadata.
+message MetadataImport {
+  // A specification of the location of and metadata about a database dump from
+  // a relational database management system.
+  message DatabaseDump {
+    // The type of the database.
+    enum DatabaseType {
+      // The type of the source database is unknown.
+      DATABASE_TYPE_UNSPECIFIED = 0;
+
+      // The type of the source database is MySQL.
+      MYSQL = 1;
+    }
+
+    // The type of the database.
+    DatabaseType database_type = 1;
+
+    // A Cloud Storage object or folder URI that specifies the source from which
+    // to import metadata. It must begin with `gs://`.
+    string gcs_uri = 2;
+
+    // The name of the source database.
+    string source_database = 3;
+
+    // Optional. The type of the database dump. If unspecified, defaults to
+    // `MYSQL`.
+    DatabaseDumpSpec.Type type = 4;
+  }
+
+  // The current state of the metadata import.
+  enum State {
+    // The state of the metadata import is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The metadata import is running.
+    RUNNING = 1;
+
+    // The metadata import completed successfully.
+    SUCCEEDED = 2;
+
+    // The metadata import is being updated.
+    UPDATING = 3;
+
+    // The metadata import failed, and attempted metadata changes were rolled
+    // back.
+    FAILED = 4;
+  }
+
+  // The metadata to be imported.
+  oneof metadata {
+    // Immutable. A database dump from a pre-existing metastore's database.
+    DatabaseDump database_dump = 6;
+  }
+
+  // Immutable. The relative resource name of the metadata import, of the form:
+  //
+  // `projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}`.
+  string name = 1;
+
+  // The description of the metadata import.
+  string description = 2;
+
+  // Output only. The time when the metadata import was started.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the metadata import was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Output only. The time when the metadata import finished.
+  google.protobuf.Timestamp end_time = 7;
+
+  // Output only. The current state of the metadata import.
+  State state = 5;
+}
+
+// The details of a metadata export operation.
+message MetadataExport {
+  // The current state of the metadata export.
+  enum State {
+    // The state of the metadata export is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The metadata export is running.
+    RUNNING = 1;
+
+    // The metadata export completed successfully.
+    SUCCEEDED = 2;
+
+    // The metadata export failed.
+    FAILED = 3;
+
+    // The metadata export is cancelled.
+    CANCELLED = 4;
+  }
+
+  oneof destination {
+    // Output only. A Cloud Storage URI of a folder that metadata are exported
+    // to, in the form of
+    // `gs://<bucket_name>/<path_inside_bucket>/<export_folder>`, where
+    // `<export_folder>` is automatically generated.
+    string destination_gcs_uri = 4;
+  }
+
+  // Output only. The time when the export started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // Output only. The time when the export ended.
+  google.protobuf.Timestamp end_time = 2;
+
+  // Output only. The current state of the export.
+  State state = 3;
+
+  // Output only. The type of the database dump.
+  DatabaseDumpSpec.Type database_dump_type = 5;
+}
+
+// The details of a backup resource.
+message Backup {
+  // The current state of the backup.
+  enum State {
+    // The state of the backup is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The backup is being created.
+    CREATING = 1;
+
+    // The backup is being deleted.
+    DELETING = 2;
+
+    // The backup is active and ready to use.
+    ACTIVE = 3;
+
+    // The backup failed.
+    FAILED = 4;
+
+    // The backup is being restored.
+    RESTORING = 5;
+  }
+
+  // Immutable. The relative resource name of the backup, in the following form:
+  //
+  // `projects/{project_number}/locations/{location_id}/services/{service_id}/backups/{backup_id}`
+  string name = 1;
+
+  // Output only. The time when the backup was started.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time when the backup finished creating.
+  google.protobuf.Timestamp end_time = 3;
+
+  // Output only. The current state of the backup.
+  State state = 4;
+
+  // Output only. The revision of the service at the time of backup.
+  Service service_revision = 5;
+
+  // The description of the backup.
+  string description = 6;
+
+  // Output only. Services that are restoring from the backup.
+  repeated string restoring_services = 7;
+}
+
+// The details of a metadata restore operation.
+message Restore {
+  // The current state of the restore.
+  enum State {
+    // The state of the metadata restore is unknown.
+    STATE_UNSPECIFIED = 0;
+
+    // The metadata restore is running.
+    RUNNING = 1;
+
+    // The metadata restore completed successfully.
+    SUCCEEDED = 2;
+
+    // The metadata restore failed.
+    FAILED = 3;
+
+    // The metadata restore is cancelled.
+    CANCELLED = 4;
+  }
+
+  // The type of restore. If unspecified, defaults to `METADATA_ONLY`.
+  enum RestoreType {
+    // The restore type is unknown.
+    RESTORE_TYPE_UNSPECIFIED = 0;
+
+    // The service's metadata and configuration are restored.
+    FULL = 1;
+
+    // Only the service's metadata is restored.
+    METADATA_ONLY = 2;
+  }
+
+  // Output only. The time when the restore started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // Output only. The time when the restore ended.
+  google.protobuf.Timestamp end_time = 2;
+
+  // Output only. The current state of the restore.
+  State state = 3;
+
+  // Output only. The relative resource name of the metastore service backup to
+  // restore from, in the following form:
+  //
+  // `projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}`.
+  string backup = 4;
+
+  // Output only. The type of restore.
+  RestoreType type = 5;
+
+  // Output only. The restore details containing the revision of the service to
+  // be restored to, in format of JSON.
+  string details = 6;
+}
+
+// Represents the scaling configuration of a metastore service.
+message ScalingConfig {
+  // Metastore instance sizes.
+  enum InstanceSize {
+    // Unspecified instance size
+    INSTANCE_SIZE_UNSPECIFIED = 0;
+
+    // Extra small instance size, maps to a scaling factor of 0.1.
+    EXTRA_SMALL = 1;
+
+    // Small instance size, maps to a scaling factor of 0.5.
+    SMALL = 2;
+
+    // Medium instance size, maps to a scaling factor of 1.0.
+    MEDIUM = 3;
+
+    // Large instance size, maps to a scaling factor of 3.0.
+    LARGE = 4;
+
+    // Extra large instance size, maps to a scaling factor of 6.0.
+    EXTRA_LARGE = 5;
+  }
+
+  // Represents either a predetermined instance size or a numeric
+  // scaling factor.
+  oneof scaling_model {
+    // An enum of readable instance sizes, with each instance size mapping to a
+    // float value (e.g. InstanceSize.EXTRA_SMALL = scaling_factor(0.1))
+    InstanceSize instance_size = 1;
+
+    // Scaling factor, increments of 0.1 for values less than 1.0, and
+    // increments of 1.0 for values greater than 1.0.
+    float scaling_factor = 2;
+  }
+}
+
+// The specification of database dump to import from or export to.
+message DatabaseDumpSpec {
+  // The type of the database dump.
+  enum Type {
+    // The type of the database dump is unknown.
+    TYPE_UNSPECIFIED = 0;
+
+    // Database dump is a MySQL dump file.
+    MYSQL = 1;
+
+    // Database dump contains Avro files.
+    AVRO = 2;
+  }
+}
+
+// The data within all MetadataImport events.
+message MetadataImportEventData {
+  // The MetadataImport event payload.
+  MetadataImport payload = 1;
+}
+
+// The data within all Federation events.
+message FederationEventData {
+  // Optional. The Federation event payload. Unset for deletion events.
+  optional Federation payload = 1;
+}
+
+// The data within all Backup events.
+message BackupEventData {
+  // Optional. The Backup event payload. Unset for deletion events.
+  optional Backup payload = 1;
+}
+
+// The data within all Service events.
+message ServiceEventData {
+  // Optional. The Service event payload. Unset for deletion events.
+  optional Service payload = 1;
+}

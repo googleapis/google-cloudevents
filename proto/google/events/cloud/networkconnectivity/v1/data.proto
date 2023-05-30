@@ -1,0 +1,570 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.networkconnectivity.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.NetworkConnectivity.V1";
+option php_namespace = "Google\\Events\\Cloud\\NetworkConnectivity\\V1";
+option ruby_package = "Google::Events::Cloud::NetworkConnectivity::V1";
+
+// The ServiceConnectionMap resource.
+// Next id: 14
+message ServiceConnectionMap {
+  // The PSC configurations on producer side.
+  message ProducerPscConfig {
+    // The resource path of a service attachment.
+    // Example:
+    // projects/{projectNumOrId}/regions/{region}/serviceAttachments/{resourceId}.
+    string service_attachment_uri = 1;
+  }
+
+  // Allow the producer to specify which consumers can connect to it.
+  message ConsumerPscConfig {
+    // The consumer project where PSC connections are allowed to be created in.
+    string project = 1;
+
+    // The resource path of the consumer network where PSC connections are
+    // allowed to be created in. Note, this network does not need be in the
+    // ConsumerPscConfig.project in the case of SharedVPC.
+    // Example:
+    // projects/{projectNumOrId}/global/networks/{networkId}.
+    string network = 2;
+
+    // This is used in PSC consumer ForwardingRule to control whether the PSC
+    // endpoint can be accessed from another region.
+    bool disable_global_access = 3;
+  }
+
+  // PSC connection details on consumer side.
+  message ConsumerPscConnection {
+    // The state of the PSC connection.
+    enum State {
+      // An invalid state as the default case.
+      STATE_UNSPECIFIED = 0;
+
+      // The connection is fully established and ready to use.
+      ACTIVE = 1;
+
+      // The connection is not functional since some resources on the connection
+      // fail to be created.
+      FAILED = 2;
+
+      // The connection is being created.
+      CREATING = 3;
+
+      // The connection is being deleted.
+      DELETING = 4;
+    }
+
+    // The URI of a service attachment which is the target of the PSC
+    // connection.
+    string service_attachment_uri = 1;
+
+    // The state of the PSC connection.
+    State state = 2;
+
+    // The consumer project whose PSC forwarding rule is connected to the
+    // service attachments in this service connection map.
+    string project = 3;
+
+    // The consumer network whose PSC forwarding rule is connected to the
+    // service attachments in this service connection map.
+    // Note that the network could be on a different project (shared VPC).
+    string network = 4;
+
+    // The PSC connection id of the PSC forwarding rule connected
+    // to the service attachments in this service connection map.
+    string psc_connection_id = 5;
+
+    // The IP literal allocated on the consumer network for the PSC forwarding
+    // rule that is created to connect to the producer service attachment in
+    // this service connection map.
+    string ip = 6;
+
+    // The error type indicates whether the error is consumer facing, producer
+    // facing or system internal.
+    ConnectionErrorType error_type = 7;
+
+    // The most recent error during operating this connection.
+    google.rpc.Status error = 8;
+
+    // The last Compute Engine operation to setup PSC connection.
+    string gce_operation = 9;
+
+    // The URI of the consumer forwarding rule created.
+    // Example:
+    // projects/{projectNumOrId}/regions/us-east1/networks/{resourceId}.
+    string forwarding_rule = 10;
+  }
+
+  // Immutable. The name of a ServiceConnectionMap.
+  // Format:
+  // projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map}
+  // See: https://google.aip.dev/122#fields-representing-resource-names
+  string name = 1;
+
+  // Output only. Time when the ServiceConnectionMap was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Time when the ServiceConnectionMap was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels.
+  map<string, string> labels = 4;
+
+  // A description of this resource.
+  string description = 5;
+
+  // The service class identifier this ServiceConnectionMap is for.
+  // The user of ServiceConnectionMap create API needs to have
+  // networkconnecitivty.serviceclasses.use iam permission for the service
+  // class.
+  string service_class = 7;
+
+  // Output only. The service class uri this ServiceConnectionMap is for.
+  string service_class_uri = 12;
+
+  // Output only. The infrastructure used for connections between
+  // consumers/producers.
+  Infrastructure infrastructure = 8;
+
+  // The PSC configurations on producer side.
+  repeated ProducerPscConfig producer_psc_configs = 9;
+
+  // The PSC configurations on consumer side.
+  repeated ConsumerPscConfig consumer_psc_configs = 10;
+
+  // Output only. PSC connection details on consumer side.
+  repeated ConsumerPscConnection consumer_psc_connections = 11;
+}
+
+// The ServiceConnectionPolicy resource.
+// Next id: 11
+message ServiceConnectionPolicy {
+  // Configuration used for Private Service Connect connections. Used when
+  // Infrastructure is PSC.
+  message PscConfig {
+    // The resource paths of subnetworks to use for IP address management.
+    // Example:
+    // projects/{projectNumOrId}/regions/{region}/subnetworks/{resourceId}.
+    repeated string subnetworks = 1;
+
+    // Max number of PSC connections for this policy.
+    int64 limit = 2;
+  }
+
+  // Information about a specific Private Service Connect connection.
+  message PscConnection {
+    // State of the PSC Connection
+    State state = 1;
+
+    // The resource reference of the PSC Forwarding Rule within the consumer
+    // VPC.
+    string consumer_forwarding_rule = 2;
+
+    // The resource reference of the consumer address.
+    string consumer_address = 3;
+
+    // The error type indicates whether the error is consumer facing, producer
+    // facing or system internal.
+    ConnectionErrorType error_type = 4;
+
+    // The most recent error during operating this connection.
+    google.rpc.Status error = 5;
+
+    // The last Compute Engine operation to setup PSC connection.
+    string gce_operation = 6;
+
+    // The project where the PSC connection is created.
+    string consumer_target_project = 7;
+
+    // The PSC connection id of the PSC forwarding rule.
+    string psc_connection_id = 8;
+  }
+
+  // The state of the PSC connection.
+  enum State {
+    // An invalid state as the default case.
+    STATE_UNSPECIFIED = 0;
+
+    // The connection is fully established and ready to use.
+    ACTIVE = 1;
+
+    // The connection is not functional since some resources on the connection
+    // fail to be created.
+    FAILED = 2;
+
+    // The connection is being created.
+    CREATING = 3;
+
+    // The connection is being deleted.
+    DELETING = 4;
+  }
+
+  // Immutable. The name of a ServiceConnectionPolicy.
+  // Format:
+  // projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy}
+  // See: https://google.aip.dev/122#fields-representing-resource-names
+  string name = 1;
+
+  // Output only. Time when the ServiceConnectionMap was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Time when the ServiceConnectionMap was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels.
+  map<string, string> labels = 4;
+
+  // A description of this resource.
+  string description = 5;
+
+  // The resource path of the consumer network.
+  // Example:
+  // - projects/{projectNumOrId}/global/networks/{resourceId}.
+  string network = 6;
+
+  // The service class identifier for which this ServiceConnectionPolicy is for.
+  // The service class identifier is a unique, symbolic representation of a
+  // ServiceClass. It is provided by the Service Producer. Google services have
+  // a prefix of gcp. For example, gcp-cloud-sql. 3rd party services do not. For
+  // example, test-service-a3dfcx.
+  string service_class = 7;
+
+  // Output only. The type of underlying resources used to create the
+  // connection.
+  Infrastructure infrastructure = 8;
+
+  // Configuration used for Private Service Connect connections. Used when
+  // Infrastructure is PSC.
+  PscConfig psc_config = 9;
+
+  // Output only. [Output only] Information about each Private Service Connect
+  // connection.
+  repeated PscConnection psc_connections = 10;
+}
+
+// The ServiceClass resource.
+// Next id: 8
+message ServiceClass {
+  // Immutable. The name of a ServiceClass resource.
+  // Format:
+  // projects/{project}/locations/{location}/serviceClasses/{service_class}
+  // See: https://google.aip.dev/122#fields-representing-resource-names
+  string name = 1;
+
+  // Output only. The generated service class name. Use this name to refer to
+  // the Service class in Service Connection Maps and Service Connection
+  // Policies.
+  string service_class = 7;
+
+  // Output only. Time when the ServiceClass was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Time when the ServiceClass was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels.
+  map<string, string> labels = 4;
+
+  // A description of this resource.
+  string description = 5;
+
+  // Output only. URIs of all Service Connection Maps using this service class.
+  repeated string service_connection_maps = 6;
+}
+
+// The ServiceConnectionToken resource.
+// Next id: 9
+message ServiceConnectionToken {
+  // Immutable. The name of a ServiceConnectionToken.
+  // Format:
+  // projects/{project}/locations/{location}/ServiceConnectionTokens/{service_connection_token}
+  // See: https://google.aip.dev/122#fields-representing-resource-names
+  string name = 1;
+
+  // Output only. Time when the ServiceConnectionToken was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Time when the ServiceConnectionToken was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-defined labels.
+  map<string, string> labels = 4;
+
+  // A description of this resource.
+  string description = 5;
+
+  // The resource path of the network associated with this token.
+  // Example:
+  // projects/{projectNumOrId}/global/networks/{resourceId}.
+  string network = 6;
+}
+
+// The infrastructure used for connections between consumers/producers.
+enum Infrastructure {
+  // An invalid infrastructure as the default case.
+  INFRASTRUCTURE_UNSPECIFIED = 0;
+
+  // Private Service Connect is used for connections.
+  PSC = 1;
+}
+
+// The error type indicates whether a connection error is consumer facing,
+// producer facing or system internal.
+enum ConnectionErrorType {
+  // An invalid error type as the default case.
+  CONNECTION_ERROR_TYPE_UNSPECIFIED = 0;
+
+  // The error is due to Service Automation system internal.
+  ERROR_INTERNAL = 1;
+
+  // The error is due to the setup on consumer side.
+  ERROR_CONSUMER_SIDE = 2;
+
+  // The error is due to the setup on producer side.
+  ERROR_PRODUCER_SIDE = 3;
+}
+
+// A Network Connectivity Center hub is a global management resource to which
+// you attach spokes. A single hub can contain spokes from multiple regions.
+// However, if any of a hub's spokes use the site-to-site data transfer feature,
+// the resources associated with those spokes must all be in the same VPC
+// network. Spokes that do not use site-to-site data transfer can be associated
+// with any VPC network in your project.
+message Hub {
+  // Immutable. The name of the hub. Hub names must be unique. They use the
+  // following form:
+  //     `projects/{project_number}/locations/global/hubs/{hub_id}`
+  string name = 1;
+
+  // Output only. The time the hub was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time the hub was last updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional labels in key:value format. For more information about labels, see
+  // [Requirements for
+  // labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements).
+  map<string, string> labels = 4;
+
+  // An optional description of the hub.
+  string description = 5;
+
+  // Output only. The Google-generated UUID for the hub. This value is unique
+  // across all hub resources. If a hub is deleted and another with the same
+  // name is created, the new hub is assigned a different unique_id.
+  string unique_id = 8;
+
+  // Output only. The current lifecycle state of this hub.
+  State state = 9;
+
+  // The VPC networks associated with this hub's spokes.
+  //
+  // This field is read-only. Network Connectivity Center automatically
+  // populates it based on the set of spokes attached to the hub.
+  repeated RoutingVPC routing_vpcs = 10;
+}
+
+// RoutingVPC contains information about the VPC networks associated
+// with the spokes of a Network Connectivity Center hub.
+message RoutingVPC {
+  // The URI of the VPC network.
+  string uri = 1;
+
+  // Output only. If true, indicates that this VPC network is currently
+  // associated with spokes that use the data transfer feature (spokes where the
+  // site_to_site_data_transfer field is set to true). If you create new spokes
+  // that use data transfer, they must be associated with this VPC network. At
+  // most, one VPC network will have this field set to true.
+  bool required_for_new_site_to_site_data_transfer_spokes = 2;
+}
+
+// A Network Connectivity Center spoke represents one or more network
+// connectivity resources.
+//
+// When you create a spoke, you associate it with a hub. You must also
+// identify a value for exactly one of the following fields:
+//
+// * linked_vpn_tunnels
+// * linked_interconnect_attachments
+// * linked_router_appliance_instances
+message Spoke {
+  // Immutable. The name of the spoke. Spoke names must be unique. They use the
+  // following form:
+  //     `projects/{project_number}/locations/{region}/spokes/{spoke_id}`
+  string name = 1;
+
+  // Output only. The time the spoke was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time the spoke was last updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional labels in key:value format. For more information about labels, see
+  // [Requirements for
+  // labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements).
+  map<string, string> labels = 4;
+
+  // An optional description of the spoke.
+  string description = 5;
+
+  // Immutable. The name of the hub that this spoke is attached to.
+  string hub = 6;
+
+  // VPN tunnels that are associated with the spoke.
+  LinkedVpnTunnels linked_vpn_tunnels = 17;
+
+  // VLAN attachments that are associated with the spoke.
+  LinkedInterconnectAttachments linked_interconnect_attachments = 18;
+
+  // Router appliance instances that are associated with the spoke.
+  LinkedRouterApplianceInstances linked_router_appliance_instances = 19;
+
+  // Output only. The Google-generated UUID for the spoke. This value is unique
+  // across all spoke resources. If a spoke is deleted and another with the same
+  // name is created, the new spoke is assigned a different unique_id.
+  string unique_id = 11;
+
+  // Output only. The current lifecycle state of this spoke.
+  State state = 15;
+}
+
+// A collection of Cloud VPN tunnel resources. These resources should be
+// redundant HA VPN tunnels that all advertise the same prefixes to Google
+// Cloud. Alternatively, in a passive/active configuration, all tunnels
+// should be capable of advertising the same prefixes.
+message LinkedVpnTunnels {
+  // The URIs of linked VPN tunnel resources.
+  repeated string uris = 1;
+
+  // A value that controls whether site-to-site data transfer is enabled for
+  // these resources. Data transfer is available only in [supported
+  // locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations).
+  bool site_to_site_data_transfer = 2;
+
+  // Output only. The VPC network where these VPN tunnels are located.
+  string vpc_network = 3;
+}
+
+// A collection of VLAN attachment resources. These resources should
+// be redundant attachments that all advertise the same prefixes to Google
+// Cloud. Alternatively, in active/passive configurations, all attachments
+// should be capable of advertising the same prefixes.
+message LinkedInterconnectAttachments {
+  // The URIs of linked interconnect attachment resources
+  repeated string uris = 1;
+
+  // A value that controls whether site-to-site data transfer is enabled for
+  // these resources. Data transfer is available only in [supported
+  // locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations).
+  bool site_to_site_data_transfer = 2;
+
+  // Output only. The VPC network where these VLAN attachments are located.
+  string vpc_network = 3;
+}
+
+// A collection of router appliance instances. If you configure multiple router
+// appliance instances to receive data from the same set of sites outside of
+// Google Cloud, we recommend that you associate those instances with the same
+// spoke.
+message LinkedRouterApplianceInstances {
+  // The list of router appliance instances.
+  repeated RouterApplianceInstance instances = 1;
+
+  // A value that controls whether site-to-site data transfer is enabled for
+  // these resources. Data transfer is available only in [supported
+  // locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations).
+  bool site_to_site_data_transfer = 2;
+
+  // Output only. The VPC network where these router appliance instances are
+  // located.
+  string vpc_network = 3;
+}
+
+// A router appliance instance is a Compute Engine virtual machine (VM) instance
+// that acts as a BGP speaker. A router appliance instance is specified by the
+// URI of the VM and the internal IP address of one of the VM's network
+// interfaces.
+message RouterApplianceInstance {
+  // The URI of the VM.
+  string virtual_machine = 1;
+
+  // The IP address on the VM to use for peering.
+  string ip_address = 3;
+}
+
+// The State enum represents the lifecycle stage of a Network Connectivity
+// Center resource.
+enum State {
+  // No state information available
+  STATE_UNSPECIFIED = 0;
+
+  // The resource's create operation is in progress.
+  CREATING = 1;
+
+  // The resource is active
+  ACTIVE = 2;
+
+  // The resource's delete operation is in progress.
+  DELETING = 3;
+
+  // The resource's update operation is in progress.
+  UPDATING = 6;
+}
+
+// The data within all ServiceClass events.
+message ServiceClassEventData {
+  // Optional. The ServiceClass event payload. Unset for deletion events.
+  optional ServiceClass payload = 1;
+}
+
+// The data within all ServiceConnectionToken events.
+message ServiceConnectionTokenEventData {
+  // Optional. The ServiceConnectionToken event payload. Unset for deletion
+  // events.
+  optional ServiceConnectionToken payload = 1;
+}
+
+// The data within all ServiceConnectionMap events.
+message ServiceConnectionMapEventData {
+  // Optional. The ServiceConnectionMap event payload. Unset for deletion
+  // events.
+  optional ServiceConnectionMap payload = 1;
+}
+
+// The data within all Hub events.
+message HubEventData {
+  // Optional. The Hub event payload. Unset for deletion events.
+  optional Hub payload = 1;
+}
+
+// The data within all Spoke events.
+message SpokeEventData {
+  // Optional. The Spoke event payload. Unset for deletion events.
+  optional Spoke payload = 1;
+}
+
+// The data within all ServiceConnectionPolicy events.
+message ServiceConnectionPolicyEventData {
+  // Optional. The ServiceConnectionPolicy event payload. Unset for deletion
+  // events.
+  optional ServiceConnectionPolicy payload = 1;
+}

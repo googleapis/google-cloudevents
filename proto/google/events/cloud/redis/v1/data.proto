@@ -1,0 +1,451 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.redis.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/dayofweek.proto";
+import "google/type/timeofday.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Redis.V1";
+option php_namespace = "Google\\Events\\Cloud\\Redis\\V1";
+option ruby_package = "Google::Events::Cloud::Redis::V1";
+
+// Node specific properties.
+message NodeInfo {
+  // Output only. Node identifying string. e.g. 'node-0', 'node-1'
+  string id = 1;
+
+  // Output only. Location of the node.
+  string zone = 2;
+}
+
+// A Memorystore for Redis instance.
+message Instance {
+  // Represents the different states of a Redis instance.
+  enum State {
+    // Not set.
+    STATE_UNSPECIFIED = 0;
+
+    // Redis instance is being created.
+    CREATING = 1;
+
+    // Redis instance has been created and is fully usable.
+    READY = 2;
+
+    // Redis instance configuration is being updated. Certain kinds of updates
+    // may cause the instance to become unusable while the update is in
+    // progress.
+    UPDATING = 3;
+
+    // Redis instance is being deleted.
+    DELETING = 4;
+
+    // Redis instance is being repaired and may be unusable.
+    REPAIRING = 5;
+
+    // Maintenance is being performed on this Redis instance.
+    MAINTENANCE = 6;
+
+    // Redis instance is importing data (availability may be affected).
+    IMPORTING = 8;
+
+    // Redis instance is failing over (availability may be affected).
+    FAILING_OVER = 9;
+  }
+
+  // Available service tiers to choose from
+  enum Tier {
+    // Not set.
+    TIER_UNSPECIFIED = 0;
+
+    // BASIC tier: standalone instance
+    BASIC = 1;
+
+    // STANDARD_HA tier: highly available primary/replica instances
+    STANDARD_HA = 3;
+  }
+
+  // Available connection modes.
+  enum ConnectMode {
+    // Not set.
+    CONNECT_MODE_UNSPECIFIED = 0;
+
+    // Connect via direct peering to the Memorystore for Redis hosted service.
+    DIRECT_PEERING = 1;
+
+    // Connect your Memorystore for Redis instance using Private Service
+    // Access. Private services access provides an IP address range for multiple
+    // Google Cloud services, including Memorystore.
+    PRIVATE_SERVICE_ACCESS = 2;
+  }
+
+  // Available TLS modes.
+  enum TransitEncryptionMode {
+    // Not set.
+    TRANSIT_ENCRYPTION_MODE_UNSPECIFIED = 0;
+
+    // Client to Server traffic encryption enabled with server authentication.
+    SERVER_AUTHENTICATION = 1;
+
+    // TLS is disabled for the instance.
+    DISABLED = 2;
+  }
+
+  // Read replicas mode.
+  enum ReadReplicasMode {
+    // If not set, Memorystore Redis backend will default to
+    // READ_REPLICAS_DISABLED.
+    READ_REPLICAS_MODE_UNSPECIFIED = 0;
+
+    // If disabled, read endpoint will not be provided and the instance cannot
+    // scale up or down the number of replicas.
+    READ_REPLICAS_DISABLED = 1;
+
+    // If enabled, read endpoint will be provided and the instance can scale
+    // up and down the number of replicas. Not valid for basic tier.
+    READ_REPLICAS_ENABLED = 2;
+  }
+
+  // Possible reasons for the instance to be in a "SUSPENDED" state.
+  enum SuspensionReason {
+    // Not set.
+    SUSPENSION_REASON_UNSPECIFIED = 0;
+
+    // Something wrong with the CMEK key provided by customer.
+    CUSTOMER_MANAGED_KEY_ISSUE = 1;
+  }
+
+  // Required. Unique name of the resource in this scope including project and
+  // location using the form:
+  //     `projects/{project_id}/locations/{location_id}/instances/{instance_id}`
+  //
+  // Note: Redis instances are managed and addressed at regional level so
+  // location_id here refers to a GCP region; however, users may choose which
+  // specific zone (or collection of zones for cross-zone instances) an instance
+  // should be provisioned in. Refer to
+  // [location_id][google.cloud.redis.v1.Instance.location_id] and
+  // [alternative_location_id][google.cloud.redis.v1.Instance.alternative_location_id]
+  // fields for more details.
+  string name = 1;
+
+  // An arbitrary and optional user-provided name for the instance.
+  string display_name = 2;
+
+  // Resource labels to represent user provided metadata
+  map<string, string> labels = 3;
+
+  // Optional. The zone where the instance will be provisioned. If not provided,
+  // the service will choose a zone from the specified region for the instance.
+  // For standard tier, additional nodes will be added across multiple zones for
+  // protection against zonal failures. If specified, at least one node will be
+  // provisioned in this zone.
+  string location_id = 4;
+
+  // Optional. If specified, at least one node will be provisioned in this zone
+  // in addition to the zone specified in location_id. Only applicable to
+  // standard tier. If provided, it must be a different zone from the one
+  // provided in [location_id]. Additional nodes beyond the first 2 will be
+  // placed in zones selected by the service.
+  string alternative_location_id = 5;
+
+  // Optional. The version of Redis software.
+  // If not provided, latest supported version will be used. Currently, the
+  // supported values are:
+  //
+  //  *   `REDIS_3_2` for Redis 3.2 compatibility
+  //  *   `REDIS_4_0` for Redis 4.0 compatibility (default)
+  //  *   `REDIS_5_0` for Redis 5.0 compatibility
+  //  *   `REDIS_6_X` for Redis 6.x compatibility
+  string redis_version = 7;
+
+  // Optional. For DIRECT_PEERING mode, the CIDR range of internal addresses
+  // that are reserved for this instance. Range must
+  // be unique and non-overlapping with existing subnets in an authorized
+  // network. For PRIVATE_SERVICE_ACCESS mode, the name of one allocated IP
+  // address ranges associated with this private service access connection.
+  // If not provided, the service will choose an unused /29 block, for
+  // example, 10.0.0.0/29 or 192.168.0.0/29.  For READ_REPLICAS_ENABLED
+  // the default block size is /28.
+  string reserved_ip_range = 9;
+
+  // Optional. Additional IP range for node placement. Required when enabling
+  // read replicas on an existing instance. For DIRECT_PEERING mode value must
+  // be a CIDR range of size /28, or "auto". For PRIVATE_SERVICE_ACCESS mode
+  // value must be the name of an allocated address range associated with the
+  // private service access connection, or "auto".
+  string secondary_ip_range = 30;
+
+  // Output only. Hostname or IP address of the exposed Redis endpoint used by
+  // clients to connect to the service.
+  string host = 10;
+
+  // Output only. The port number of the exposed Redis endpoint.
+  int32 port = 11;
+
+  // Output only. The current zone where the Redis primary node is located. In
+  // basic tier, this will always be the same as [location_id]. In
+  // standard tier, this can be the zone of any node in the instance.
+  string current_location_id = 12;
+
+  // Output only. The time the instance was created.
+  google.protobuf.Timestamp create_time = 13;
+
+  // Output only. The current state of this instance.
+  State state = 14;
+
+  // Output only. Additional information about the current status of this
+  // instance, if available.
+  string status_message = 15;
+
+  // Optional. Redis configuration parameters, according to
+  // http://redis.io/topics/config. Currently, the only supported parameters
+  // are:
+  //
+  //  Redis version 3.2 and newer:
+  //
+  //  *   maxmemory-policy
+  //  *   notify-keyspace-events
+  //
+  //  Redis version 4.0 and newer:
+  //
+  //  *   activedefrag
+  //  *   lfu-decay-time
+  //  *   lfu-log-factor
+  //  *   maxmemory-gb
+  //
+  //  Redis version 5.0 and newer:
+  //
+  //  *   stream-node-max-bytes
+  //  *   stream-node-max-entries
+  map<string, string> redis_configs = 16;
+
+  // Required. The service tier of the instance.
+  Tier tier = 17;
+
+  // Required. Redis memory size in GiB.
+  int32 memory_size_gb = 18;
+
+  // Optional. The full name of the Google Compute Engine
+  // [network](https://cloud.google.com/vpc/docs/vpc) to which the
+  // instance is connected. If left unspecified, the `default` network
+  // will be used.
+  string authorized_network = 20;
+
+  // Output only. Cloud IAM identity used by import / export operations to
+  // transfer data to/from Cloud Storage. Format is
+  // "serviceAccount:<service_account_email>". The value may change over time
+  // for a given instance so should be checked before each import/export
+  // operation.
+  string persistence_iam_identity = 21;
+
+  // Optional. The network connect mode of the Redis instance.
+  // If not provided, the connect mode defaults to DIRECT_PEERING.
+  ConnectMode connect_mode = 22;
+
+  // Optional. Indicates whether OSS Redis AUTH is enabled for the instance. If
+  // set to "true" AUTH is enabled on the instance. Default value is "false"
+  // meaning AUTH is disabled.
+  bool auth_enabled = 23;
+
+  // Output only. List of server CA certificates for the instance.
+  repeated TlsCertificate server_ca_certs = 25;
+
+  // Optional. The TLS mode of the Redis instance.
+  // If not provided, TLS is disabled for the instance.
+  TransitEncryptionMode transit_encryption_mode = 26;
+
+  // Optional. The maintenance policy for the instance. If not provided,
+  // maintenance events can be performed at any time.
+  MaintenancePolicy maintenance_policy = 27;
+
+  // Output only. Date and time of upcoming maintenance events which have been
+  // scheduled.
+  MaintenanceSchedule maintenance_schedule = 28;
+
+  // Optional. The number of replica nodes. The valid range for the Standard
+  // Tier with read replicas enabled is [1-5] and defaults to 2. If read
+  // replicas are not enabled for a Standard Tier instance, the only valid value
+  // is 1 and the default is 1. The valid value for basic tier is 0 and the
+  // default is also 0.
+  int32 replica_count = 31;
+
+  // Output only. Info per node.
+  repeated NodeInfo nodes = 32;
+
+  // Output only. Hostname or IP address of the exposed readonly Redis
+  // endpoint. Standard tier only. Targets all healthy replica nodes in
+  // instance. Replication is asynchronous and replica nodes will exhibit some
+  // lag behind the primary. Write requests must target 'host'.
+  string read_endpoint = 33;
+
+  // Output only. The port number of the exposed readonly redis
+  // endpoint. Standard tier only. Write requests should target 'port'.
+  int32 read_endpoint_port = 34;
+
+  // Optional. Read replicas mode for the instance. Defaults to
+  // READ_REPLICAS_DISABLED.
+  ReadReplicasMode read_replicas_mode = 35;
+
+  // Optional. The KMS key reference that the customer provides when trying to
+  // create the instance.
+  string customer_managed_key = 36;
+
+  // Optional. Persistence configuration parameters
+  PersistenceConfig persistence_config = 37;
+
+  // Optional. reasons that causes instance in "SUSPENDED" state.
+  repeated SuspensionReason suspension_reasons = 38;
+
+  // Optional. The self service update maintenance version.
+  // The version is date based such as "20210712_00_00".
+  string maintenance_version = 39;
+
+  // Optional. The available maintenance versions that an instance could update
+  // to.
+  repeated string available_maintenance_versions = 40;
+}
+
+// Configuration of the persistence functionality.
+message PersistenceConfig {
+  // Available Persistence modes.
+  enum PersistenceMode {
+    // Not set.
+    PERSISTENCE_MODE_UNSPECIFIED = 0;
+
+    // Persistence is disabled for the instance,
+    // and any existing snapshots are deleted.
+    DISABLED = 1;
+
+    // RDB based Persistence is enabled.
+    RDB = 2;
+  }
+
+  // Available snapshot periods for scheduling.
+  enum SnapshotPeriod {
+    // Not set.
+    SNAPSHOT_PERIOD_UNSPECIFIED = 0;
+
+    // Snapshot every 1 hour.
+    ONE_HOUR = 3;
+
+    // Snapshot every 6 hours.
+    SIX_HOURS = 4;
+
+    // Snapshot every 12 hours.
+    TWELVE_HOURS = 5;
+
+    // Snapshot every 24 hours.
+    TWENTY_FOUR_HOURS = 6;
+  }
+
+  // Optional. Controls whether Persistence features are enabled.
+  // If not provided, the existing value will be used.
+  PersistenceMode persistence_mode = 1;
+
+  // Optional. Period between RDB snapshots. Snapshots will be attempted every
+  // period starting from the provided snapshot start time. For example, a start
+  // time of 01/01/2033 06:45 and SIX_HOURS snapshot period will do nothing
+  // until 01/01/2033, and then trigger snapshots every day at 06:45, 12:45,
+  // 18:45, and 00:45 the next day, and so on. If not provided,
+  // TWENTY_FOUR_HOURS will be used as default.
+  SnapshotPeriod rdb_snapshot_period = 2;
+
+  // Output only. The next time that a snapshot attempt is scheduled to occur.
+  google.protobuf.Timestamp rdb_next_snapshot_time = 4;
+
+  // Optional. Date and time that the first snapshot was/will be attempted, and
+  // to which future snapshots will be aligned. If not provided, the current
+  // time will be used.
+  google.protobuf.Timestamp rdb_snapshot_start_time = 5;
+}
+
+// Maintenance policy for an instance.
+message MaintenancePolicy {
+  // Output only. The time when the policy was created.
+  google.protobuf.Timestamp create_time = 1;
+
+  // Output only. The time when the policy was last updated.
+  google.protobuf.Timestamp update_time = 2;
+
+  // Optional. Description of what this policy is for. Create/Update methods
+  // return INVALID_ARGUMENT if the length is greater than 512.
+  string description = 3;
+
+  // Optional. Maintenance window that is applied to resources covered by this
+  // policy. Minimum 1. For the current version, the maximum number of
+  // weekly_window is expected to be one.
+  repeated WeeklyMaintenanceWindow weekly_maintenance_window = 4;
+}
+
+// Time window in which disruptive maintenance updates occur. Non-disruptive
+// updates can occur inside or outside this window.
+message WeeklyMaintenanceWindow {
+  // Required. The day of week that maintenance updates occur.
+  google.type.DayOfWeek day = 1;
+
+  // Required. Start time of the window in UTC time.
+  google.type.TimeOfDay start_time = 2;
+
+  // Output only. Duration of the maintenance window. The current window is
+  // fixed at 1 hour.
+  google.protobuf.Duration duration = 3;
+}
+
+// Upcoming maintenance schedule. If no maintenance is scheduled, fields are not
+// populated.
+message MaintenanceSchedule {
+  // Output only. The start time of any upcoming scheduled maintenance for this
+  // instance.
+  google.protobuf.Timestamp start_time = 1;
+
+  // Output only. The end time of any upcoming scheduled maintenance for this
+  // instance.
+  google.protobuf.Timestamp end_time = 2;
+
+  // If the scheduled maintenance can be rescheduled, default is true.
+  bool can_reschedule = 3;
+
+  // Output only. The deadline that the maintenance schedule start time can not
+  // go beyond, including reschedule.
+  google.protobuf.Timestamp schedule_deadline_time = 5;
+}
+
+// TlsCertificate Resource
+message TlsCertificate {
+  // Serial number, as extracted from the certificate.
+  string serial_number = 1;
+
+  // Output only. The time when the certificate was created in [RFC
+  // 3339](https://tools.ietf.org/html/rfc3339) format, for example
+  // `2020-05-18T00:00:00.094Z`.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The time when the certificate expires in [RFC
+  // 3339](https://tools.ietf.org/html/rfc3339) format, for example
+  // `2020-05-18T00:00:00.094Z`.
+  google.protobuf.Timestamp expire_time = 4;
+
+  // Sha1 Fingerprint of the certificate.
+  string sha1_fingerprint = 5;
+}
+
+// The data within all Instance events.
+message InstanceEventData {
+  // Optional. The Instance event payload. Unset for deletion events.
+  optional Instance payload = 1;
+}

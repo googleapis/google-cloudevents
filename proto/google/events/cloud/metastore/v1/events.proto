@@ -1,0 +1,148 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.metastore.v1;
+
+import "google/events/cloud/metastore/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Metastore.V1";
+option php_namespace = "Google\\Events\\Cloud\\Metastore\\V1";
+option ruby_package = "Google::Events::Cloud::Metastore::V1";
+
+
+option (google.events.cloud_event_product) = "Dataproc Metastore";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "federation"
+  description: "The resource ID of the Federation triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "service"
+  description: "The resource ID of the Service triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "metadataimport"
+  description: "The resource ID of the MetadataImport triggering the event."
+  camel_case_name: "metadataImport"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "backup"
+  description: "The resource ID of the Backup triggering the event."
+};
+
+// The CloudEvent raised when a Federation is created.
+message FederationCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.federation.v1.created";
+  option (google.events.cloud_event_extension_name) = "federation";
+
+  // The data associated with the event.
+  FederationEventData data = 1;
+}
+
+// The CloudEvent raised when a Federation is updated.
+message FederationUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.federation.v1.updated";
+  option (google.events.cloud_event_extension_name) = "federation";
+
+  // The data associated with the event.
+  FederationEventData data = 1;
+}
+
+// The CloudEvent raised when a Federation is deleted.
+message FederationDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.federation.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "federation";
+
+  // The data associated with the event.
+  FederationEventData data = 1;
+}
+
+// The CloudEvent raised when a Service is created.
+message ServiceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.service.v1.created";
+  option (google.events.cloud_event_extension_name) = "service";
+
+  // The data associated with the event.
+  ServiceEventData data = 1;
+}
+
+// The CloudEvent raised when a Service is updated.
+message ServiceUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.service.v1.updated";
+  option (google.events.cloud_event_extension_name) = "service";
+
+  // The data associated with the event.
+  ServiceEventData data = 1;
+}
+
+// The CloudEvent raised when a Service is deleted.
+message ServiceDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.service.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "service";
+
+  // The data associated with the event.
+  ServiceEventData data = 1;
+}
+
+// The CloudEvent raised when a MetadataImport is created.
+message MetadataImportCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.metadataImport.v1.created";
+  option (google.events.cloud_event_extension_name) = "service";
+  option (google.events.cloud_event_extension_name) = "metadataimport";
+
+  // The data associated with the event.
+  MetadataImportEventData data = 1;
+}
+
+// The CloudEvent raised when a MetadataImport is updated.
+message MetadataImportUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.metadataImport.v1.updated";
+  option (google.events.cloud_event_extension_name) = "service";
+  option (google.events.cloud_event_extension_name) = "metadataimport";
+
+  // The data associated with the event.
+  MetadataImportEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is created.
+message BackupCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.backup.v1.created";
+  option (google.events.cloud_event_extension_name) = "service";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is deleted.
+message BackupDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.metastore.backup.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "service";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
