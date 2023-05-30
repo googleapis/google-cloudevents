@@ -1,0 +1,237 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/ServiceConnectionPolicyEventData.json",
+  "name": "ServiceConnectionPolicyEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkconnectivity.v1",
+  "datatype": "google.events.cloud.networkconnectivity.v1.ServiceConnectionPolicyEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.created",
+    "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.updated",
+    "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.deleted"
+  ],
+  "product": "Network Connectivity",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ServiceConnectionPolicyEventData",
+  "definitions": {
+    "ServiceConnectionPolicyEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ServiceConnectionPolicy",
+          "additionalProperties": true,
+          "description": "Optional. The ServiceConnectionPolicy event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Connection Policy Event Data",
+      "description": "The data within all ServiceConnectionPolicy events."
+    },
+    "ServiceConnectionPolicy": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time when the ServiceConnectionMap was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Time when the ServiceConnectionMap was updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User-defined labels."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of this resource."
+        },
+        "network": {
+          "type": "string",
+          "description": "The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}."
+        },
+        "serviceClass": {
+          "type": "string",
+          "description": "The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp. For example, gcp-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx."
+        },
+        "infrastructure": {
+          "enum": [
+            "INFRASTRUCTURE_UNSPECIFIED",
+            0,
+            "PSC",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Infrastructure",
+          "description": "The infrastructure used for connections between consumers/producers."
+        },
+        "pscConfig": {
+          "$ref": "#/definitions/PscConfig",
+          "additionalProperties": true,
+          "description": "Configuration used for Private Service Connect connections. Used when Infrastructure is PSC."
+        },
+        "pscConnections": {
+          "items": {
+            "$ref": "#/definitions/PscConnection"
+          },
+          "type": "array",
+          "description": "Output only. [Output only] Information about each Private Service Connect connection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Connection Policy",
+      "description": "The ServiceConnectionPolicy resource. Next id: 11"
+    },
+    "PscConfig": {
+      "properties": {
+        "subnetworks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The resource paths of subnetworks to use for IP address management. Example: projects/{projectNumOrId}/regions/{region}/subnetworks/{resourceId}."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max number of PSC connections for this policy."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Psc Config",
+      "description": "Configuration used for Private Service Connect connections. Used when Infrastructure is PSC."
+    },
+    "PscConnection": {
+      "properties": {
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            1,
+            "FAILED",
+            2,
+            "CREATING",
+            3,
+            "DELETING",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The state of the PSC connection."
+        },
+        "consumerForwardingRule": {
+          "type": "string",
+          "description": "The resource reference of the PSC Forwarding Rule within the consumer VPC."
+        },
+        "consumerAddress": {
+          "type": "string",
+          "description": "The resource reference of the consumer address."
+        },
+        "errorType": {
+          "enum": [
+            "CONNECTION_ERROR_TYPE_UNSPECIFIED",
+            0,
+            "ERROR_INTERNAL",
+            1,
+            "ERROR_CONSUMER_SIDE",
+            2,
+            "ERROR_PRODUCER_SIDE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Connection Error Type",
+          "description": "The error type indicates whether a connection error is consumer facing, producer facing or system internal."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "The most recent error during operating this connection."
+        },
+        "gceOperation": {
+          "type": "string",
+          "description": "The last Compute Engine operation to setup PSC connection."
+        },
+        "consumerTargetProject": {
+          "type": "string",
+          "description": "The project where the PSC connection is created."
+        },
+        "pscConnectionId": {
+          "type": "string",
+          "description": "The PSC connection id of the PSC forwarding rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Psc Connection",
+      "description": "Information about a specific Private Service Connect connection."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

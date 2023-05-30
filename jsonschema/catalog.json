@@ -3,6 +3,42 @@
   "version": 1,
   "schemas": [
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/BackupEventData.json",
+      "product": "AlloyDB",
+      "name": "BackupEventData",
+      "description": "The data within all Backup events.",
+      "datatype": "google.events.cloud.alloydb.v1.BackupEventData",
+      "cloudeventTypes": [
+        "google.cloud.alloydb.backup.v1.created",
+        "google.cloud.alloydb.backup.v1.updated",
+        "google.cloud.alloydb.backup.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/ClusterEventData.json",
+      "product": "AlloyDB",
+      "name": "ClusterEventData",
+      "description": "The data within all Cluster events.",
+      "datatype": "google.events.cloud.alloydb.v1.ClusterEventData",
+      "cloudeventTypes": [
+        "google.cloud.alloydb.cluster.v1.created",
+        "google.cloud.alloydb.cluster.v1.updated",
+        "google.cloud.alloydb.cluster.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/InstanceEventData.json",
+      "product": "AlloyDB",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.alloydb.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.alloydb.instance.v1.created",
+        "google.cloud.alloydb.instance.v1.updated",
+        "google.cloud.alloydb.instance.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apigateway/v1/ApiConfigEventData.json",
       "product": "API Gateway",
       "name": "ApiConfigEventData",
@@ -598,6 +634,122 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/BackupEventData.json",
+      "product": "Dataproc Metastore",
+      "name": "BackupEventData",
+      "description": "The data within all Backup events.",
+      "datatype": "google.events.cloud.metastore.v1.BackupEventData",
+      "cloudeventTypes": [
+        "google.cloud.metastore.backup.v1.created",
+        "google.cloud.metastore.backup.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/FederationEventData.json",
+      "product": "Dataproc Metastore",
+      "name": "FederationEventData",
+      "description": "The data within all Federation events.",
+      "datatype": "google.events.cloud.metastore.v1.FederationEventData",
+      "cloudeventTypes": [
+        "google.cloud.metastore.federation.v1.created",
+        "google.cloud.metastore.federation.v1.updated",
+        "google.cloud.metastore.federation.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/MetadataImportEventData.json",
+      "product": "Dataproc Metastore",
+      "name": "MetadataImportEventData",
+      "description": "The data within all MetadataImport events.",
+      "datatype": "google.events.cloud.metastore.v1.MetadataImportEventData",
+      "cloudeventTypes": [
+        "google.cloud.metastore.metadataImport.v1.created",
+        "google.cloud.metastore.metadataImport.v1.updated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/ServiceEventData.json",
+      "product": "Dataproc Metastore",
+      "name": "ServiceEventData",
+      "description": "The data within all Service events.",
+      "datatype": "google.events.cloud.metastore.v1.ServiceEventData",
+      "cloudeventTypes": [
+        "google.cloud.metastore.service.v1.created",
+        "google.cloud.metastore.service.v1.updated",
+        "google.cloud.metastore.service.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/HubEventData.json",
+      "product": "Network Connectivity",
+      "name": "HubEventData",
+      "description": "The data within all Hub events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.HubEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.hub.v1.created",
+        "google.cloud.networkconnectivity.hub.v1.updated",
+        "google.cloud.networkconnectivity.hub.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/ServiceClassEventData.json",
+      "product": "Network Connectivity",
+      "name": "ServiceClassEventData",
+      "description": "The data within all ServiceClass events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.ServiceClassEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.serviceClass.v1.updated",
+        "google.cloud.networkconnectivity.serviceClass.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/ServiceConnectionMapEventData.json",
+      "product": "Network Connectivity",
+      "name": "ServiceConnectionMapEventData",
+      "description": "The data within all ServiceConnectionMap events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.ServiceConnectionMapEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.serviceConnectionMap.v1.created",
+        "google.cloud.networkconnectivity.serviceConnectionMap.v1.updated",
+        "google.cloud.networkconnectivity.serviceConnectionMap.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/ServiceConnectionPolicyEventData.json",
+      "product": "Network Connectivity",
+      "name": "ServiceConnectionPolicyEventData",
+      "description": "The data within all ServiceConnectionPolicy events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.ServiceConnectionPolicyEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.created",
+        "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.updated",
+        "google.cloud.networkconnectivity.serviceConnectionPolicy.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/ServiceConnectionTokenEventData.json",
+      "product": "Network Connectivity",
+      "name": "ServiceConnectionTokenEventData",
+      "description": "The data within all ServiceConnectionToken events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.ServiceConnectionTokenEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.serviceConnectionToken.v1.created",
+        "google.cloud.networkconnectivity.serviceConnectionToken.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/SpokeEventData.json",
+      "product": "Network Connectivity",
+      "name": "SpokeEventData",
+      "description": "The data within all Spoke events.",
+      "datatype": "google.events.cloud.networkconnectivity.v1.SpokeEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkconnectivity.spoke.v1.created",
+        "google.cloud.networkconnectivity.spoke.v1.updated",
+        "google.cloud.networkconnectivity.spoke.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
       "product": "Cloud Pub/Sub",
       "name": "MessagePublishedData",
@@ -605,6 +757,18 @@
       "datatype": "google.events.cloud.pubsub.v1.MessagePublishedData",
       "cloudeventTypes": [
         "google.cloud.pubsub.topic.v1.messagePublished"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/redis/v1/InstanceEventData.json",
+      "product": "Google Cloud Memorystore for Redis",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.redis.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.redis.instance.v1.created",
+        "google.cloud.redis.instance.v1.updated",
+        "google.cloud.redis.instance.v1.deleted"
       ]
     },
     {
@@ -628,6 +792,226 @@
         "google.cloud.storage.object.v1.archived",
         "google.cloud.storage.object.v1.deleted",
         "google.cloud.storage.object.v1.metadataUpdated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/video/transcoder/v1/JobEventData.json",
+      "product": "Transcoder",
+      "name": "JobEventData",
+      "description": "The data within all Job events.",
+      "datatype": "google.events.cloud.video.transcoder.v1.JobEventData",
+      "cloudeventTypes": [
+        "google.cloud.video.transcoder.job.v1.created",
+        "google.cloud.video.transcoder.job.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/video/transcoder/v1/JobTemplateEventData.json",
+      "product": "Transcoder",
+      "name": "JobTemplateEventData",
+      "description": "The data within all JobTemplate events.",
+      "datatype": "google.events.cloud.video.transcoder.v1.JobTemplateEventData",
+      "cloudeventTypes": [
+        "google.cloud.video.transcoder.jobTemplate.v1.created",
+        "google.cloud.video.transcoder.jobTemplate.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/AnalysisEventData.json",
+      "product": "Vision AI",
+      "name": "AnalysisEventData",
+      "description": "The data within all Analysis events.",
+      "datatype": "google.events.cloud.visionai.v1.AnalysisEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.analysis.v1.created",
+        "google.cloud.visionai.analysis.v1.updated",
+        "google.cloud.visionai.analysis.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ApplicationEventData.json",
+      "product": "Vision AI",
+      "name": "ApplicationEventData",
+      "description": "The data within all Application events.",
+      "datatype": "google.events.cloud.visionai.v1.ApplicationEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.application.v1.created",
+        "google.cloud.visionai.application.v1.updated",
+        "google.cloud.visionai.application.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ClusterEventData.json",
+      "product": "Vision AI",
+      "name": "ClusterEventData",
+      "description": "The data within all Cluster events.",
+      "datatype": "google.events.cloud.visionai.v1.ClusterEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.cluster.v1.created",
+        "google.cloud.visionai.cluster.v1.updated",
+        "google.cloud.visionai.cluster.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/DraftEventData.json",
+      "product": "Vision AI",
+      "name": "DraftEventData",
+      "description": "The data within all Draft events.",
+      "datatype": "google.events.cloud.visionai.v1.DraftEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.draft.v1.created",
+        "google.cloud.visionai.draft.v1.updated",
+        "google.cloud.visionai.draft.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/EventEventData.json",
+      "product": "Vision AI",
+      "name": "EventEventData",
+      "description": "The data within all Event events.",
+      "datatype": "google.events.cloud.visionai.v1.EventEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.event.v1.created",
+        "google.cloud.visionai.event.v1.updated",
+        "google.cloud.visionai.event.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ProcessEventData.json",
+      "product": "Vision AI",
+      "name": "ProcessEventData",
+      "description": "The data within all Process events.",
+      "datatype": "google.events.cloud.visionai.v1.ProcessEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.process.v1.created",
+        "google.cloud.visionai.process.v1.updated",
+        "google.cloud.visionai.process.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ProcessorEventData.json",
+      "product": "Vision AI",
+      "name": "ProcessorEventData",
+      "description": "The data within all Processor events.",
+      "datatype": "google.events.cloud.visionai.v1.ProcessorEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.processor.v1.created",
+        "google.cloud.visionai.processor.v1.updated",
+        "google.cloud.visionai.processor.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/SeriesEventData.json",
+      "product": "Vision AI",
+      "name": "SeriesEventData",
+      "description": "The data within all Series events.",
+      "datatype": "google.events.cloud.visionai.v1.SeriesEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.series.v1.created",
+        "google.cloud.visionai.series.v1.updated",
+        "google.cloud.visionai.series.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/StreamEventData.json",
+      "product": "Vision AI",
+      "name": "StreamEventData",
+      "description": "The data within all Stream events.",
+      "datatype": "google.events.cloud.visionai.v1.StreamEventData",
+      "cloudeventTypes": [
+        "google.cloud.visionai.stream.v1.created",
+        "google.cloud.visionai.stream.v1.updated",
+        "google.cloud.visionai.stream.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/CloneJobEventData.json",
+      "product": "VM Migration",
+      "name": "CloneJobEventData",
+      "description": "The data within all CloneJob events.",
+      "datatype": "google.events.cloud.vmmigration.v1.CloneJobEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.cloneJob.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/CutoverJobEventData.json",
+      "product": "VM Migration",
+      "name": "CutoverJobEventData",
+      "description": "The data within all CutoverJob events.",
+      "datatype": "google.events.cloud.vmmigration.v1.CutoverJobEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.cutoverJob.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/DatacenterConnectorEventData.json",
+      "product": "VM Migration",
+      "name": "DatacenterConnectorEventData",
+      "description": "The data within all DatacenterConnector events.",
+      "datatype": "google.events.cloud.vmmigration.v1.DatacenterConnectorEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.datacenterConnector.v1.created",
+        "google.cloud.vmmigration.datacenterConnector.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/GroupEventData.json",
+      "product": "VM Migration",
+      "name": "GroupEventData",
+      "description": "The data within all Group events.",
+      "datatype": "google.events.cloud.vmmigration.v1.GroupEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.group.v1.created",
+        "google.cloud.vmmigration.group.v1.updated",
+        "google.cloud.vmmigration.group.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/MigratingVmEventData.json",
+      "product": "VM Migration",
+      "name": "MigratingVmEventData",
+      "description": "The data within all MigratingVm events.",
+      "datatype": "google.events.cloud.vmmigration.v1.MigratingVmEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.migratingVm.v1.created",
+        "google.cloud.vmmigration.migratingVm.v1.updated",
+        "google.cloud.vmmigration.migratingVm.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/SourceEventData.json",
+      "product": "VM Migration",
+      "name": "SourceEventData",
+      "description": "The data within all Source events.",
+      "datatype": "google.events.cloud.vmmigration.v1.SourceEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.source.v1.created",
+        "google.cloud.vmmigration.source.v1.updated",
+        "google.cloud.vmmigration.source.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/TargetProjectEventData.json",
+      "product": "VM Migration",
+      "name": "TargetProjectEventData",
+      "description": "The data within all TargetProject events.",
+      "datatype": "google.events.cloud.vmmigration.v1.TargetProjectEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.targetProject.v1.created",
+        "google.cloud.vmmigration.targetProject.v1.updated",
+        "google.cloud.vmmigration.targetProject.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/UtilizationReportEventData.json",
+      "product": "VM Migration",
+      "name": "UtilizationReportEventData",
+      "description": "The data within all UtilizationReport events.",
+      "datatype": "google.events.cloud.vmmigration.v1.UtilizationReportEventData",
+      "cloudeventTypes": [
+        "google.cloud.vmmigration.utilizationReport.v1.created",
+        "google.cloud.vmmigration.utilizationReport.v1.deleted"
       ]
     },
     {

@@ -1,0 +1,195 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/SpokeEventData.json",
+  "name": "SpokeEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkconnectivity.v1",
+  "datatype": "google.events.cloud.networkconnectivity.v1.SpokeEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkconnectivity.spoke.v1.created",
+    "google.cloud.networkconnectivity.spoke.v1.updated",
+    "google.cloud.networkconnectivity.spoke.v1.deleted"
+  ],
+  "product": "Network Connectivity",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/SpokeEventData",
+  "definitions": {
+    "SpokeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Spoke",
+          "additionalProperties": true,
+          "description": "Optional. The Spoke event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spoke Event Data",
+      "description": "The data within all Spoke events."
+    },
+    "LinkedInterconnectAttachments": {
+      "properties": {
+        "uris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The URIs of linked interconnect attachment resources"
+        },
+        "siteToSiteDataTransfer": {
+          "type": "boolean",
+          "description": "A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations)."
+        },
+        "vpcNetwork": {
+          "type": "string",
+          "description": "Output only. The VPC network where these VLAN attachments are located."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Linked Interconnect Attachments",
+      "description": "A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes."
+    },
+    "LinkedRouterApplianceInstances": {
+      "properties": {
+        "instances": {
+          "items": {
+            "$ref": "#/definitions/RouterApplianceInstance"
+          },
+          "type": "array",
+          "description": "The list of router appliance instances."
+        },
+        "siteToSiteDataTransfer": {
+          "type": "boolean",
+          "description": "A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations)."
+        },
+        "vpcNetwork": {
+          "type": "string",
+          "description": "Output only. The VPC network where these router appliance instances are located."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Linked Router Appliance Instances",
+      "description": "A collection of router appliance instances. If you configure multiple router appliance instances to receive data from the same set of sites outside of Google Cloud, we recommend that you associate those instances with the same spoke."
+    },
+    "LinkedVpnTunnels": {
+      "properties": {
+        "uris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The URIs of linked VPN tunnel resources."
+        },
+        "siteToSiteDataTransfer": {
+          "type": "boolean",
+          "description": "A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations)."
+        },
+        "vpcNetwork": {
+          "type": "string",
+          "description": "Output only. The VPC network where these VPN tunnels are located."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Linked Vpn Tunnels",
+      "description": "A collection of Cloud VPN tunnel resources. These resources should be redundant HA VPN tunnels that all advertise the same prefixes to Google Cloud. Alternatively, in a passive/active configuration, all tunnels should be capable of advertising the same prefixes."
+    },
+    "RouterApplianceInstance": {
+      "properties": {
+        "virtualMachine": {
+          "type": "string",
+          "description": "The URI of the VM."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The IP address on the VM to use for peering."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Router Appliance Instance",
+      "description": "A router appliance instance is a Compute Engine virtual machine (VM) instance that acts as a BGP speaker. A router appliance instance is specified by the URI of the VM and the internal IP address of one of the VM's network interfaces."
+    },
+    "Spoke": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Immutable. The name of the spoke. Spoke names must be unique. They use the following form:     `projects/{project_number}/locations/{region}/spokes/{spoke_id}`"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the spoke was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time the spoke was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional labels in key:value format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements)."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description of the spoke."
+        },
+        "hub": {
+          "type": "string",
+          "description": "Immutable. The name of the hub that this spoke is attached to."
+        },
+        "linkedVpnTunnels": {
+          "$ref": "#/definitions/LinkedVpnTunnels",
+          "additionalProperties": true,
+          "description": "VPN tunnels that are associated with the spoke."
+        },
+        "linkedInterconnectAttachments": {
+          "$ref": "#/definitions/LinkedInterconnectAttachments",
+          "additionalProperties": true,
+          "description": "VLAN attachments that are associated with the spoke."
+        },
+        "linkedRouterApplianceInstances": {
+          "$ref": "#/definitions/LinkedRouterApplianceInstances",
+          "additionalProperties": true,
+          "description": "Router appliance instances that are associated with the spoke."
+        },
+        "uniqueId": {
+          "type": "string",
+          "description": "Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different unique_id."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "DELETING",
+            3,
+            "UPDATING",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The State enum represents the lifecycle stage of a Network Connectivity Center resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spoke",
+      "description": "A Network Connectivity Center spoke represents one or more network connectivity resources. When you create a spoke, you associate it with a hub. You must also identify a value for exactly one of the following fields: * linked_vpn_tunnels * linked_interconnect_attachments * linked_router_appliance_instances"
+    }
+  }
+}

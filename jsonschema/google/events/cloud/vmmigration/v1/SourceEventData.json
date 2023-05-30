@@ -1,0 +1,232 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/SourceEventData.json",
+  "name": "SourceEventData",
+  "examples": [],
+  "package": "google.events.cloud.vmmigration.v1",
+  "datatype": "google.events.cloud.vmmigration.v1.SourceEventData",
+  "cloudeventTypes": [
+    "google.cloud.vmmigration.source.v1.created",
+    "google.cloud.vmmigration.source.v1.updated",
+    "google.cloud.vmmigration.source.v1.deleted"
+  ],
+  "product": "VM Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/SourceEventData",
+  "definitions": {
+    "SourceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Source",
+          "additionalProperties": true,
+          "description": "Optional. The Source event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Source Event Data",
+      "description": "The data within all Source events."
+    },
+    "AwsSourceDetails": {
+      "properties": {
+        "accessKeyCreds": {
+          "$ref": "#/definitions/AccessKeyCredentials",
+          "additionalProperties": true,
+          "description": "AWS Credentials using access key id and secret."
+        },
+        "awsRegion": {
+          "type": "string",
+          "description": "Immutable. The AWS region that the source VMs will be migrated from."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "FAILED",
+            2,
+            "ACTIVE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The possible values of the state."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details on the state of the Source in case of an error."
+        },
+        "inventoryTagList": {
+          "items": {
+            "$ref": "#/definitions/Tag"
+          },
+          "type": "array",
+          "description": "AWS resource tags to limit the scope of the source inventory."
+        },
+        "inventorySecurityGroupNames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "AWS security group names to limit the scope of the source inventory."
+        },
+        "migrationResourcesUserTags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User specified tags to add to every M2VM generated resource in AWS. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m2vm`."
+        },
+        "publicIp": {
+          "type": "string",
+          "description": "Output only. The source's public IP. All communication initiated by this source will originate from this IP."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Aws Source Details",
+      "description": "AwsSourceDetails message describes a specific source details for the AWS source type."
+    },
+    "AccessKeyCredentials": {
+      "properties": {
+        "accessKeyId": {
+          "type": "string",
+          "description": "AWS access key ID."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Access Key Credentials",
+      "description": "Message describing AWS Credentials using access key id and secret."
+    },
+    "Tag": {
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Key of tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of tag."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Tag",
+      "description": "Tag is an AWS tag representation."
+    },
+    "Source": {
+      "properties": {
+        "vmware": {
+          "$ref": "#/definitions/VmwareSourceDetails",
+          "additionalProperties": true,
+          "description": "Vmware type source details."
+        },
+        "aws": {
+          "$ref": "#/definitions/AwsSourceDetails",
+          "additionalProperties": true,
+          "description": "AWS type source details."
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The Source name."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create time timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update time timestamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The labels of the source."
+        },
+        "description": {
+          "type": "string",
+          "description": "User-provided description of the source."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Source",
+      "description": "Source message describes a specific vm migration Source resource. It contains the source environment information."
+    },
+    "VmwareSourceDetails": {
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The credentials username."
+        },
+        "vcenterIp": {
+          "type": "string",
+          "description": "The ip address of the vcenter this Source represents."
+        },
+        "thumbprint": {
+          "type": "string",
+          "description": "The thumbprint representing the certificate for the vcenter."
+        },
+        "resolvedVcenterHost": {
+          "type": "string",
+          "description": "The hostname of the vcenter."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vmware Source Details",
+      "description": "VmwareSourceDetails message describes a specific source details for the vmware source type."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

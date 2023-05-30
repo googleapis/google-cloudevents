@@ -1,0 +1,138 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ProcessEventData.json",
+  "name": "ProcessEventData",
+  "examples": [],
+  "package": "google.events.cloud.visionai.v1",
+  "datatype": "google.events.cloud.visionai.v1.ProcessEventData",
+  "cloudeventTypes": [
+    "google.cloud.visionai.process.v1.created",
+    "google.cloud.visionai.process.v1.updated",
+    "google.cloud.visionai.process.v1.deleted"
+  ],
+  "product": "Vision AI",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ProcessEventData",
+  "definitions": {
+    "ProcessEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Process",
+          "additionalProperties": true,
+          "description": "Optional. The Process event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Process Event Data",
+      "description": "The data within all Process events."
+    },
+    "Process": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update timestamp.",
+          "format": "date-time"
+        },
+        "analysis": {
+          "type": "string",
+          "description": "Required. Reference to an existing Analysis resource."
+        },
+        "attributeOverrides": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Attribute overrides of the Analyzers. Format for each single override item: \"{analyzer_name}:{attribute_key}={value}\""
+        },
+        "runStatus": {
+          "$ref": "#/definitions/RunStatus",
+          "additionalProperties": true,
+          "description": "Optional. Status of the Process."
+        },
+        "runMode": {
+          "enum": [
+            "RUN_MODE_UNSPECIFIED",
+            0,
+            "LIVE",
+            1,
+            "SUBMISSION",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Run Mode",
+          "description": "RunMode represents the mode to launch the Process on."
+        },
+        "eventId": {
+          "type": "string",
+          "description": "Optional. Event ID of the input/output streams. This is useful when you have a StreamSource/StreamSink operator in the Analysis, and you want to manually specify the Event to read from/write to."
+        },
+        "batchId": {
+          "type": "string",
+          "description": "Optional. Optional: Batch ID of the Process."
+        },
+        "retryCount": {
+          "type": "integer",
+          "description": "Optional. Optional: The number of retries for a process in submission mode the system should try before declaring failure. By default, no retry will be performed."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Process",
+      "description": "Message describing the Process object."
+    },
+    "RunStatus": {
+      "properties": {
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "INITIALIZING",
+            1,
+            "RUNNING",
+            2,
+            "COMPLETED",
+            3,
+            "FAILED",
+            4,
+            "PENDING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State represents the running status of the Process."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason of becoming the state."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Run Status",
+      "description": "Message describing the status of the Process."
+    }
+  }
+}

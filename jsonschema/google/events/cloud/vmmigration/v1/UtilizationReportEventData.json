@@ -1,0 +1,310 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/UtilizationReportEventData.json",
+  "name": "UtilizationReportEventData",
+  "examples": [],
+  "package": "google.events.cloud.vmmigration.v1",
+  "datatype": "google.events.cloud.vmmigration.v1.UtilizationReportEventData",
+  "cloudeventTypes": [
+    "google.cloud.vmmigration.utilizationReport.v1.created",
+    "google.cloud.vmmigration.utilizationReport.v1.deleted"
+  ],
+  "product": "VM Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/UtilizationReportEventData",
+  "definitions": {
+    "UtilizationReportEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/UtilizationReport",
+          "additionalProperties": true,
+          "description": "Optional. The UtilizationReport event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Utilization Report Event Data",
+      "description": "The data within all UtilizationReport events."
+    },
+    "UtilizationReport": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The report unique name."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The report display name, as assigned by the user."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "SUCCEEDED",
+            2,
+            "FAILED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Utilization report state."
+        },
+        "stateTime": {
+          "type": "string",
+          "description": "Output only. The time the state was last set.",
+          "format": "date-time"
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details on the state of the report in case of an error."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the report was created (this refers to the time of the request, not the time the report creation completed).",
+          "format": "date-time"
+        },
+        "timeFrame": {
+          "enum": [
+            "TIME_FRAME_UNSPECIFIED",
+            0,
+            "WEEK",
+            1,
+            "MONTH",
+            2,
+            "YEAR",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Time Frame",
+          "description": "Report time frame options."
+        },
+        "frameEndTime": {
+          "type": "string",
+          "description": "Output only. The point in time when the time frame ends. Notice that the time frame is counted backwards. For instance if the \"frame_end_time\" value is 2021/01/20 and the time frame is WEEK then the report covers the week between 2021/01/20 and 2021/01/14.",
+          "format": "date-time"
+        },
+        "vmCount": {
+          "type": "integer",
+          "description": "Output only. Total number of VMs included in the report."
+        },
+        "vms": {
+          "items": {
+            "$ref": "#/definitions/VmUtilizationInfo"
+          },
+          "type": "array",
+          "description": "List of utilization information per VM. When sent as part of the request, the \"vm_id\" field is used in order to specify which VMs to include in the report. In that case all other fields are ignored."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Utilization Report",
+      "description": "Utilization report details the utilization (CPU, memory, etc.) of selected source VMs."
+    },
+    "VmUtilizationInfo": {
+      "properties": {
+        "vmwareVmDetails": {
+          "$ref": "#/definitions/VmwareVmDetails",
+          "additionalProperties": true,
+          "description": "The description of the VM in a Source of type Vmware."
+        },
+        "vmId": {
+          "type": "string",
+          "description": "The VM's ID in the source."
+        },
+        "utilization": {
+          "$ref": "#/definitions/VmUtilizationMetrics",
+          "additionalProperties": true,
+          "description": "Utilization metrics for this VM."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vm Utilization Info",
+      "description": "Utilization information of a single VM."
+    },
+    "VmUtilizationMetrics": {
+      "properties": {
+        "cpuMaxPercent": {
+          "type": "integer",
+          "description": "Max CPU usage, percent."
+        },
+        "cpuAveragePercent": {
+          "type": "integer",
+          "description": "Average CPU usage, percent."
+        },
+        "memoryMaxPercent": {
+          "type": "integer",
+          "description": "Max memory usage, percent."
+        },
+        "memoryAveragePercent": {
+          "type": "integer",
+          "description": "Average memory usage, percent."
+        },
+        "diskIoRateMaxKbps": {
+          "type": "integer",
+          "description": "Max disk IO rate, in kilobytes per second."
+        },
+        "diskIoRateAverageKbps": {
+          "type": "integer",
+          "description": "Average disk IO rate, in kilobytes per second."
+        },
+        "networkThroughputMaxKbps": {
+          "type": "integer",
+          "description": "Max network throughput (combined transmit-rates and receive-rates), in kilobytes per second."
+        },
+        "networkThroughputAverageKbps": {
+          "type": "integer",
+          "description": "Average network throughput (combined transmit-rates and receive-rates), in kilobytes per second."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vm Utilization Metrics",
+      "description": "Utilization metrics values for a single VM."
+    },
+    "VmwareVmDetails": {
+      "properties": {
+        "vmId": {
+          "type": "string",
+          "description": "The VM's id in the source (note that this is not the MigratingVm's id). This is the moref id of the VM."
+        },
+        "datacenterId": {
+          "type": "string",
+          "description": "The id of the vCenter's datacenter this VM is contained in."
+        },
+        "datacenterDescription": {
+          "type": "string",
+          "description": "The descriptive name of the vCenter's datacenter this VM is contained in."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "The unique identifier of the VM in vCenter."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the VM. Note that this is not necessarily unique."
+        },
+        "powerState": {
+          "enum": [
+            "POWER_STATE_UNSPECIFIED",
+            0,
+            "ON",
+            1,
+            "OFF",
+            2,
+            "SUSPENDED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Power State",
+          "description": "Possible values for the power state of the VM."
+        },
+        "cpuCount": {
+          "type": "integer",
+          "description": "The number of cpus in the VM."
+        },
+        "memoryMb": {
+          "type": "integer",
+          "description": "The size of the memory of the VM in MB."
+        },
+        "diskCount": {
+          "type": "integer",
+          "description": "The number of disks the VM has."
+        },
+        "committedStorageMb": {
+          "type": "integer",
+          "description": "The total size of the storage allocated to the VM in MB."
+        },
+        "guestDescription": {
+          "type": "string",
+          "description": "The VM's OS. See for example https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for types of strings this might hold."
+        },
+        "bootOption": {
+          "enum": [
+            "BOOT_OPTION_UNSPECIFIED",
+            0,
+            "EFI",
+            1,
+            "BIOS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Boot Option",
+          "description": "Possible values for vm boot option."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vmware Vm Details",
+      "description": "VmwareVmDetails describes a VM in vCenter."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/SeriesEventData.json",
+  "name": "SeriesEventData",
+  "examples": [],
+  "package": "google.events.cloud.visionai.v1",
+  "datatype": "google.events.cloud.visionai.v1.SeriesEventData",
+  "cloudeventTypes": [
+    "google.cloud.visionai.series.v1.created",
+    "google.cloud.visionai.series.v1.updated",
+    "google.cloud.visionai.series.v1.deleted"
+  ],
+  "product": "Vision AI",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/SeriesEventData",
+  "definitions": {
+    "SeriesEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Series",
+          "additionalProperties": true,
+          "description": "Optional. The Series event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Series Event Data",
+      "description": "The data within all Series events."
+    },
+    "Series": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update timestamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to allow clients to store small amounts of arbitrary data."
+        },
+        "stream": {
+          "type": "string",
+          "description": "Required. Stream that is associated with this series."
+        },
+        "event": {
+          "type": "string",
+          "description": "Required. Event that is associated with this series."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Series",
+      "description": "Message describing the Series object."
+    }
+  }
+}

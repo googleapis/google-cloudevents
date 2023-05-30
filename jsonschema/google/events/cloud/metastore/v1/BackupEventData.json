@@ -1,0 +1,669 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/BackupEventData.json",
+  "name": "BackupEventData",
+  "examples": [],
+  "package": "google.events.cloud.metastore.v1",
+  "datatype": "google.events.cloud.metastore.v1.BackupEventData",
+  "cloudeventTypes": [
+    "google.cloud.metastore.backup.v1.created",
+    "google.cloud.metastore.backup.v1.deleted"
+  ],
+  "product": "Dataproc Metastore",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/BackupEventData",
+  "definitions": {
+    "BackupEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Backup",
+          "additionalProperties": true,
+          "description": "Optional. The Backup event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Backup Event Data",
+      "description": "The data within all Backup events."
+    },
+    "AuxiliaryVersionConfig": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The Hive metastore version of the auxiliary service. It must be less than the primary Hive metastore service's version."
+        },
+        "configOverrides": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A mapping of Hive metastore configuration key-value pairs to apply to the auxiliary Hive metastore (configured in `hive-site.xml`) in addition to the primary version's overrides. If keys are present in both the auxiliary version's overrides and the primary version's overrides, the value from the auxiliary version's overrides takes precedence."
+        },
+        "networkConfig": {
+          "$ref": "#/definitions/NetworkConfig",
+          "additionalProperties": true,
+          "description": "Output only. The network configuration contains the endpoint URI(s) of the auxiliary Hive metastore service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Auxiliary Version Config",
+      "description": "Configuration information for the auxiliary service versions."
+    },
+    "Backup": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/services/{service_id}/backups/{backup_id}`"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the backup was started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time when the backup finished creating.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "DELETING",
+            2,
+            "ACTIVE",
+            3,
+            "FAILED",
+            4,
+            "RESTORING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the backup."
+        },
+        "serviceRevision": {
+          "$ref": "#/definitions/Service",
+          "additionalProperties": true,
+          "description": "Output only. The revision of the service at the time of backup."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the backup."
+        },
+        "restoringServices": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Output only. Services that are restoring from the backup."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Backup",
+      "description": "The details of a backup resource."
+    },
+    "EncryptionConfig": {
+      "properties": {
+        "kmsKey": {
+          "type": "string",
+          "description": "The fully qualified customer provided Cloud KMS key name to use for customer data encryption, in the following form: `projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Encryption Config",
+      "description": "Encryption settings for the service."
+    },
+    "HiveMetastoreConfig": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Immutable. The Hive metastore schema version."
+        },
+        "configOverrides": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in `hive-site.xml`). The mappings override system defaults (some keys cannot be overridden). These overrides are also applied to auxiliary versions and can be further customized in the auxiliary version's `AuxiliaryVersionConfig`."
+        },
+        "kerberosConfig": {
+          "$ref": "#/definitions/KerberosConfig",
+          "additionalProperties": true,
+          "description": "Information used to configure the Hive metastore service as a service principal in a Kerberos realm. To disable Kerberos, use the `UpdateService` method and specify this field's path (`hive_metastore_config.kerberos_config`) in the request's `update_mask` while omitting this field from the request's `service`."
+        },
+        "auxiliaryVersions": {
+          "additionalProperties": {
+            "$ref": "#/definitions/AuxiliaryVersionConfig",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "A mapping of Hive metastore version to the auxiliary version configuration. When specified, a secondary Hive metastore service is created along with the primary service. All auxiliary versions must be less than the service's primary version. The key is the auxiliary service name and it must match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Hive Metastore Config",
+      "description": "Specifies configuration information specific to running Hive metastore software as the metastore service."
+    },
+    "KerberosConfig": {
+      "properties": {
+        "keytab": {
+          "$ref": "#/definitions/Secret",
+          "additionalProperties": true,
+          "description": "A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC)."
+        },
+        "principal": {
+          "type": "string",
+          "description": "A Kerberos principal that exists in the both the keytab the KDC to authenticate as. A typical principal is of the form `primary/instance@REALM`, but there is no exact format."
+        },
+        "krb5ConfigGcsUri": {
+          "type": "string",
+          "description": "A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form `gs://{bucket_name}/path/to/krb5.conf`, although the file does not need to be named krb5.conf explicitly."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Kerberos Config",
+      "description": "Configuration information for a Kerberos principal."
+    },
+    "MaintenanceWindow": {
+      "properties": {
+        "hourOfDay": {
+          "additionalProperties": true,
+          "type": "integer",
+          "description": "The hour of day (0-23) when the window starts."
+        },
+        "dayOfWeek": {
+          "enum": [
+            "DAY_OF_WEEK_UNSPECIFIED",
+            0,
+            "MONDAY",
+            1,
+            "TUESDAY",
+            2,
+            "WEDNESDAY",
+            3,
+            "THURSDAY",
+            4,
+            "FRIDAY",
+            5,
+            "SATURDAY",
+            6,
+            "SUNDAY",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Day Of Week",
+          "description": "Represents a day of week."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Maintenance Window",
+      "description": "Maintenance window. This specifies when Dataproc Metastore may perform system maintenance operation to the service."
+    },
+    "MetadataExport": {
+      "properties": {
+        "destinationGcsUri": {
+          "type": "string",
+          "description": "Output only. A Cloud Storage URI of a folder that metadata are exported to, in the form of `gs://<bucket_name>/<path_inside_bucket>/<export_folder>`, where `<export_folder>` is automatically generated."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Output only. The time when the export started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time when the export ended.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "SUCCEEDED",
+            2,
+            "FAILED",
+            3,
+            "CANCELLED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the metadata export."
+        },
+        "databaseDumpType": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "MYSQL",
+            1,
+            "AVRO",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "The type of the database dump."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metadata Export",
+      "description": "The details of a metadata export operation."
+    },
+    "MetadataManagementActivity": {
+      "properties": {
+        "metadataExports": {
+          "items": {
+            "$ref": "#/definitions/MetadataExport"
+          },
+          "type": "array",
+          "description": "Output only. The latest metadata exports of the metastore service."
+        },
+        "restores": {
+          "items": {
+            "$ref": "#/definitions/Restore"
+          },
+          "type": "array",
+          "description": "Output only. The latest restores of the metastore service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metadata Management Activity",
+      "description": "The metadata management activities of the metastore service."
+    },
+    "NetworkConfig": {
+      "properties": {
+        "consumers": {
+          "items": {
+            "$ref": "#/definitions/Consumer"
+          },
+          "type": "array",
+          "description": "Immutable. The consumer-side network configuration for the Dataproc Metastore instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Network Config",
+      "description": "Network configuration for the Dataproc Metastore service."
+    },
+    "Consumer": {
+      "properties": {
+        "subnetwork": {
+          "type": "string",
+          "description": "Immutable. The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint. It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network. There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form: `projects/{project_number}/regions/{region_id}/subnetworks/{subnetwork_id}`"
+        },
+        "endpointUri": {
+          "type": "string",
+          "description": "Output only. The URI of the endpoint used to access the metastore service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Consumer",
+      "description": "Contains information of the customer's network configurations."
+    },
+    "Restore": {
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "description": "Output only. The time when the restore started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time when the restore ended.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "SUCCEEDED",
+            2,
+            "FAILED",
+            3,
+            "CANCELLED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the restore."
+        },
+        "backup": {
+          "type": "string",
+          "description": "Output only. The relative resource name of the metastore service backup to restore from, in the following form: `projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}`."
+        },
+        "type": {
+          "enum": [
+            "RESTORE_TYPE_UNSPECIFIED",
+            0,
+            "FULL",
+            1,
+            "METADATA_ONLY",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Restore Type",
+          "description": "The type of restore. If unspecified, defaults to `METADATA_ONLY`."
+        },
+        "details": {
+          "type": "string",
+          "description": "Output only. The restore details containing the revision of the service to be restored to, in format of JSON."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Restore",
+      "description": "The details of a metadata restore operation."
+    },
+    "ScalingConfig": {
+      "properties": {
+        "instanceSize": {
+          "enum": [
+            "INSTANCE_SIZE_UNSPECIFIED",
+            0,
+            "EXTRA_SMALL",
+            1,
+            "SMALL",
+            2,
+            "MEDIUM",
+            3,
+            "LARGE",
+            4,
+            "EXTRA_LARGE",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Instance Size",
+          "description": "Metastore instance sizes."
+        },
+        "scalingFactor": {
+          "type": "number",
+          "description": "Scaling factor, increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scaling Config",
+      "description": "Represents the scaling configuration of a metastore service."
+    },
+    "Secret": {
+      "properties": {
+        "cloudSecret": {
+          "type": "string",
+          "description": "The relative resource name of a Secret Manager secret version, in the following form: `projects/{project_number}/secrets/{secret_id}/versions/{version_id}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Secret",
+      "description": "A securely stored value."
+    },
+    "Service": {
+      "properties": {
+        "hiveMetastoreConfig": {
+          "$ref": "#/definitions/HiveMetastoreConfig",
+          "additionalProperties": true,
+          "description": "Configuration information specific to running Hive metastore software as the metastore service."
+        },
+        "name": {
+          "type": "string",
+          "description": "Immutable. The relative resource name of the metastore service, in the following format: `projects/{project_number}/locations/{location_id}/services/{service_id}`."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the metastore service was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the metastore service was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User-defined labels for the metastore service."
+        },
+        "network": {
+          "type": "string",
+          "description": "Immutable. The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form: `projects/{project_number}/global/networks/{network_id}`."
+        },
+        "endpointUri": {
+          "type": "string",
+          "description": "Output only. The URI of the endpoint used to access the metastore service."
+        },
+        "port": {
+          "type": "integer",
+          "description": "The TCP port at which the metastore service is reached. Default: 9083."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "SUSPENDING",
+            3,
+            "SUSPENDED",
+            4,
+            "UPDATING",
+            5,
+            "DELETING",
+            6,
+            "ERROR",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the metastore service."
+        },
+        "stateMessage": {
+          "type": "string",
+          "description": "Output only. Additional information about the current state of the metastore service, if available."
+        },
+        "artifactGcsUri": {
+          "type": "string",
+          "description": "Output only. A Cloud Storage URI (starting with `gs://`) that specifies where artifacts related to the metastore service are stored."
+        },
+        "tier": {
+          "enum": [
+            "TIER_UNSPECIFIED",
+            0,
+            "DEVELOPER",
+            1,
+            "ENTERPRISE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Tier",
+          "description": "Available service tiers."
+        },
+        "maintenanceWindow": {
+          "$ref": "#/definitions/MaintenanceWindow",
+          "additionalProperties": true,
+          "description": "The one hour maintenance window of the metastore service. This specifies when the service can be restarted for maintenance purposes in UTC time. Maintenance window is not needed for services with the SPANNER database type."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. The globally unique resource identifier of the metastore service."
+        },
+        "metadataManagementActivity": {
+          "$ref": "#/definitions/MetadataManagementActivity",
+          "additionalProperties": true,
+          "description": "Output only. The metadata management activities of the metastore service."
+        },
+        "releaseChannel": {
+          "enum": [
+            "RELEASE_CHANNEL_UNSPECIFIED",
+            0,
+            "CANARY",
+            1,
+            "STABLE",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Release Channel",
+          "description": "Release channels bundle features of varying levels of stability. Newer features may be introduced initially into less stable release channels and can be automatically promoted into more stable release channels."
+        },
+        "encryptionConfig": {
+          "$ref": "#/definitions/EncryptionConfig",
+          "additionalProperties": true,
+          "description": "Immutable. Information used to configure the Dataproc Metastore service to encrypt customer data at rest. Cannot be updated."
+        },
+        "networkConfig": {
+          "$ref": "#/definitions/NetworkConfig",
+          "additionalProperties": true,
+          "description": "The configuration specifying the network settings for the Dataproc Metastore service."
+        },
+        "databaseType": {
+          "enum": [
+            "DATABASE_TYPE_UNSPECIFIED",
+            0,
+            "MYSQL",
+            1,
+            "SPANNER",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Type",
+          "description": "The backend database type for the metastore service."
+        },
+        "telemetryConfig": {
+          "$ref": "#/definitions/TelemetryConfig",
+          "additionalProperties": true,
+          "description": "The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to `JSON`."
+        },
+        "scalingConfig": {
+          "$ref": "#/definitions/ScalingConfig",
+          "additionalProperties": true,
+          "description": "Scaling configuration of the metastore service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service",
+      "description": "A managed metastore service that serves metadata queries."
+    },
+    "TelemetryConfig": {
+      "properties": {
+        "logFormat": {
+          "enum": [
+            "LOG_FORMAT_UNSPECIFIED",
+            0,
+            "LEGACY",
+            1,
+            "JSON",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Log Format"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Telemetry Config",
+      "description": "Telemetry Configuration for the Dataproc Metastore service."
+    }
+  }
+}
