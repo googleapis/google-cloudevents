@@ -1,0 +1,130 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.alloydb.v1;
+
+import "google/events/cloud/alloydb/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.AlloyDb.V1";
+option php_namespace = "Google\\Events\\Cloud\\AlloyDb\\V1";
+option ruby_package = "Google::Events::Cloud::AlloyDb::V1";
+option (google.events.cloud_event_product) = "AlloyDB";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "cluster"
+  description: "The resource ID of the Cluster triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "instance"
+  description: "The resource ID of the Instance triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "backup"
+  description: "The resource ID of the Backup triggering the event."
+};
+
+// The CloudEvent raised when a Cluster is created.
+message ClusterCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.cluster.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when a Cluster is updated.
+message ClusterUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.cluster.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when a Cluster is deleted.
+message ClusterDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.cluster.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is created.
+message InstanceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.instance.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is updated.
+message InstanceUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.instance.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is deleted.
+message InstanceDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.instance.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is created.
+message BackupCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.backup.v1.created";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is updated.
+message BackupUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.backup.v1.updated";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}
+
+// The CloudEvent raised when a Backup is deleted.
+message BackupDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.alloydb.backup.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "backup";
+
+  // The data associated with the event.
+  BackupEventData data = 1;
+}

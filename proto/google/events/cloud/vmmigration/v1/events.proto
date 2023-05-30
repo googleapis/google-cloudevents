@@ -1,0 +1,255 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.vmmigration.v1;
+
+import "google/events/cloud/vmmigration/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.VMMigration.V1";
+option php_namespace = "Google\\Events\\Cloud\\VMMigration\\V1";
+option ruby_package = "Google::Events::Cloud::VMMigration::V1";
+option (google.events.cloud_event_product) = "VM Migration";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "sourceid"
+  description: "The resource ID of the Source triggering the event."
+  camel_case_name: "sourceId"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "utilizationreport"
+  description: "The resource ID of the UtilizationReport triggering the event."
+  camel_case_name: "utilizationReport"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "datacenterconnector"
+  description: "The resource ID of the DatacenterConnector triggering the event."
+  camel_case_name: "datacenterConnector"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "migratingvm"
+  description: "The resource ID of the MigratingVm triggering the event."
+  camel_case_name: "migratingVm"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "clonejob"
+  description: "The resource ID of the CloneJob triggering the event."
+  camel_case_name: "cloneJob"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "cutoverjob"
+  description: "The resource ID of the CutoverJob triggering the event."
+  camel_case_name: "cutoverJob"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "group"
+  description: "The resource ID of the Group triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "targetproject"
+  description: "The resource ID of the TargetProject triggering the event."
+  camel_case_name: "targetProject"
+};
+
+// The CloudEvent raised when a Source is created.
+message SourceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.source.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+
+  // The data associated with the event.
+  SourceEventData data = 1;
+}
+
+// The CloudEvent raised when a Source is updated.
+message SourceUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.source.v1.updated";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+
+  // The data associated with the event.
+  SourceEventData data = 1;
+}
+
+// The CloudEvent raised when a Source is deleted.
+message SourceDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.source.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+
+  // The data associated with the event.
+  SourceEventData data = 1;
+}
+
+// The CloudEvent raised when an UtilizationReport is created.
+message UtilizationReportCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.utilizationReport.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "utilizationreport";
+
+  // The data associated with the event.
+  UtilizationReportEventData data = 1;
+}
+
+// The CloudEvent raised when an UtilizationReport is deleted.
+message UtilizationReportDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.utilizationReport.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "utilizationreport";
+
+  // The data associated with the event.
+  UtilizationReportEventData data = 1;
+}
+
+// The CloudEvent raised when a DatacenterConnector is created.
+message DatacenterConnectorCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.datacenterConnector.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "datacenterconnector";
+
+  // The data associated with the event.
+  DatacenterConnectorEventData data = 1;
+}
+
+// The CloudEvent raised when a DatacenterConnector is deleted.
+message DatacenterConnectorDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.datacenterConnector.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "datacenterconnector";
+
+  // The data associated with the event.
+  DatacenterConnectorEventData data = 1;
+}
+
+// The CloudEvent raised when a MigratingVm is created.
+message MigratingVmCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.migratingVm.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "migratingvm";
+
+  // The data associated with the event.
+  MigratingVmEventData data = 1;
+}
+
+// The CloudEvent raised when a MigratingVm is updated.
+message MigratingVmUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.migratingVm.v1.updated";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "migratingvm";
+
+  // The data associated with the event.
+  MigratingVmEventData data = 1;
+}
+
+// The CloudEvent raised when a MigratingVm is deleted.
+message MigratingVmDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.migratingVm.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "migratingvm";
+
+  // The data associated with the event.
+  MigratingVmEventData data = 1;
+}
+
+// The CloudEvent raised when a CloneJob is created.
+message CloneJobCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.cloneJob.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "migratingvm";
+  option (google.events.cloud_event_extension_name) = "clonejob";
+
+  // The data associated with the event.
+  CloneJobEventData data = 1;
+}
+
+// The CloudEvent raised when a CutoverJob is created.
+message CutoverJobCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.cutoverJob.v1.created";
+  option (google.events.cloud_event_extension_name) = "sourceid";
+  option (google.events.cloud_event_extension_name) = "migratingvm";
+  option (google.events.cloud_event_extension_name) = "cutoverjob";
+
+  // The data associated with the event.
+  CutoverJobEventData data = 1;
+}
+
+// The CloudEvent raised when a Group is created.
+message GroupCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.group.v1.created";
+  option (google.events.cloud_event_extension_name) = "group";
+
+  // The data associated with the event.
+  GroupEventData data = 1;
+}
+
+// The CloudEvent raised when a Group is updated.
+message GroupUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.group.v1.updated";
+  option (google.events.cloud_event_extension_name) = "group";
+
+  // The data associated with the event.
+  GroupEventData data = 1;
+}
+
+// The CloudEvent raised when a Group is deleted.
+message GroupDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.group.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "group";
+
+  // The data associated with the event.
+  GroupEventData data = 1;
+}
+
+// The CloudEvent raised when a TargetProject is created.
+message TargetProjectCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.targetProject.v1.created";
+  option (google.events.cloud_event_extension_name) = "targetproject";
+
+  // The data associated with the event.
+  TargetProjectEventData data = 1;
+}
+
+// The CloudEvent raised when a TargetProject is updated.
+message TargetProjectUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.targetProject.v1.updated";
+  option (google.events.cloud_event_extension_name) = "targetproject";
+
+  // The data associated with the event.
+  TargetProjectEventData data = 1;
+}
+
+// The CloudEvent raised when a TargetProject is deleted.
+message TargetProjectDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.vmmigration.targetProject.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "targetproject";
+
+  // The data associated with the event.
+  TargetProjectEventData data = 1;
+}

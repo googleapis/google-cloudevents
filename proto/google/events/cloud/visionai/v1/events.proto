@@ -1,0 +1,349 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.visionai.v1;
+
+import "google/events/cloud/visionai/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.VisionAI.V1";
+option php_namespace = "Google\\Events\\Cloud\\VisionAI\\V1";
+option ruby_package = "Google::Events::Cloud::VisionAI::V1";
+option (google.events.cloud_event_product) = "Vision AI";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "cluster"
+  description: "The resource ID of the Cluster triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "analysis"
+  description: "The resource ID of the Analysis triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "process"
+  description: "The resource ID of the Process triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "application"
+  description: "The resource ID of the Application triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "draft"
+  description: "The resource ID of the Draft triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "processor"
+  description: "The resource ID of the Processor triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "stream"
+  description: "The resource ID of the Stream triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "event"
+  description: "The resource ID of the Event triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "series"
+  description: "The resource ID of the Series triggering the event."
+};
+
+// The CloudEvent raised when an Analysis is created.
+message AnalysisCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.analysis.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "analysis";
+
+  // The data associated with the event.
+  AnalysisEventData data = 1;
+}
+
+// The CloudEvent raised when an Analysis is updated.
+message AnalysisUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.analysis.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "analysis";
+
+  // The data associated with the event.
+  AnalysisEventData data = 1;
+}
+
+// The CloudEvent raised when an Analysis is deleted.
+message AnalysisDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.analysis.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "analysis";
+
+  // The data associated with the event.
+  AnalysisEventData data = 1;
+}
+
+// The CloudEvent raised when a Process is created.
+message ProcessCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.process.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "process";
+
+  // The data associated with the event.
+  ProcessEventData data = 1;
+}
+
+// The CloudEvent raised when a Process is updated.
+message ProcessUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.process.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "process";
+
+  // The data associated with the event.
+  ProcessEventData data = 1;
+}
+
+// The CloudEvent raised when a Process is deleted.
+message ProcessDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.process.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "process";
+
+  // The data associated with the event.
+  ProcessEventData data = 1;
+}
+
+// The CloudEvent raised when an Application is created.
+message ApplicationCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.application.v1.created";
+  option (google.events.cloud_event_extension_name) = "application";
+
+  // The data associated with the event.
+  ApplicationEventData data = 1;
+}
+
+// The CloudEvent raised when an Application is updated.
+message ApplicationUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.application.v1.updated";
+  option (google.events.cloud_event_extension_name) = "application";
+
+  // The data associated with the event.
+  ApplicationEventData data = 1;
+}
+
+// The CloudEvent raised when an Application is deleted.
+message ApplicationDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.application.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "application";
+
+  // The data associated with the event.
+  ApplicationEventData data = 1;
+}
+
+// The CloudEvent raised when a Draft is created.
+message DraftCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.draft.v1.created";
+  option (google.events.cloud_event_extension_name) = "application";
+  option (google.events.cloud_event_extension_name) = "draft";
+
+  // The data associated with the event.
+  DraftEventData data = 1;
+}
+
+// The CloudEvent raised when a Draft is updated.
+message DraftUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.draft.v1.updated";
+  option (google.events.cloud_event_extension_name) = "application";
+  option (google.events.cloud_event_extension_name) = "draft";
+
+  // The data associated with the event.
+  DraftEventData data = 1;
+}
+
+// The CloudEvent raised when a Draft is deleted.
+message DraftDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.draft.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "application";
+  option (google.events.cloud_event_extension_name) = "draft";
+
+  // The data associated with the event.
+  DraftEventData data = 1;
+}
+
+// The CloudEvent raised when a Processor is created.
+message ProcessorCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.processor.v1.created";
+  option (google.events.cloud_event_extension_name) = "processor";
+
+  // The data associated with the event.
+  ProcessorEventData data = 1;
+}
+
+// The CloudEvent raised when a Processor is updated.
+message ProcessorUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.processor.v1.updated";
+  option (google.events.cloud_event_extension_name) = "processor";
+
+  // The data associated with the event.
+  ProcessorEventData data = 1;
+}
+
+// The CloudEvent raised when a Processor is deleted.
+message ProcessorDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.processor.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "processor";
+
+  // The data associated with the event.
+  ProcessorEventData data = 1;
+}
+
+// The CloudEvent raised when a Cluster is created.
+message ClusterCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.cluster.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when a Cluster is updated.
+message ClusterUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.cluster.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when a Cluster is deleted.
+message ClusterDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.cluster.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+
+  // The data associated with the event.
+  ClusterEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is created.
+message StreamCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.stream.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is updated.
+message StreamUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.stream.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when a Stream is deleted.
+message StreamDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.stream.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "stream";
+
+  // The data associated with the event.
+  StreamEventData data = 1;
+}
+
+// The CloudEvent raised when an Event is created.
+message EventCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.event.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "event";
+
+  // The data associated with the event.
+  EventEventData data = 1;
+}
+
+// The CloudEvent raised when an Event is updated.
+message EventUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.event.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "event";
+
+  // The data associated with the event.
+  EventEventData data = 1;
+}
+
+// The CloudEvent raised when an Event is deleted.
+message EventDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.event.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "event";
+
+  // The data associated with the event.
+  EventEventData data = 1;
+}
+
+// The CloudEvent raised when a Series is created.
+message SeriesCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.series.v1.created";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "series";
+
+  // The data associated with the event.
+  SeriesEventData data = 1;
+}
+
+// The CloudEvent raised when a Series is updated.
+message SeriesUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.series.v1.updated";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "series";
+
+  // The data associated with the event.
+  SeriesEventData data = 1;
+}
+
+// The CloudEvent raised when a Series is deleted.
+message SeriesDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.visionai.series.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "cluster";
+  option (google.events.cloud_event_extension_name) = "series";
+
+  // The data associated with the event.
+  SeriesEventData data = 1;
+}

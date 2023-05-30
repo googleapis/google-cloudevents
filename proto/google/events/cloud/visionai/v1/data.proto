@@ -1,0 +1,1394 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.visionai.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.VisionAI.V1";
+option php_namespace = "Google\\Events\\Cloud\\VisionAI\\V1";
+option ruby_package = "Google::Events::Cloud::VisionAI::V1";
+
+// message about annotations about Vision AI stream resource.
+message StreamAnnotation {
+  oneof annotation_payload {
+    // Annotation for type ACTIVE_ZONE
+    NormalizedPolygon active_zone = 5;
+
+    // Annotation for type CROSSING_LINE
+    NormalizedPolyline crossing_line = 6;
+  }
+
+  // ID of the annotation. It must be unique when used in the certain context.
+  // For example, all the annotations to one input streams of a Vision AI
+  // application.
+  string id = 1;
+
+  // User-friendly name for the annotation.
+  string display_name = 2;
+
+  // The Vision AI stream resource name.
+  string source_stream = 3;
+
+  // The actual type of Annotation.
+  StreamAnnotationType type = 4;
+}
+
+// Normalized Polygon.
+message NormalizedPolygon {
+  // The bounding polygon normalized vertices. Top left corner of the image
+  // will be [0, 0].
+  repeated NormalizedVertex normalized_vertices = 1;
+}
+
+// Normalized Pplyline, which represents a curve consisting of connected
+// straight-line segments.
+message NormalizedPolyline {
+  // A sequence of vertices connected by straight lines.
+  repeated NormalizedVertex normalized_vertices = 1;
+}
+
+// A vertex represents a 2D point in the image.
+// NOTE: the normalized vertex coordinates are relative to the original image
+// and range from 0 to 1.
+message NormalizedVertex {
+  // X coordinate.
+  float x = 1;
+
+  // Y coordinate.
+  float y = 2;
+}
+
+// Enum describing all possible types of a stream annotation.
+enum StreamAnnotationType {
+  // Type UNSPECIFIED.
+  STREAM_ANNOTATION_TYPE_UNSPECIFIED = 0;
+
+  // active_zone annotation defines a polygon on top of the content from an
+  // image/video based stream, following processing will only focus on the
+  // content inside the active zone.
+  STREAM_ANNOTATION_TYPE_ACTIVE_ZONE = 1;
+
+  // crossing_line annotation defines a polyline on top of the content from an
+  // image/video based Vision AI stream, events happening across the line will
+  // be captured. For example, the counts of people who goes acroos the line
+  // in Occupancy Analytic Processor.
+  STREAM_ANNOTATION_TYPE_CROSSING_LINE = 2;
+}
+
+// Message describing the Cluster object.
+message Cluster {
+  // The current state of the cluster.
+  enum State {
+    // Not set.
+    STATE_UNSPECIFIED = 0;
+
+    // The PROVISIONING state indicates the cluster is being created.
+    PROVISIONING = 1;
+
+    // The RUNNING state indicates the cluster has been created and is fully
+    // usable.
+    RUNNING = 2;
+
+    // The STOPPING state indicates the cluster is being deleted.
+    STOPPING = 3;
+
+    // The ERROR state indicates the cluster is unusable. It will be
+    // automatically deleted.
+    ERROR = 4;
+  }
+
+  // Output only. Name of the resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs
+  map<string, string> labels = 4;
+
+  // Annotations to allow clients to store small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // Output only. The DNS name of the data plane service
+  string dataplane_service_endpoint = 6;
+
+  // Output only. The current state of the cluster.
+  State state = 7;
+
+  // Output only. The private service connection service target name.
+  string psc_target = 8;
+}
+
+// The Google Cloud Storage location for the input content.
+message GcsSource {
+  // Required. References to a Google Cloud Storage paths.
+  repeated string uris = 1;
+}
+
+// Represents an actual value of an operator attribute.
+message AttributeValue {
+  // Attribute value.
+  oneof value {
+    // int.
+    int64 i = 1;
+
+    // float.
+    float f = 2;
+
+    // bool.
+    bool b = 3;
+
+    // string.
+    bytes s = 4;
+  }
+}
+
+// Defines an Analyzer.
+//
+// An analyzer processes data from its input streams using the logic defined in
+// the Operator that it represents. Of course, it produces data for the output
+// streams declared in the Operator.
+message AnalyzerDefinition {
+  // The inputs to this analyzer.
+  //
+  // We accept input name references of the following form:
+  // <analyzer-name>:<output-argument-name>
+  //
+  // Example:
+  //
+  // Suppose you had an operator named "SomeOp" that has 2 output
+  // arguments, the first of which is named "foo" and the second of which is
+  // named "bar", and an operator named "MyOp" that accepts 2 inputs.
+  //
+  // Also suppose that there is an analyzer named "some-analyzer" that is
+  // running "SomeOp" and another analyzer named "my-analyzer" running "MyOp".
+  //
+  // To indicate that "my-analyzer" is to consume "some-analyzer"'s "foo"
+  // output as its first input and "some-analyzer"'s "bar" output as its
+  // second input, you can set this field to the following:
+  // input = ["some-analyzer:foo", "some-analyzer:bar"]
+  message StreamInput {
+    // The name of the stream input (as discussed above).
+    string input = 1;
+  }
+
+  // Options available for debugging purposes only.
+  message DebugOptions {
+    // Environment variables.
+    map<string, string> environment_variables = 1;
+  }
+
+  // The name of this analyzer.
+  //
+  // Tentatively [a-z][a-z0-9]*(_[a-z0-9]+)*.
+  string analyzer = 1;
+
+  // The name of the operator that this analyzer runs.
+  //
+  // Must match the name of a supported operator.
+  string operator = 2;
+
+  // Input streams.
+  repeated StreamInput inputs = 3;
+
+  // The attribute values that this analyzer applies to the operator.
+  //
+  // Supply a mapping between the attribute names and the actual value you wish
+  // to apply. If an attribute name is omitted, then it will take a
+  // preconfigured default value.
+  map<string, AttributeValue> attrs = 4;
+
+  // Debug options.
+  DebugOptions debug_options = 5;
+}
+
+// Defines a full analysis.
+//
+// This is a description of the overall live analytics pipeline.
+// You may think of this as an edge list representation of a multigraph.
+//
+// This may be directly authored by a human in protobuf textformat, or it may be
+// generated by a programming API (perhaps Python or JavaScript depending on
+// context).
+message AnalysisDefinition {
+  // Analyzer definitions.
+  repeated AnalyzerDefinition analyzers = 1;
+}
+
+// Message describing the status of the Process.
+message RunStatus {
+  // State represents the running status of the Process.
+  enum State {
+    // State is unspecified.
+    STATE_UNSPECIFIED = 0;
+
+    // INITIALIZING means the Process is scheduled but yet ready to handle
+    // real traffic.
+    INITIALIZING = 1;
+
+    // RUNNING means the Process is up running and handling traffic.
+    RUNNING = 2;
+
+    // COMPLETED means the Process has completed the processing, especially
+    // for non-streaming use case.
+    COMPLETED = 3;
+
+    // FAILED means the Process failed to complete the processing.
+    FAILED = 4;
+
+    // PENDING means the Process is created but yet to be scheduled.
+    PENDING = 5;
+  }
+
+  // The state of the Process.
+  State state = 1;
+
+  // The reason of becoming the state.
+  string reason = 2;
+}
+
+// RunMode represents the mode to launch the Process on.
+enum RunMode {
+  // Mode is unspecified.
+  RUN_MODE_UNSPECIFIED = 0;
+
+  // Live mode. Meaning the Process is launched to handle live video
+  // source, and possible packet drops are expected.
+  LIVE = 1;
+
+  // Submission mode. Meaning the Process is launched to handle bounded video
+  // files, with no packet drop. Completion status is tracked.
+  SUBMISSION = 2;
+}
+
+// Message describing the Analysis object.
+message Analysis {
+  // The name of resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // The definition of the analysis.
+  AnalysisDefinition analysis_definition = 5;
+
+  // Map from the input parameter in the definition to the real stream.
+  // E.g., suppose you had a stream source operator named "input-0" and you try
+  // to receive from the real stream "stream-0". You can add the following
+  // mapping: [input-0: stream-0].
+  map<string, string> input_streams_mapping = 6;
+
+  // Map from the output parameter in the definition to the real stream.
+  // E.g., suppose you had a stream sink operator named "output-0" and you try
+  // to send to the real stream "stream-0". You can add the following
+  // mapping: [output-0: stream-0].
+  map<string, string> output_streams_mapping = 7;
+
+  // Boolean flag to indicate whether you would like to disable the ability
+  // to automatically start a Process when new event happening in the input
+  // Stream. If you would like to start a Process manually, the field needs
+  // to be set to true.
+  bool disable_event_watch = 8;
+}
+
+// Message describing the Process object.
+message Process {
+  // The name of resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Required. Reference to an existing Analysis resource.
+  string analysis = 4;
+
+  // Optional. Attribute overrides of the Analyzers.
+  // Format for each single override item:
+  // "{analyzer_name}:{attribute_key}={value}"
+  repeated string attribute_overrides = 5;
+
+  // Optional. Status of the Process.
+  RunStatus run_status = 6;
+
+  // Optional. Run mode of the Process.
+  RunMode run_mode = 7;
+
+  // Optional. Event ID of the input/output streams.
+  // This is useful when you have a StreamSource/StreamSink operator in the
+  // Analysis, and you want to manually specify the Event to read from/write to.
+  string event_id = 8;
+
+  // Optional. Optional: Batch ID of the Process.
+  string batch_id = 9;
+
+  // Optional. Optional: The number of retries for a process in submission mode
+  // the system should try before declaring failure. By default, no retry will
+  // be performed.
+  int32 retry_count = 10;
+}
+
+// Message describing Application object
+message Application {
+  // Message storing the runtime information of the application.
+  message ApplicationRuntimeInfo {
+    // Message about output resources from application.
+    message GlobalOutputResource {
+      // The full resource name of the outputted resources.
+      string output_resource = 1;
+
+      // The name of graph node who produces the output resource name.
+      // For example:
+      // output_resource:
+      // /projects/123/locations/us-central1/corpora/my-corpus/dataSchemas/my-schema
+      // producer_node: occupancy-count
+      string producer_node = 2;
+
+      // The key of the output resource, it has to be unique within the same
+      // producer node. One producer node can output several output resources,
+      // the key can be used to match corresponding output resources.
+      string key = 3;
+    }
+
+    // Monitoring-related configuration for an application.
+    message MonitoringConfig {
+      // Whether this application has monitoring enabled.
+      bool enabled = 1;
+    }
+
+    // Timestamp when the engine be deployed
+    google.protobuf.Timestamp deploy_time = 1;
+
+    // Globally created resources like warehouse dataschemas.
+    repeated GlobalOutputResource global_output_resources = 3;
+
+    // Monitoring-related configuration for this application.
+    MonitoringConfig monitoring_config = 4;
+  }
+
+  // State of the Application
+  enum State {
+    // The default value. This value is used if the state is omitted.
+    STATE_UNSPECIFIED = 0;
+
+    // State CREATED.
+    CREATED = 1;
+
+    // State DEPLOYING.
+    DEPLOYING = 2;
+
+    // State DEPLOYED.
+    DEPLOYED = 3;
+
+    // State UNDEPLOYING.
+    UNDEPLOYING = 4;
+
+    // State DELETED.
+    DELETED = 5;
+
+    // State ERROR.
+    ERROR = 6;
+
+    // State CREATING.
+    CREATING = 7;
+
+    // State Updating.
+    UPDATING = 8;
+
+    // State Deleting.
+    DELETING = 9;
+
+    // State Fixing.
+    FIXING = 10;
+  }
+
+  // Billing mode of the Application
+  enum BillingMode {
+    // The default value.
+    BILLING_MODE_UNSPECIFIED = 0;
+
+    // Pay as you go billing mode.
+    PAYG = 1;
+
+    // Monthly billing mode.
+    MONTHLY = 2;
+  }
+
+  // name of resource
+  string name = 1;
+
+  // Output only. [Output only] Create timestamp
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update timestamp
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs
+  map<string, string> labels = 4;
+
+  // Required. A user friendly display name for the solution.
+  string display_name = 5;
+
+  // A description for this application.
+  string description = 6;
+
+  // Application graph configuration.
+  ApplicationConfigs application_configs = 7;
+
+  // Output only. Application graph runtime info. Only exists when application
+  // state equals to DEPLOYED.
+  ApplicationRuntimeInfo runtime_info = 8;
+
+  // Output only. State of the application.
+  State state = 9;
+
+  // Billing mode of the application.
+  BillingMode billing_mode = 12;
+}
+
+// Message storing the graph of the application.
+message ApplicationConfigs {
+  // A list of nodes  in the application graph.
+  repeated Node nodes = 1;
+}
+
+// Message describing node object.
+message Node {
+  // Message describing one edge pointing into a node.
+  message InputEdge {
+    // The name of the parent node.
+    string parent_node = 1;
+
+    // The connected output artifact of the parent node.
+    // It can be omitted if target processor only has 1 output artifact.
+    string parent_output_channel = 2;
+
+    // The connected input channel of the current node's processor.
+    // It can be omitted if target processor only has 1 input channel.
+    string connected_input_channel = 3;
+  }
+
+  oneof stream_output_config {
+    // By default, the output of the node will only be available to downstream
+    // nodes. To consume the direct output from the application node, the output
+    // must be sent to Vision AI Streams at first.
+    //
+    // By setting output_all_output_channels_to_stream to true, App Platform
+    // will automatically send all the outputs of the current node to Vision AI
+    // Stream resources (one stream per output channel). The output stream
+    // resource will be created by App Platform automatically during deployment
+    // and deleted after application un-deployment.
+    // Note that this config applies to all the Application Instances.
+    //
+    // The output stream can be override at instance level by
+    // configuring the `output_resources` section of Instance resource.
+    // `producer_node` should be current node, `output_resource_binding` should
+    // be the output channel name (or leave it blank if there is only 1 output
+    // channel of the processor) and `output_resource` should be the target
+    // output stream.
+    bool output_all_output_channels_to_stream = 6;
+  }
+
+  // Required. A unique name for the node.
+  string name = 1;
+
+  // A user friendly display name for the node.
+  string display_name = 2;
+
+  // Node config.
+  ProcessorConfig node_config = 3;
+
+  // Processor name refer to the chosen processor resource.
+  string processor = 4;
+
+  // Parent node. Input node should not have parent node. For V1 Alpha1/Beta
+  // only media warehouse node can have multiple parents, other types of nodes
+  // will only have one parent.
+  repeated InputEdge parents = 5;
+}
+
+// Message describing Draft object
+message Draft {
+  // name of resource
+  string name = 1;
+
+  // Output only. [Output only] Create timestamp
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Create timestamp
+  google.protobuf.Timestamp update_time = 7;
+
+  // Labels as key value pairs
+  map<string, string> labels = 3;
+
+  // Required. A user friendly display name for the solution.
+  string display_name = 4;
+
+  // A description for this application.
+  string description = 5;
+
+  // The draft application configs which haven't been updated to an application.
+  ApplicationConfigs draft_application_configs = 6;
+}
+
+// Message describing Processor object.
+// Next ID: 19
+message Processor {
+  // Type
+  enum ProcessorType {
+    // Processor Type UNSPECIFIED.
+    PROCESSOR_TYPE_UNSPECIFIED = 0;
+
+    // Processor Type PRETRAINED.
+    // Pretrained processor is developed by Vision AI App Platform with
+    // state-of-the-art vision data processing functionality, like occupancy
+    // counting or person blur. Pretrained processor is usually publicly
+    // available.
+    PRETRAINED = 1;
+
+    // Processor Type CUSTOM.
+    // Custom processors are specialized processors which are either uploaded by
+    // customers or imported from other GCP platform (for example Vertex AI).
+    // Custom processor is only visible to the creator.
+    CUSTOM = 2;
+
+    // Processor Type CONNECTOR.
+    // Connector processors are special processors which perform I/O for the
+    // application, they do not processing the data but either deliver the data
+    // to other processors or receive data from other processors.
+    CONNECTOR = 3;
+  }
+
+  enum ProcessorState {
+    // Unspecified Processor state.
+    PROCESSOR_STATE_UNSPECIFIED = 0;
+
+    // Processor is being created (not ready for use).
+    CREATING = 1;
+
+    // Processor is and ready for use.
+    ACTIVE = 2;
+
+    // Processor is being deleted (not ready for use).
+    DELETING = 3;
+
+    // Processor deleted or creation failed .
+    FAILED = 4;
+  }
+
+  // name of resource.
+  string name = 1;
+
+  // Output only. [Output only] Create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Required. A user friendly display name for the processor.
+  string display_name = 5;
+
+  // Illustrative sentences for describing the functionality of the processor.
+  string description = 10;
+
+  // Output only. Processor Type.
+  ProcessorType processor_type = 6;
+
+  // Model Type.
+  ModelType model_type = 13;
+
+  // Source info for customer created processor.
+  CustomProcessorSourceInfo custom_processor_source_info = 7;
+
+  // Output only. State of the Processor.
+  ProcessorState state = 8;
+
+  // Output only. [Output only] The input / output specifications of a
+  // processor, each type of processor has fixed input / output specs which
+  // cannot be altered by customer.
+  ProcessorIOSpec processor_io_spec = 11;
+
+  // Output only. The corresponding configuration can be used in the Application
+  // to customize the behavior of the processor.
+  string configuration_typeurl = 14;
+
+  repeated StreamAnnotationType supported_annotation_types = 15;
+
+  // Indicates if the processor supports post processing.
+  bool supports_post_processing = 17;
+}
+
+// Message describing the input / output specifications of a processor.
+message ProcessorIOSpec {
+  // Message for input channel specification.
+  message GraphInputChannelSpec {
+    // The name of the current input channel.
+    string name = 1;
+
+    // The data types of the current input channel.
+    // When this field has more than 1 value, it means this input channel can be
+    // connected to either of these different data types.
+    DataType data_type = 2;
+
+    // If specified, only those detailed data types can be connected to the
+    // processor. For example, jpeg stream for MEDIA, or PredictionResult proto
+    // for PROTO type. If unspecified, then any proto is accepted.
+    repeated string accepted_data_type_uris = 5;
+
+    // Whether the current input channel is required by the processor.
+    // For example, for a processor with required video input and optional audio
+    // input, if video input is missing, the application will be rejected while
+    // the audio input can be missing as long as the video input exists.
+    bool required = 3;
+
+    // How many input edges can be connected to this input channel. 0 means
+    // unlimited.
+    int64 max_connection_allowed = 4;
+  }
+
+  // Message for output channel specification.
+  message GraphOutputChannelSpec {
+    // The name of the current output channel.
+    string name = 1;
+
+    // The data type of the current output channel.
+    DataType data_type = 2;
+
+    string data_type_uri = 3;
+  }
+
+  // Message for instance resource channel specification.
+  // External resources are virtual nodes which are not expressed in the
+  // application graph. Each processor expresses its out-graph spec, so customer
+  // is able to override the external source or destinations to the
+  message InstanceResourceInputBindingSpec {
+    oneof resource_type {
+      // The configuration proto that includes the Googleapis resources. I.e.
+      // type.googleapis.com/google.cloud.vision.v1.StreamWithAnnotation
+      string config_type_uri = 2;
+
+      // The direct type url of Googleapis resource. i.e.
+      // type.googleapis.com/google.cloud.vision.v1.Asset
+      string resource_type_uri = 3;
+    }
+
+    // Name of the input binding, unique within the processor.
+    string name = 1;
+  }
+
+  message InstanceResourceOutputBindingSpec {
+    // Name of the output binding, unique within the processor.
+    string name = 1;
+
+    // The resource type uri of the acceptable output resource.
+    string resource_type_uri = 2;
+
+    // Whether the output resource needs to be explicitly set in the instance.
+    // If it is false, the processor will automatically generate it if required.
+    bool explicit = 3;
+  }
+
+  // For processors with input_channel_specs, the processor must be explicitly
+  // connected to another processor.
+  repeated GraphInputChannelSpec graph_input_channel_specs = 3;
+
+  // The output artifact specifications for the current processor.
+  repeated GraphOutputChannelSpec graph_output_channel_specs = 4;
+
+  // The input resource that needs to be fed from the application instance.
+  repeated InstanceResourceInputBindingSpec
+      instance_resource_input_binding_specs = 5;
+
+  // The output resource that the processor will generate per instance.
+  // Other than the explicitly listed output bindings here, all the processors'
+  // GraphOutputChannels can be binded to stream resource. The bind name then is
+  // the same as the GraphOutputChannel's name.
+  repeated InstanceResourceOutputBindingSpec
+      instance_resource_output_binding_specs = 6;
+}
+
+// Describes the source info for a custom processor.
+message CustomProcessorSourceInfo {
+  // The schema is defined as an OpenAPI 3.0.2 [Schema
+  // Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject).
+  message ModelSchema {
+    // Cloud Storage location to a YAML file that defines the format of a single
+    // instance used in prediction and explanation requests.
+    GcsSource instances_schema = 1;
+
+    // Cloud Storage location to a YAML file that defines the prediction and
+    // explanation parameters.
+    GcsSource parameters_schema = 2;
+
+    // Cloud Storage location to a YAML file that defines the format of a single
+    // prediction or explanation.
+    GcsSource predictions_schema = 3;
+  }
+
+  // Source type of the imported custom processor.
+  enum SourceType {
+    // Source type unspecified.
+    SOURCE_TYPE_UNSPECIFIED = 0;
+
+    // Custom processors coming from Vertex AutoML product.
+    VERTEX_AUTOML = 1;
+
+    // Custom processors coming from general custom models from Vertex.
+    VERTEX_CUSTOM = 2;
+
+    // Source for Product Recognizer.
+    PRODUCT_RECOGNIZER = 3;
+  }
+
+  // The path where App Platform loads the artifacts for the custom processor.
+  oneof artifact_path {
+    // The resource name original model hosted in the vertex AI platform.
+    string vertex_model = 2;
+  }
+
+  // The original product which holds the custom processor's functionality.
+  SourceType source_type = 1;
+
+  // Output only. Additional info related to the imported custom processor.
+  // Data is filled in by app platform during the processor creation.
+  map<string, string> additional_info = 4;
+
+  // Model schema files which specifies the signature of the model.
+  // For VERTEX_CUSTOM models, instances schema is required.
+  // If instances schema is not specified during the processor creation,
+  // VisionAI Platform will try to get it from Vertex, if it doesn't exist, the
+  // creation will fail.
+  ModelSchema model_schema = 5;
+}
+
+// Next ID: 29
+message ProcessorConfig {
+  oneof processor_config {
+    // Configs of stream input processor.
+    VideoStreamInputConfig video_stream_input_config = 9;
+
+    // Config of AI-enabled input devices.
+    AIEnabledDevicesInputConfig ai_enabled_devices_input_config = 20;
+
+    // Configs of media warehouse processor.
+    MediaWarehouseConfig media_warehouse_config = 10;
+
+    // Configs of person blur processor.
+    PersonBlurConfig person_blur_config = 11;
+
+    // Configs of occupancy count processor.
+    OccupancyCountConfig occupancy_count_config = 12;
+
+    // Configs of Person Vehicle Detection processor.
+    PersonVehicleDetectionConfig person_vehicle_detection_config = 15;
+
+    // Configs of Vertex AutoML vision processor.
+    VertexAutoMLVisionConfig vertex_automl_vision_config = 13;
+
+    // Configs of Vertex AutoML video processor.
+    VertexAutoMLVideoConfig vertex_automl_video_config = 14;
+
+    // Configs of Vertex Custom processor.
+    VertexCustomConfig vertex_custom_config = 17;
+
+    // Configs of General Object Detection processor.
+    GeneralObjectDetectionConfig general_object_detection_config = 18;
+
+    // Configs of BigQuery processor.
+    BigQueryConfig big_query_config = 19;
+
+    // Configs of personal_protective_equipment_detection_config
+    PersonalProtectiveEquipmentDetectionConfig
+        personal_protective_equipment_detection_config = 22;
+  }
+}
+
+// Message describing Vision AI stream with application specific annotations.
+// All the StreamAnnotation object inside this message MUST have unique id.
+message StreamWithAnnotation {
+  // Message describing annotations specific to application node.
+  message NodeAnnotation {
+    // The node name of the application graph.
+    string node = 1;
+
+    // The node specific stream annotations.
+    repeated StreamAnnotation annotations = 2;
+  }
+
+  // Vision AI Stream resource name.
+  string stream = 1;
+
+  // Annotations that will be applied to the whole application.
+  repeated StreamAnnotation application_annotations = 2;
+
+  // Annotations that will be applied to the specific node of the application.
+  // If the same type of the annotations is applied to both application and
+  // node, the node annotation will be added in addition to the global
+  // application one.
+  // For example, if there is one active zone annotation for the whole
+  // application and one active zone annotation for the Occupancy Analytic
+  // processor, then the Occupancy Analytic processor will have two active zones
+  // defined.
+  repeated NodeAnnotation node_annotations = 3;
+}
+
+// Message describing Video Stream Input Config.
+// This message should only be used as a placeholder for builtin:stream-input
+// processor, actual stream binding should be specified using corresponding
+// API.
+message VideoStreamInputConfig {
+  repeated string streams = 1;
+
+  repeated StreamWithAnnotation streams_with_annotation = 2;
+}
+
+// Message describing AI-enabled Devices Input Config.
+message AIEnabledDevicesInputConfig {}
+
+// Message describing MediaWarehouseConfig.
+message MediaWarehouseConfig {
+  // Resource name of the Media Warehouse corpus.
+  // Format:
+  // projects/${project_id}/locations/${location_id}/corpora/${corpus_id}
+  string corpus = 1;
+
+  // Deprecated.
+  string region = 2;
+
+  // The duration for which all media assets, associated metadata, and search
+  // documents can exist.
+  google.protobuf.Duration ttl = 3;
+}
+
+// Message describing FaceBlurConfig.
+message PersonBlurConfig {
+  // Type of Person Blur
+  enum PersonBlurType {
+    // PersonBlur Type UNSPECIFIED.
+    PERSON_BLUR_TYPE_UNSPECIFIED = 0;
+
+    // FaceBlur Type full occlusion.
+    FULL_OCCULUSION = 1;
+
+    // FaceBlur Type blur filter.
+    BLUR_FILTER = 2;
+  }
+
+  // Person blur type.
+  PersonBlurType person_blur_type = 1;
+
+  // Whether only blur faces other than the whole object in the processor.
+  bool faces_only = 2;
+}
+
+// Message describing OccupancyCountConfig.
+message OccupancyCountConfig {
+  // Whether to count the appearances of people, output counts have 'people' as
+  // the key.
+  bool enable_people_counting = 1;
+
+  // Whether to count the appearances of vehicles, output counts will have
+  // 'vehicle' as the key.
+  bool enable_vehicle_counting = 2;
+
+  // Whether to track each invidual object's loitering time inside the scene or
+  // specific zone.
+  bool enable_dwelling_time_tracking = 3;
+}
+
+// Message describing PersonVehicleDetectionConfig.
+message PersonVehicleDetectionConfig {
+  // At least one of enable_people_counting and enable_vehicle_counting fields
+  // must be set to true.
+  // Whether to count the appearances of people, output counts have 'people' as
+  // the key.
+  bool enable_people_counting = 1;
+
+  // Whether to count the appearances of vehicles, output counts will have
+  // 'vehicle' as the key.
+  bool enable_vehicle_counting = 2;
+}
+
+// Message describing PersonalProtectiveEquipmentDetectionConfig.
+message PersonalProtectiveEquipmentDetectionConfig {
+  // Whether to enable face coverage detection.
+  bool enable_face_coverage_detection = 1;
+
+  // Whether to enable head coverage detection.
+  bool enable_head_coverage_detection = 2;
+
+  // Whether to enable hands coverage detection.
+  bool enable_hands_coverage_detection = 3;
+}
+
+// Message of configurations for General Object Detection processor.
+message GeneralObjectDetectionConfig {}
+
+// Message of configurations for BigQuery processor.
+message BigQueryConfig {
+  // BigQuery table resource for Vision AI Platform to ingest annotations to.
+  string table = 1;
+
+  // Data Schema
+  // By default, Vision AI Application will try to write annotations to the
+  // target BigQuery table using the following schema:
+  //
+  // ingestion_time: TIMESTAMP, the ingestion time of the original data.
+  //
+  // application: STRING, name of the application which produces the annotation.
+  //
+  // instance: STRING, Id of the instance which produces the annotation.
+  //
+  // node: STRING, name of the application graph node which produces the
+  // annotation.
+  //
+  // annotation: STRING or JSON, the actual annotation protobuf will be
+  // converted to json string with bytes field as 64 encoded string. It can be
+  // written to both String or Json type column.
+  //
+  // To forward annotation data to an existing BigQuery table, customer needs to
+  // make sure the compatibility of the schema.
+  // The map maps application node name to its corresponding cloud function
+  // endpoint to transform the annotations directly to the
+  // google.cloud.bigquery.storage.v1.AppendRowsRequest (only avro_rows or
+  // proto_rows should be set). If configured, annotations produced by
+  // corresponding application node will sent to the Cloud Function at first
+  // before be forwarded to BigQuery.
+  //
+  // If the default table schema doesn't fit, customer is able to transform the
+  // annotation output from Vision AI Application to arbitrary BigQuery table
+  // schema with CloudFunction.
+  // * The cloud function will receive AppPlatformCloudFunctionRequest where
+  // the annotations field will be the json format of Vision AI annotation.
+  // * The cloud function should return AppPlatformCloudFunctionResponse with
+  // AppendRowsRequest stored in the annotations field.
+  // * To drop the annotation, simply clear the annotations field in the
+  // returned AppPlatformCloudFunctionResponse.
+  map<string, string> cloud_function_mapping = 2;
+
+  // If true, App Platform will create the BigQuery DataSet and the
+  // BigQuery Table with default schema if the specified table doesn't exist.
+  // This doesn't work if any cloud function customized schema is specified
+  // since the system doesn't know your desired schema.
+  // JSON column will be used in the default table created by App Platform.
+  bool create_default_table_if_not_exists = 3;
+}
+
+// Message of configurations of Vertex AutoML Vision Processors.
+message VertexAutoMLVisionConfig {
+  // Only entities with higher score than the threshold will be returned.
+  // Value 0.0 means to return all the detected entities.
+  float confidence_threshold = 1;
+
+  // At most this many predictions will be returned per output frame.
+  // Value 0 means to return all the detected entities.
+  int32 max_predictions = 2;
+}
+
+// Message describing VertexAutoMLVideoConfig.
+message VertexAutoMLVideoConfig {
+  // Only entities with higher score than the threshold will be returned.
+  // Value 0.0 means returns all the detected entities.
+  float confidence_threshold = 1;
+
+  // Labels specified in this field won't be returned.
+  repeated string blocked_labels = 2;
+
+  // At most this many predictions will be returned per output frame.
+  // Value 0 means to return all the detected entities.
+  int32 max_predictions = 3;
+
+  // Only Bounding Box whose size is larger than this limit will be returned.
+  // Object Tracking only.
+  // Value 0.0 means to return all the detected entities.
+  float bounding_box_size_limit = 4;
+}
+
+// Message describing VertexCustomConfig.
+message VertexCustomConfig {
+  // The max prediction frame per second. This attribute sets how fast the
+  // operator sends prediction requests to Vertex AI endpoint. Default value is
+  // 0, which means there is no max prediction fps limit. The operator sends
+  // prediction requests at input fps.
+  int32 max_prediction_fps = 1;
+
+  // A description of resources that are dedicated to the DeployedModel, and
+  // that need a higher degree of manual configuration.
+  DedicatedResources dedicated_resources = 2;
+
+  // If not empty, the prediction result will be sent to the specified cloud
+  // function for post processing.
+  // * The cloud function will receive AppPlatformCloudFunctionRequest where
+  // the annotations field will be the json format of proto PredictResponse.
+  // * The cloud function should return AppPlatformCloudFunctionResponse with
+  // PredictResponse stored in the annotations field.
+  // * To drop the prediction output, simply clear the payload field in the
+  // returned AppPlatformCloudFunctionResponse.
+  string post_processing_cloud_function = 3;
+
+  // If true, the prediction request received by custom model will also contain
+  // metadata with the following schema:
+  // 'appPlatformMetadata': {
+  //       'ingestionTime': DOUBLE; (UNIX timestamp)
+  //       'application': STRING;
+  //       'instanceId': STRING;
+  //       'node': STRING;
+  //       'processor': STRING;
+  //  }
+  bool attach_application_metadata = 4;
+}
+
+// Specification of a single machine.
+message MachineSpec {
+  // Immutable. The type of the machine.
+  //
+  // See the [list of machine types supported for
+  // prediction](https://cloud.google.com/vertex-ai/docs/predictions/configure-compute#machine-types)
+  //
+  // See the [list of machine types supported for custom
+  // training](https://cloud.google.com/vertex-ai/docs/training/configure-compute#machine-types).
+  //
+  // For [DeployedModel][] this field is optional, and the default
+  // value is `n1-standard-2`. For [BatchPredictionJob][] or as part of
+  // [WorkerPoolSpec][] this field is required.
+  string machine_type = 1;
+
+  // Immutable. The type of accelerator(s) that may be attached to the machine
+  // as per
+  // [accelerator_count][google.cloud.visionai.v1.MachineSpec.accelerator_count].
+  AcceleratorType accelerator_type = 2;
+
+  // The number of accelerators to attach to the machine.
+  int32 accelerator_count = 3;
+}
+
+// The metric specification that defines the target resource utilization
+// (CPU utilization, accelerator's duty cycle, and so on) for calculating the
+// desired replica count.
+message AutoscalingMetricSpec {
+  // Required. The resource metric name.
+  // Supported metrics:
+  //
+  // * For Online Prediction:
+  // * `aiplatform.googleapis.com/prediction/online/accelerator/duty_cycle`
+  // * `aiplatform.googleapis.com/prediction/online/cpu/utilization`
+  string metric_name = 1;
+
+  // The target resource utilization in percentage (1% - 100%) for the given
+  // metric; once the real usage deviates from the target by a certain
+  // percentage, the machine replicas change. The default value is 60
+  // (representing 60%) if not provided.
+  int32 target = 2;
+}
+
+// A description of resources that are dedicated to a DeployedModel, and
+// that need a higher degree of manual configuration.
+message DedicatedResources {
+  // Required. Immutable. The specification of a single machine used by the
+  // prediction.
+  MachineSpec machine_spec = 1;
+
+  // Required. Immutable. The minimum number of machine replicas this
+  // DeployedModel will be always deployed on. This value must be greater than
+  // or equal to 1.
+  //
+  // If traffic against the DeployedModel increases, it may dynamically be
+  // deployed onto more replicas, and as traffic decreases, some of these extra
+  // replicas may be freed.
+  int32 min_replica_count = 2;
+
+  // Immutable. The maximum number of replicas this DeployedModel may be
+  // deployed on when the traffic against it increases. If the requested value
+  // is too large, the deployment will error, but if deployment succeeds then
+  // the ability to scale the model to that many replicas is guaranteed (barring
+  // service outages). If traffic against the DeployedModel increases beyond
+  // what its replicas at maximum may handle, a portion of the traffic will be
+  // dropped. If this value is not provided, will use
+  // [min_replica_count][google.cloud.visionai.v1.DedicatedResources.min_replica_count]
+  // as the default value.
+  //
+  // The value of this field impacts the charge against Vertex CPU and GPU
+  // quotas. Specifically, you will be charged for max_replica_count *
+  // number of cores in the selected machine type) and (max_replica_count *
+  // number of GPUs per replica in the selected machine type).
+  int32 max_replica_count = 3;
+
+  // Immutable. The metric specifications that overrides a resource
+  // utilization metric (CPU utilization, accelerator's duty cycle, and so on)
+  // target value (default to 60 if not set). At most one entry is allowed per
+  // metric.
+  //
+  // If
+  // [machine_spec.accelerator_count][google.cloud.visionai.v1.MachineSpec.accelerator_count]
+  // is above 0, the autoscaling will be based on both CPU utilization and
+  // accelerator's duty cycle metrics and scale up when either metrics exceeds
+  // its target value while scale down if both metrics are under their target
+  // value. The default target value is 60 for both metrics.
+  //
+  // If
+  // [machine_spec.accelerator_count][google.cloud.visionai.v1.MachineSpec.accelerator_count]
+  // is 0, the autoscaling will be based on CPU utilization metric only with
+  // default target value 60 if not explicitly set.
+  //
+  // For example, in the case of Online Prediction, if you want to override
+  // target CPU utilization to 80, you should set
+  // [autoscaling_metric_specs.metric_name][google.cloud.visionai.v1.AutoscalingMetricSpec.metric_name]
+  // to `aiplatform.googleapis.com/prediction/online/cpu/utilization` and
+  // [autoscaling_metric_specs.target][google.cloud.visionai.v1.AutoscalingMetricSpec.target]
+  // to `80`.
+  repeated AutoscalingMetricSpec autoscaling_metric_specs = 4;
+}
+
+// All the supported model types in Vision AI App Platform.
+enum ModelType {
+  // Processor Type UNSPECIFIED.
+  MODEL_TYPE_UNSPECIFIED = 0;
+
+  // Model Type Image Classification.
+  IMAGE_CLASSIFICATION = 1;
+
+  // Model Type Object Detection.
+  OBJECT_DETECTION = 2;
+
+  // Model Type Video Classification.
+  VIDEO_CLASSIFICATION = 3;
+
+  // Model Type Object Tracking.
+  VIDEO_OBJECT_TRACKING = 4;
+
+  // Model Type Action Recognition.
+  VIDEO_ACTION_RECOGNITION = 5;
+
+  // Model Type Occupancy Counting.
+  OCCUPANCY_COUNTING = 6;
+
+  // Model Type Person Blur.
+  PERSON_BLUR = 7;
+
+  // Model Type Vertex Custom.
+  VERTEX_CUSTOM = 8;
+}
+
+// Represents a hardware accelerator type.
+enum AcceleratorType {
+  // Unspecified accelerator type, which means no accelerator.
+  ACCELERATOR_TYPE_UNSPECIFIED = 0;
+
+  // Nvidia Tesla K80 GPU.
+  NVIDIA_TESLA_K80 = 1;
+
+  // Nvidia Tesla P100 GPU.
+  NVIDIA_TESLA_P100 = 2;
+
+  // Nvidia Tesla V100 GPU.
+  NVIDIA_TESLA_V100 = 3;
+
+  // Nvidia Tesla P4 GPU.
+  NVIDIA_TESLA_P4 = 4;
+
+  // Nvidia Tesla T4 GPU.
+  NVIDIA_TESLA_T4 = 5;
+
+  // Nvidia Tesla A100 GPU.
+  NVIDIA_TESLA_A100 = 8;
+
+  // TPU v2.
+  TPU_V2 = 6;
+
+  // TPU v3.
+  TPU_V3 = 7;
+}
+
+// All supported data types.
+enum DataType {
+  // The default value of DataType.
+  DATA_TYPE_UNSPECIFIED = 0;
+
+  // Video data type like H264.
+  VIDEO = 1;
+
+  // Image data type.
+  IMAGE = 3;
+
+  // Protobuf data type, usually used for general data blob.
+  PROTO = 2;
+}
+
+// Message describing the Stream object. The Stream and the Event resources are
+// many to many; i.e., each Stream resource can associate to many Event
+// resources and each Event resource can associate to many Stream resources.
+message Stream {
+  // Name of the resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Annotations to allow clients to store small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // The display name for the stream resource.
+  string display_name = 6;
+
+  // Whether to enable the HLS playback service on this stream.
+  bool enable_hls_playback = 7;
+
+  // The name of the media warehouse asset for long term storage of stream data.
+  // Format: projects/${p_id}/locations/${l_id}/corpora/${c_id}/assets/${a_id}
+  // Remain empty if the media warehouse storage is not needed for the stream.
+  string media_warehouse_asset = 8;
+}
+
+// Message describing the Event object.
+message Event {
+  // Clock that will be used for joining streams.
+  enum Clock {
+    // Clock is not specified.
+    CLOCK_UNSPECIFIED = 0;
+
+    // Use the timestamp when the data is captured. Clients need to sync the
+    // clock.
+    CAPTURE = 1;
+
+    // Use the timestamp when the data is received.
+    INGEST = 2;
+  }
+
+  // Name of the resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Annotations to allow clients to store small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // The clock used for joining streams.
+  Clock alignment_clock = 6;
+
+  // Grace period for cleaning up the event. This is the time the controller
+  // waits for before deleting the event. During this period, if there is any
+  // active channel on the event. The deletion of the event after grace_period
+  // will be ignored.
+  google.protobuf.Duration grace_period = 7;
+}
+
+// Message describing the Series object.
+message Series {
+  // Name of the resource.
+  string name = 1;
+
+  // Output only. The create timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Annotations to allow clients to store small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // Required. Stream that is associated with this series.
+  string stream = 6;
+
+  // Required. Event that is associated with this series.
+  string event = 7;
+}
+
+// The data within all Series events.
+message SeriesEventData {
+  // Optional. The Series event payload. Unset for deletion events.
+  optional Series payload = 1;
+}
+
+// The data within all Draft events.
+message DraftEventData {
+  // Optional. The Draft event payload. Unset for deletion events.
+  optional Draft payload = 1;
+}
+
+// The data within all Processor events.
+message ProcessorEventData {
+  // Optional. The Processor event payload. Unset for deletion events.
+  optional Processor payload = 1;
+}
+
+// The data within all Analysis events.
+message AnalysisEventData {
+  // Optional. The Analysis event payload. Unset for deletion events.
+  optional Analysis payload = 1;
+}
+
+// The data within all Cluster events.
+message ClusterEventData {
+  // Optional. The Cluster event payload. Unset for deletion events.
+  optional Cluster payload = 1;
+}
+
+// The data within all Event events.
+message EventEventData {
+  // Optional. The Event event payload. Unset for deletion events.
+  optional Event payload = 1;
+}
+
+// The data within all Process events.
+message ProcessEventData {
+  // Optional. The Process event payload. Unset for deletion events.
+  optional Process payload = 1;
+}
+
+// The data within all Stream events.
+message StreamEventData {
+  // Optional. The Stream event payload. Unset for deletion events.
+  optional Stream payload = 1;
+}
+
+// The data within all Application events.
+message ApplicationEventData {
+  // Optional. The Application event payload. Unset for deletion events.
+  optional Application payload = 1;
+}

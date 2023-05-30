@@ -1,0 +1,1347 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.vmmigration.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/error_details.proto";
+import "google/rpc/status.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.VMMigration.V1";
+option php_namespace = "Google\\Events\\Cloud\\VMMigration\\V1";
+option ruby_package = "Google::Events::Cloud::VMMigration::V1";
+
+// ReplicationCycle contains information about the current replication cycle
+// status.
+message ReplicationCycle {
+  // Possible states of a replication cycle.
+  enum State {
+    // The state is unknown. This is used for API compatibility only and is not
+    // used by the system.
+    STATE_UNSPECIFIED = 0;
+
+    // The replication cycle is running.
+    RUNNING = 1;
+
+    // The replication cycle is paused.
+    PAUSED = 2;
+
+    // The replication cycle finished with errors.
+    FAILED = 3;
+
+    // The replication cycle finished successfully.
+    SUCCEEDED = 4;
+  }
+
+  // The identifier of the ReplicationCycle.
+  string name = 13;
+
+  // The cycle's ordinal number.
+  int32 cycle_number = 10;
+
+  // The time the replication cycle has started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // The time the replication cycle has ended.
+  google.protobuf.Timestamp end_time = 6;
+
+  // The accumulated duration the replication cycle was paused.
+  google.protobuf.Duration total_pause_duration = 7;
+
+  // The current progress in percentage of this cycle.
+  // Was replaced by 'steps' field, which breaks down the cycle progression more
+  // accurately.
+  int32 progress_percent = 5;
+
+  // The cycle's steps list representing its progress.
+  repeated CycleStep steps = 9;
+
+  // State of the ReplicationCycle.
+  State state = 11;
+
+  // Provides details on the state of the cycle in case of an error.
+  google.rpc.Status error = 12;
+
+  // Output only. Warnings that occurred during the cycle.
+  repeated MigrationWarning warnings = 14;
+}
+
+// CycleStep holds information about a step progress.
+message CycleStep {
+  oneof step {
+    // Initializing replication step.
+    InitializingReplicationStep initializing_replication = 3;
+
+    // Replicating step.
+    ReplicatingStep replicating = 4;
+
+    // Post processing step.
+    PostProcessingStep post_processing = 5;
+  }
+
+  // The time the cycle step has started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // The time the cycle step has ended.
+  google.protobuf.Timestamp end_time = 2;
+}
+
+// InitializingReplicationStep contains specific step details.
+message InitializingReplicationStep {}
+
+// ReplicatingStep contains specific step details.
+message ReplicatingStep {
+  // Total bytes to be handled in the step.
+  int64 total_bytes = 1;
+
+  // Replicated bytes in the step.
+  int64 replicated_bytes = 2;
+
+  // The source disks replication rate for the last 2 minutes in bytes per
+  // second.
+  int64 last_two_minutes_average_bytes_per_second = 3;
+
+  // The source disks replication rate for the last 30 minutes in bytes per
+  // second.
+  int64 last_thirty_minutes_average_bytes_per_second = 4;
+}
+
+// PostProcessingStep contains specific step details.
+message PostProcessingStep {}
+
+// ReplicationSync contain information about the last replica sync to the cloud.
+message ReplicationSync {
+  // The most updated snapshot created time in the source that finished
+  // replication.
+  google.protobuf.Timestamp last_sync_time = 1;
+}
+
+// MigratingVm describes the VM that will be migrated from a Source environment
+// and its replication state.
+message MigratingVm {
+  // The possible values of the state/health of source VM.
+  enum State {
+    // The state was not sampled by the health checks yet.
+    STATE_UNSPECIFIED = 0;
+
+    // The VM in the source is being verified.
+    PENDING = 1;
+
+    // The source VM was verified, and it's ready to start replication.
+    READY = 2;
+
+    // Migration is going through the first sync cycle.
+    FIRST_SYNC = 3;
+
+    // The replication is active, and it's running or scheduled to run.
+    ACTIVE = 4;
+
+    // The source VM is being turned off, and a final replication is currently
+    // running.
+    CUTTING_OVER = 7;
+
+    // The source VM was stopped and replicated. The replication is currently
+    // paused.
+    CUTOVER = 8;
+
+    // A cutover job is active and replication cycle is running the final sync.
+    FINAL_SYNC = 9;
+
+    // The replication was paused by the user and no cycles are scheduled to
+    // run.
+    PAUSED = 10;
+
+    // The migrating VM is being finalized and migration resources are being
+    // removed.
+    FINALIZING = 11;
+
+    // The replication process is done. The migrating VM is finalized and no
+    // longer consumes billable resources.
+    FINALIZED = 12;
+
+    // The replication process encountered an unrecoverable error and was
+    // aborted.
+    ERROR = 13;
+  }
+
+  // The default configuration of the target VM that will be created in Google
+  // Cloud as a result of the migration.
+  oneof target_vm_defaults {
+    // Details of the target VM in Compute Engine.
+    ComputeEngineTargetDefaults compute_engine_target_defaults = 26;
+  }
+
+  // Details about the source VM.
+  oneof source_vm_details {
+    // Output only. Details of the VM from an AWS source.
+    AwsSourceVmDetails aws_source_vm_details = 29;
+  }
+
+  // Output only. The identifier of the MigratingVm.
+  string name = 1;
+
+  // The unique ID of the VM in the source.
+  // The VM's name in vSphere can be changed, so this is not the VM's name but
+  // rather its moRef id. This id is of the form vm-<num>.
+  string source_vm_id = 2;
+
+  // The display name attached to the MigratingVm by the user.
+  string display_name = 18;
+
+  // The description attached to the migrating VM by the user.
+  string description = 3;
+
+  // The replication schedule policy.
+  SchedulePolicy policy = 8;
+
+  // Output only. The time the migrating VM was created (this refers to this
+  // resource and not to the time it was installed in the source).
+  google.protobuf.Timestamp create_time = 9;
+
+  // Output only. The last time the migrating VM resource was updated.
+  google.protobuf.Timestamp update_time = 10;
+
+  // Output only. The most updated snapshot created time in the source that
+  // finished replication.
+  ReplicationSync last_sync = 11;
+
+  // Output only. State of the MigratingVm.
+  State state = 23;
+
+  // Output only. The last time the migrating VM state was updated.
+  google.protobuf.Timestamp state_time = 22;
+
+  // Output only. Details of the current running replication cycle.
+  ReplicationCycle current_sync_info = 13;
+
+  // Output only. Details of the last replication cycle. This will be updated
+  // whenever a replication cycle is finished and is not to be confused with
+  // last_sync which is only updated on successful replication cycles.
+  ReplicationCycle last_replication_cycle = 32;
+
+  // Output only. The group this migrating vm is included in, if any. The group
+  // is represented by the full path of the appropriate
+  // [Group][google.cloud.vmmigration.v1.Group] resource.
+  string group = 15;
+
+  // The labels of the migrating VM.
+  map<string, string> labels = 16;
+
+  // Output only. The recent [clone jobs][google.cloud.vmmigration.v1.CloneJob]
+  // performed on the migrating VM. This field holds the vm's last completed
+  // clone job and the vm's running clone job, if one exists.
+  // Note: To have this field populated you need to explicitly request it via
+  // the "view" parameter of the Get/List request.
+  repeated CloneJob recent_clone_jobs = 17;
+
+  // Output only. Provides details on the state of the Migrating VM in case of
+  // an error in replication.
+  google.rpc.Status error = 19;
+
+  // Output only. The recent cutover jobs performed on the migrating VM.
+  // This field holds the vm's last completed cutover job and the vm's
+  // running cutover job, if one exists.
+  // Note: To have this field populated you need to explicitly request it via
+  // the "view" parameter of the Get/List request.
+  repeated CutoverJob recent_cutover_jobs = 20;
+
+  // Output only. Provides details of future CutoverJobs of a MigratingVm.
+  // Set to empty when cutover forecast is unavailable.
+  CutoverForecast cutover_forecast = 33;
+}
+
+// CutoverForecast holds information about future CutoverJobs of a MigratingVm.
+message CutoverForecast {
+  // Output only. Estimation of the CutoverJob duration.
+  google.protobuf.Duration estimated_cutover_job_duration = 1;
+}
+
+// CloneJob describes the process of creating a clone of a
+// [MigratingVM][google.cloud.vmmigration.v1.MigratingVm] to the
+// requested target based on the latest successful uploaded snapshots.
+// While the migration cycles of a MigratingVm take place, it is possible to
+// verify the uploaded VM can be started in the cloud, by creating a clone. The
+// clone can be created without any downtime, and it is created using the latest
+// snapshots which are already in the cloud. The cloneJob is only responsible
+// for its work, not its products, which means once it is finished, it will
+// never touch the instance it created. It will only delete it in case of the
+// CloneJob being cancelled or upon failure to clone.
+message CloneJob {
+  // Possible states of the clone job.
+  enum State {
+    // The state is unknown. This is used for API compatibility only and is not
+    // used by the system.
+    STATE_UNSPECIFIED = 0;
+
+    // The clone job has not yet started.
+    PENDING = 1;
+
+    // The clone job is active and running.
+    ACTIVE = 2;
+
+    // The clone job finished with errors.
+    FAILED = 3;
+
+    // The clone job finished successfully.
+    SUCCEEDED = 4;
+
+    // The clone job was cancelled.
+    CANCELLED = 5;
+
+    // The clone job is being cancelled.
+    CANCELLING = 6;
+
+    // OS adaptation is running as part of the clone job to generate license.
+    ADAPTING_OS = 7;
+  }
+
+  // Details of the VM to create as the target of this clone job.
+  oneof target_vm_details {
+    // Output only. Details of the target VM in Compute Engine.
+    ComputeEngineTargetDetails compute_engine_target_details = 20;
+  }
+
+  // Output only. The time the clone job was created (as an API call, not when
+  // it was actually created in the target).
+  google.protobuf.Timestamp create_time = 1;
+
+  // Output only. The time the clone job was ended.
+  google.protobuf.Timestamp end_time = 22;
+
+  // Output only. The name of the clone.
+  string name = 3;
+
+  // Output only. State of the clone job.
+  State state = 12;
+
+  // Output only. The time the state was last updated.
+  google.protobuf.Timestamp state_time = 14;
+
+  // Output only. Provides details for the errors that led to the Clone Job's
+  // state.
+  google.rpc.Status error = 17;
+
+  // Output only. The clone steps list representing its progress.
+  repeated CloneStep steps = 23;
+}
+
+// CloneStep holds information about the clone step progress.
+message CloneStep {
+  oneof step {
+    // Adapting OS step.
+    AdaptingOSStep adapting_os = 3;
+
+    // Preparing VM disks step.
+    PreparingVMDisksStep preparing_vm_disks = 4;
+
+    // Instantiating migrated VM step.
+    InstantiatingMigratedVMStep instantiating_migrated_vm = 5;
+  }
+
+  // The time the step has started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // The time the step has ended.
+  google.protobuf.Timestamp end_time = 2;
+}
+
+// AdaptingOSStep contains specific step details.
+message AdaptingOSStep {}
+
+// PreparingVMDisksStep contains specific step details.
+message PreparingVMDisksStep {}
+
+// InstantiatingMigratedVMStep contains specific step details.
+message InstantiatingMigratedVMStep {}
+
+// CutoverJob message describes a cutover of a migrating VM. The CutoverJob is
+// the operation of shutting down the VM, creating a snapshot and
+// clonning the VM using the replicated snapshot.
+message CutoverJob {
+  // Possible states of the cutover job.
+  enum State {
+    // The state is unknown. This is used for API compatibility only and is not
+    // used by the system.
+    STATE_UNSPECIFIED = 0;
+
+    // The cutover job has not yet started.
+    PENDING = 1;
+
+    // The cutover job finished with errors.
+    FAILED = 2;
+
+    // The cutover job finished successfully.
+    SUCCEEDED = 3;
+
+    // The cutover job was cancelled.
+    CANCELLED = 4;
+
+    // The cutover job is being cancelled.
+    CANCELLING = 5;
+
+    // The cutover job is active and running.
+    ACTIVE = 6;
+
+    // OS adaptation is running as part of the cutover job to generate license.
+    ADAPTING_OS = 7;
+  }
+
+  // Details of the VM to create as the target of this cutover job.
+  oneof target_vm_details {
+    // Output only. Details of the target VM in Compute Engine.
+    ComputeEngineTargetDetails compute_engine_target_details = 14;
+  }
+
+  // Output only. The time the cutover job was created (as an API call, not when
+  // it was actually created in the target).
+  google.protobuf.Timestamp create_time = 1;
+
+  // Output only. The time the cutover job had finished.
+  google.protobuf.Timestamp end_time = 16;
+
+  // Output only. The name of the cutover job.
+  string name = 3;
+
+  // Output only. State of the cutover job.
+  State state = 5;
+
+  // Output only. The time the state was last updated.
+  google.protobuf.Timestamp state_time = 6;
+
+  // Output only. The current progress in percentage of the cutover job.
+  int32 progress_percent = 13;
+
+  // Output only. Provides details for the errors that led to the Cutover Job's
+  // state.
+  google.rpc.Status error = 9;
+
+  // Output only. A message providing possible extra details about the current
+  // state.
+  string state_message = 10;
+
+  // Output only. The cutover steps list representing its progress.
+  repeated CutoverStep steps = 17;
+}
+
+// CutoverStep holds information about the cutover step progress.
+message CutoverStep {
+  oneof step {
+    // A replication cycle prior cutover step.
+    ReplicationCycle previous_replication_cycle = 3;
+
+    // Shutting down VM step.
+    ShuttingDownSourceVMStep shutting_down_source_vm = 4;
+
+    // Final sync step.
+    ReplicationCycle final_sync = 5;
+
+    // Preparing VM disks step.
+    PreparingVMDisksStep preparing_vm_disks = 6;
+
+    // Instantiating migrated VM step.
+    InstantiatingMigratedVMStep instantiating_migrated_vm = 7;
+  }
+
+  // The time the step has started.
+  google.protobuf.Timestamp start_time = 1;
+
+  // The time the step has ended.
+  google.protobuf.Timestamp end_time = 2;
+}
+
+// ShuttingDownSourceVMStep contains specific step details.
+message ShuttingDownSourceVMStep {}
+
+// Source message describes a specific vm migration Source resource. It contains
+// the source environment information.
+message Source {
+  oneof source_details {
+    // Vmware type source details.
+    VmwareSourceDetails vmware = 10;
+
+    // AWS type source details.
+    AwsSourceDetails aws = 12;
+  }
+
+  // Output only. The Source name.
+  string name = 1;
+
+  // Output only. The create time timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update time timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // The labels of the source.
+  map<string, string> labels = 4;
+
+  // User-provided description of the source.
+  string description = 6;
+}
+
+// VmwareSourceDetails message describes a specific source details for the
+// vmware source type.
+message VmwareSourceDetails {
+  // The credentials username.
+  string username = 1;
+
+  // The ip address of the vcenter this Source represents.
+  string vcenter_ip = 3;
+
+  // The thumbprint representing the certificate for the vcenter.
+  string thumbprint = 4;
+
+  // The hostname of the vcenter.
+  string resolved_vcenter_host = 5;
+}
+
+// AwsSourceDetails message describes a specific source details for the
+// AWS source type.
+message AwsSourceDetails {
+  // Message describing AWS Credentials using access key id and secret.
+  message AccessKeyCredentials {
+    // AWS access key ID.
+    string access_key_id = 1;
+  }
+
+  // Tag is an AWS tag representation.
+  message Tag {
+    // Key of tag.
+    string key = 1;
+
+    // Value of tag.
+    string value = 2;
+  }
+
+  // The possible values of the state.
+  enum State {
+    // The state is unknown. This is used for API compatibility only and is not
+    // used by the system.
+    STATE_UNSPECIFIED = 0;
+
+    // The state was not sampled by the health checks yet.
+    PENDING = 1;
+
+    // The source is available but might not be usable yet due to invalid
+    // credentials or another reason.
+    // The error message will contain further details.
+    FAILED = 2;
+
+    // The source exists and its credentials were verified.
+    ACTIVE = 3;
+  }
+
+  oneof credentials_type {
+    // AWS Credentials using access key id and secret.
+    AccessKeyCredentials access_key_creds = 11;
+  }
+
+  // Immutable. The AWS region that the source VMs will be migrated from.
+  string aws_region = 3;
+
+  // Output only. State of the source as determined by the health check.
+  State state = 4;
+
+  // Output only. Provides details on the state of the Source in case of an
+  // error.
+  google.rpc.Status error = 5;
+
+  // AWS resource tags to limit the scope of the source inventory.
+  repeated Tag inventory_tag_list = 10;
+
+  // AWS security group names to limit the scope of the source
+  // inventory.
+  repeated string inventory_security_group_names = 7;
+
+  // User specified tags to add to every M2VM generated resource in AWS.
+  // These tags will be set in addition to the default tags that are set as part
+  // of the migration process. The tags must not begin with the reserved prefix
+  // `m2vm`.
+  map<string, string> migration_resources_user_tags = 8;
+
+  // Output only. The source's public IP. All communication initiated by this
+  // source will originate from this IP.
+  string public_ip = 9;
+}
+
+// DatacenterConnector message describes a connector between the Source and
+// Google Cloud, which is installed on a vmware datacenter (an OVA vm installed
+// by the user) to connect the Datacenter to Google Cloud and support vm
+// migration data transfer.
+message DatacenterConnector {
+  // The possible values of the state.
+  enum State {
+    // The state is unknown. This is used for API compatibility only and is not
+    // used by the system.
+    STATE_UNSPECIFIED = 0;
+
+    // The state was not sampled by the health checks yet.
+    PENDING = 1;
+
+    // The source was sampled by health checks and is not available.
+    OFFLINE = 2;
+
+    // The source is available but might not be usable yet due to unvalidated
+    // credentials or another reason. The credentials referred to are the ones
+    // to the Source. The error message will contain further details.
+    FAILED = 3;
+
+    // The source exists and its credentials were verified.
+    ACTIVE = 4;
+  }
+
+  // Output only. The time the connector was created (as an API call, not when
+  // it was actually installed).
+  google.protobuf.Timestamp create_time = 1;
+
+  // Output only. The last time the connector was updated with an API call.
+  google.protobuf.Timestamp update_time = 2;
+
+  // Output only. The connector's name.
+  string name = 3;
+
+  // Immutable. A unique key for this connector. This key is internal to the OVA
+  // connector and is supplied with its creation during the registration process
+  // and can not be modified.
+  string registration_id = 12;
+
+  // The service account to use in the connector when communicating with the
+  // cloud.
+  string service_account = 5;
+
+  // The version running in the DatacenterConnector. This is supplied by the OVA
+  // connector during the registration process and can not be modified.
+  string version = 6;
+
+  // Output only. The communication channel between the datacenter connector and
+  // Google Cloud.
+  string bucket = 10;
+
+  // Output only. State of the DatacenterConnector, as determined by the health
+  // checks.
+  State state = 7;
+
+  // Output only. The time the state was last set.
+  google.protobuf.Timestamp state_time = 8;
+
+  // Output only. Provides details on the state of the Datacenter Connector in
+  // case of an error.
+  google.rpc.Status error = 11;
+
+  // Output only. Appliance OVA version.
+  // This is the OVA which is manually installed by the user and contains the
+  // infrastructure for the automatically updatable components on the appliance.
+  string appliance_infrastructure_version = 13;
+
+  // Output only. Appliance last installed update bundle version.
+  // This is the version of the automatically updatable components on the
+  // appliance.
+  string appliance_software_version = 14;
+
+  // Output only. The available versions for updating this appliance.
+  AvailableUpdates available_versions = 15;
+
+  // Output only. The status of the current / last upgradeAppliance operation.
+  UpgradeStatus upgrade_status = 16;
+}
+
+// UpgradeStatus contains information about upgradeAppliance operation.
+message UpgradeStatus {
+  // The possible values of the state.
+  enum State {
+    // The state was not sampled by the health checks yet.
+    STATE_UNSPECIFIED = 0;
+
+    // The upgrade has started.
+    RUNNING = 1;
+
+    // The upgrade failed.
+    FAILED = 2;
+
+    // The upgrade finished successfully.
+    SUCCEEDED = 3;
+  }
+
+  // The version to upgrade to.
+  string version = 1;
+
+  // The state of the upgradeAppliance operation.
+  State state = 2;
+
+  // Provides details on the state of the upgrade operation in case of an error.
+  google.rpc.Status error = 3;
+
+  // The time the operation was started.
+  google.protobuf.Timestamp start_time = 4;
+
+  // The version from which we upgraded.
+  string previous_version = 5;
+}
+
+// Holds informatiom about the available versions for upgrade.
+message AvailableUpdates {
+  // The newest deployable version of the appliance.
+  // The current appliance can't be updated into this version, and the owner
+  // must manually deploy this OVA to a new appliance.
+  ApplianceVersion new_deployable_appliance = 1;
+
+  // The latest version for in place update.
+  // The current appliance can be updated to this version using the API or m4c
+  // CLI.
+  ApplianceVersion in_place_update = 2;
+}
+
+// Describes an appliance version.
+message ApplianceVersion {
+  // The appliance version.
+  string version = 1;
+
+  // A link for downloading the version.
+  string uri = 2;
+
+  // Determine whether it's critical to upgrade the appliance to this version.
+  bool critical = 3;
+
+  // Link to a page that contains the version release notes.
+  string release_notes_uri = 4;
+}
+
+// VmwareVmDetails describes a VM in vCenter.
+message VmwareVmDetails {
+  // Possible values for the power state of the VM.
+  enum PowerState {
+    // Power state is not specified.
+    POWER_STATE_UNSPECIFIED = 0;
+
+    // The VM is turned ON.
+    ON = 1;
+
+    // The VM is turned OFF.
+    OFF = 2;
+
+    // The VM is suspended. This is similar to hibernation or sleep mode.
+    SUSPENDED = 3;
+  }
+
+  // Possible values for vm boot option.
+  enum BootOption {
+    // The boot option is unknown.
+    BOOT_OPTION_UNSPECIFIED = 0;
+
+    // The boot option is EFI.
+    EFI = 1;
+
+    // The boot option is BIOS.
+    BIOS = 2;
+  }
+
+  // The VM's id in the source (note that this is not the MigratingVm's id).
+  // This is the moref id of the VM.
+  string vm_id = 1;
+
+  // The id of the vCenter's datacenter this VM is contained in.
+  string datacenter_id = 2;
+
+  // The descriptive name of the vCenter's datacenter this VM is contained in.
+  string datacenter_description = 3;
+
+  // The unique identifier of the VM in vCenter.
+  string uuid = 4;
+
+  // The display name of the VM. Note that this is not necessarily unique.
+  string display_name = 5;
+
+  // The power state of the VM at the moment list was taken.
+  PowerState power_state = 6;
+
+  // The number of cpus in the VM.
+  int32 cpu_count = 7;
+
+  // The size of the memory of the VM in MB.
+  int32 memory_mb = 8;
+
+  // The number of disks the VM has.
+  int32 disk_count = 9;
+
+  // The total size of the storage allocated to the VM in MB.
+  int64 committed_storage_mb = 12;
+
+  // The VM's OS. See for example
+  // https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+  // for types of strings this might hold.
+  string guest_description = 11;
+
+  // Output only. The VM Boot Option.
+  BootOption boot_option = 13;
+}
+
+// Utilization report details the utilization (CPU, memory, etc.) of selected
+// source VMs.
+message UtilizationReport {
+  // Utilization report state.
+  enum State {
+    // The state is unknown. This value is not in use.
+    STATE_UNSPECIFIED = 0;
+
+    // The report is in the making.
+    CREATING = 1;
+
+    // Report creation completed successfully.
+    SUCCEEDED = 2;
+
+    // Report creation failed.
+    FAILED = 3;
+  }
+
+  // Report time frame options.
+  enum TimeFrame {
+    // The time frame was not specified and will default to WEEK.
+    TIME_FRAME_UNSPECIFIED = 0;
+
+    // One week.
+    WEEK = 1;
+
+    // One month.
+    MONTH = 2;
+
+    // One year.
+    YEAR = 3;
+  }
+
+  // Output only. The report unique name.
+  string name = 1;
+
+  // The report display name, as assigned by the user.
+  string display_name = 2;
+
+  // Output only. Current state of the report.
+  State state = 3;
+
+  // Output only. The time the state was last set.
+  google.protobuf.Timestamp state_time = 4;
+
+  // Output only. Provides details on the state of the report in case of an
+  // error.
+  google.rpc.Status error = 5;
+
+  // Output only. The time the report was created (this refers to the time of
+  // the request, not the time the report creation completed).
+  google.protobuf.Timestamp create_time = 6;
+
+  // Time frame of the report.
+  TimeFrame time_frame = 7;
+
+  // Output only. The point in time when the time frame ends. Notice that the
+  // time frame is counted backwards. For instance if the "frame_end_time" value
+  // is 2021/01/20 and the time frame is WEEK then the report covers the week
+  // between 2021/01/20 and 2021/01/14.
+  google.protobuf.Timestamp frame_end_time = 8;
+
+  // Output only. Total number of VMs included in the report.
+  int32 vm_count = 9;
+
+  // List of utilization information per VM.
+  // When sent as part of the request, the "vm_id" field is used in order to
+  // specify which VMs to include in the report. In that case all other fields
+  // are ignored.
+  repeated VmUtilizationInfo vms = 10;
+}
+
+// Utilization information of a single VM.
+message VmUtilizationInfo {
+  oneof VmDetails {
+    // The description of the VM in a Source of type Vmware.
+    VmwareVmDetails vmware_vm_details = 1;
+  }
+
+  // The VM's ID in the source.
+  string vm_id = 3;
+
+  // Utilization metrics for this VM.
+  VmUtilizationMetrics utilization = 2;
+}
+
+// Utilization metrics values for a single VM.
+message VmUtilizationMetrics {
+  // Max CPU usage, percent.
+  int32 cpu_max_percent = 9;
+
+  // Average CPU usage, percent.
+  int32 cpu_average_percent = 10;
+
+  // Max memory usage, percent.
+  int32 memory_max_percent = 11;
+
+  // Average memory usage, percent.
+  int32 memory_average_percent = 12;
+
+  // Max disk IO rate, in kilobytes per second.
+  int64 disk_io_rate_max_kbps = 13;
+
+  // Average disk IO rate, in kilobytes per second.
+  int64 disk_io_rate_average_kbps = 14;
+
+  // Max network throughput (combined transmit-rates and receive-rates), in
+  // kilobytes per second.
+  int64 network_throughput_max_kbps = 15;
+
+  // Average network throughput (combined transmit-rates and receive-rates), in
+  // kilobytes per second.
+  int64 network_throughput_average_kbps = 16;
+}
+
+// ComputeEngineTargetDefaults is a collection of details for creating a VM in a
+// target Compute Engine project.
+message ComputeEngineTargetDefaults {
+  // The name of the VM to create.
+  string vm_name = 1;
+
+  // The full path of the resource of type TargetProject which represents the
+  // Compute Engine project in which to create this VM.
+  string target_project = 2;
+
+  // The zone in which to create the VM.
+  string zone = 3;
+
+  // The machine type series to create the VM with.
+  string machine_type_series = 4;
+
+  // The machine type to create the VM with.
+  string machine_type = 5;
+
+  // A map of network tags to associate with the VM.
+  repeated string network_tags = 6;
+
+  // List of NICs connected to this VM.
+  repeated NetworkInterface network_interfaces = 7;
+
+  // The service account to associate the VM with.
+  string service_account = 8;
+
+  // The disk type to use in the VM.
+  ComputeEngineDiskType disk_type = 9;
+
+  // A map of labels to associate with the VM.
+  map<string, string> labels = 10;
+
+  // The license type to use in OS adaptation.
+  ComputeEngineLicenseType license_type = 11;
+
+  // Output only. The OS license returned from the adaptation module report.
+  AppliedLicense applied_license = 12;
+
+  // Compute instance scheduling information (if empty default is used).
+  ComputeScheduling compute_scheduling = 13;
+
+  // Defines whether the instance has Secure Boot enabled.
+  // This can be set to true only if the vm boot option is EFI.
+  bool secure_boot = 14;
+
+  // Output only. The VM Boot Option, as set in the source vm.
+  ComputeEngineBootOption boot_option = 15;
+
+  // The metadata key/value pairs to assign to the VM.
+  map<string, string> metadata = 16;
+
+  // Additional licenses to assign to the VM.
+  repeated string additional_licenses = 17;
+
+  // The hostname to assign to the VM.
+  string hostname = 18;
+}
+
+// ComputeEngineTargetDetails is a collection of details for creating a VM in a
+// target Compute Engine project.
+message ComputeEngineTargetDetails {
+  // The name of the VM to create.
+  string vm_name = 1;
+
+  // The Google Cloud target project ID or project name.
+  string project = 2;
+
+  // The zone in which to create the VM.
+  string zone = 3;
+
+  // The machine type series to create the VM with.
+  string machine_type_series = 4;
+
+  // The machine type to create the VM with.
+  string machine_type = 5;
+
+  // A map of network tags to associate with the VM.
+  repeated string network_tags = 6;
+
+  // List of NICs connected to this VM.
+  repeated NetworkInterface network_interfaces = 7;
+
+  // The service account to associate the VM with.
+  string service_account = 8;
+
+  // The disk type to use in the VM.
+  ComputeEngineDiskType disk_type = 9;
+
+  // A map of labels to associate with the VM.
+  map<string, string> labels = 10;
+
+  // The license type to use in OS adaptation.
+  ComputeEngineLicenseType license_type = 11;
+
+  // The OS license returned from the adaptation module report.
+  AppliedLicense applied_license = 12;
+
+  // Compute instance scheduling information (if empty default is used).
+  ComputeScheduling compute_scheduling = 13;
+
+  // Defines whether the instance has Secure Boot enabled.
+  // This can be set to true only if the vm boot option is EFI.
+  bool secure_boot = 14;
+
+  // The VM Boot Option, as set in the source vm.
+  ComputeEngineBootOption boot_option = 15;
+
+  // The metadata key/value pairs to assign to the VM.
+  map<string, string> metadata = 16;
+
+  // Additional licenses to assign to the VM.
+  repeated string additional_licenses = 17;
+
+  // The hostname to assign to the VM.
+  string hostname = 18;
+}
+
+// NetworkInterface represents a NIC of a VM.
+message NetworkInterface {
+  // The network to connect the NIC to.
+  string network = 1;
+
+  // The subnetwork to connect the NIC to.
+  string subnetwork = 2;
+
+  // The internal IP to define in the NIC.
+  // The formats accepted are: `ephemeral` \ ipv4 address \ a named address
+  // resource full path.
+  string internal_ip = 3;
+
+  // The external IP to define in the NIC.
+  string external_ip = 4;
+}
+
+// AppliedLicense holds the license data returned by adaptation module report.
+message AppliedLicense {
+  // License types used in OS adaptation.
+  enum Type {
+    // Unspecified license for the OS.
+    TYPE_UNSPECIFIED = 0;
+
+    // No license available for the OS.
+    NONE = 1;
+
+    // The license type is Pay As You Go license type.
+    PAYG = 2;
+
+    // The license type is Bring Your Own License type.
+    BYOL = 3;
+  }
+
+  // The license type that was used in OS adaptation.
+  Type type = 1;
+
+  // The OS license returned from the adaptation module's report.
+  string os_license = 2;
+}
+
+// Node Affinity: the configuration of desired nodes onto which this Instance
+// could be scheduled. Based on
+// https://cloud.google.com/compute/docs/reference/rest/v1/instances/setScheduling
+message SchedulingNodeAffinity {
+  // Possible types of node selection operators. Valid operators are IN for
+  // affinity and NOT_IN for anti-affinity.
+  enum Operator {
+    // An unknown, unexpected behavior.
+    OPERATOR_UNSPECIFIED = 0;
+
+    // The node resource group should be in these resources affinity.
+    IN = 1;
+
+    // The node resource group should not be in these resources affinity.
+    NOT_IN = 2;
+  }
+
+  // The label key of Node resource to reference.
+  string key = 1;
+
+  // The operator to use for the node resources specified in the `values`
+  // parameter.
+  Operator operator = 2;
+
+  // Corresponds to the label values of Node resource.
+  repeated string values = 3;
+}
+
+// Scheduling information for VM on maintenance/restart behaviour and
+// node allocation in sole tenant nodes.
+message ComputeScheduling {
+  enum OnHostMaintenance {
+    // An unknown, unexpected behavior.
+    ON_HOST_MAINTENANCE_UNSPECIFIED = 0;
+
+    // Terminate the instance when the host machine undergoes maintenance.
+    TERMINATE = 1;
+
+    // Migrate the instance when the host machine undergoes maintenance.
+    MIGRATE = 2;
+  }
+
+  // Defines whether the Instance should be automatically restarted whenever
+  // it is terminated by Compute Engine (not terminated by user).
+  enum RestartType {
+    // Unspecified behavior. This will use the default.
+    RESTART_TYPE_UNSPECIFIED = 0;
+
+    // The Instance should be automatically restarted whenever it is
+    // terminated by Compute Engine.
+    AUTOMATIC_RESTART = 1;
+
+    // The Instance isn't automatically restarted whenever it is
+    // terminated by Compute Engine.
+    NO_AUTOMATIC_RESTART = 2;
+  }
+
+  // How the instance should behave when the host machine undergoes
+  // maintenance that may temporarily impact instance performance.
+  OnHostMaintenance on_host_maintenance = 1;
+
+  // Whether the Instance should be automatically restarted whenever it is
+  // terminated by Compute Engine (not terminated by user).
+  // This configuration is identical to `automaticRestart` field in Compute
+  // Engine create instance under scheduling.
+  // It was changed to an enum (instead of a boolean) to match the default
+  // value in Compute Engine which is automatic restart.
+  RestartType restart_type = 5;
+
+  // A set of node affinity and anti-affinity configurations for sole tenant
+  // nodes.
+  repeated SchedulingNodeAffinity node_affinities = 3;
+
+  // The minimum number of virtual CPUs this instance will consume when
+  // running on a sole-tenant node. Ignored if no node_affinites are
+  // configured.
+  int32 min_node_cpus = 4;
+}
+
+// A policy for scheduling replications.
+message SchedulePolicy {
+  // The idle duration between replication stages.
+  google.protobuf.Duration idle_duration = 1;
+
+  // A flag to indicate whether to skip OS adaptation during the replication
+  // sync. OS adaptation is a process where the VM's operating system undergoes
+  // changes and adaptations to fully function on Compute Engine.
+  bool skip_os_adaptation = 2;
+}
+
+// TargetProject message represents a target Compute Engine project for a
+// migration or a clone.
+message TargetProject {
+  // Output only. The name of the target project.
+  string name = 1;
+
+  // The target project ID (number) or project name.
+  string project = 2;
+
+  // The target project's description.
+  string description = 3;
+
+  // Output only. The time this target project resource was created (not related
+  // to when the Compute Engine project it points to was created).
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. The last time the target project resource was updated.
+  google.protobuf.Timestamp update_time = 5;
+}
+
+// Describes message for 'Group' resource. The Group is a collections of several
+// MigratingVms.
+message Group {
+  // Output only. The Group name.
+  string name = 1;
+
+  // Output only. The create time timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The update time timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // User-provided description of the group.
+  string description = 4;
+
+  // Display name is a user defined name for this group which can be updated.
+  string display_name = 5;
+}
+
+// Represents migration resource warning information that can be used with
+// google.rpc.Status message. MigrationWarning is used to present the user with
+// warning information in migration operations.
+message MigrationWarning {
+  // Represents possible warning codes.
+  enum WarningCode {
+    // Default value. This value is not used.
+    WARNING_CODE_UNSPECIFIED = 0;
+
+    // A warning originated from OS Adaptation.
+    ADAPTATION_WARNING = 1;
+  }
+
+  // The warning code.
+  WarningCode code = 1;
+
+  // The localized warning message.
+  google.rpc.LocalizedMessage warning_message = 2;
+
+  // Suggested action for solving the warning.
+  google.rpc.LocalizedMessage action_item = 3;
+
+  // URL(s) pointing to additional information on handling the current warning.
+  repeated google.rpc.Help.Link help_links = 4;
+
+  // The time the warning occurred.
+  google.protobuf.Timestamp warning_time = 5;
+}
+
+// Represent the source AWS VM details.
+message AwsSourceVmDetails {
+  // The details of an AWS instance disk.
+  message AwsDiskDetails {
+    // The ordinal number of the disk.
+    int32 disk_number = 1;
+
+    // AWS volume ID.
+    string volume_id = 2;
+
+    // Size in GB.
+    int64 size_gb = 3;
+  }
+
+  // Possible values for AWS VM firmware.
+  enum Firmware {
+    // The firmware is unknown.
+    FIRMWARE_UNSPECIFIED = 0;
+
+    // The firmware is EFI.
+    EFI = 1;
+
+    // The firmware is BIOS.
+    BIOS = 2;
+  }
+
+  // The firmware type of the source VM.
+  Firmware firmware = 1;
+
+  // The total size of the disks being migrated in bytes.
+  int64 committed_storage_bytes = 2;
+
+  // The disks attached to the source VM.
+  repeated AwsDiskDetails disks = 3;
+}
+
+// Types of disks supported for Compute Engine VM.
+enum ComputeEngineDiskType {
+  // An unspecified disk type. Will be used as STANDARD.
+  COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED = 0;
+
+  // A Standard disk type.
+  COMPUTE_ENGINE_DISK_TYPE_STANDARD = 1;
+
+  // SSD hard disk type.
+  COMPUTE_ENGINE_DISK_TYPE_SSD = 2;
+
+  // An alternative to SSD persistent disks that balance performance and
+  // cost.
+  COMPUTE_ENGINE_DISK_TYPE_BALANCED = 3;
+}
+
+// Types of licenses used in OS adaptation.
+enum ComputeEngineLicenseType {
+  // The license type is the default for the OS.
+  COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT = 0;
+
+  // The license type is Pay As You Go license type.
+  COMPUTE_ENGINE_LICENSE_TYPE_PAYG = 1;
+
+  // The license type is Bring Your Own License type.
+  COMPUTE_ENGINE_LICENSE_TYPE_BYOL = 2;
+}
+
+// Possible values for vm boot option.
+enum ComputeEngineBootOption {
+  // The boot option is unknown.
+  COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED = 0;
+
+  // The boot option is EFI.
+  COMPUTE_ENGINE_BOOT_OPTION_EFI = 1;
+
+  // The boot option is BIOS.
+  COMPUTE_ENGINE_BOOT_OPTION_BIOS = 2;
+}
+
+// The data within all UtilizationReport events.
+message UtilizationReportEventData {
+  // Optional. The UtilizationReport event payload. Unset for deletion events.
+  optional UtilizationReport payload = 1;
+}
+
+// The data within all Group events.
+message GroupEventData {
+  // Optional. The Group event payload. Unset for deletion events.
+  optional Group payload = 1;
+}
+
+// The data within all CloneJob events.
+message CloneJobEventData {
+  // The CloneJob event payload.
+  CloneJob payload = 1;
+}
+
+// The data within all DatacenterConnector events.
+message DatacenterConnectorEventData {
+  // Optional. The DatacenterConnector event payload. Unset for deletion events.
+  optional DatacenterConnector payload = 1;
+}
+
+// The data within all TargetProject events.
+message TargetProjectEventData {
+  // Optional. The TargetProject event payload. Unset for deletion events.
+  optional TargetProject payload = 1;
+}
+
+// The data within all CutoverJob events.
+message CutoverJobEventData {
+  // The CutoverJob event payload.
+  CutoverJob payload = 1;
+}
+
+// The data within all Source events.
+message SourceEventData {
+  // Optional. The Source event payload. Unset for deletion events.
+  optional Source payload = 1;
+}
+
+// The data within all MigratingVm events.
+message MigratingVmEventData {
+  // Optional. The MigratingVm event payload. Unset for deletion events.
+  optional MigratingVm payload = 1;
+}
