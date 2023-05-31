@@ -1,0 +1,516 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/ClusterEventData.json",
+  "name": "ClusterEventData",
+  "examples": [],
+  "package": "google.events.cloud.alloydb.v1",
+  "datatype": "google.events.cloud.alloydb.v1.ClusterEventData",
+  "cloudeventTypes": [
+    "google.cloud.alloydb.cluster.v1.created",
+    "google.cloud.alloydb.cluster.v1.updated",
+    "google.cloud.alloydb.cluster.v1.deleted"
+  ],
+  "product": "AlloyDB",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ClusterEventData",
+  "definitions": {
+    "ClusterEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Cluster",
+          "additionalProperties": true,
+          "description": "Optional. The Cluster event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cluster Event Data",
+      "description": "The data within all Cluster events."
+    },
+    "AutomatedBackupPolicy": {
+      "properties": {
+        "weeklySchedule": {
+          "$ref": "#/definitions/WeeklySchedule",
+          "additionalProperties": true,
+          "description": "Weekly schedule for the Backup."
+        },
+        "timeBasedRetention": {
+          "$ref": "#/definitions/TimeBasedRetention",
+          "additionalProperties": true,
+          "description": "Time-based Backup retention policy."
+        },
+        "quantityBasedRetention": {
+          "$ref": "#/definitions/QuantityBasedRetention",
+          "additionalProperties": true,
+          "description": "Quantity-based Backup retention policy to retain recent backups."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether automated automated backups are enabled. If not set, defaults to true."
+        },
+        "backupWindow": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "The length of the time window during which a backup can be taken. If a backup does not succeed within this time window, it will be canceled and considered failed. The backup window must be at least 5 minutes long. There is no upper bound on the window. If not set, it defaults to 1 hour.",
+          "format": "regex"
+        },
+        "encryptionConfig": {
+          "$ref": "#/definitions/EncryptionConfig",
+          "additionalProperties": true,
+          "description": "Optional. The encryption config can be specified to encrypt the backups with a customer-managed encryption key (CMEK). When this field is not specified, the backup will then use default encryption scheme to protect the user data."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location where the backup will be stored. Currently, the only supported option is to store the backup in the same region as the cluster. If empty, defaults to the region of the cluster."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels to apply to backups created using this configuration."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automated Backup Policy",
+      "description": "Message describing the user-specified automated backup policy. All fields in the automated backup policy are optional. Defaults for each field are provided if they are not set."
+    },
+    "QuantityBasedRetention": {
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "The number of backups to retain."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Quantity Based Retention",
+      "description": "A quantity based policy specifies that a certain number of the most recent successful backups should be retained."
+    },
+    "TimeBasedRetention": {
+      "properties": {
+        "retentionPeriod": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "The retention period.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Time Based Retention",
+      "description": "A time based retention policy specifies that all backups within a certain time period should be retained."
+    },
+    "WeeklySchedule": {
+      "properties": {
+        "startTimes": {
+          "items": {
+            "$ref": "#/definitions/TimeOfDay"
+          },
+          "type": "array",
+          "description": "The times during the day to start a backup. The start times are assumed to be in UTC and to be an exact hour (e.g., 04:00:00). If no start times are provided, a single fixed start time is chosen arbitrarily."
+        },
+        "daysOfWeek": {
+          "items": {
+            "enum": [
+              "DAY_OF_WEEK_UNSPECIFIED",
+              0,
+              "MONDAY",
+              1,
+              "TUESDAY",
+              2,
+              "WEDNESDAY",
+              3,
+              "THURSDAY",
+              4,
+              "FRIDAY",
+              5,
+              "SATURDAY",
+              6,
+              "SUNDAY",
+              7
+            ]
+          },
+          "type": "array",
+          "title": "Day Of Week",
+          "description": "Represents a day of week."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Weekly Schedule",
+      "description": "A weekly schedule starts a backup at prescribed start times within a day, for the specified days of the week. The weekly schedule message is flexible and can be used to create many types of schedules. For example, to have a daily backup that starts at 22:00, configure the `start_times` field to have one element \"22:00\" and the `days_of_week` field to have all seven days of the week."
+    },
+    "BackupSource": {
+      "properties": {
+        "backupUid": {
+          "type": "string",
+          "description": "Output only. The system-generated UID of the backup which was used to create this resource. The UID is generated when the backup is created, and it is retained until the backup is deleted."
+        },
+        "backupName": {
+          "type": "string",
+          "description": "Required. The name of the backup resource with the format:  * projects/{project}/locations/{region}/backups/{backup_id}"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Backup Source",
+      "description": "Message describing a BackupSource."
+    },
+    "Cluster": {
+      "properties": {
+        "backupSource": {
+          "$ref": "#/definitions/BackupSource",
+          "additionalProperties": true,
+          "description": "Output only. Cluster created from backup."
+        },
+        "migrationSource": {
+          "$ref": "#/definitions/MigrationSource",
+          "additionalProperties": true,
+          "description": "Output only. Cluster created via DMS migration."
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of the cluster resource with the format:  * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource:  * projects/{project}/locations/{region}"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User-settable and human-readable display name for the Cluster."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Create time stamp",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Update time stamp",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. Delete time stamp",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "READY",
+            1,
+            "STOPPED",
+            2,
+            "EMPTY",
+            3,
+            "CREATING",
+            4,
+            "DELETING",
+            5,
+            "FAILED",
+            6,
+            "BOOTSTRAPPING",
+            7,
+            "MAINTENANCE",
+            8,
+            "PROMOTING",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Cluster State"
+        },
+        "clusterType": {
+          "enum": [
+            "CLUSTER_TYPE_UNSPECIFIED",
+            0,
+            "PRIMARY",
+            1,
+            "SECONDARY",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Cluster Type",
+          "description": "Type of Cluster"
+        },
+        "databaseVersion": {
+          "enum": [
+            "DATABASE_VERSION_UNSPECIFIED",
+            0,
+            "POSTGRES_13",
+            1,
+            "POSTGRES_14",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Version",
+          "description": "The supported database engine versions."
+        },
+        "network": {
+          "type": "string",
+          "description": "Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: \"projects/{project_number}/global/networks/{network_id}\". This is required to create a cluster. It can be updated, but it cannot be removed."
+        },
+        "etag": {
+          "type": "string",
+          "description": "For Resource freshness validation (https://google.aip.dev/154)"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128"
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance."
+        },
+        "automatedBackupPolicy": {
+          "$ref": "#/definitions/AutomatedBackupPolicy",
+          "additionalProperties": true,
+          "description": "The automated backup policy for this cluster. If no policy is provided then the default policy will be used. If backups are supported for the cluster, the default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days. For more information on the defaults, consult the documentation for the message type."
+        },
+        "sslConfig": {
+          "$ref": "#/definitions/SslConfig",
+          "additionalProperties": true,
+          "description": "SSL configuration for this AlloyDB Cluster."
+        },
+        "encryptionConfig": {
+          "$ref": "#/definitions/EncryptionConfig",
+          "additionalProperties": true,
+          "description": "Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data."
+        },
+        "encryptionInfo": {
+          "$ref": "#/definitions/EncryptionInfo",
+          "additionalProperties": true,
+          "description": "Output only. The encryption information for the cluster."
+        },
+        "secondaryConfig": {
+          "$ref": "#/definitions/SecondaryConfig",
+          "additionalProperties": true,
+          "description": "Cross Region replication config specific to SECONDARY cluster."
+        },
+        "primaryConfig": {
+          "$ref": "#/definitions/PrimaryConfig",
+          "additionalProperties": true,
+          "description": "Output only. Cross Region replication config specific to PRIMARY cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cluster",
+      "description": "A cluster is a collection of regional AlloyDB resources. It can include a primary instance and one or more read pool instances. All cluster resources share a storage layer, which scales as needed."
+    },
+    "PrimaryConfig": {
+      "properties": {
+        "secondaryClusterNames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Output only. Names of the clusters that are replicating from this cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Primary Config",
+      "description": "Configuration for the primary cluster. It has the list of clusters that are replicating from this cluster. This should be set if and only if the cluster is of type PRIMARY."
+    },
+    "SecondaryConfig": {
+      "properties": {
+        "primaryClusterName": {
+          "type": "string",
+          "description": "The name of the primary cluster name with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Secondary Config",
+      "description": "Configuration information for the secondary cluster. This should be set if and only if the cluster is of type SECONDARY."
+    },
+    "EncryptionConfig": {
+      "properties": {
+        "kmsKeyName": {
+          "type": "string",
+          "description": "The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME]"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Encryption Config",
+      "description": "EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key)."
+    },
+    "EncryptionInfo": {
+      "properties": {
+        "encryptionType": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "GOOGLE_DEFAULT_ENCRYPTION",
+            1,
+            "CUSTOMER_MANAGED_ENCRYPTION",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "Possible encryption types."
+        },
+        "kmsKeyVersions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Output only. Cloud KMS key versions that are being used to protect the database or the backup."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Encryption Info",
+      "description": "EncryptionInfo describes the encryption information of a cluster or a backup."
+    },
+    "MigrationSource": {
+      "properties": {
+        "hostPort": {
+          "type": "string",
+          "description": "Output only. The host and port of the on-premises instance in host:port format"
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "Output only. Place holder for the external source identifier(e.g DMS job name) that created the cluster."
+        },
+        "sourceType": {
+          "enum": [
+            "MIGRATION_SOURCE_TYPE_UNSPECIFIED",
+            0,
+            "DMS",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Migration Source Type",
+          "description": "Denote the type of migration source that created this cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migration Source",
+      "description": "Subset of the source instance configuration that is available when reading the cluster resource."
+    },
+    "SslConfig": {
+      "properties": {
+        "sslMode": {
+          "enum": [
+            "SSL_MODE_UNSPECIFIED",
+            0,
+            "SSL_MODE_ALLOW",
+            1,
+            "SSL_MODE_REQUIRE",
+            2,
+            "SSL_MODE_VERIFY_CA",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Ssl Mode",
+          "description": "SSL mode options."
+        },
+        "caSource": {
+          "enum": [
+            "CA_SOURCE_UNSPECIFIED",
+            0,
+            "CA_SOURCE_MANAGED",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Ca Source",
+          "description": "Certificate Authority (CA) source for SSL/TLS certificates."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Ssl Config",
+      "description": "SSL configuration for an AlloyDB Cluster."
+    },
+    "TimeOfDay": {
+      "properties": {
+        "hours": {
+          "type": "integer",
+          "description": "Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value \"24:00:00\" for scenarios like business closing time."
+        },
+        "minutes": {
+          "type": "integer",
+          "description": "Minutes of hour of day. Must be from 0 to 59."
+        },
+        "seconds": {
+          "type": "integer",
+          "description": "Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds."
+        },
+        "nanos": {
+          "type": "integer",
+          "description": "Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Time Of Day",
+      "description": "Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and `google.protobuf.Timestamp`."
+    }
+  }
+}

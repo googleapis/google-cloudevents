@@ -1,0 +1,143 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/metastore/v1/MetadataImportEventData.json",
+  "name": "MetadataImportEventData",
+  "examples": [],
+  "package": "google.events.cloud.metastore.v1",
+  "datatype": "google.events.cloud.metastore.v1.MetadataImportEventData",
+  "cloudeventTypes": [
+    "google.cloud.metastore.metadataImport.v1.created",
+    "google.cloud.metastore.metadataImport.v1.updated"
+  ],
+  "product": "Dataproc Metastore",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MetadataImportEventData",
+  "definitions": {
+    "MetadataImportEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/MetadataImport",
+          "additionalProperties": true,
+          "description": "The MetadataImport event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metadata Import Event Data",
+      "description": "The data within all MetadataImport events."
+    },
+    "MetadataImport": {
+      "properties": {
+        "databaseDump": {
+          "$ref": "#/definitions/DatabaseDump",
+          "additionalProperties": true,
+          "description": "Immutable. A database dump from a pre-existing metastore's database."
+        },
+        "name": {
+          "type": "string",
+          "description": "Immutable. The relative resource name of the metadata import, of the form: `projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}`."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the metadata import."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the metadata import was started.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the metadata import was last updated.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time when the metadata import finished.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "SUCCEEDED",
+            2,
+            "UPDATING",
+            3,
+            "FAILED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the metadata import."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metadata Import",
+      "description": "A metastore resource that imports metadata."
+    },
+    "DatabaseDump": {
+      "properties": {
+        "databaseType": {
+          "enum": [
+            "DATABASE_TYPE_UNSPECIFIED",
+            0,
+            "MYSQL",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Database Type",
+          "description": "The type of the database."
+        },
+        "gcsUri": {
+          "type": "string",
+          "description": "A Cloud Storage object or folder URI that specifies the source from which to import metadata. It must begin with `gs://`."
+        },
+        "sourceDatabase": {
+          "type": "string",
+          "description": "The name of the source database."
+        },
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "MYSQL",
+            1,
+            "AVRO",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "The type of the database dump."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Database Dump",
+      "description": "A specification of the location of and metadata about a database dump from a relational database management system."
+    }
+  }
+}

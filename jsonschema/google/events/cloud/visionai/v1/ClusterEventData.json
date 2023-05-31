@@ -1,0 +1,98 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ClusterEventData.json",
+  "name": "ClusterEventData",
+  "examples": [],
+  "package": "google.events.cloud.visionai.v1",
+  "datatype": "google.events.cloud.visionai.v1.ClusterEventData",
+  "cloudeventTypes": [
+    "google.cloud.visionai.cluster.v1.created",
+    "google.cloud.visionai.cluster.v1.updated",
+    "google.cloud.visionai.cluster.v1.deleted"
+  ],
+  "product": "Vision AI",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ClusterEventData",
+  "definitions": {
+    "ClusterEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Cluster",
+          "additionalProperties": true,
+          "description": "Optional. The Cluster event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cluster Event Data",
+      "description": "The data within all Cluster events."
+    },
+    "Cluster": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Name of the resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The create timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The update timestamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to allow clients to store small amounts of arbitrary data."
+        },
+        "dataplaneServiceEndpoint": {
+          "type": "string",
+          "description": "Output only. The DNS name of the data plane service"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PROVISIONING",
+            1,
+            "RUNNING",
+            2,
+            "STOPPING",
+            3,
+            "ERROR",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The current state of the cluster."
+        },
+        "pscTarget": {
+          "type": "string",
+          "description": "Output only. The private service connection service target name."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cluster",
+      "description": "Message describing the Cluster object."
+    }
+  }
+}

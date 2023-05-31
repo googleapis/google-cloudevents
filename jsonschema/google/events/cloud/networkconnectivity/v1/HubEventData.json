@@ -1,0 +1,114 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkconnectivity/v1/HubEventData.json",
+  "name": "HubEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkconnectivity.v1",
+  "datatype": "google.events.cloud.networkconnectivity.v1.HubEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkconnectivity.hub.v1.created",
+    "google.cloud.networkconnectivity.hub.v1.updated",
+    "google.cloud.networkconnectivity.hub.v1.deleted"
+  ],
+  "product": "Network Connectivity",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/HubEventData",
+  "definitions": {
+    "HubEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Hub",
+          "additionalProperties": true,
+          "description": "Optional. The Hub event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Hub Event Data",
+      "description": "The data within all Hub events."
+    },
+    "Hub": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Immutable. The name of the hub. Hub names must be unique. They use the following form:     `projects/{project_number}/locations/global/hubs/{hub_id}`"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the hub was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time the hub was last updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional labels in key:value format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements)."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description of the hub."
+        },
+        "uniqueId": {
+          "type": "string",
+          "description": "Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "DELETING",
+            3,
+            "UPDATING",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The State enum represents the lifecycle stage of a Network Connectivity Center resource."
+        },
+        "routingVpcs": {
+          "items": {
+            "$ref": "#/definitions/RoutingVPC"
+          },
+          "type": "array",
+          "description": "The VPC networks associated with this hub's spokes. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Hub",
+      "description": "A Network Connectivity Center hub is a global management resource to which you attach spokes. A single hub can contain spokes from multiple regions. However, if any of a hub's spokes use the site-to-site data transfer feature, the resources associated with those spokes must all be in the same VPC network. Spokes that do not use site-to-site data transfer can be associated with any VPC network in your project."
+    },
+    "RoutingVPC": {
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "The URI of the VPC network."
+        },
+        "requiredForNewSiteToSiteDataTransferSpokes": {
+          "type": "boolean",
+          "description": "Output only. If true, indicates that this VPC network is currently associated with spokes that use the data transfer feature (spokes where the site_to_site_data_transfer field is set to true). If you create new spokes that use data transfer, they must be associated with this VPC network. At most, one VPC network will have this field set to true."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Routing VPC",
+      "description": "RoutingVPC contains information about the VPC networks associated with the spokes of a Network Connectivity Center hub."
+    }
+  }
+}

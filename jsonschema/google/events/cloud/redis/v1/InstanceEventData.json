@@ -1,0 +1,531 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/redis/v1/InstanceEventData.json",
+  "name": "InstanceEventData",
+  "examples": [],
+  "package": "google.events.cloud.redis.v1",
+  "datatype": "google.events.cloud.redis.v1.InstanceEventData",
+  "cloudeventTypes": [
+    "google.cloud.redis.instance.v1.created",
+    "google.cloud.redis.instance.v1.updated",
+    "google.cloud.redis.instance.v1.deleted"
+  ],
+  "product": "Google Cloud Memorystore for Redis",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/InstanceEventData",
+  "definitions": {
+    "InstanceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Instance",
+          "additionalProperties": true,
+          "description": "Optional. The Instance event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Event Data",
+      "description": "The data within all Instance events."
+    },
+    "Instance": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Unique name of the resource in this scope including project and location using the form:     `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to [location_id][google.cloud.redis.v1.Instance.location_id] and [alternative_location_id][google.cloud.redis.v1.Instance.alternative_location_id] fields for more details."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "An arbitrary and optional user-provided name for the instance."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Resource labels to represent user provided metadata"
+        },
+        "locationId": {
+          "type": "string",
+          "description": "Optional. The zone where the instance will be provisioned. If not provided, the service will choose a zone from the specified region for the instance. For standard tier, additional nodes will be added across multiple zones for protection against zonal failures. If specified, at least one node will be provisioned in this zone."
+        },
+        "alternativeLocationId": {
+          "type": "string",
+          "description": "Optional. If specified, at least one node will be provisioned in this zone in addition to the zone specified in location_id. Only applicable to standard tier. If provided, it must be a different zone from the one provided in [location_id]. Additional nodes beyond the first 2 will be placed in zones selected by the service."
+        },
+        "redisVersion": {
+          "type": "string",
+          "description": "Optional. The version of Redis software. If not provided, latest supported version will be used. Currently, the supported values are:  *   `REDIS_3_2` for Redis 3.2 compatibility  *   `REDIS_4_0` for Redis 4.0 compatibility (default)  *   `REDIS_5_0` for Redis 5.0 compatibility  *   `REDIS_6_X` for Redis 6.x compatibility"
+        },
+        "reservedIpRange": {
+          "type": "string",
+          "description": "Optional. For DIRECT_PEERING mode, the CIDR range of internal addresses that are reserved for this instance. Range must be unique and non-overlapping with existing subnets in an authorized network. For PRIVATE_SERVICE_ACCESS mode, the name of one allocated IP address ranges associated with this private service access connection. If not provided, the service will choose an unused /29 block, for example, 10.0.0.0/29 or 192.168.0.0/29.  For READ_REPLICAS_ENABLED the default block size is /28."
+        },
+        "secondaryIpRange": {
+          "type": "string",
+          "description": "Optional. Additional IP range for node placement. Required when enabling read replicas on an existing instance. For DIRECT_PEERING mode value must be a CIDR range of size /28, or \"auto\". For PRIVATE_SERVICE_ACCESS mode value must be the name of an allocated address range associated with the private service access connection, or \"auto\"."
+        },
+        "host": {
+          "type": "string",
+          "description": "Output only. Hostname or IP address of the exposed Redis endpoint used by clients to connect to the service."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Output only. The port number of the exposed Redis endpoint."
+        },
+        "currentLocationId": {
+          "type": "string",
+          "description": "Output only. The current zone where the Redis primary node is located. In basic tier, this will always be the same as [location_id]. In standard tier, this can be the zone of any node in the instance."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the instance was created.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "READY",
+            2,
+            "UPDATING",
+            3,
+            "DELETING",
+            4,
+            "REPAIRING",
+            5,
+            "MAINTENANCE",
+            6,
+            "IMPORTING",
+            8,
+            "FAILING_OVER",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Represents the different states of a Redis instance."
+        },
+        "statusMessage": {
+          "type": "string",
+          "description": "Output only. Additional information about the current status of this instance, if available."
+        },
+        "redisConfigs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Redis configuration parameters, according to http://redis.io/topics/config. Currently, the only supported parameters are:  Redis version 3.2 and newer:  *   maxmemory-policy  *   notify-keyspace-events  Redis version 4.0 and newer:  *   activedefrag  *   lfu-decay-time  *   lfu-log-factor  *   maxmemory-gb  Redis version 5.0 and newer:  *   stream-node-max-bytes  *   stream-node-max-entries"
+        },
+        "tier": {
+          "enum": [
+            "TIER_UNSPECIFIED",
+            0,
+            "BASIC",
+            1,
+            "STANDARD_HA",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Tier",
+          "description": "Available service tiers to choose from"
+        },
+        "memorySizeGb": {
+          "type": "integer",
+          "description": "Required. Redis memory size in GiB."
+        },
+        "authorizedNetwork": {
+          "type": "string",
+          "description": "Optional. The full name of the Google Compute Engine [network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. If left unspecified, the `default` network will be used."
+        },
+        "persistenceIamIdentity": {
+          "type": "string",
+          "description": "Output only. Cloud IAM identity used by import / export operations to transfer data to/from Cloud Storage. Format is \"serviceAccount:<service_account_email>\". The value may change over time for a given instance so should be checked before each import/export operation."
+        },
+        "connectMode": {
+          "enum": [
+            "CONNECT_MODE_UNSPECIFIED",
+            0,
+            "DIRECT_PEERING",
+            1,
+            "PRIVATE_SERVICE_ACCESS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Connect Mode",
+          "description": "Available connection modes."
+        },
+        "authEnabled": {
+          "type": "boolean",
+          "description": "Optional. Indicates whether OSS Redis AUTH is enabled for the instance. If set to \"true\" AUTH is enabled on the instance. Default value is \"false\" meaning AUTH is disabled."
+        },
+        "serverCaCerts": {
+          "items": {
+            "$ref": "#/definitions/TlsCertificate"
+          },
+          "type": "array",
+          "description": "Output only. List of server CA certificates for the instance."
+        },
+        "transitEncryptionMode": {
+          "enum": [
+            "TRANSIT_ENCRYPTION_MODE_UNSPECIFIED",
+            0,
+            "SERVER_AUTHENTICATION",
+            1,
+            "DISABLED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Transit Encryption Mode",
+          "description": "Available TLS modes."
+        },
+        "maintenancePolicy": {
+          "$ref": "#/definitions/MaintenancePolicy",
+          "additionalProperties": true,
+          "description": "Optional. The maintenance policy for the instance. If not provided, maintenance events can be performed at any time."
+        },
+        "maintenanceSchedule": {
+          "$ref": "#/definitions/MaintenanceSchedule",
+          "additionalProperties": true,
+          "description": "Output only. Date and time of upcoming maintenance events which have been scheduled."
+        },
+        "replicaCount": {
+          "type": "integer",
+          "description": "Optional. The number of replica nodes. The valid range for the Standard Tier with read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled for a Standard Tier instance, the only valid value is 1 and the default is 1. The valid value for basic tier is 0 and the default is also 0."
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/definitions/NodeInfo"
+          },
+          "type": "array",
+          "description": "Output only. Info per node."
+        },
+        "readEndpoint": {
+          "type": "string",
+          "description": "Output only. Hostname or IP address of the exposed readonly Redis endpoint. Standard tier only. Targets all healthy replica nodes in instance. Replication is asynchronous and replica nodes will exhibit some lag behind the primary. Write requests must target 'host'."
+        },
+        "readEndpointPort": {
+          "type": "integer",
+          "description": "Output only. The port number of the exposed readonly redis endpoint. Standard tier only. Write requests should target 'port'."
+        },
+        "readReplicasMode": {
+          "enum": [
+            "READ_REPLICAS_MODE_UNSPECIFIED",
+            0,
+            "READ_REPLICAS_DISABLED",
+            1,
+            "READ_REPLICAS_ENABLED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Read Replicas Mode",
+          "description": "Read replicas mode."
+        },
+        "customerManagedKey": {
+          "type": "string",
+          "description": "Optional. The KMS key reference that the customer provides when trying to create the instance."
+        },
+        "persistenceConfig": {
+          "$ref": "#/definitions/PersistenceConfig",
+          "additionalProperties": true,
+          "description": "Optional. Persistence configuration parameters"
+        },
+        "suspensionReasons": {
+          "items": {
+            "enum": [
+              "SUSPENSION_REASON_UNSPECIFIED",
+              0,
+              "CUSTOMER_MANAGED_KEY_ISSUE",
+              1
+            ]
+          },
+          "type": "array",
+          "title": "Suspension Reason",
+          "description": "Possible reasons for the instance to be in a \"SUSPENDED\" state."
+        },
+        "maintenanceVersion": {
+          "type": "string",
+          "description": "Optional. The self service update maintenance version. The version is date based such as \"20210712_00_00\"."
+        },
+        "availableMaintenanceVersions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The available maintenance versions that an instance could update to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance",
+      "description": "A Memorystore for Redis instance."
+    },
+    "MaintenancePolicy": {
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the policy was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time when the policy was last updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of what this policy is for. Create/Update methods return INVALID_ARGUMENT if the length is greater than 512."
+        },
+        "weeklyMaintenanceWindow": {
+          "items": {
+            "$ref": "#/definitions/WeeklyMaintenanceWindow"
+          },
+          "type": "array",
+          "description": "Optional. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Maintenance Policy",
+      "description": "Maintenance policy for an instance."
+    },
+    "MaintenanceSchedule": {
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "description": "Output only. The start time of any upcoming scheduled maintenance for this instance.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The end time of any upcoming scheduled maintenance for this instance.",
+          "format": "date-time"
+        },
+        "canReschedule": {
+          "type": "boolean",
+          "description": "If the scheduled maintenance can be rescheduled, default is true."
+        },
+        "scheduleDeadlineTime": {
+          "type": "string",
+          "description": "Output only. The deadline that the maintenance schedule start time can not go beyond, including reschedule.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Maintenance Schedule",
+      "description": "Upcoming maintenance schedule. If no maintenance is scheduled, fields are not populated."
+    },
+    "NodeInfo": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Output only. Node identifying string. e.g. 'node-0', 'node-1'"
+        },
+        "zone": {
+          "type": "string",
+          "description": "Output only. Location of the node."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Node Info",
+      "description": "Node specific properties."
+    },
+    "PersistenceConfig": {
+      "properties": {
+        "persistenceMode": {
+          "enum": [
+            "PERSISTENCE_MODE_UNSPECIFIED",
+            0,
+            "DISABLED",
+            1,
+            "RDB",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Persistence Mode",
+          "description": "Available Persistence modes."
+        },
+        "rdbSnapshotPeriod": {
+          "enum": [
+            "SNAPSHOT_PERIOD_UNSPECIFIED",
+            0,
+            "ONE_HOUR",
+            3,
+            "SIX_HOURS",
+            4,
+            "TWELVE_HOURS",
+            5,
+            "TWENTY_FOUR_HOURS",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Snapshot Period",
+          "description": "Available snapshot periods for scheduling."
+        },
+        "rdbNextSnapshotTime": {
+          "type": "string",
+          "description": "Output only. The next time that a snapshot attempt is scheduled to occur.",
+          "format": "date-time"
+        },
+        "rdbSnapshotStartTime": {
+          "type": "string",
+          "description": "Optional. Date and time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Persistence Config",
+      "description": "Configuration of the persistence functionality."
+    },
+    "TlsCertificate": {
+      "properties": {
+        "serialNumber": {
+          "type": "string",
+          "description": "Serial number, as extracted from the certificate."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time when the certificate was created in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2020-05-18T00:00:00.094Z`.",
+          "format": "date-time"
+        },
+        "expireTime": {
+          "type": "string",
+          "description": "Output only. The time when the certificate expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2020-05-18T00:00:00.094Z`.",
+          "format": "date-time"
+        },
+        "sha1Fingerprint": {
+          "type": "string",
+          "description": "Sha1 Fingerprint of the certificate."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Tls Certificate",
+      "description": "TlsCertificate Resource"
+    },
+    "WeeklyMaintenanceWindow": {
+      "properties": {
+        "day": {
+          "enum": [
+            "DAY_OF_WEEK_UNSPECIFIED",
+            0,
+            "MONDAY",
+            1,
+            "TUESDAY",
+            2,
+            "WEDNESDAY",
+            3,
+            "THURSDAY",
+            4,
+            "FRIDAY",
+            5,
+            "SATURDAY",
+            6,
+            "SUNDAY",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Day Of Week",
+          "description": "Represents a day of week."
+        },
+        "startTime": {
+          "$ref": "#/definitions/TimeOfDay",
+          "additionalProperties": true,
+          "description": "Required. Start time of the window in UTC time."
+        },
+        "duration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Output only. Duration of the maintenance window. The current window is fixed at 1 hour.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Weekly Maintenance Window",
+      "description": "Time window in which disruptive maintenance updates occur. Non-disruptive updates can occur inside or outside this window."
+    },
+    "TimeOfDay": {
+      "properties": {
+        "hours": {
+          "type": "integer",
+          "description": "Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value \"24:00:00\" for scenarios like business closing time."
+        },
+        "minutes": {
+          "type": "integer",
+          "description": "Minutes of hour of day. Must be from 0 to 59."
+        },
+        "seconds": {
+          "type": "integer",
+          "description": "Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds."
+        },
+        "nanos": {
+          "type": "integer",
+          "description": "Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Time Of Day",
+      "description": "Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and `google.protobuf.Timestamp`."
+    }
+  }
+}

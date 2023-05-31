@@ -1,0 +1,677 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/DraftEventData.json",
+  "name": "DraftEventData",
+  "examples": [],
+  "package": "google.events.cloud.visionai.v1",
+  "datatype": "google.events.cloud.visionai.v1.DraftEventData",
+  "cloudeventTypes": [
+    "google.cloud.visionai.draft.v1.created",
+    "google.cloud.visionai.draft.v1.updated",
+    "google.cloud.visionai.draft.v1.deleted"
+  ],
+  "product": "Vision AI",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DraftEventData",
+  "definitions": {
+    "DraftEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Draft",
+          "additionalProperties": true,
+          "description": "Optional. The Draft event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Draft Event Data",
+      "description": "The data within all Draft events."
+    },
+    "AIEnabledDevicesInputConfig": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "AI Enabled Devices Input Config",
+      "description": "Message describing AI-enabled Devices Input Config."
+    },
+    "ApplicationConfigs": {
+      "properties": {
+        "nodes": {
+          "items": {
+            "$ref": "#/definitions/Node"
+          },
+          "type": "array",
+          "description": "A list of nodes  in the application graph."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Application Configs",
+      "description": "Message storing the graph of the application."
+    },
+    "AutoscalingMetricSpec": {
+      "properties": {
+        "metricName": {
+          "type": "string",
+          "description": "Required. The resource metric name. Supported metrics: * For Online Prediction: * `aiplatform.googleapis.com/prediction/online/accelerator/duty_cycle` * `aiplatform.googleapis.com/prediction/online/cpu/utilization`"
+        },
+        "target": {
+          "type": "integer",
+          "description": "The target resource utilization in percentage (1% - 100%) for the given metric; once the real usage deviates from the target by a certain percentage, the machine replicas change. The default value is 60 (representing 60%) if not provided."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Autoscaling Metric Spec",
+      "description": "The metric specification that defines the target resource utilization (CPU utilization, accelerator's duty cycle, and so on) for calculating the desired replica count."
+    },
+    "BigQueryConfig": {
+      "properties": {
+        "table": {
+          "type": "string",
+          "description": "BigQuery table resource for Vision AI Platform to ingest annotations to."
+        },
+        "cloudFunctionMapping": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Data Schema By default, Vision AI Application will try to write annotations to the target BigQuery table using the following schema: ingestion_time: TIMESTAMP, the ingestion time of the original data. application: STRING, name of the application which produces the annotation. instance: STRING, Id of the instance which produces the annotation. node: STRING, name of the application graph node which produces the annotation. annotation: STRING or JSON, the actual annotation protobuf will be converted to json string with bytes field as 64 encoded string. It can be written to both String or Json type column. To forward annotation data to an existing BigQuery table, customer needs to make sure the compatibility of the schema. The map maps application node name to its corresponding cloud function endpoint to transform the annotations directly to the google.cloud.bigquery.storage.v1.AppendRowsRequest (only avro_rows or proto_rows should be set). If configured, annotations produced by corresponding application node will sent to the Cloud Function at first before be forwarded to BigQuery. If the default table schema doesn't fit, customer is able to transform the annotation output from Vision AI Application to arbitrary BigQuery table schema with CloudFunction. * The cloud function will receive AppPlatformCloudFunctionRequest where the annotations field will be the json format of Vision AI annotation. * The cloud function should return AppPlatformCloudFunctionResponse with AppendRowsRequest stored in the annotations field. * To drop the annotation, simply clear the annotations field in the returned AppPlatformCloudFunctionResponse."
+        },
+        "createDefaultTableIfNotExists": {
+          "type": "boolean",
+          "description": "If true, App Platform will create the BigQuery DataSet and the BigQuery Table with default schema if the specified table doesn't exist. This doesn't work if any cloud function customized schema is specified since the system doesn't know your desired schema. JSON column will be used in the default table created by App Platform."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Big Query Config",
+      "description": "Message of configurations for BigQuery processor."
+    },
+    "DedicatedResources": {
+      "properties": {
+        "machineSpec": {
+          "$ref": "#/definitions/MachineSpec",
+          "additionalProperties": true,
+          "description": "Required. Immutable. The specification of a single machine used by the prediction."
+        },
+        "minReplicaCount": {
+          "type": "integer",
+          "description": "Required. Immutable. The minimum number of machine replicas this DeployedModel will be always deployed on. This value must be greater than or equal to 1. If traffic against the DeployedModel increases, it may dynamically be deployed onto more replicas, and as traffic decreases, some of these extra replicas may be freed."
+        },
+        "maxReplicaCount": {
+          "type": "integer",
+          "description": "Immutable. The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, will use [min_replica_count][google.cloud.visionai.v1.DedicatedResources.min_replica_count] as the default value. The value of this field impacts the charge against Vertex CPU and GPU quotas. Specifically, you will be charged for max_replica_count * number of cores in the selected machine type) and (max_replica_count * number of GPUs per replica in the selected machine type)."
+        },
+        "autoscalingMetricSpecs": {
+          "items": {
+            "$ref": "#/definitions/AutoscalingMetricSpec"
+          },
+          "type": "array",
+          "description": "Immutable. The metric specifications that overrides a resource utilization metric (CPU utilization, accelerator's duty cycle, and so on) target value (default to 60 if not set). At most one entry is allowed per metric. If [machine_spec.accelerator_count][google.cloud.visionai.v1.MachineSpec.accelerator_count] is above 0, the autoscaling will be based on both CPU utilization and accelerator's duty cycle metrics and scale up when either metrics exceeds its target value while scale down if both metrics are under their target value. The default target value is 60 for both metrics. If [machine_spec.accelerator_count][google.cloud.visionai.v1.MachineSpec.accelerator_count] is 0, the autoscaling will be based on CPU utilization metric only with default target value 60 if not explicitly set. For example, in the case of Online Prediction, if you want to override target CPU utilization to 80, you should set [autoscaling_metric_specs.metric_name][google.cloud.visionai.v1.AutoscalingMetricSpec.metric_name] to `aiplatform.googleapis.com/prediction/online/cpu/utilization` and [autoscaling_metric_specs.target][google.cloud.visionai.v1.AutoscalingMetricSpec.target] to `80`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Dedicated Resources",
+      "description": "A description of resources that are dedicated to a DeployedModel, and that need a higher degree of manual configuration."
+    },
+    "Draft": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of resource"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create timestamp",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create timestamp",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. A user friendly display name for the solution."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description for this application."
+        },
+        "draftApplicationConfigs": {
+          "$ref": "#/definitions/ApplicationConfigs",
+          "additionalProperties": true,
+          "description": "The draft application configs which haven't been updated to an application."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Draft",
+      "description": "Message describing Draft object"
+    },
+    "GeneralObjectDetectionConfig": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "General Object Detection Config",
+      "description": "Message of configurations for General Object Detection processor."
+    },
+    "MachineSpec": {
+      "properties": {
+        "machineType": {
+          "type": "string",
+          "description": "Immutable. The type of the machine. See the [list of machine types supported for prediction](https://cloud.google.com/vertex-ai/docs/predictions/configure-compute#machine-types) See the [list of machine types supported for custom training](https://cloud.google.com/vertex-ai/docs/training/configure-compute#machine-types). For [DeployedModel][] this field is optional, and the default value is `n1-standard-2`. For [BatchPredictionJob][] or as part of [WorkerPoolSpec][] this field is required."
+        },
+        "acceleratorType": {
+          "enum": [
+            "ACCELERATOR_TYPE_UNSPECIFIED",
+            0,
+            "NVIDIA_TESLA_K80",
+            1,
+            "NVIDIA_TESLA_P100",
+            2,
+            "NVIDIA_TESLA_V100",
+            3,
+            "NVIDIA_TESLA_P4",
+            4,
+            "NVIDIA_TESLA_T4",
+            5,
+            "NVIDIA_TESLA_A100",
+            8,
+            "TPU_V2",
+            6,
+            "TPU_V3",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Accelerator Type",
+          "description": "Represents a hardware accelerator type."
+        },
+        "acceleratorCount": {
+          "type": "integer",
+          "description": "The number of accelerators to attach to the machine."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Machine Spec",
+      "description": "Specification of a single machine."
+    },
+    "MediaWarehouseConfig": {
+      "properties": {
+        "corpus": {
+          "type": "string",
+          "description": "Resource name of the Media Warehouse corpus. Format: projects/${project_id}/locations/${location_id}/corpora/${corpus_id}"
+        },
+        "region": {
+          "type": "string",
+          "description": "Deprecated."
+        },
+        "ttl": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "The duration for which all media assets, associated metadata, and search documents can exist.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Media Warehouse Config",
+      "description": "Message describing MediaWarehouseConfig."
+    },
+    "Node": {
+      "properties": {
+        "outputAllOutputChannelsToStream": {
+          "type": "boolean",
+          "description": "By default, the output of the node will only be available to downstream nodes. To consume the direct output from the application node, the output must be sent to Vision AI Streams at first. By setting output_all_output_channels_to_stream to true, App Platform will automatically send all the outputs of the current node to Vision AI Stream resources (one stream per output channel). The output stream resource will be created by App Platform automatically during deployment and deleted after application un-deployment. Note that this config applies to all the Application Instances. The output stream can be override at instance level by configuring the `output_resources` section of Instance resource. `producer_node` should be current node, `output_resource_binding` should be the output channel name (or leave it blank if there is only 1 output channel of the processor) and `output_resource` should be the target output stream."
+        },
+        "name": {
+          "type": "string",
+          "description": "Required. A unique name for the node."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "A user friendly display name for the node."
+        },
+        "nodeConfig": {
+          "$ref": "#/definitions/ProcessorConfig",
+          "additionalProperties": true,
+          "description": "Node config."
+        },
+        "processor": {
+          "type": "string",
+          "description": "Processor name refer to the chosen processor resource."
+        },
+        "parents": {
+          "items": {
+            "$ref": "#/definitions/InputEdge"
+          },
+          "type": "array",
+          "description": "Parent node. Input node should not have parent node. For V1 Alpha1/Beta only media warehouse node can have multiple parents, other types of nodes will only have one parent."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Node",
+      "description": "Message describing node object."
+    },
+    "InputEdge": {
+      "properties": {
+        "parentNode": {
+          "type": "string",
+          "description": "The name of the parent node."
+        },
+        "parentOutputChannel": {
+          "type": "string",
+          "description": "The connected output artifact of the parent node. It can be omitted if target processor only has 1 output artifact."
+        },
+        "connectedInputChannel": {
+          "type": "string",
+          "description": "The connected input channel of the current node's processor. It can be omitted if target processor only has 1 input channel."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Input Edge",
+      "description": "Message describing one edge pointing into a node."
+    },
+    "NormalizedPolygon": {
+      "properties": {
+        "normalizedVertices": {
+          "items": {
+            "$ref": "#/definitions/NormalizedVertex"
+          },
+          "type": "array",
+          "description": "The bounding polygon normalized vertices. Top left corner of the image will be [0, 0]."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Normalized Polygon",
+      "description": "Normalized Polygon."
+    },
+    "NormalizedPolyline": {
+      "properties": {
+        "normalizedVertices": {
+          "items": {
+            "$ref": "#/definitions/NormalizedVertex"
+          },
+          "type": "array",
+          "description": "A sequence of vertices connected by straight lines."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Normalized Polyline",
+      "description": "Normalized Pplyline, which represents a curve consisting of connected straight-line segments."
+    },
+    "NormalizedVertex": {
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "X coordinate."
+        },
+        "y": {
+          "type": "number",
+          "description": "Y coordinate."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Normalized Vertex",
+      "description": "A vertex represents a 2D point in the image. NOTE: the normalized vertex coordinates are relative to the original image and range from 0 to 1."
+    },
+    "OccupancyCountConfig": {
+      "properties": {
+        "enablePeopleCounting": {
+          "type": "boolean",
+          "description": "Whether to count the appearances of people, output counts have 'people' as the key."
+        },
+        "enableVehicleCounting": {
+          "type": "boolean",
+          "description": "Whether to count the appearances of vehicles, output counts will have 'vehicle' as the key."
+        },
+        "enableDwellingTimeTracking": {
+          "type": "boolean",
+          "description": "Whether to track each invidual object's loitering time inside the scene or specific zone."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Occupancy Count Config",
+      "description": "Message describing OccupancyCountConfig."
+    },
+    "PersonBlurConfig": {
+      "properties": {
+        "personBlurType": {
+          "enum": [
+            "PERSON_BLUR_TYPE_UNSPECIFIED",
+            0,
+            "FULL_OCCULUSION",
+            1,
+            "BLUR_FILTER",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Person Blur Type",
+          "description": "Type of Person Blur"
+        },
+        "facesOnly": {
+          "type": "boolean",
+          "description": "Whether only blur faces other than the whole object in the processor."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Person Blur Config",
+      "description": "Message describing FaceBlurConfig."
+    },
+    "PersonVehicleDetectionConfig": {
+      "properties": {
+        "enablePeopleCounting": {
+          "type": "boolean",
+          "description": "At least one of enable_people_counting and enable_vehicle_counting fields must be set to true. Whether to count the appearances of people, output counts have 'people' as the key."
+        },
+        "enableVehicleCounting": {
+          "type": "boolean",
+          "description": "Whether to count the appearances of vehicles, output counts will have 'vehicle' as the key."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Person Vehicle Detection Config",
+      "description": "Message describing PersonVehicleDetectionConfig."
+    },
+    "PersonalProtectiveEquipmentDetectionConfig": {
+      "properties": {
+        "enableFaceCoverageDetection": {
+          "type": "boolean",
+          "description": "Whether to enable face coverage detection."
+        },
+        "enableHeadCoverageDetection": {
+          "type": "boolean",
+          "description": "Whether to enable head coverage detection."
+        },
+        "enableHandsCoverageDetection": {
+          "type": "boolean",
+          "description": "Whether to enable hands coverage detection."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Personal Protective Equipment Detection Config",
+      "description": "Message describing PersonalProtectiveEquipmentDetectionConfig."
+    },
+    "ProcessorConfig": {
+      "properties": {
+        "videoStreamInputConfig": {
+          "$ref": "#/definitions/VideoStreamInputConfig",
+          "additionalProperties": true,
+          "description": "Configs of stream input processor."
+        },
+        "aiEnabledDevicesInputConfig": {
+          "$ref": "#/definitions/AIEnabledDevicesInputConfig",
+          "additionalProperties": true,
+          "description": "Config of AI-enabled input devices."
+        },
+        "mediaWarehouseConfig": {
+          "$ref": "#/definitions/MediaWarehouseConfig",
+          "additionalProperties": true,
+          "description": "Configs of media warehouse processor."
+        },
+        "personBlurConfig": {
+          "$ref": "#/definitions/PersonBlurConfig",
+          "additionalProperties": true,
+          "description": "Configs of person blur processor."
+        },
+        "occupancyCountConfig": {
+          "$ref": "#/definitions/OccupancyCountConfig",
+          "additionalProperties": true,
+          "description": "Configs of occupancy count processor."
+        },
+        "personVehicleDetectionConfig": {
+          "$ref": "#/definitions/PersonVehicleDetectionConfig",
+          "additionalProperties": true,
+          "description": "Configs of Person Vehicle Detection processor."
+        },
+        "vertexAutomlVisionConfig": {
+          "$ref": "#/definitions/VertexAutoMLVisionConfig",
+          "additionalProperties": true,
+          "description": "Configs of Vertex AutoML vision processor."
+        },
+        "vertexAutomlVideoConfig": {
+          "$ref": "#/definitions/VertexAutoMLVideoConfig",
+          "additionalProperties": true,
+          "description": "Configs of Vertex AutoML video processor."
+        },
+        "vertexCustomConfig": {
+          "$ref": "#/definitions/VertexCustomConfig",
+          "additionalProperties": true,
+          "description": "Configs of Vertex Custom processor."
+        },
+        "generalObjectDetectionConfig": {
+          "$ref": "#/definitions/GeneralObjectDetectionConfig",
+          "additionalProperties": true,
+          "description": "Configs of General Object Detection processor."
+        },
+        "bigQueryConfig": {
+          "$ref": "#/definitions/BigQueryConfig",
+          "additionalProperties": true,
+          "description": "Configs of BigQuery processor."
+        },
+        "personalProtectiveEquipmentDetectionConfig": {
+          "$ref": "#/definitions/PersonalProtectiveEquipmentDetectionConfig",
+          "additionalProperties": true,
+          "description": "Configs of personal_protective_equipment_detection_config"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Processor Config",
+      "description": "Next ID: 29"
+    },
+    "StreamAnnotation": {
+      "properties": {
+        "activeZone": {
+          "$ref": "#/definitions/NormalizedPolygon",
+          "additionalProperties": true,
+          "description": "Annotation for type ACTIVE_ZONE"
+        },
+        "crossingLine": {
+          "$ref": "#/definitions/NormalizedPolyline",
+          "additionalProperties": true,
+          "description": "Annotation for type CROSSING_LINE"
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of the annotation. It must be unique when used in the certain context. For example, all the annotations to one input streams of a Vision AI application."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User-friendly name for the annotation."
+        },
+        "sourceStream": {
+          "type": "string",
+          "description": "The Vision AI stream resource name."
+        },
+        "type": {
+          "enum": [
+            "STREAM_ANNOTATION_TYPE_UNSPECIFIED",
+            0,
+            "STREAM_ANNOTATION_TYPE_ACTIVE_ZONE",
+            1,
+            "STREAM_ANNOTATION_TYPE_CROSSING_LINE",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Stream Annotation Type",
+          "description": "Enum describing all possible types of a stream annotation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Stream Annotation",
+      "description": "message about annotations about Vision AI stream resource."
+    },
+    "StreamWithAnnotation": {
+      "properties": {
+        "stream": {
+          "type": "string",
+          "description": "Vision AI Stream resource name."
+        },
+        "applicationAnnotations": {
+          "items": {
+            "$ref": "#/definitions/StreamAnnotation"
+          },
+          "type": "array",
+          "description": "Annotations that will be applied to the whole application."
+        },
+        "nodeAnnotations": {
+          "items": {
+            "$ref": "#/definitions/NodeAnnotation"
+          },
+          "type": "array",
+          "description": "Annotations that will be applied to the specific node of the application. If the same type of the annotations is applied to both application and node, the node annotation will be added in addition to the global application one. For example, if there is one active zone annotation for the whole application and one active zone annotation for the Occupancy Analytic processor, then the Occupancy Analytic processor will have two active zones defined."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Stream With Annotation",
+      "description": "Message describing Vision AI stream with application specific annotations. All the StreamAnnotation object inside this message MUST have unique id."
+    },
+    "NodeAnnotation": {
+      "properties": {
+        "node": {
+          "type": "string",
+          "description": "The node name of the application graph."
+        },
+        "annotations": {
+          "items": {
+            "$ref": "#/definitions/StreamAnnotation"
+          },
+          "type": "array",
+          "description": "The node specific stream annotations."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Node Annotation",
+      "description": "Message describing annotations specific to application node."
+    },
+    "VertexAutoMLVideoConfig": {
+      "properties": {
+        "confidenceThreshold": {
+          "type": "number",
+          "description": "Only entities with higher score than the threshold will be returned. Value 0.0 means returns all the detected entities."
+        },
+        "blockedLabels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Labels specified in this field won't be returned."
+        },
+        "maxPredictions": {
+          "type": "integer",
+          "description": "At most this many predictions will be returned per output frame. Value 0 means to return all the detected entities."
+        },
+        "boundingBoxSizeLimit": {
+          "type": "number",
+          "description": "Only Bounding Box whose size is larger than this limit will be returned. Object Tracking only. Value 0.0 means to return all the detected entities."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vertex Auto ML Video Config",
+      "description": "Message describing VertexAutoMLVideoConfig."
+    },
+    "VertexAutoMLVisionConfig": {
+      "properties": {
+        "confidenceThreshold": {
+          "type": "number",
+          "description": "Only entities with higher score than the threshold will be returned. Value 0.0 means to return all the detected entities."
+        },
+        "maxPredictions": {
+          "type": "integer",
+          "description": "At most this many predictions will be returned per output frame. Value 0 means to return all the detected entities."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vertex Auto ML Vision Config",
+      "description": "Message of configurations of Vertex AutoML Vision Processors."
+    },
+    "VertexCustomConfig": {
+      "properties": {
+        "maxPredictionFps": {
+          "type": "integer",
+          "description": "The max prediction frame per second. This attribute sets how fast the operator sends prediction requests to Vertex AI endpoint. Default value is 0, which means there is no max prediction fps limit. The operator sends prediction requests at input fps."
+        },
+        "dedicatedResources": {
+          "$ref": "#/definitions/DedicatedResources",
+          "additionalProperties": true,
+          "description": "A description of resources that are dedicated to the DeployedModel, and that need a higher degree of manual configuration."
+        },
+        "postProcessingCloudFunction": {
+          "type": "string",
+          "description": "If not empty, the prediction result will be sent to the specified cloud function for post processing. * The cloud function will receive AppPlatformCloudFunctionRequest where the annotations field will be the json format of proto PredictResponse. * The cloud function should return AppPlatformCloudFunctionResponse with PredictResponse stored in the annotations field. * To drop the prediction output, simply clear the payload field in the returned AppPlatformCloudFunctionResponse."
+        },
+        "attachApplicationMetadata": {
+          "type": "boolean",
+          "description": "If true, the prediction request received by custom model will also contain metadata with the following schema: 'appPlatformMetadata': {       'ingestionTime': DOUBLE; (UNIX timestamp)       'application': STRING;       'instanceId': STRING;       'node': STRING;       'processor': STRING;  }"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vertex Custom Config",
+      "description": "Message describing VertexCustomConfig."
+    },
+    "VideoStreamInputConfig": {
+      "properties": {
+        "streams": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "streamsWithAnnotation": {
+          "items": {
+            "$ref": "#/definitions/StreamWithAnnotation"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Video Stream Input Config",
+      "description": "Message describing Video Stream Input Config. This message should only be used as a placeholder for builtin:stream-input processor, actual stream binding should be specified using corresponding API."
+    }
+  }
+}

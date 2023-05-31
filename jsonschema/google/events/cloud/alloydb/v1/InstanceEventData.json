@@ -1,0 +1,275 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/InstanceEventData.json",
+  "name": "InstanceEventData",
+  "examples": [],
+  "package": "google.events.cloud.alloydb.v1",
+  "datatype": "google.events.cloud.alloydb.v1.InstanceEventData",
+  "cloudeventTypes": [
+    "google.cloud.alloydb.instance.v1.created",
+    "google.cloud.alloydb.instance.v1.updated",
+    "google.cloud.alloydb.instance.v1.deleted"
+  ],
+  "product": "AlloyDB",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/InstanceEventData",
+  "definitions": {
+    "InstanceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Instance",
+          "additionalProperties": true,
+          "description": "Optional. The Instance event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Event Data",
+      "description": "The data within all Instance events."
+    },
+    "Instance": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of the instance resource with the format:  * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource:  * projects/{project}/locations/{region}/clusters/{cluster_id}"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User-settable and human-readable display name for the Instance."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Create time stamp",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Update time stamp",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. Delete time stamp",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "READY",
+            1,
+            "STOPPED",
+            2,
+            "CREATING",
+            3,
+            "DELETING",
+            4,
+            "MAINTENANCE",
+            5,
+            "FAILED",
+            6,
+            "BOOTSTRAPPING",
+            8,
+            "PROMOTING",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Instance State"
+        },
+        "instanceType": {
+          "enum": [
+            "INSTANCE_TYPE_UNSPECIFIED",
+            0,
+            "PRIMARY",
+            1,
+            "READ_POOL",
+            2,
+            "SECONDARY",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Instance Type",
+          "description": "Type of an Instance"
+        },
+        "machineConfig": {
+          "$ref": "#/definitions/MachineConfig",
+          "additionalProperties": true,
+          "description": "Configurations for the machines that host the underlying database engine."
+        },
+        "availabilityType": {
+          "enum": [
+            "AVAILABILITY_TYPE_UNSPECIFIED",
+            0,
+            "ZONAL",
+            1,
+            "REGIONAL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Availability Type",
+          "description": "The Availability type of an instance. Potential values: - ZONAL: The instance serves data from only one zone. Outages in that zone affect instance availability. - REGIONAL: The instance can serve data from more than one zone in a region (it is highly available)."
+        },
+        "gceZone": {
+          "type": "string",
+          "description": "The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity."
+        },
+        "databaseFlags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Database flags. Set at instance level.  * They are copied from primary instance on read instance creation.  * Read instances can set new or override existing flags that are relevant    for reads, e.g. for enabling columnar cache on a read instance. Flags    set on read instance may or may not be present on primary. This is a list of \"key\": \"value\" pairs. \"key\": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. \"value\": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value."
+        },
+        "writableNode": {
+          "$ref": "#/definitions/Node",
+          "additionalProperties": true,
+          "description": "Output only. This is set for the read-write VM of the PRIMARY instance only."
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/definitions/Node"
+          },
+          "type": "array",
+          "description": "Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance."
+        },
+        "queryInsightsConfig": {
+          "$ref": "#/definitions/QueryInsightsInstanceConfig",
+          "additionalProperties": true,
+          "description": "Configuration for query insights."
+        },
+        "readPoolConfig": {
+          "$ref": "#/definitions/ReadPoolConfig",
+          "additionalProperties": true,
+          "description": "Read pool specific config."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "Output only. The IP address for the Instance. This is the connection endpoint for an end-user application."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance."
+        },
+        "etag": {
+          "type": "string",
+          "description": "For Resource freshness validation (https://google.aip.dev/154)"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance",
+      "description": "An Instance is a computing unit that an end customer can connect to. It's the main unit of computing resources in AlloyDB."
+    },
+    "MachineConfig": {
+      "properties": {
+        "cpuCount": {
+          "type": "integer",
+          "description": "The number of CPU's in the VM instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Machine Config",
+      "description": "MachineConfig describes the configuration of a machine."
+    },
+    "Node": {
+      "properties": {
+        "zoneId": {
+          "type": "string",
+          "description": "The Compute Engine zone of the VM e.g. \"us-central1-b\"."
+        },
+        "id": {
+          "type": "string",
+          "description": "The identifier of the VM e.g. \"test-read-0601-407e52be-ms3l\"."
+        },
+        "ip": {
+          "type": "string",
+          "description": "The private IP address of the VM e.g. \"10.57.0.34\"."
+        },
+        "state": {
+          "type": "string",
+          "description": "Determined by state of the compute VM and postgres-service health. Compute VM state can have values listed in https://cloud.google.com/compute/docs/instances/instance-life-cycle and postgres-service health can have values: HEALTHY and UNHEALTHY."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Node",
+      "description": "Details of a single node in the instance. Nodes in an AlloyDB instance are ephemereal, they can change during update, failover, autohealing and resize operations."
+    },
+    "QueryInsightsInstanceConfig": {
+      "properties": {
+        "recordApplicationTags": {
+          "type": "boolean",
+          "description": "Record application tags for an instance. This flag is turned \"on\" by default."
+        },
+        "recordClientAddress": {
+          "type": "boolean",
+          "description": "Record client address for an instance. Client address is PII information. This flag is turned \"on\" by default."
+        },
+        "queryStringLength": {
+          "type": "integer",
+          "description": "Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid."
+        },
+        "queryPlansPerMinute": {
+          "type": "integer",
+          "description": "Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Query Insights Instance Config",
+      "description": "QueryInsights Instance specific configuration."
+    },
+    "ReadPoolConfig": {
+      "properties": {
+        "nodeCount": {
+          "type": "integer",
+          "description": "Read capacity, i.e. number of nodes in a read pool instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Read Pool Config",
+      "description": "Configuration for a read pool instance."
+    }
+  }
+}
