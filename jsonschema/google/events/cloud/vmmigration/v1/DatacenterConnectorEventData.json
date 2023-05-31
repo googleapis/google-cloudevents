@@ -1,0 +1,247 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/DatacenterConnectorEventData.json",
+  "name": "DatacenterConnectorEventData",
+  "examples": [],
+  "package": "google.events.cloud.vmmigration.v1",
+  "datatype": "google.events.cloud.vmmigration.v1.DatacenterConnectorEventData",
+  "cloudeventTypes": [
+    "google.cloud.vmmigration.datacenterConnector.v1.created",
+    "google.cloud.vmmigration.datacenterConnector.v1.deleted"
+  ],
+  "product": "VM Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/DatacenterConnectorEventData",
+  "definitions": {
+    "DatacenterConnectorEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DatacenterConnector",
+          "additionalProperties": true,
+          "description": "Optional. The DatacenterConnector event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Datacenter Connector Event Data",
+      "description": "The data within all DatacenterConnector events."
+    },
+    "ApplianceVersion": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The appliance version."
+        },
+        "uri": {
+          "type": "string",
+          "description": "A link for downloading the version."
+        },
+        "critical": {
+          "type": "boolean",
+          "description": "Determine whether it's critical to upgrade the appliance to this version."
+        },
+        "releaseNotesUri": {
+          "type": "string",
+          "description": "Link to a page that contains the version release notes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Appliance Version",
+      "description": "Describes an appliance version."
+    },
+    "AvailableUpdates": {
+      "properties": {
+        "newDeployableAppliance": {
+          "$ref": "#/definitions/ApplianceVersion",
+          "additionalProperties": true,
+          "description": "The newest deployable version of the appliance. The current appliance can't be updated into this version, and the owner must manually deploy this OVA to a new appliance."
+        },
+        "inPlaceUpdate": {
+          "$ref": "#/definitions/ApplianceVersion",
+          "additionalProperties": true,
+          "description": "The latest version for in place update. The current appliance can be updated to this version using the API or m4c CLI."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Available Updates",
+      "description": "Holds informatiom about the available versions for upgrade."
+    },
+    "DatacenterConnector": {
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the connector was created (as an API call, not when it was actually installed).",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last time the connector was updated with an API call.",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The connector's name."
+        },
+        "registrationId": {
+          "type": "string",
+          "description": "Immutable. A unique key for this connector. This key is internal to the OVA connector and is supplied with its creation during the registration process and can not be modified."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "The service account to use in the connector when communicating with the cloud."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version running in the DatacenterConnector. This is supplied by the OVA connector during the registration process and can not be modified."
+        },
+        "bucket": {
+          "type": "string",
+          "description": "Output only. The communication channel between the datacenter connector and Google Cloud."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "OFFLINE",
+            2,
+            "FAILED",
+            3,
+            "ACTIVE",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The possible values of the state."
+        },
+        "stateTime": {
+          "type": "string",
+          "description": "Output only. The time the state was last set.",
+          "format": "date-time"
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details on the state of the Datacenter Connector in case of an error."
+        },
+        "applianceInfrastructureVersion": {
+          "type": "string",
+          "description": "Output only. Appliance OVA version. This is the OVA which is manually installed by the user and contains the infrastructure for the automatically updatable components on the appliance."
+        },
+        "applianceSoftwareVersion": {
+          "type": "string",
+          "description": "Output only. Appliance last installed update bundle version. This is the version of the automatically updatable components on the appliance."
+        },
+        "availableVersions": {
+          "$ref": "#/definitions/AvailableUpdates",
+          "additionalProperties": true,
+          "description": "Output only. The available versions for updating this appliance."
+        },
+        "upgradeStatus": {
+          "$ref": "#/definitions/UpgradeStatus",
+          "additionalProperties": true,
+          "description": "Output only. The status of the current / last upgradeAppliance operation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Datacenter Connector",
+      "description": "DatacenterConnector message describes a connector between the Source and Google Cloud, which is installed on a vmware datacenter (an OVA vm installed by the user) to connect the Datacenter to Google Cloud and support vm migration data transfer."
+    },
+    "UpgradeStatus": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The version to upgrade to."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "FAILED",
+            2,
+            "SUCCEEDED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The possible values of the state."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Provides details on the state of the upgrade operation in case of an error."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The time the operation was started.",
+          "format": "date-time"
+        },
+        "previousVersion": {
+          "type": "string",
+          "description": "The version from which we upgraded."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Upgrade Status",
+      "description": "UpgradeStatus contains information about upgradeAppliance operation."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}

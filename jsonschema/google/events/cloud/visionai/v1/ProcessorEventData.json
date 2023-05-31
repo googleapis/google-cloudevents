@@ -1,0 +1,422 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/visionai/v1/ProcessorEventData.json",
+  "name": "ProcessorEventData",
+  "examples": [],
+  "package": "google.events.cloud.visionai.v1",
+  "datatype": "google.events.cloud.visionai.v1.ProcessorEventData",
+  "cloudeventTypes": [
+    "google.cloud.visionai.processor.v1.created",
+    "google.cloud.visionai.processor.v1.updated",
+    "google.cloud.visionai.processor.v1.deleted"
+  ],
+  "product": "Vision AI",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ProcessorEventData",
+  "definitions": {
+    "ProcessorEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Processor",
+          "additionalProperties": true,
+          "description": "Optional. The Processor event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Processor Event Data",
+      "description": "The data within all Processor events."
+    },
+    "CustomProcessorSourceInfo": {
+      "properties": {
+        "vertexModel": {
+          "type": "string",
+          "description": "The resource name original model hosted in the vertex AI platform."
+        },
+        "sourceType": {
+          "enum": [
+            "SOURCE_TYPE_UNSPECIFIED",
+            0,
+            "VERTEX_AUTOML",
+            1,
+            "VERTEX_CUSTOM",
+            2,
+            "PRODUCT_RECOGNIZER",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Source Type",
+          "description": "Source type of the imported custom processor."
+        },
+        "additionalInfo": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. Additional info related to the imported custom processor. Data is filled in by app platform during the processor creation."
+        },
+        "modelSchema": {
+          "$ref": "#/definitions/ModelSchema",
+          "additionalProperties": true,
+          "description": "Model schema files which specifies the signature of the model. For VERTEX_CUSTOM models, instances schema is required. If instances schema is not specified during the processor creation, VisionAI Platform will try to get it from Vertex, if it doesn't exist, the creation will fail."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Processor Source Info",
+      "description": "Describes the source info for a custom processor."
+    },
+    "ModelSchema": {
+      "properties": {
+        "instancesSchema": {
+          "$ref": "#/definitions/GcsSource",
+          "additionalProperties": true,
+          "description": "Cloud Storage location to a YAML file that defines the format of a single instance used in prediction and explanation requests."
+        },
+        "parametersSchema": {
+          "$ref": "#/definitions/GcsSource",
+          "additionalProperties": true,
+          "description": "Cloud Storage location to a YAML file that defines the prediction and explanation parameters."
+        },
+        "predictionsSchema": {
+          "$ref": "#/definitions/GcsSource",
+          "additionalProperties": true,
+          "description": "Cloud Storage location to a YAML file that defines the format of a single prediction or explanation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Model Schema",
+      "description": "The schema is defined as an OpenAPI 3.0.2 [Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject)."
+    },
+    "GcsSource": {
+      "properties": {
+        "uris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. References to a Google Cloud Storage paths."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gcs Source",
+      "description": "The Google Cloud Storage location for the input content."
+    },
+    "Processor": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Update timestamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels as key value pairs."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. A user friendly display name for the processor."
+        },
+        "description": {
+          "type": "string",
+          "description": "Illustrative sentences for describing the functionality of the processor."
+        },
+        "processorType": {
+          "enum": [
+            "PROCESSOR_TYPE_UNSPECIFIED",
+            0,
+            "PRETRAINED",
+            1,
+            "CUSTOM",
+            2,
+            "CONNECTOR",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Processor Type",
+          "description": "Type"
+        },
+        "modelType": {
+          "enum": [
+            "MODEL_TYPE_UNSPECIFIED",
+            0,
+            "IMAGE_CLASSIFICATION",
+            1,
+            "OBJECT_DETECTION",
+            2,
+            "VIDEO_CLASSIFICATION",
+            3,
+            "VIDEO_OBJECT_TRACKING",
+            4,
+            "VIDEO_ACTION_RECOGNITION",
+            5,
+            "OCCUPANCY_COUNTING",
+            6,
+            "PERSON_BLUR",
+            7,
+            "VERTEX_CUSTOM",
+            8
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Model Type",
+          "description": "All the supported model types in Vision AI App Platform."
+        },
+        "customProcessorSourceInfo": {
+          "$ref": "#/definitions/CustomProcessorSourceInfo",
+          "additionalProperties": true,
+          "description": "Source info for customer created processor."
+        },
+        "state": {
+          "enum": [
+            "PROCESSOR_STATE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "ACTIVE",
+            2,
+            "DELETING",
+            3,
+            "FAILED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Processor State"
+        },
+        "processorIoSpec": {
+          "$ref": "#/definitions/ProcessorIOSpec",
+          "additionalProperties": true,
+          "description": "Output only. [Output only] The input / output specifications of a processor, each type of processor has fixed input / output specs which cannot be altered by customer."
+        },
+        "configurationTypeurl": {
+          "type": "string",
+          "description": "Output only. The corresponding configuration can be used in the Application to customize the behavior of the processor."
+        },
+        "supportedAnnotationTypes": {
+          "items": {
+            "enum": [
+              "STREAM_ANNOTATION_TYPE_UNSPECIFIED",
+              0,
+              "STREAM_ANNOTATION_TYPE_ACTIVE_ZONE",
+              1,
+              "STREAM_ANNOTATION_TYPE_CROSSING_LINE",
+              2
+            ]
+          },
+          "type": "array",
+          "title": "Stream Annotation Type",
+          "description": "Enum describing all possible types of a stream annotation."
+        },
+        "supportsPostProcessing": {
+          "type": "boolean",
+          "description": "Indicates if the processor supports post processing."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Processor",
+      "description": "Message describing Processor object. Next ID: 19"
+    },
+    "ProcessorIOSpec": {
+      "properties": {
+        "graphInputChannelSpecs": {
+          "items": {
+            "$ref": "#/definitions/GraphInputChannelSpec"
+          },
+          "type": "array",
+          "description": "For processors with input_channel_specs, the processor must be explicitly connected to another processor."
+        },
+        "graphOutputChannelSpecs": {
+          "items": {
+            "$ref": "#/definitions/GraphOutputChannelSpec"
+          },
+          "type": "array",
+          "description": "The output artifact specifications for the current processor."
+        },
+        "instanceResourceInputBindingSpecs": {
+          "items": {
+            "$ref": "#/definitions/InstanceResourceInputBindingSpec"
+          },
+          "type": "array",
+          "description": "The input resource that needs to be fed from the application instance."
+        },
+        "instanceResourceOutputBindingSpecs": {
+          "items": {
+            "$ref": "#/definitions/InstanceResourceOutputBindingSpec"
+          },
+          "type": "array",
+          "description": "The output resource that the processor will generate per instance. Other than the explicitly listed output bindings here, all the processors' GraphOutputChannels can be binded to stream resource. The bind name then is the same as the GraphOutputChannel's name."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Processor IO Spec",
+      "description": "Message describing the input / output specifications of a processor."
+    },
+    "GraphInputChannelSpec": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the current input channel."
+        },
+        "dataType": {
+          "enum": [
+            "DATA_TYPE_UNSPECIFIED",
+            0,
+            "VIDEO",
+            1,
+            "IMAGE",
+            3,
+            "PROTO",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Data Type",
+          "description": "All supported data types."
+        },
+        "acceptedDataTypeUris": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "If specified, only those detailed data types can be connected to the processor. For example, jpeg stream for MEDIA, or PredictionResult proto for PROTO type. If unspecified, then any proto is accepted."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether the current input channel is required by the processor. For example, for a processor with required video input and optional audio input, if video input is missing, the application will be rejected while the audio input can be missing as long as the video input exists."
+        },
+        "maxConnectionAllowed": {
+          "type": "integer",
+          "description": "How many input edges can be connected to this input channel. 0 means unlimited."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Graph Input Channel Spec",
+      "description": "Message for input channel specification."
+    },
+    "GraphOutputChannelSpec": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the current output channel."
+        },
+        "dataType": {
+          "enum": [
+            "DATA_TYPE_UNSPECIFIED",
+            0,
+            "VIDEO",
+            1,
+            "IMAGE",
+            3,
+            "PROTO",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Data Type",
+          "description": "All supported data types."
+        },
+        "dataTypeUri": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Graph Output Channel Spec",
+      "description": "Message for output channel specification."
+    },
+    "InstanceResourceInputBindingSpec": {
+      "properties": {
+        "configTypeUri": {
+          "type": "string",
+          "description": "The configuration proto that includes the Googleapis resources. I.e. type.googleapis.com/google.cloud.vision.v1.StreamWithAnnotation"
+        },
+        "resourceTypeUri": {
+          "type": "string",
+          "description": "The direct type url of Googleapis resource. i.e. type.googleapis.com/google.cloud.vision.v1.Asset"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the input binding, unique within the processor."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Resource Input Binding Spec",
+      "description": "Message for instance resource channel specification. External resources are virtual nodes which are not expressed in the application graph. Each processor expresses its out-graph spec, so customer is able to override the external source or destinations to the"
+    },
+    "InstanceResourceOutputBindingSpec": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the output binding, unique within the processor."
+        },
+        "resourceTypeUri": {
+          "type": "string",
+          "description": "The resource type uri of the acceptable output resource."
+        },
+        "explicit": {
+          "type": "boolean",
+          "description": "Whether the output resource needs to be explicitly set in the instance. If it is false, the processor will automatically generate it if required."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Resource Output Binding Spec"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/TargetProjectEventData.json",
+  "name": "TargetProjectEventData",
+  "examples": [],
+  "package": "google.events.cloud.vmmigration.v1",
+  "datatype": "google.events.cloud.vmmigration.v1.TargetProjectEventData",
+  "cloudeventTypes": [
+    "google.cloud.vmmigration.targetProject.v1.created",
+    "google.cloud.vmmigration.targetProject.v1.updated",
+    "google.cloud.vmmigration.targetProject.v1.deleted"
+  ],
+  "product": "VM Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/TargetProjectEventData",
+  "definitions": {
+    "TargetProjectEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/TargetProject",
+          "additionalProperties": true,
+          "description": "Optional. The TargetProject event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target Project Event Data",
+      "description": "The data within all TargetProject events."
+    },
+    "TargetProject": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of the target project."
+        },
+        "project": {
+          "type": "string",
+          "description": "The target project ID (number) or project name."
+        },
+        "description": {
+          "type": "string",
+          "description": "The target project's description."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time this target project resource was created (not related to when the Compute Engine project it points to was created).",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last time the target project resource was updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target Project",
+      "description": "TargetProject message represents a target Compute Engine project for a migration or a clone."
+    }
+  }
+}

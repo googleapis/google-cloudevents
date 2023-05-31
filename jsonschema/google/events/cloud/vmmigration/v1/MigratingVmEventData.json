@@ -1,0 +1,1247 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/vmmigration/v1/MigratingVmEventData.json",
+  "name": "MigratingVmEventData",
+  "examples": [],
+  "package": "google.events.cloud.vmmigration.v1",
+  "datatype": "google.events.cloud.vmmigration.v1.MigratingVmEventData",
+  "cloudeventTypes": [
+    "google.cloud.vmmigration.migratingVm.v1.created",
+    "google.cloud.vmmigration.migratingVm.v1.updated",
+    "google.cloud.vmmigration.migratingVm.v1.deleted"
+  ],
+  "product": "VM Migration",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MigratingVmEventData",
+  "definitions": {
+    "MigratingVmEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/MigratingVm",
+          "additionalProperties": true,
+          "description": "Optional. The MigratingVm event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migrating Vm Event Data",
+      "description": "The data within all MigratingVm events."
+    },
+    "AdaptingOSStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Adapting OS Step",
+      "description": "AdaptingOSStep contains specific step details."
+    },
+    "AppliedLicense": {
+      "properties": {
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "NONE",
+            1,
+            "PAYG",
+            2,
+            "BYOL",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "License types used in OS adaptation."
+        },
+        "osLicense": {
+          "type": "string",
+          "description": "The OS license returned from the adaptation module's report."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Applied License",
+      "description": "AppliedLicense holds the license data returned by adaptation module report."
+    },
+    "AwsSourceVmDetails": {
+      "properties": {
+        "firmware": {
+          "enum": [
+            "FIRMWARE_UNSPECIFIED",
+            0,
+            "EFI",
+            1,
+            "BIOS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Firmware",
+          "description": "Possible values for AWS VM firmware."
+        },
+        "committedStorageBytes": {
+          "type": "integer",
+          "description": "The total size of the disks being migrated in bytes."
+        },
+        "disks": {
+          "items": {
+            "$ref": "#/definitions/AwsDiskDetails"
+          },
+          "type": "array",
+          "description": "The disks attached to the source VM."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Aws Source Vm Details",
+      "description": "Represent the source AWS VM details."
+    },
+    "AwsDiskDetails": {
+      "properties": {
+        "diskNumber": {
+          "type": "integer",
+          "description": "The ordinal number of the disk."
+        },
+        "volumeId": {
+          "type": "string",
+          "description": "AWS volume ID."
+        },
+        "sizeGb": {
+          "type": "integer",
+          "description": "Size in GB."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Aws Disk Details",
+      "description": "The details of an AWS instance disk."
+    },
+    "CloneJob": {
+      "properties": {
+        "computeEngineTargetDetails": {
+          "$ref": "#/definitions/ComputeEngineTargetDetails",
+          "additionalProperties": true,
+          "description": "Output only. Details of the target VM in Compute Engine."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the clone job was created (as an API call, not when it was actually created in the target).",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time the clone job was ended.",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of the clone."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "ACTIVE",
+            2,
+            "FAILED",
+            3,
+            "SUCCEEDED",
+            4,
+            "CANCELLED",
+            5,
+            "CANCELLING",
+            6,
+            "ADAPTING_OS",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Possible states of the clone job."
+        },
+        "stateTime": {
+          "type": "string",
+          "description": "Output only. The time the state was last updated.",
+          "format": "date-time"
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details for the errors that led to the Clone Job's state."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/CloneStep"
+          },
+          "type": "array",
+          "description": "Output only. The clone steps list representing its progress."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Clone Job",
+      "description": "CloneJob describes the process of creating a clone of a [MigratingVM][google.cloud.vmmigration.v1.MigratingVm] to the requested target based on the latest successful uploaded snapshots. While the migration cycles of a MigratingVm take place, it is possible to verify the uploaded VM can be started in the cloud, by creating a clone. The clone can be created without any downtime, and it is created using the latest snapshots which are already in the cloud. The cloneJob is only responsible for its work, not its products, which means once it is finished, it will never touch the instance it created. It will only delete it in case of the CloneJob being cancelled or upon failure to clone."
+    },
+    "CloneStep": {
+      "properties": {
+        "adaptingOs": {
+          "$ref": "#/definitions/AdaptingOSStep",
+          "additionalProperties": true,
+          "description": "Adapting OS step."
+        },
+        "preparingVmDisks": {
+          "$ref": "#/definitions/PreparingVMDisksStep",
+          "additionalProperties": true,
+          "description": "Preparing VM disks step."
+        },
+        "instantiatingMigratedVm": {
+          "$ref": "#/definitions/InstantiatingMigratedVMStep",
+          "additionalProperties": true,
+          "description": "Instantiating migrated VM step."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The time the step has started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The time the step has ended.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Clone Step",
+      "description": "CloneStep holds information about the clone step progress."
+    },
+    "ComputeEngineTargetDefaults": {
+      "properties": {
+        "vmName": {
+          "type": "string",
+          "description": "The name of the VM to create."
+        },
+        "targetProject": {
+          "type": "string",
+          "description": "The full path of the resource of type TargetProject which represents the Compute Engine project in which to create this VM."
+        },
+        "zone": {
+          "type": "string",
+          "description": "The zone in which to create the VM."
+        },
+        "machineTypeSeries": {
+          "type": "string",
+          "description": "The machine type series to create the VM with."
+        },
+        "machineType": {
+          "type": "string",
+          "description": "The machine type to create the VM with."
+        },
+        "networkTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A map of network tags to associate with the VM."
+        },
+        "networkInterfaces": {
+          "items": {
+            "$ref": "#/definitions/NetworkInterface"
+          },
+          "type": "array",
+          "description": "List of NICs connected to this VM."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "The service account to associate the VM with."
+        },
+        "diskType": {
+          "enum": [
+            "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED",
+            0,
+            "COMPUTE_ENGINE_DISK_TYPE_STANDARD",
+            1,
+            "COMPUTE_ENGINE_DISK_TYPE_SSD",
+            2,
+            "COMPUTE_ENGINE_DISK_TYPE_BALANCED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine Disk Type",
+          "description": "Types of disks supported for Compute Engine VM."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A map of labels to associate with the VM."
+        },
+        "licenseType": {
+          "enum": [
+            "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT",
+            0,
+            "COMPUTE_ENGINE_LICENSE_TYPE_PAYG",
+            1,
+            "COMPUTE_ENGINE_LICENSE_TYPE_BYOL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine License Type",
+          "description": "Types of licenses used in OS adaptation."
+        },
+        "appliedLicense": {
+          "$ref": "#/definitions/AppliedLicense",
+          "additionalProperties": true,
+          "description": "Output only. The OS license returned from the adaptation module report."
+        },
+        "computeScheduling": {
+          "$ref": "#/definitions/ComputeScheduling",
+          "additionalProperties": true,
+          "description": "Compute instance scheduling information (if empty default is used)."
+        },
+        "secureBoot": {
+          "type": "boolean",
+          "description": "Defines whether the instance has Secure Boot enabled. This can be set to true only if the vm boot option is EFI."
+        },
+        "bootOption": {
+          "enum": [
+            "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED",
+            0,
+            "COMPUTE_ENGINE_BOOT_OPTION_EFI",
+            1,
+            "COMPUTE_ENGINE_BOOT_OPTION_BIOS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine Boot Option",
+          "description": "Possible values for vm boot option."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The metadata key/value pairs to assign to the VM."
+        },
+        "additionalLicenses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Additional licenses to assign to the VM."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The hostname to assign to the VM."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Compute Engine Target Defaults",
+      "description": "ComputeEngineTargetDefaults is a collection of details for creating a VM in a target Compute Engine project."
+    },
+    "ComputeEngineTargetDetails": {
+      "properties": {
+        "vmName": {
+          "type": "string",
+          "description": "The name of the VM to create."
+        },
+        "project": {
+          "type": "string",
+          "description": "The Google Cloud target project ID or project name."
+        },
+        "zone": {
+          "type": "string",
+          "description": "The zone in which to create the VM."
+        },
+        "machineTypeSeries": {
+          "type": "string",
+          "description": "The machine type series to create the VM with."
+        },
+        "machineType": {
+          "type": "string",
+          "description": "The machine type to create the VM with."
+        },
+        "networkTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A map of network tags to associate with the VM."
+        },
+        "networkInterfaces": {
+          "items": {
+            "$ref": "#/definitions/NetworkInterface"
+          },
+          "type": "array",
+          "description": "List of NICs connected to this VM."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "The service account to associate the VM with."
+        },
+        "diskType": {
+          "enum": [
+            "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED",
+            0,
+            "COMPUTE_ENGINE_DISK_TYPE_STANDARD",
+            1,
+            "COMPUTE_ENGINE_DISK_TYPE_SSD",
+            2,
+            "COMPUTE_ENGINE_DISK_TYPE_BALANCED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine Disk Type",
+          "description": "Types of disks supported for Compute Engine VM."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "A map of labels to associate with the VM."
+        },
+        "licenseType": {
+          "enum": [
+            "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT",
+            0,
+            "COMPUTE_ENGINE_LICENSE_TYPE_PAYG",
+            1,
+            "COMPUTE_ENGINE_LICENSE_TYPE_BYOL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine License Type",
+          "description": "Types of licenses used in OS adaptation."
+        },
+        "appliedLicense": {
+          "$ref": "#/definitions/AppliedLicense",
+          "additionalProperties": true,
+          "description": "The OS license returned from the adaptation module report."
+        },
+        "computeScheduling": {
+          "$ref": "#/definitions/ComputeScheduling",
+          "additionalProperties": true,
+          "description": "Compute instance scheduling information (if empty default is used)."
+        },
+        "secureBoot": {
+          "type": "boolean",
+          "description": "Defines whether the instance has Secure Boot enabled. This can be set to true only if the vm boot option is EFI."
+        },
+        "bootOption": {
+          "enum": [
+            "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED",
+            0,
+            "COMPUTE_ENGINE_BOOT_OPTION_EFI",
+            1,
+            "COMPUTE_ENGINE_BOOT_OPTION_BIOS",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Compute Engine Boot Option",
+          "description": "Possible values for vm boot option."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The metadata key/value pairs to assign to the VM."
+        },
+        "additionalLicenses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Additional licenses to assign to the VM."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The hostname to assign to the VM."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Compute Engine Target Details",
+      "description": "ComputeEngineTargetDetails is a collection of details for creating a VM in a target Compute Engine project."
+    },
+    "ComputeScheduling": {
+      "properties": {
+        "onHostMaintenance": {
+          "enum": [
+            "ON_HOST_MAINTENANCE_UNSPECIFIED",
+            0,
+            "TERMINATE",
+            1,
+            "MIGRATE",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "On Host Maintenance"
+        },
+        "restartType": {
+          "enum": [
+            "RESTART_TYPE_UNSPECIFIED",
+            0,
+            "AUTOMATIC_RESTART",
+            1,
+            "NO_AUTOMATIC_RESTART",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Restart Type",
+          "description": "Defines whether the Instance should be automatically restarted whenever it is terminated by Compute Engine (not terminated by user)."
+        },
+        "nodeAffinities": {
+          "items": {
+            "$ref": "#/definitions/SchedulingNodeAffinity"
+          },
+          "type": "array",
+          "description": "A set of node affinity and anti-affinity configurations for sole tenant nodes."
+        },
+        "minNodeCpus": {
+          "type": "integer",
+          "description": "The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. Ignored if no node_affinites are configured."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Compute Scheduling",
+      "description": "Scheduling information for VM on maintenance/restart behaviour and node allocation in sole tenant nodes."
+    },
+    "CutoverForecast": {
+      "properties": {
+        "estimatedCutoverJobDuration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Output only. Estimation of the CutoverJob duration.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cutover Forecast",
+      "description": "CutoverForecast holds information about future CutoverJobs of a MigratingVm."
+    },
+    "CutoverJob": {
+      "properties": {
+        "computeEngineTargetDetails": {
+          "$ref": "#/definitions/ComputeEngineTargetDetails",
+          "additionalProperties": true,
+          "description": "Output only. Details of the target VM in Compute Engine."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the cutover job was created (as an API call, not when it was actually created in the target).",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Output only. The time the cutover job had finished.",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of the cutover job."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "FAILED",
+            2,
+            "SUCCEEDED",
+            3,
+            "CANCELLED",
+            4,
+            "CANCELLING",
+            5,
+            "ACTIVE",
+            6,
+            "ADAPTING_OS",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Possible states of the cutover job."
+        },
+        "stateTime": {
+          "type": "string",
+          "description": "Output only. The time the state was last updated.",
+          "format": "date-time"
+        },
+        "progressPercent": {
+          "type": "integer",
+          "description": "Output only. The current progress in percentage of the cutover job."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details for the errors that led to the Cutover Job's state."
+        },
+        "stateMessage": {
+          "type": "string",
+          "description": "Output only. A message providing possible extra details about the current state."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/CutoverStep"
+          },
+          "type": "array",
+          "description": "Output only. The cutover steps list representing its progress."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cutover Job",
+      "description": "CutoverJob message describes a cutover of a migrating VM. The CutoverJob is the operation of shutting down the VM, creating a snapshot and clonning the VM using the replicated snapshot."
+    },
+    "CutoverStep": {
+      "properties": {
+        "previousReplicationCycle": {
+          "$ref": "#/definitions/ReplicationCycle",
+          "additionalProperties": true,
+          "description": "A replication cycle prior cutover step."
+        },
+        "shuttingDownSourceVm": {
+          "$ref": "#/definitions/ShuttingDownSourceVMStep",
+          "additionalProperties": true,
+          "description": "Shutting down VM step."
+        },
+        "finalSync": {
+          "$ref": "#/definitions/ReplicationCycle",
+          "additionalProperties": true,
+          "description": "Final sync step."
+        },
+        "preparingVmDisks": {
+          "$ref": "#/definitions/PreparingVMDisksStep",
+          "additionalProperties": true,
+          "description": "Preparing VM disks step."
+        },
+        "instantiatingMigratedVm": {
+          "$ref": "#/definitions/InstantiatingMigratedVMStep",
+          "additionalProperties": true,
+          "description": "Instantiating migrated VM step."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The time the step has started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The time the step has ended.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cutover Step",
+      "description": "CutoverStep holds information about the cutover step progress."
+    },
+    "CycleStep": {
+      "properties": {
+        "initializingReplication": {
+          "$ref": "#/definitions/InitializingReplicationStep",
+          "additionalProperties": true,
+          "description": "Initializing replication step."
+        },
+        "replicating": {
+          "$ref": "#/definitions/ReplicatingStep",
+          "additionalProperties": true,
+          "description": "Replicating step."
+        },
+        "postProcessing": {
+          "$ref": "#/definitions/PostProcessingStep",
+          "additionalProperties": true,
+          "description": "Post processing step."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The time the cycle step has started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The time the cycle step has ended.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cycle Step",
+      "description": "CycleStep holds information about a step progress."
+    },
+    "InitializingReplicationStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Initializing Replication Step",
+      "description": "InitializingReplicationStep contains specific step details."
+    },
+    "InstantiatingMigratedVMStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instantiating Migrated VM Step",
+      "description": "InstantiatingMigratedVMStep contains specific step details."
+    },
+    "MigratingVm": {
+      "properties": {
+        "computeEngineTargetDefaults": {
+          "$ref": "#/definitions/ComputeEngineTargetDefaults",
+          "additionalProperties": true,
+          "description": "Details of the target VM in Compute Engine."
+        },
+        "awsSourceVmDetails": {
+          "$ref": "#/definitions/AwsSourceVmDetails",
+          "additionalProperties": true,
+          "description": "Output only. Details of the VM from an AWS source."
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The identifier of the MigratingVm."
+        },
+        "sourceVmId": {
+          "type": "string",
+          "description": "The unique ID of the VM in the source. The VM's name in vSphere can be changed, so this is not the VM's name but rather its moRef id. This id is of the form vm-<num>."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name attached to the MigratingVm by the user."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description attached to the migrating VM by the user."
+        },
+        "policy": {
+          "$ref": "#/definitions/SchedulePolicy",
+          "additionalProperties": true,
+          "description": "The replication schedule policy."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the migrating VM was created (this refers to this resource and not to the time it was installed in the source).",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last time the migrating VM resource was updated.",
+          "format": "date-time"
+        },
+        "lastSync": {
+          "$ref": "#/definitions/ReplicationSync",
+          "additionalProperties": true,
+          "description": "Output only. The most updated snapshot created time in the source that finished replication."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "PENDING",
+            1,
+            "READY",
+            2,
+            "FIRST_SYNC",
+            3,
+            "ACTIVE",
+            4,
+            "CUTTING_OVER",
+            7,
+            "CUTOVER",
+            8,
+            "FINAL_SYNC",
+            9,
+            "PAUSED",
+            10,
+            "FINALIZING",
+            11,
+            "FINALIZED",
+            12,
+            "ERROR",
+            13
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The possible values of the state/health of source VM."
+        },
+        "stateTime": {
+          "type": "string",
+          "description": "Output only. The last time the migrating VM state was updated.",
+          "format": "date-time"
+        },
+        "currentSyncInfo": {
+          "$ref": "#/definitions/ReplicationCycle",
+          "additionalProperties": true,
+          "description": "Output only. Details of the current running replication cycle."
+        },
+        "lastReplicationCycle": {
+          "$ref": "#/definitions/ReplicationCycle",
+          "additionalProperties": true,
+          "description": "Output only. Details of the last replication cycle. This will be updated whenever a replication cycle is finished and is not to be confused with last_sync which is only updated on successful replication cycles."
+        },
+        "group": {
+          "type": "string",
+          "description": "Output only. The group this migrating vm is included in, if any. The group is represented by the full path of the appropriate [Group][google.cloud.vmmigration.v1.Group] resource."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "The labels of the migrating VM."
+        },
+        "recentCloneJobs": {
+          "items": {
+            "$ref": "#/definitions/CloneJob"
+          },
+          "type": "array",
+          "description": "Output only. The recent [clone jobs][google.cloud.vmmigration.v1.CloneJob] performed on the migrating VM. This field holds the vm's last completed clone job and the vm's running clone job, if one exists. Note: To have this field populated you need to explicitly request it via the \"view\" parameter of the Get/List request."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Output only. Provides details on the state of the Migrating VM in case of an error in replication."
+        },
+        "recentCutoverJobs": {
+          "items": {
+            "$ref": "#/definitions/CutoverJob"
+          },
+          "type": "array",
+          "description": "Output only. The recent cutover jobs performed on the migrating VM. This field holds the vm's last completed cutover job and the vm's running cutover job, if one exists. Note: To have this field populated you need to explicitly request it via the \"view\" parameter of the Get/List request."
+        },
+        "cutoverForecast": {
+          "$ref": "#/definitions/CutoverForecast",
+          "additionalProperties": true,
+          "description": "Output only. Provides details of future CutoverJobs of a MigratingVm. Set to empty when cutover forecast is unavailable."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migrating Vm",
+      "description": "MigratingVm describes the VM that will be migrated from a Source environment and its replication state."
+    },
+    "MigrationWarning": {
+      "properties": {
+        "code": {
+          "enum": [
+            "WARNING_CODE_UNSPECIFIED",
+            0,
+            "ADAPTATION_WARNING",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Warning Code",
+          "description": "Represents possible warning codes."
+        },
+        "warningMessage": {
+          "$ref": "#/definitions/LocalizedMessage",
+          "additionalProperties": true,
+          "description": "The localized warning message."
+        },
+        "actionItem": {
+          "$ref": "#/definitions/LocalizedMessage",
+          "additionalProperties": true,
+          "description": "Suggested action for solving the warning."
+        },
+        "helpLinks": {
+          "items": {
+            "$ref": "#/definitions/Link"
+          },
+          "type": "array",
+          "description": "URL(s) pointing to additional information on handling the current warning."
+        },
+        "warningTime": {
+          "type": "string",
+          "description": "The time the warning occurred.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Migration Warning",
+      "description": "Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations."
+    },
+    "NetworkInterface": {
+      "properties": {
+        "network": {
+          "type": "string",
+          "description": "The network to connect the NIC to."
+        },
+        "subnetwork": {
+          "type": "string",
+          "description": "The subnetwork to connect the NIC to."
+        },
+        "internalIp": {
+          "type": "string",
+          "description": "The internal IP to define in the NIC. The formats accepted are: `ephemeral` \\ ipv4 address \\ a named address resource full path."
+        },
+        "externalIp": {
+          "type": "string",
+          "description": "The external IP to define in the NIC."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Network Interface",
+      "description": "NetworkInterface represents a NIC of a VM."
+    },
+    "PostProcessingStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Post Processing Step",
+      "description": "PostProcessingStep contains specific step details."
+    },
+    "PreparingVMDisksStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Preparing VM Disks Step",
+      "description": "PreparingVMDisksStep contains specific step details."
+    },
+    "ReplicatingStep": {
+      "properties": {
+        "totalBytes": {
+          "type": "integer",
+          "description": "Total bytes to be handled in the step."
+        },
+        "replicatedBytes": {
+          "type": "integer",
+          "description": "Replicated bytes in the step."
+        },
+        "lastTwoMinutesAverageBytesPerSecond": {
+          "type": "integer",
+          "description": "The source disks replication rate for the last 2 minutes in bytes per second."
+        },
+        "lastThirtyMinutesAverageBytesPerSecond": {
+          "type": "integer",
+          "description": "The source disks replication rate for the last 30 minutes in bytes per second."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Replicating Step",
+      "description": "ReplicatingStep contains specific step details."
+    },
+    "ReplicationCycle": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The identifier of the ReplicationCycle."
+        },
+        "cycleNumber": {
+          "type": "integer",
+          "description": "The cycle's ordinal number."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The time the replication cycle has started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The time the replication cycle has ended.",
+          "format": "date-time"
+        },
+        "totalPauseDuration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "The accumulated duration the replication cycle was paused.",
+          "format": "regex"
+        },
+        "progressPercent": {
+          "type": "integer",
+          "description": "The current progress in percentage of this cycle. Was replaced by 'steps' field, which breaks down the cycle progression more accurately."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/CycleStep"
+          },
+          "type": "array",
+          "description": "The cycle's steps list representing its progress."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "RUNNING",
+            1,
+            "PAUSED",
+            2,
+            "FAILED",
+            3,
+            "SUCCEEDED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Possible states of a replication cycle."
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "Provides details on the state of the cycle in case of an error."
+        },
+        "warnings": {
+          "items": {
+            "$ref": "#/definitions/MigrationWarning"
+          },
+          "type": "array",
+          "description": "Output only. Warnings that occurred during the cycle."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Replication Cycle",
+      "description": "ReplicationCycle contains information about the current replication cycle status."
+    },
+    "ReplicationSync": {
+      "properties": {
+        "lastSyncTime": {
+          "type": "string",
+          "description": "The most updated snapshot created time in the source that finished replication.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Replication Sync",
+      "description": "ReplicationSync contain information about the last replica sync to the cloud."
+    },
+    "SchedulePolicy": {
+      "properties": {
+        "idleDuration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "The idle duration between replication stages.",
+          "format": "regex"
+        },
+        "skipOsAdaptation": {
+          "type": "boolean",
+          "description": "A flag to indicate whether to skip OS adaptation during the replication sync. OS adaptation is a process where the VM's operating system undergoes changes and adaptations to fully function on Compute Engine."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Schedule Policy",
+      "description": "A policy for scheduling replications."
+    },
+    "SchedulingNodeAffinity": {
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The label key of Node resource to reference."
+        },
+        "operator": {
+          "enum": [
+            "OPERATOR_UNSPECIFIED",
+            0,
+            "IN",
+            1,
+            "NOT_IN",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Operator",
+          "description": "Possible types of node selection operators. Valid operators are IN for affinity and NOT_IN for anti-affinity."
+        },
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Corresponds to the label values of Node resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scheduling Node Affinity",
+      "description": "Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. Based on https://cloud.google.com/compute/docs/reference/rest/v1/instances/setScheduling"
+    },
+    "ShuttingDownSourceVMStep": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Shutting Down Source VM Step",
+      "description": "ShuttingDownSourceVMStep contains specific step details."
+    },
+    "Link": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Describes what the link offers."
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the link."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Link",
+      "description": "Describes a URL link."
+    },
+    "LocalizedMessage": {
+      "properties": {
+        "locale": {
+          "type": "string",
+          "description": "The locale used following the specification defined at http://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: \"en-US\", \"fr-CH\", \"es-MX\""
+        },
+        "message": {
+          "type": "string",
+          "description": "The localized error message in the above locale."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Localized Message",
+      "description": "Provides a localized error message that is safe to return to the user which can be attached to an RPC error."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}
