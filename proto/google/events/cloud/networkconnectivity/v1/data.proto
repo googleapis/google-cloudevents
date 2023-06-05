@@ -36,6 +36,21 @@ message ServiceConnectionMap {
 
   // Allow the producer to specify which consumers can connect to it.
   message ConsumerPscConfig {
+    // PSC Consumer Config State.
+    enum State {
+      // Default state, when Connection Map is created initially.
+      STATE_UNSPECIFIED = 0;
+
+      // Set when policy and map configuration is valid,
+      // and their matching can lead to allowing creation of PSC Connections
+      // subject to other constraints like connections limit.
+      VALID = 1;
+
+      // No Service Connection Policy found for this network and Service
+      // Class
+      CONNECTION_POLICY_MISSING = 2;
+    }
+
     // The consumer project where PSC connections are allowed to be created in.
     string project = 1;
 
@@ -49,6 +64,10 @@ message ServiceConnectionMap {
     // This is used in PSC consumer ForwardingRule to control whether the PSC
     // endpoint can be accessed from another region.
     bool disable_global_access = 3;
+
+    // Output only. Overall state of PSC Connections management for this
+    // consumer psc config.
+    State state = 4;
   }
 
   // PSC connection details on consumer side.
@@ -165,8 +184,8 @@ message ServiceConnectionPolicy {
     // projects/{projectNumOrId}/regions/{region}/subnetworks/{resourceId}.
     repeated string subnetworks = 1;
 
-    // Max number of PSC connections for this policy.
-    int64 limit = 2;
+    // Optional. Max number of PSC connections for this policy.
+    optional int64 limit = 2;
   }
 
   // Information about a specific Private Service Connect connection.
