@@ -119,6 +119,26 @@
         "disableGlobalAccess": {
           "type": "boolean",
           "description": "This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "VALID",
+            1,
+            "CONNECTION_POLICY_MISSING",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "PSC Consumer Config State."
         }
       },
       "additionalProperties": true,

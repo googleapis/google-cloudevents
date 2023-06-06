@@ -1,0 +1,280 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastore/v1/EntityEventData.json",
+  "name": "EntityEventData",
+  "examples": [],
+  "package": "google.events.cloud.datastore.v1",
+  "datatype": "google.events.cloud.datastore.v1.EntityEventData",
+  "cloudeventTypes": [
+    "google.cloud.datastore.entity.v1.created",
+    "google.cloud.datastore.entity.v1.updated",
+    "google.cloud.datastore.entity.v1.deleted",
+    "google.cloud.datastore.entity.v1.written"
+  ],
+  "product": "Cloud Firestore",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/EntityEventData",
+  "definitions": {
+    "EntityEventData": {
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/EntityResult",
+          "additionalProperties": true,
+          "description": "An EntityResult object containing a post-operation entity snapshot. This is not populated for delete events."
+        },
+        "oldValue": {
+          "$ref": "#/definitions/EntityResult",
+          "additionalProperties": true,
+          "description": "An EntityResult object containing a pre-operation entity snapshot. This is only populated for update and delete events."
+        },
+        "updateMask": {
+          "$ref": "#/definitions/PropertyMask",
+          "additionalProperties": true,
+          "description": "A PropertyMask object that lists changed properties. This is only populated for update events.."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Entity Event Data",
+      "description": "The data within all Firestore in Datastore Mode entity events."
+    },
+    "ArrayValue": {
+      "properties": {
+        "values": {
+          "items": {
+            "$ref": "#/definitions/Value"
+          },
+          "type": "array",
+          "description": "Values in the array. The order of values in an array is preserved as long as all values have identical settings for 'exclude_from_indexes'."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Array Value",
+      "description": "An array value."
+    },
+    "Entity": {
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/Key",
+          "additionalProperties": true,
+          "description": "The entity's key. An entity must have a key, unless otherwise documented (for example, an entity in `Value.entity_value` may have no key). An entity's kind is its key path's last element's kind, or null if it has no key."
+        },
+        "properties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Value",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "The entity's properties. The map's keys are property names. A property name matching regex `__.*__` is reserved. A reserved property name is forbidden in certain documented contexts. The map keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be empty."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Entity",
+      "description": "A Datastore data object. Must not exceed 1 MiB - 4 bytes."
+    },
+    "EntityResult": {
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/Entity",
+          "additionalProperties": true,
+          "description": "The resulting entity."
+        },
+        "version": {
+          "type": "integer",
+          "description": "The version of the entity, a strictly positive number that monotonically increases with changes to the entity. This field is set for [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results. For [missing][google.datastore.v1.LookupResponse.missing] entities in `LookupResponse`, this is the version of the snapshot that was used to look up the entity, and it is always set except for eventually consistent reads."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time at which the entity was created. This field is set for [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results. If this entity is missing, this field will not be set.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "The time at which the entity was last changed. This field is set for [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results. If this entity is missing, this field will not be set.",
+          "format": "date-time"
+        },
+        "cursor": {
+          "type": "string",
+          "description": "A cursor that points to the position after the result entity. Set only when the `EntityResult` is part of a `QueryResultBatch` message.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Entity Result",
+      "description": "The result of fetching an entity from Datastore."
+    },
+    "Key": {
+      "properties": {
+        "partitionId": {
+          "$ref": "#/definitions/PartitionId",
+          "additionalProperties": true,
+          "description": "Entities are partitioned into subsets, currently identified by a project ID and namespace ID. Queries are scoped to a single partition."
+        },
+        "path": {
+          "items": {
+            "$ref": "#/definitions/PathElement"
+          },
+          "type": "array",
+          "description": "The entity path. An entity path consists of one or more elements composed of a kind and a string or numerical identifier, which identify entities. The first element identifies a _root entity_, the second element identifies a _child_ of the root entity, the third element identifies a child of the second entity, and so forth. The entities identified by all prefixes of the path are called the element's _ancestors_. An entity path is always fully complete: *all* of the entity's ancestors are required to be in the path along with the entity identifier itself. The only exception is that in some documented cases, the identifier in the last path element (for the entity) itself may be omitted. For example, the last path element of the key of `Mutation.insert` may have no identifier. A path can never be empty, and a path can have at most 100 elements."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Key",
+      "description": "A unique identifier for an entity. If a key's partition ID or any of its path kinds or names are reserved/read-only, the key is reserved/read-only. A reserved/read-only key is forbidden in certain documented contexts."
+    },
+    "PathElement": {
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `\"\"`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes<X>__` where `<X>` is the base-64 encoding of the bytes."
+        },
+        "id": {
+          "type": "integer",
+          "description": "The auto-allocated ID of the entity. Never equal to zero. Values less than zero are discouraged and may not be supported in the future."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the entity. A name matching regex `__.*__` is reserved/read-only. A name must not be more than 1500 bytes when UTF-8 encoded. Cannot be `\"\"`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes<X>__` where `<X>` is the base-64 encoding of the bytes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Path Element",
+      "description": "A (kind, ID/name) pair used to construct a key path. If either name or ID is set, the element is complete. If neither is set, the element is incomplete."
+    },
+    "PartitionId": {
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "description": "The ID of the project to which the entities belong."
+        },
+        "databaseId": {
+          "type": "string",
+          "description": "If not empty, the ID of the database to which the entities belong."
+        },
+        "namespaceId": {
+          "type": "string",
+          "description": "If not empty, the ID of the namespace to which the entities belong."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Partition Id",
+      "description": "A partition ID identifies a grouping of entities. The grouping is always by project and namespace, however the namespace ID may be empty. A partition ID contains several dimensions: project ID and namespace ID. Partition dimensions: - May be `\"\"`. - Must be valid UTF-8 bytes. - Must have values that match regex `[A-Za-z\\d\\.\\-_]{1,100}` If the value of any dimension matches regex `__.*__`, the partition is reserved/read-only. A reserved/read-only partition ID is forbidden in certain documented contexts. Foreign partition IDs (in which the project ID does not match the context project ID ) are discouraged. Reads and writes of foreign partition IDs may fail if the project is not in an active state."
+    },
+    "PropertyMask": {
+      "properties": {
+        "propertyPaths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of property paths in the mask. This is not populated for delete events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Property Mask",
+      "description": "A set of property paths on an entity."
+    },
+    "Value": {
+      "properties": {
+        "nullValue": {
+          "enum": [
+            "NULL_VALUE",
+            0
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Null Value",
+          "description": "`NullValue` is a singleton enumeration to represent the null value for the `Value` type union.  The JSON representation for `NullValue` is JSON `null`."
+        },
+        "booleanValue": {
+          "type": "boolean",
+          "description": "A boolean value."
+        },
+        "integerValue": {
+          "type": "integer",
+          "description": "An integer value."
+        },
+        "doubleValue": {
+          "type": "number",
+          "description": "A double value."
+        },
+        "timestampValue": {
+          "type": "string",
+          "description": "A timestamp value. When stored in the Datastore, precise only to microseconds; any additional precision is rounded down.",
+          "format": "date-time"
+        },
+        "keyValue": {
+          "$ref": "#/definitions/Key",
+          "additionalProperties": true,
+          "description": "A key value."
+        },
+        "stringValue": {
+          "type": "string",
+          "description": "A UTF-8 encoded string value. When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes."
+        },
+        "blobValue": {
+          "type": "string",
+          "description": "A blob value. May have at most 1,000,000 bytes. When `exclude_from_indexes` is false, may have at most 1500 bytes. In JSON requests, must be base64-encoded.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        },
+        "geoPointValue": {
+          "$ref": "#/definitions/LatLng",
+          "additionalProperties": true,
+          "description": "A geo point value representing a point on the surface of Earth."
+        },
+        "entityValue": {
+          "$ref": "#/definitions/Entity",
+          "additionalProperties": true,
+          "description": "An entity value. - May have no key. - May have a key with an incomplete key path. - May have a reserved/read-only key."
+        },
+        "arrayValue": {
+          "$ref": "#/definitions/ArrayValue",
+          "additionalProperties": true,
+          "description": "An array value. Cannot contain another array value. A `Value` instance that sets field `array_value` must not set fields `meaning` or `exclude_from_indexes`."
+        },
+        "meaning": {
+          "type": "integer",
+          "description": "The `meaning` field should only be populated for backwards compatibility."
+        },
+        "excludeFromIndexes": {
+          "type": "boolean",
+          "description": "If the value should be excluded from all indexes including those defined explicitly."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Value",
+      "description": "A message that can hold any of the supported value types and associated metadata."
+    },
+    "LatLng": {
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "The latitude in degrees. It must be in the range [-90.0, +90.0]."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude in degrees. It must be in the range [-180.0, +180.0]."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Lat Lng",
+      "description": "An object representing a latitude/longitude pair. This is expressed as a pair of doubles representing degrees latitude and degrees longitude. Unless specified otherwise, this must conform to the <a href=\"http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf\">WGS84 standard</a>. Values must be within normalized ranges."
+    }
+  }
+}

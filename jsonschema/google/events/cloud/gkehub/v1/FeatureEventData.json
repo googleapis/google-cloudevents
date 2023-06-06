@@ -1,0 +1,222 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/FeatureEventData.json",
+  "name": "FeatureEventData",
+  "examples": [],
+  "package": "google.events.cloud.gkehub.v1",
+  "datatype": "google.events.cloud.gkehub.v1.FeatureEventData",
+  "cloudeventTypes": [
+    "google.cloud.gkehub.feature.v1.created",
+    "google.cloud.gkehub.feature.v1.deleted",
+    "google.cloud.gkehub.feature.v1.updated"
+  ],
+  "product": "GKE Hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/FeatureEventData",
+  "definitions": {
+    "FeatureEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Feature",
+          "additionalProperties": true,
+          "description": "Optional. The Feature event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Feature Event Data",
+      "description": "The data within all Feature events."
+    },
+    "CommonFeatureState": {
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/FeatureState",
+          "additionalProperties": true,
+          "description": "Output only. The \"running state\" of the Feature in this Hub."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Common Feature State",
+      "description": "CommonFeatureState contains Hub-wide Feature status information."
+    },
+    "Feature": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The full, unique name of this Feature resource in the format `projects/*/locations/*/features/*`."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "GCP labels for this Feature."
+        },
+        "resourceState": {
+          "$ref": "#/definitions/FeatureResourceState",
+          "additionalProperties": true,
+          "description": "Output only. State of the Feature resource itself."
+        },
+        "membershipSpecs": {
+          "additionalProperties": {
+            "$ref": "#/definitions/MembershipFeatureSpec",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Optional. Membership-specific configuration for this Feature. If this Feature does not support any per-Membership configuration, this field may be unused. The keys indicate which Membership the configuration is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} WILL match the Feature's project. {p} will always be returned as the project number, but the project ID is also accepted during input. If the same Membership is specified in the map twice (using the project ID form, and the project number form), exactly ONE of the entries will be saved, with no guarantees as to which. For this reason, it is recommended the same format be used for all entries when mutating a Feature."
+        },
+        "state": {
+          "$ref": "#/definitions/CommonFeatureState",
+          "additionalProperties": true,
+          "description": "Output only. The Hub-wide Feature state."
+        },
+        "membershipStates": {
+          "additionalProperties": {
+            "$ref": "#/definitions/MembershipFeatureState",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. Membership-specific Feature status. If this Feature does report any per-Membership status, this field may be unused. The keys indicate which Membership the state is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project number, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} MUST match the Feature's project number."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. When the Feature resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. When the Feature resource was last updated.",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. When the Feature resource was deleted.",
+          "format": "date-time"
+        },
+        "scopeStates": {
+          "additionalProperties": {
+            "$ref": "#/definitions/ScopeFeatureState",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. Scope-specific Feature status. If this Feature does report any per-Scope status, this field may be unused. The keys indicate which Scope the state is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Feature",
+      "description": "Feature represents the settings and status of any Hub Feature."
+    },
+    "FeatureResourceState": {
+      "properties": {
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ENABLING",
+            1,
+            "ACTIVE",
+            2,
+            "DISABLING",
+            3,
+            "UPDATING",
+            4,
+            "SERVICE_UPDATING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State describes the lifecycle status of a Feature."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Feature Resource State",
+      "description": "FeatureResourceState describes the state of a Feature *resource* in the GkeHub API. See `FeatureState` for the \"running state\" of the Feature in the Hub and across Memberships."
+    },
+    "FeatureState": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CODE_UNSPECIFIED",
+            0,
+            "OK",
+            1,
+            "WARNING",
+            2,
+            "ERROR",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "Code represents a machine-readable, high-level status of the Feature."
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description of the current status."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "The time this status and any related Feature-specific details were updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Feature State",
+      "description": "FeatureState describes the high-level state of a Feature. It may be used to describe a Feature's state at the environ-level, or per-membershop, depending on the context."
+    },
+    "MembershipFeatureSpec": {
+      "properties": {
+        "fleetInherited": {
+          "type": "boolean",
+          "description": "True if value of `feature_spec` was inherited from a fleet-level default."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Feature Spec",
+      "description": "MembershipFeatureSpec contains configuration information for a single Membership."
+    },
+    "MembershipFeatureState": {
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/FeatureState",
+          "additionalProperties": true,
+          "description": "The high-level state of this Feature for a single membership."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Feature State",
+      "description": "MembershipFeatureState contains Feature status information for a single Membership."
+    },
+    "ScopeFeatureState": {
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/FeatureState",
+          "additionalProperties": true,
+          "description": "Output only. The \"running state\" of the Feature in this Scope."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scope Feature State",
+      "description": "ScopeFeatureState contains Scope-wide Feature status information."
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/ScopeEventData.json",
+  "name": "ScopeEventData",
+  "examples": [],
+  "package": "google.events.cloud.gkehub.v1",
+  "datatype": "google.events.cloud.gkehub.v1.ScopeEventData",
+  "cloudeventTypes": [
+    "google.cloud.gkehub.scope.v1.created",
+    "google.cloud.gkehub.scope.v1.deleted"
+  ],
+  "product": "GKE Hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ScopeEventData",
+  "definitions": {
+    "ScopeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Scope",
+          "additionalProperties": true,
+          "description": "Optional. The Scope event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scope Event Data",
+      "description": "The data within all Scope events."
+    },
+    "Scope": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}`"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Google-generated UUID for this resource. This is unique across all scope resources. If a scope resource is deleted and another resource with the same name is created, it gets a different uid."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. When the scope was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. When the scope was last updated.",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. When the scope was deleted.",
+          "format": "date-time"
+        },
+        "state": {
+          "$ref": "#/definitions/ScopeLifecycleState",
+          "additionalProperties": true,
+          "description": "Output only. State of the scope resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scope",
+      "description": "Scope represents a Scope in a Fleet."
+    },
+    "ScopeLifecycleState": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CODE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "READY",
+            2,
+            "DELETING",
+            3,
+            "UPDATING",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "Code describes the state of a Scope resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Scope Lifecycle State",
+      "description": "ScopeLifecycleState describes the state of a Scope resource."
+    }
+  }
+}

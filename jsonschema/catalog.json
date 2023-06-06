@@ -444,6 +444,19 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastore/v1/EntityEventData.json",
+      "product": "Cloud Firestore",
+      "name": "EntityEventData",
+      "description": "The data within all Firestore in Datastore Mode entity events.",
+      "datatype": "google.events.cloud.datastore.v1.EntityEventData",
+      "cloudeventTypes": [
+        "google.cloud.datastore.entity.v1.created",
+        "google.cloud.datastore.entity.v1.updated",
+        "google.cloud.datastore.entity.v1.deleted",
+        "google.cloud.datastore.entity.v1.written"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/datastream/v1/ConnectionProfileEventData.json",
       "product": "Datastream",
       "name": "ConnectionProfileEventData",
@@ -595,6 +608,53 @@
         "google.cloud.gkebackup.restorePlan.v1.created",
         "google.cloud.gkebackup.restorePlan.v1.updated",
         "google.cloud.gkebackup.restorePlan.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/FeatureEventData.json",
+      "product": "GKE Hub",
+      "name": "FeatureEventData",
+      "description": "The data within all Feature events.",
+      "datatype": "google.events.cloud.gkehub.v1.FeatureEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkehub.feature.v1.created",
+        "google.cloud.gkehub.feature.v1.deleted",
+        "google.cloud.gkehub.feature.v1.updated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/MembershipBindingEventData.json",
+      "product": "GKE Hub",
+      "name": "MembershipBindingEventData",
+      "description": "The data within all MembershipBinding events.",
+      "datatype": "google.events.cloud.gkehub.v1.MembershipBindingEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkehub.membershipBinding.v1.created",
+        "google.cloud.gkehub.membershipBinding.v1.updated",
+        "google.cloud.gkehub.membershipBinding.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/MembershipEventData.json",
+      "product": "GKE Hub",
+      "name": "MembershipEventData",
+      "description": "The data within all Membership events.",
+      "datatype": "google.events.cloud.gkehub.v1.MembershipEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkehub.membership.v1.created",
+        "google.cloud.gkehub.membership.v1.deleted",
+        "google.cloud.gkehub.membership.v1.updated"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/ScopeEventData.json",
+      "product": "GKE Hub",
+      "name": "ScopeEventData",
+      "description": "The data within all Scope events.",
+      "datatype": "google.events.cloud.gkehub.v1.ScopeEventData",
+      "cloudeventTypes": [
+        "google.cloud.gkehub.scope.v1.created",
+        "google.cloud.gkehub.scope.v1.deleted"
       ]
     },
     {
