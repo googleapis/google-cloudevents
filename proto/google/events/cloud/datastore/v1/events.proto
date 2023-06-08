@@ -14,14 +14,14 @@
 
 syntax = "proto3";
 
-package google.events.cloud.firestore.v1;
+package google.events.cloud.datastore.v1;
 
-import "google/events/cloud/firestore/v1/data.proto";
+import "google/events/cloud/datastore/v1/data.proto";
 import "google/events/cloudevent.proto";
 
-option csharp_namespace = "Google.Events.Protobuf.Cloud.Firestore.V1";
-option php_namespace = "Google\\Events\\Cloud\\Firestore\\V1";
-option ruby_package = "Google::Events::Cloud::Firestore::V1";
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Datastore.V1";
+option php_namespace = "Google\\Events\\Cloud\\Datastore\\V1";
+option ruby_package = "Google::Events::Cloud::Datastore::V1";
 option (google.events.cloud_event_product) = "Cloud Firestore";
 option (google.events.cloud_event_extension_attribute) = {
   name: "database"
@@ -29,58 +29,58 @@ option (google.events.cloud_event_extension_attribute) = {
 };
 option (google.events.cloud_event_extension_attribute) = {
   name: "namespace"
-  description: "The Firestore database namespace. Applicable to database instances running in Datastore mode only. The default namespace is \"(default)\"."
+  description: "The Firestore database namespace. The default namespace is \"(default)\"."
 };
 option (google.events.cloud_event_extension_attribute) = {
-  name: "document"
+  name: "entity"
   description: "Pattern to match for the resource."
 };
 
-// The CloudEvent raised when a Firestore document is created.
-message DocumentCreatedEvent {
+// The CloudEvent is raised when a Firestore entity is created.
+message EntityCreatedEvent {
   option (google.events.cloud_event_type) =
-      "google.cloud.firestore.document.v1.created";
+      "google.cloud.datastore.entity.v1.created";
   option (google.events.cloud_event_extension_name) = "database";
   option (google.events.cloud_event_extension_name) = "namespace";
-  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "entity";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  EntityEventData data = 1;
 }
 
-// The CloudEvent raised when a Firestore document is updated.
-message DocumentUpdatedEvent {
+// The CloudEvent is raised when a Firestore entity is updated.
+message EntityUpdatedEvent {
   option (google.events.cloud_event_type) =
-      "google.cloud.firestore.document.v1.updated";
+      "google.cloud.datastore.entity.v1.updated";
   option (google.events.cloud_event_extension_name) = "database";
   option (google.events.cloud_event_extension_name) = "namespace";
-  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "entity";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  EntityEventData data = 1;
 }
 
-// The CloudEvent raised when a Firestore document is deleted.
-message DocumentDeletedEvent {
+// The CloudEvent is raised when a Firestore entity is deleted.
+message EntityDeletedEvent {
   option (google.events.cloud_event_type) =
-      "google.cloud.firestore.document.v1.deleted";
+      "google.cloud.datastore.entity.v1.deleted";
   option (google.events.cloud_event_extension_name) = "database";
   option (google.events.cloud_event_extension_name) = "namespace";
-  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "entity";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  EntityEventData data = 1;
 }
 
-// The CloudEvent raised when a Firestore document is created, updated or
+// The CloudEvent is raised when a Firestore entity is created, updated or
 // deleted.
-message DocumentWrittenEvent {
+message EntityWrittenEvent {
   option (google.events.cloud_event_type) =
-      "google.cloud.firestore.document.v1.written";
+      "google.cloud.datastore.entity.v1.written";
   option (google.events.cloud_event_extension_name) = "database";
   option (google.events.cloud_event_extension_name) = "namespace";
-  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "entity";
 
   // The data associated with the event.
-  DocumentEventData data = 1;
+  EntityEventData data = 1;
 }
