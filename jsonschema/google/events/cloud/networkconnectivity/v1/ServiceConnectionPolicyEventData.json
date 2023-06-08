@@ -108,7 +108,7 @@
         },
         "limit": {
           "type": "integer",
-          "description": "Max number of PSC connections for this policy."
+          "description": "Optional. Max number of PSC connections for this policy."
         }
       },
       "additionalProperties": true,

@@ -1,0 +1,106 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/MembershipBindingEventData.json",
+  "name": "MembershipBindingEventData",
+  "examples": [],
+  "package": "google.events.cloud.gkehub.v1",
+  "datatype": "google.events.cloud.gkehub.v1.MembershipBindingEventData",
+  "cloudeventTypes": [
+    "google.cloud.gkehub.membershipBinding.v1.created",
+    "google.cloud.gkehub.membershipBinding.v1.updated",
+    "google.cloud.gkehub.membershipBinding.v1.deleted"
+  ],
+  "product": "GKE Hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MembershipBindingEventData",
+  "definitions": {
+    "MembershipBindingEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/MembershipBinding",
+          "additionalProperties": true,
+          "description": "Optional. The MembershipBinding event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Binding Event Data",
+      "description": "The data within all MembershipBinding events."
+    },
+    "MembershipBinding": {
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A Workspace resource name in the format `projects/*/locations/*/scopes/*`."
+        },
+        "fleet": {
+          "type": "boolean",
+          "description": "Whether the membershipbinding is Fleet-wide; true means that this Membership should be bound to all Namespaces in this entire Fleet."
+        },
+        "name": {
+          "type": "string",
+          "description": "The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}`"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Google-generated UUID for this resource. This is unique across all membershipbinding resources. If a membershipbinding resource is deleted and another resource with the same name is created, it gets a different uid."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. When the membership binding was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. When the membership binding was last updated.",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. When the membership binding was deleted.",
+          "format": "date-time"
+        },
+        "state": {
+          "$ref": "#/definitions/MembershipBindingLifecycleState",
+          "additionalProperties": true,
+          "description": "Output only. State of the membership binding resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Binding",
+      "description": "MembershipBinding is a subresource of a Membership, representing what Fleet Scopes (or other, future Fleet resources) a Membership is bound to."
+    },
+    "MembershipBindingLifecycleState": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CODE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "READY",
+            2,
+            "DELETING",
+            3,
+            "UPDATING",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "Code describes the state of a MembershipBinding resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Binding Lifecycle State",
+      "description": "MembershipBindingLifecycleState describes the state of a Binding resource."
+    }
+  }
+}

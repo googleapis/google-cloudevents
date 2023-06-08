@@ -1,0 +1,399 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/gkehub/v1/MembershipEventData.json",
+  "name": "MembershipEventData",
+  "examples": [],
+  "package": "google.events.cloud.gkehub.v1",
+  "datatype": "google.events.cloud.gkehub.v1.MembershipEventData",
+  "cloudeventTypes": [
+    "google.cloud.gkehub.membership.v1.created",
+    "google.cloud.gkehub.membership.v1.deleted",
+    "google.cloud.gkehub.membership.v1.updated"
+  ],
+  "product": "GKE Hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MembershipEventData",
+  "definitions": {
+    "MembershipEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Membership",
+          "additionalProperties": true,
+          "description": "Optional. The Membership event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Event Data",
+      "description": "The data within all Membership events."
+    },
+    "ApplianceCluster": {
+      "properties": {
+        "resourceLink": {
+          "type": "string",
+          "description": "Immutable. Self-link of the GCP resource for the Appliance Cluster. For example: //transferappliance.googleapis.com/projects/my-project/locations/us-west1-a/appliances/my-appliance"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Appliance Cluster",
+      "description": "ApplianceCluster contains information specific to GDC Edge Appliance Clusters."
+    },
+    "Authority": {
+      "properties": {
+        "issuer": {
+          "type": "string",
+          "description": "Optional. A JSON Web Token (JWT) issuer URI. `issuer` must start with `https://` and be a valid URL with length <2000 characters. If set, then Google will allow valid OIDC tokens from this issuer to authenticate within the workload_identity_pool. OIDC discovery will be performed on this URI to validate tokens from the issuer. Clearing `issuer` disables Workload Identity. `issuer` cannot be directly modified; it must be cleared (and Workload Identity disabled) before using a new issuer (and re-enabling Workload Identity)."
+        },
+        "workloadIdentityPool": {
+          "type": "string",
+          "description": "Output only. The name of the workload identity pool in which `issuer` will be recognized. There is a single Workload Identity Pool per Hub that is shared between all Memberships that belong to that Hub. For a Hub hosted in {PROJECT_ID}, the workload pool format is `{PROJECT_ID}.hub.id.goog`, although this is subject to change in newer versions of this API."
+        },
+        "identityProvider": {
+          "type": "string",
+          "description": "Output only. An identity provider that reflects the `issuer` in the workload identity pool."
+        },
+        "oidcJwks": {
+          "type": "string",
+          "description": "Optional. OIDC verification keys for this Membership in JWKS format (RFC 7517). When this field is set, OIDC discovery will NOT be performed on `issuer`, and instead OIDC tokens will be validated using this field.",
+          "format": "binary",
+          "binaryEncoding": "base64"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Authority",
+      "description": "Authority encodes how Google will recognize identities from this Membership. See the workload identity documentation for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+    },
+    "EdgeCluster": {
+      "properties": {
+        "resourceLink": {
+          "type": "string",
+          "description": "Immutable. Self-link of the GCP resource for the Edge Cluster. For example: //edgecontainer.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Edge Cluster",
+      "description": "EdgeCluster contains information specific to Google Edge Clusters."
+    },
+    "GkeCluster": {
+      "properties": {
+        "resourceLink": {
+          "type": "string",
+          "description": "Immutable. Self-link of the GCP resource for the GKE cluster. For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster Zonal clusters are also supported."
+        },
+        "clusterMissing": {
+          "type": "boolean",
+          "description": "Output only. If cluster_missing is set then it denotes that the GKE cluster no longer exists in the GKE Control Plane."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gke Cluster",
+      "description": "GkeCluster contains information specific to GKE clusters."
+    },
+    "KubernetesMetadata": {
+      "properties": {
+        "kubernetesApiServerVersion": {
+          "type": "string",
+          "description": "Output only. Kubernetes API server version string as reported by `/version`."
+        },
+        "nodeProviderId": {
+          "type": "string",
+          "description": "Output only. Node providerID as reported by the first node in the list of nodes on the Kubernetes endpoint. On Kubernetes platforms that support zero-node clusters (like GKE-on-GCP), the node_count will be zero and the node_provider_id will be empty."
+        },
+        "nodeCount": {
+          "type": "integer",
+          "description": "Output only. Node count as reported by Kubernetes nodes resources."
+        },
+        "vcpuCount": {
+          "type": "integer",
+          "description": "Output only. vCPU count as reported by Kubernetes nodes resources."
+        },
+        "memoryMb": {
+          "type": "integer",
+          "description": "Output only. The total memory capacity as reported by the sum of all Kubernetes nodes resources, defined in MB."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time at which these details were last updated. This update_time is different from the Membership-level update_time since EndpointDetails are updated internally for API consumers.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Kubernetes Metadata",
+      "description": "KubernetesMetadata provides informational metadata for Memberships representing Kubernetes clusters."
+    },
+    "KubernetesResource": {
+      "properties": {
+        "membershipResources": {
+          "items": {
+            "$ref": "#/definitions/ResourceManifest"
+          },
+          "type": "array",
+          "description": "Output only. Additional Kubernetes resources that need to be applied to the cluster after Membership creation, and after every update. This field is only populated in the Membership returned from a successful long-running operation from CreateMembership or UpdateMembership. It is not populated during normal GetMembership or ListMemberships requests. To get the resource manifest after the initial registration, the caller should make a UpdateMembership call with an empty field mask."
+        },
+        "connectResources": {
+          "items": {
+            "$ref": "#/definitions/ResourceManifest"
+          },
+          "type": "array",
+          "description": "Output only. The Kubernetes resources for installing the GKE Connect agent This field is only populated in the Membership returned from a successful long-running operation from CreateMembership or UpdateMembership. It is not populated during normal GetMembership or ListMemberships requests. To get the resource manifest after the initial registration, the caller should make a UpdateMembership call with an empty field mask."
+        },
+        "resourceOptions": {
+          "$ref": "#/definitions/ResourceOptions",
+          "additionalProperties": true,
+          "description": "Optional. Options for Kubernetes resource generation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Kubernetes Resource",
+      "description": "KubernetesResource contains the YAML manifests and configuration for Membership Kubernetes resources in the cluster. After CreateMembership or UpdateMembership, these resources should be re-applied in the cluster."
+    },
+    "Membership": {
+      "properties": {
+        "endpoint": {
+          "$ref": "#/definitions/MembershipEndpoint",
+          "additionalProperties": true,
+          "description": "Optional. Endpoint information to reach this member."
+        },
+        "name": {
+          "type": "string",
+          "description": "Output only. The full, unique name of this Membership resource in the format `projects/*/locations/*/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label:   1. At most 63 characters in length   2. It must consist of lower case alphanumeric characters or `-`   3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. GCP labels for this membership."
+        },
+        "description": {
+          "type": "string",
+          "description": "Output only. Description of this membership, limited to 63 characters. Must match the regex: `[a-zA-Z0-9][a-zA-Z0-9_\\-\\.\\ ]*` This field is present for legacy purposes."
+        },
+        "state": {
+          "$ref": "#/definitions/MembershipState",
+          "additionalProperties": true,
+          "description": "Output only. State of the Membership resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. When the Membership was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. When the Membership was last updated.",
+          "format": "date-time"
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. When the Membership was deleted.",
+          "format": "date-time"
+        },
+        "externalId": {
+          "type": "string",
+          "description": "Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. The ID must match the regex: `[a-zA-Z0-9][a-zA-Z0-9_\\-\\.]*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object."
+        },
+        "lastConnectionTime": {
+          "type": "string",
+          "description": "Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset.",
+          "format": "date-time"
+        },
+        "uniqueId": {
+          "type": "string",
+          "description": "Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id."
+        },
+        "authority": {
+          "$ref": "#/definitions/Authority",
+          "additionalProperties": true,
+          "description": "Optional. How to identify workloads from this Membership. See the documentation on Workload Identity for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership",
+      "description": "Membership contains information about a member cluster."
+    },
+    "MembershipEndpoint": {
+      "properties": {
+        "gkeCluster": {
+          "$ref": "#/definitions/GkeCluster",
+          "additionalProperties": true,
+          "description": "Optional. Specific information for a GKE-on-GCP cluster."
+        },
+        "onPremCluster": {
+          "$ref": "#/definitions/OnPremCluster",
+          "additionalProperties": true,
+          "description": "Optional. Specific information for a GKE On-Prem cluster. An onprem user-cluster who has no resourceLink is not allowed to use this field, it should have a nil \"type\" instead."
+        },
+        "multiCloudCluster": {
+          "$ref": "#/definitions/MultiCloudCluster",
+          "additionalProperties": true,
+          "description": "Optional. Specific information for a GKE Multi-Cloud cluster."
+        },
+        "edgeCluster": {
+          "$ref": "#/definitions/EdgeCluster",
+          "additionalProperties": true,
+          "description": "Optional. Specific information for a Google Edge cluster."
+        },
+        "applianceCluster": {
+          "$ref": "#/definitions/ApplianceCluster",
+          "additionalProperties": true,
+          "description": "Optional. Specific information for a GDC Edge Appliance cluster."
+        },
+        "kubernetesMetadata": {
+          "$ref": "#/definitions/KubernetesMetadata",
+          "additionalProperties": true,
+          "description": "Output only. Useful Kubernetes-specific metadata."
+        },
+        "kubernetesResource": {
+          "$ref": "#/definitions/KubernetesResource",
+          "additionalProperties": true,
+          "description": "Optional. The in-cluster Kubernetes Resources that should be applied for a correctly registered cluster, in the steady state. These resources:   * Ensure that the cluster is exclusively registered to one and only one     Hub Membership.   * Propagate Workload Pool Information available in the Membership     Authority field.   * Ensure proper initial configuration of default Hub Features."
+        },
+        "googleManaged": {
+          "type": "boolean",
+          "description": "Output only. Whether the lifecycle of this membership is managed by a google cluster platform service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership Endpoint",
+      "description": "MembershipEndpoint contains information needed to contact a Kubernetes API, endpoint and any additional Kubernetes metadata."
+    },
+    "MembershipState": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CODE_UNSPECIFIED",
+            0,
+            "CREATING",
+            1,
+            "READY",
+            2,
+            "DELETING",
+            3,
+            "UPDATING",
+            4,
+            "SERVICE_UPDATING",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "Code describes the state of a Membership resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Membership State",
+      "description": "MembershipState describes the state of a Membership resource."
+    },
+    "MultiCloudCluster": {
+      "properties": {
+        "resourceLink": {
+          "type": "string",
+          "description": "Immutable. Self-link of the GCP resource for the GKE Multi-Cloud cluster. For example:  //gkemulticloud.googleapis.com/projects/my-project/locations/us-west1-a/awsClusters/my-cluster  //gkemulticloud.googleapis.com/projects/my-project/locations/us-west1-a/azureClusters/my-cluster  //gkemulticloud.googleapis.com/projects/my-project/locations/us-west1-a/attachedClusters/my-cluster"
+        },
+        "clusterMissing": {
+          "type": "boolean",
+          "description": "Output only. If cluster_missing is set then it denotes that API(gkemulticloud.googleapis.com) resource for this GKE Multi-Cloud cluster no longer exists."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Multi Cloud Cluster",
+      "description": "MultiCloudCluster contains information specific to GKE Multi-Cloud clusters."
+    },
+    "OnPremCluster": {
+      "properties": {
+        "resourceLink": {
+          "type": "string",
+          "description": "Immutable. Self-link of the GCP resource for the GKE On-Prem cluster. For example:  //gkeonprem.googleapis.com/projects/my-project/locations/us-west1-a/vmwareClusters/my-cluster  //gkeonprem.googleapis.com/projects/my-project/locations/us-west1-a/bareMetalClusters/my-cluster"
+        },
+        "clusterMissing": {
+          "type": "boolean",
+          "description": "Output only. If cluster_missing is set then it denotes that API(gkeonprem.googleapis.com) resource for this GKE On-Prem cluster no longer exists."
+        },
+        "adminCluster": {
+          "type": "boolean",
+          "description": "Immutable. Whether the cluster is an admin cluster."
+        },
+        "clusterType": {
+          "enum": [
+            "CLUSTERTYPE_UNSPECIFIED",
+            0,
+            "BOOTSTRAP",
+            1,
+            "HYBRID",
+            2,
+            "STANDALONE",
+            3,
+            "USER",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Cluster Type",
+          "description": "ClusterType describes on prem cluster's type."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "On Prem Cluster",
+      "description": "OnPremCluster contains information specific to GKE On-Prem clusters."
+    },
+    "ResourceManifest": {
+      "properties": {
+        "manifest": {
+          "type": "string",
+          "description": "YAML manifest of the resource."
+        },
+        "clusterScoped": {
+          "type": "boolean",
+          "description": "Whether the resource provided in the manifest is `cluster_scoped`. If unset, the manifest is assumed to be namespace scoped. This field is used for REST mapping when applying the resource in a cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Resource Manifest",
+      "description": "ResourceManifest represents a single Kubernetes resource to be applied to the cluster."
+    },
+    "ResourceOptions": {
+      "properties": {
+        "connectVersion": {
+          "type": "string",
+          "description": "Optional. The Connect agent version to use for connect_resources. Defaults to the latest GKE Connect version. The version must be a currently supported version, obsolete versions will be rejected."
+        },
+        "v1beta1Crd": {
+          "type": "boolean",
+          "description": "Optional. Use `apiextensions/v1beta1` instead of `apiextensions/v1` for CustomResourceDefinition resources. This option should be set for clusters with Kubernetes apiserver versions <1.16."
+        },
+        "k8sVersion": {
+          "type": "string",
+          "description": "Optional. Major version of the Kubernetes cluster. This is only used to determine which version to use for the CustomResourceDefinition resources, `apiextensions/v1beta1` or`apiextensions/v1`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Resource Options",
+      "description": "ResourceOptions represent options for Kubernetes resource generation."
+    }
+  }
+}
