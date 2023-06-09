@@ -6408,28 +6408,6 @@
       "apiDocsUrl": "https://cloud.google.com/build/docs/api/reference/rest"
     },
     {
-      "serviceName": "clouddebugger.googleapis.com",
-      "displayName": "Cloud Debugger",
-      "methods": [
-        {
-          "methodName": "DeleteBreakpoint"
-        },
-        {
-          "methodName": "GetBreakpoint"
-        },
-        {
-          "methodName": "ListBreakpoints"
-        },
-        {
-          "methodName": "ListDebuggees"
-        },
-        {
-          "methodName": "SetBreakpoint"
-        }
-      ],
-      "apiDocsUrl": "https://cloud.google.com/debugger/api/reference/rest"
-    },
-    {
       "serviceName": "clouddeploy.googleapis.com",
       "displayName": "Cloud Deploy",
       "methods": [
