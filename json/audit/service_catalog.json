@@ -2910,6 +2910,7 @@
     },
     {
       "serviceName": "alloydb.googleapis.com",
+      "displayName": "AlloyDB",
       "methods": [
         {
           "methodName": "alloydb.instances.query"
@@ -18699,7 +18700,7 @@
     },
     {
       "serviceName": "notebooks.googleapis.com",
-      "displayName": "AI Platform Notebooks",
+      "displayName": "Notebooks",
       "methods": [
         {
           "methodName": "GetIamPolicy"
@@ -21558,6 +21559,7 @@
     },
     {
       "serviceName": "visionai.googleapis.com",
+      "displayName": "Vision AI",
       "methods": [
         {
           "methodName": "google.cloud.visionai.v1.AppPlatform.AddApplicationStreamInput"
@@ -21782,7 +21784,7 @@
     },
     {
       "serviceName": "vmmigration.googleapis.com",
-      "displayName": "Migrate for Compute Engine",
+      "displayName": "VM Migration",
       "methods": [
         {
           "methodName": "google.cloud.vmmigration.v1.VmMigration.AddGroupMigration"
