@@ -1019,7 +1019,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.iam.v1.IAMPolicy.GetIamPolicy`
 - `google.iam.v1.IAMPolicy.SetIamPolicy`
 
-### undefined
+### AlloyDB
 
 #### `serviceName`
 
@@ -2327,20 +2327,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.devtools.cloudbuild.v2.RepositoryManagerInternal.ProcessGitHubAppCreationCallback`
 - `google.devtools.cloudbuild.v2.RepositoryManagerInternal.ProcessGitHubInstallationCallback`
 - `google.devtools.cloudbuild.v2.RepositoryManagerInternal.ProcessGitHubOAuthCallback`
-
-### Cloud Debugger
-
-#### `serviceName`
-
-- `clouddebugger.googleapis.com`
-
-#### `methodName`
-
-- `DeleteBreakpoint`
-- `GetBreakpoint`
-- `ListBreakpoints`
-- `ListDebuggees`
-- `SetBreakpoint`
 
 ### Cloud Deploy
 
@@ -6863,7 +6849,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.longrunning.Operations.CancelOperation`
 - `google.longrunning.Operations.GetOperation`
 
-### AI Platform Notebooks
+### Notebooks
 
 #### `serviceName`
 
@@ -8018,7 +8004,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.vision.v1p4beta1.ProductSearch.UpdateProduct`
 - `google.cloud.vision.v1p4beta1.ProductSearch.UpdateProductSet`
 
-### undefined
+### Vision AI
 
 #### `serviceName`
 
@@ -8100,7 +8086,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.longrunning.Operations.GetOperation`
 - `google.longrunning.Operations.ListOperations`
 
-### Migrate for Compute Engine
+### VM Migration
 
 #### `serviceName`
 
