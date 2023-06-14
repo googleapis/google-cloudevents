@@ -5275,6 +5275,7 @@
     },
     {
       "serviceName": "batch.googleapis.com",
+      "displayName": "Batch",
       "methods": [
         {
           "methodName": "google.cloud.batch.v1.BatchService.CreateJob"
