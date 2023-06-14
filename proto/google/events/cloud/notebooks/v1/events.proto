@@ -1,0 +1,155 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.notebooks.v1;
+
+import "google/events/cloud/notebooks/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Notebooks.V1";
+option php_namespace = "Google\\Events\\Cloud\\Notebooks\\V1";
+option ruby_package = "Google::Events::Cloud::Notebooks::V1";
+option (google.events.cloud_event_product) = "Notebooks";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "runtime"
+  description: "The resource ID of the Runtime triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "instance"
+  description: "The resource ID of the Instance triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "environment"
+  description: "The resource ID of the Environment triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "schedule"
+  description: "The resource ID of the Schedule triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "execution"
+  description: "The resource ID of the Execution triggering the event."
+};
+
+// The CloudEvent raised when a Runtime is created.
+message RuntimeCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.runtime.v1.created";
+  option (google.events.cloud_event_extension_name) = "runtime";
+
+  // The data associated with the event.
+  RuntimeEventData data = 1;
+}
+
+// The CloudEvent raised when a Runtime is updated.
+message RuntimeUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.runtime.v1.updated";
+  option (google.events.cloud_event_extension_name) = "runtime";
+
+  // The data associated with the event.
+  RuntimeEventData data = 1;
+}
+
+// The CloudEvent raised when a Runtime is deleted.
+message RuntimeDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.runtime.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "runtime";
+
+  // The data associated with the event.
+  RuntimeEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is created.
+message InstanceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.instance.v1.created";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Instance is deleted.
+message InstanceDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.instance.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "instance";
+
+  // The data associated with the event.
+  InstanceEventData data = 1;
+}
+
+// The CloudEvent raised when an Environment is created.
+message EnvironmentCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.environment.v1.created";
+  option (google.events.cloud_event_extension_name) = "environment";
+
+  // The data associated with the event.
+  EnvironmentEventData data = 1;
+}
+
+// The CloudEvent raised when an Environment is deleted.
+message EnvironmentDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.environment.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "environment";
+
+  // The data associated with the event.
+  EnvironmentEventData data = 1;
+}
+
+// The CloudEvent raised when a Schedule is deleted.
+message ScheduleDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.schedule.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "schedule";
+
+  // The data associated with the event.
+  ScheduleEventData data = 1;
+}
+
+// The CloudEvent raised when a Schedule is created.
+message ScheduleCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.schedule.v1.created";
+  option (google.events.cloud_event_extension_name) = "schedule";
+
+  // The data associated with the event.
+  ScheduleEventData data = 1;
+}
+
+// The CloudEvent raised when an Execution is deleted.
+message ExecutionDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.execution.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "execution";
+
+  // The data associated with the event.
+  ExecutionEventData data = 1;
+}
+
+// The CloudEvent raised when an Execution is created.
+message ExecutionCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.notebooks.execution.v1.created";
+  option (google.events.cloud_event_extension_name) = "execution";
+
+  // The data associated with the event.
+  ExecutionEventData data = 1;
+}

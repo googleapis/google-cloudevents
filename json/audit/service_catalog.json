@@ -19616,7 +19616,7 @@
     },
     {
       "serviceName": "redis.googleapis.com",
-      "displayName": "Cloud Memorystore for Redis",
+      "displayName": "Google Cloud Memorystore for Redis",
       "methods": [
         {
           "methodName": "google.cloud.redis.v1.CloudRedis.CreateInstance",
