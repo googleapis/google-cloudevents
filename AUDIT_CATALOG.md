@@ -1868,7 +1868,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.UpdateSnapshotSchedulePolicy`
 - `google.cloud.baremetalsolution.v2.BareMetalSolution.UpdateVolume`
 
-### undefined
+### Batch
 
 #### `serviceName`
 
@@ -7231,7 +7231,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.cloud.recommender.v1beta1.Recommender.UpdateInsightTypeConfig`
 - `google.cloud.recommender.v1beta1.Recommender.UpdateRecommenderConfig`
 
-### Cloud Memorystore for Redis
+### Google Cloud Memorystore for Redis
 
 #### `serviceName`
 

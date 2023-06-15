@@ -810,6 +810,74 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkmanagement/v1/ConnectivityTestEventData.json",
+      "product": "Network Management",
+      "name": "ConnectivityTestEventData",
+      "description": "The data within all ConnectivityTest events.",
+      "datatype": "google.events.cloud.networkmanagement.v1.ConnectivityTestEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkmanagement.connectivityTest.v1.created",
+        "google.cloud.networkmanagement.connectivityTest.v1.updated",
+        "google.cloud.networkmanagement.connectivityTest.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/EnvironmentEventData.json",
+      "product": "Notebooks",
+      "name": "EnvironmentEventData",
+      "description": "The data within all Environment events.",
+      "datatype": "google.events.cloud.notebooks.v1.EnvironmentEventData",
+      "cloudeventTypes": [
+        "google.cloud.notebooks.environment.v1.created",
+        "google.cloud.notebooks.environment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/ExecutionEventData.json",
+      "product": "Notebooks",
+      "name": "ExecutionEventData",
+      "description": "The data within all Execution events.",
+      "datatype": "google.events.cloud.notebooks.v1.ExecutionEventData",
+      "cloudeventTypes": [
+        "google.cloud.notebooks.execution.v1.deleted",
+        "google.cloud.notebooks.execution.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/InstanceEventData.json",
+      "product": "Notebooks",
+      "name": "InstanceEventData",
+      "description": "The data within all Instance events.",
+      "datatype": "google.events.cloud.notebooks.v1.InstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.notebooks.instance.v1.created",
+        "google.cloud.notebooks.instance.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/RuntimeEventData.json",
+      "product": "Notebooks",
+      "name": "RuntimeEventData",
+      "description": "The data within all Runtime events.",
+      "datatype": "google.events.cloud.notebooks.v1.RuntimeEventData",
+      "cloudeventTypes": [
+        "google.cloud.notebooks.runtime.v1.created",
+        "google.cloud.notebooks.runtime.v1.updated",
+        "google.cloud.notebooks.runtime.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/ScheduleEventData.json",
+      "product": "Notebooks",
+      "name": "ScheduleEventData",
+      "description": "The data within all Schedule events.",
+      "datatype": "google.events.cloud.notebooks.v1.ScheduleEventData",
+      "cloudeventTypes": [
+        "google.cloud.notebooks.schedule.v1.deleted",
+        "google.cloud.notebooks.schedule.v1.created"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/pubsub/v1/MessagePublishedData.json",
       "product": "Cloud Pub/Sub",
       "name": "MessagePublishedData",

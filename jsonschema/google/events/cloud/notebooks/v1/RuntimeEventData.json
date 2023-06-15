@@ -1,0 +1,572 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/RuntimeEventData.json",
+  "name": "RuntimeEventData",
+  "examples": [],
+  "package": "google.events.cloud.notebooks.v1",
+  "datatype": "google.events.cloud.notebooks.v1.RuntimeEventData",
+  "cloudeventTypes": [
+    "google.cloud.notebooks.runtime.v1.created",
+    "google.cloud.notebooks.runtime.v1.updated",
+    "google.cloud.notebooks.runtime.v1.deleted"
+  ],
+  "product": "Notebooks",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/RuntimeEventData",
+  "definitions": {
+    "RuntimeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Runtime",
+          "additionalProperties": true,
+          "description": "Optional. The Runtime event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Event Data",
+      "description": "The data within all Runtime events."
+    },
+    "ContainerImage": {
+      "properties": {
+        "repository": {
+          "type": "string",
+          "description": "Required. The path to the container image repository. For example: `gcr.io/{project_id}/{image_name}`"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag of the container image. If not specified, this defaults to the latest tag."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Container Image",
+      "description": "Definition of a container image for starting a notebook instance with the environment installed in a container."
+    },
+    "EncryptionConfig": {
+      "properties": {
+        "kmsKey": {
+          "type": "string",
+          "description": "The Cloud KMS resource identifier of the customer-managed encryption key used to protect a resource, such as a disks. It has the following format: `projects/{PROJECT_ID}/locations/{REGION}/keyRings/{KEY_RING_NAME}/cryptoKeys/{KEY_NAME}`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Encryption Config",
+      "description": "Represents a custom encryption key configuration that can be applied to a resource. This will encrypt all disks in Virtual Machine."
+    },
+    "LocalDisk": {
+      "properties": {
+        "autoDelete": {
+          "type": "boolean",
+          "description": "Optional. Output only. Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance)."
+        },
+        "boot": {
+          "type": "boolean",
+          "description": "Optional. Output only. Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem."
+        },
+        "deviceName": {
+          "type": "string",
+          "description": "Optional. Output only. Specifies a unique device name of your choice that is reflected into the `/dev/disk/by-id/google-*` tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks."
+        },
+        "guestOsFeatures": {
+          "items": {
+            "$ref": "#/definitions/RuntimeGuestOsFeature"
+          },
+          "type": "array",
+          "description": "Output only. Indicates a list of features to enable on the guest operating system. Applicable only for bootable images. Read  Enabling guest operating system features to see a list of available options."
+        },
+        "index": {
+          "type": "integer",
+          "description": "Output only. A zero-based index to this disk, where 0 is reserved for the boot disk. If you have many disks attached to an instance, each disk would have a unique index number."
+        },
+        "interface": {
+          "type": "string",
+          "description": "Specifies the disk interface to use for attaching this disk, which is either SCSI or NVME. The default is SCSI. Persistent disks must always use SCSI and the request will fail if you attempt to attach a persistent disk in any other format than SCSI. Local SSDs can use either NVME or SCSI. For performance characteristics of SCSI over NVMe, see Local SSD performance. Valid values: * `NVME` * `SCSI`"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Output only. Type of the resource. Always compute#attachedDisk for attached disks."
+        },
+        "licenses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Output only. Any valid publicly visible licenses."
+        },
+        "mode": {
+          "type": "string",
+          "description": "The mode in which to attach this disk, either `READ_WRITE` or `READ_ONLY`. If not specified, the default is to attach the disk in `READ_WRITE` mode. Valid values: * `READ_ONLY` * `READ_WRITE`"
+        },
+        "source": {
+          "type": "string",
+          "description": "Specifies a valid partial or full URL to an existing Persistent Disk resource."
+        },
+        "type": {
+          "type": "string",
+          "description": "Specifies the type of the disk, either `SCRATCH` or `PERSISTENT`. If not specified, the default is `PERSISTENT`. Valid values: * `PERSISTENT` * `SCRATCH`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Local Disk",
+      "description": "A Local attached disk resource."
+    },
+    "RuntimeGuestOsFeature": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The ID of a supported feature. Read [Enabling guest operating system features](https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features) to see a list of available options. Valid values: * `FEATURE_TYPE_UNSPECIFIED` * `MULTI_IP_SUBNET` * `SECURE_BOOT` * `UEFI_COMPATIBLE` * `VIRTIO_SCSI_MULTIQUEUE` * `WINDOWS`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Guest Os Feature",
+      "description": "Optional. A list of features to enable on the guest operating system. Applicable only for bootable images. Read [Enabling guest operating system features](https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features) to see a list of available options. Guest OS features for boot disk."
+    },
+    "Runtime": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The resource name of the runtime. Format: `projects/{project}/locations/{location}/runtimes/{runtimeId}`"
+        },
+        "virtualMachine": {
+          "$ref": "#/definitions/VirtualMachine",
+          "additionalProperties": true,
+          "description": "Use a Compute Engine VM image to start the managed notebook instance."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "STARTING",
+            1,
+            "PROVISIONING",
+            2,
+            "ACTIVE",
+            3,
+            "STOPPING",
+            4,
+            "STOPPED",
+            5,
+            "DELETING",
+            6,
+            "UPGRADING",
+            7,
+            "INITIALIZING",
+            8
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The definition of the states of this runtime."
+        },
+        "healthState": {
+          "enum": [
+            "HEALTH_STATE_UNSPECIFIED",
+            0,
+            "HEALTHY",
+            1,
+            "UNHEALTHY",
+            2,
+            "AGENT_NOT_INSTALLED",
+            3,
+            "AGENT_NOT_RUNNING",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Health State",
+          "description": "The runtime substate."
+        },
+        "accessConfig": {
+          "$ref": "#/definitions/RuntimeAccessConfig",
+          "additionalProperties": true,
+          "description": "The config settings for accessing runtime."
+        },
+        "softwareConfig": {
+          "$ref": "#/definitions/RuntimeSoftwareConfig",
+          "additionalProperties": true,
+          "description": "The config settings for software inside the runtime."
+        },
+        "metrics": {
+          "$ref": "#/definitions/RuntimeMetrics",
+          "additionalProperties": true,
+          "description": "Output only. Contains Runtime daemon metrics such as Service status and JupyterLab stats."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Runtime creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Runtime update time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The labels to associate with this Managed Notebook or Runtime. Label **keys** must contain 1 to 63 characters, and must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). Label **values** may be empty, but, if present, must contain 1 to 63 characters, and must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime",
+      "description": "The definition of a Runtime for a managed notebook instance."
+    },
+    "RuntimeAcceleratorConfig": {
+      "properties": {
+        "type": {
+          "enum": [
+            "ACCELERATOR_TYPE_UNSPECIFIED",
+            0,
+            "NVIDIA_TESLA_K80",
+            1,
+            "NVIDIA_TESLA_P100",
+            2,
+            "NVIDIA_TESLA_V100",
+            3,
+            "NVIDIA_TESLA_P4",
+            4,
+            "NVIDIA_TESLA_T4",
+            5,
+            "NVIDIA_TESLA_A100",
+            6,
+            "TPU_V2",
+            7,
+            "TPU_V3",
+            8,
+            "NVIDIA_TESLA_T4_VWS",
+            9,
+            "NVIDIA_TESLA_P100_VWS",
+            10,
+            "NVIDIA_TESLA_P4_VWS",
+            11
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Accelerator Type",
+          "description": "Type of this accelerator."
+        },
+        "coreCount": {
+          "type": "integer",
+          "description": "Count of cores of this accelerator."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Accelerator Config",
+      "description": "Definition of the types of hardware accelerators that can be used. Definition of the types of hardware accelerators that can be used. See [Compute Engine AcceleratorTypes](https://cloud.google.com/compute/docs/reference/beta/acceleratorTypes). Examples: * `nvidia-tesla-k80` * `nvidia-tesla-p100` * `nvidia-tesla-v100` * `nvidia-tesla-p4` * `nvidia-tesla-t4` * `nvidia-tesla-a100`"
+    },
+    "RuntimeAccessConfig": {
+      "properties": {
+        "accessType": {
+          "enum": [
+            "RUNTIME_ACCESS_TYPE_UNSPECIFIED",
+            0,
+            "SINGLE_USER",
+            1,
+            "SERVICE_ACCOUNT",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Runtime Access Type",
+          "description": "Possible ways to access runtime. Authentication mode. Currently supports: Single User only."
+        },
+        "runtimeOwner": {
+          "type": "string",
+          "description": "The owner of this runtime after creation. Format: `alias@example.com` Currently supports one owner only."
+        },
+        "proxyUri": {
+          "type": "string",
+          "description": "Output only. The proxy endpoint that is used to access the runtime."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Access Config",
+      "description": "Specifies the login configuration for Runtime"
+    },
+    "RuntimeMetrics": {
+      "properties": {
+        "systemMetrics": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. The system metrics."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Metrics",
+      "description": "Contains runtime daemon metrics, such as OS and kernels and sessions stats."
+    },
+    "RuntimeShieldedInstanceConfig": {
+      "properties": {
+        "enableSecureBoot": {
+          "type": "boolean",
+          "description": "Defines whether the instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. Disabled by default."
+        },
+        "enableVtpm": {
+          "type": "boolean",
+          "description": "Defines whether the instance has the vTPM enabled. Enabled by default."
+        },
+        "enableIntegrityMonitoring": {
+          "type": "boolean",
+          "description": "Defines whether the instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. Enabled by default."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Shielded Instance Config",
+      "description": "A set of Shielded Instance options. See [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). Not all combinations are valid."
+    },
+    "RuntimeSoftwareConfig": {
+      "properties": {
+        "notebookUpgradeSchedule": {
+          "type": "string",
+          "description": "Cron expression in UTC timezone, used to schedule instance auto upgrade. Please follow the [cron format](https://en.wikipedia.org/wiki/Cron)."
+        },
+        "enableHealthMonitoring": {
+          "type": "boolean",
+          "description": "Verifies core internal services are running. Default: True"
+        },
+        "idleShutdown": {
+          "type": "boolean",
+          "description": "Runtime will automatically shutdown after idle_shutdown_time. Default: True"
+        },
+        "idleShutdownTimeout": {
+          "type": "integer",
+          "description": "Time in minutes to wait before shutting down runtime. Default: 180 minutes"
+        },
+        "installGpuDriver": {
+          "type": "boolean",
+          "description": "Install Nvidia Driver automatically. Default: True"
+        },
+        "customGpuDriverPath": {
+          "type": "string",
+          "description": "Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers."
+        },
+        "postStartupScript": {
+          "type": "string",
+          "description": "Path to a Bash script that automatically runs after a notebook instance fully boots up. The path must be a URL or Cloud Storage path (`gs://path-to-file/file-name`)."
+        },
+        "kernels": {
+          "items": {
+            "$ref": "#/definitions/ContainerImage"
+          },
+          "type": "array",
+          "description": "Optional. Use a list of container images to use as Kernels in the notebook instance."
+        },
+        "upgradeable": {
+          "type": "boolean",
+          "description": "Output only. Bool indicating whether an newer image is available in an image family."
+        },
+        "postStartupScriptBehavior": {
+          "enum": [
+            "POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED",
+            0,
+            "RUN_EVERY_START",
+            1,
+            "DOWNLOAD_AND_RUN_EVERY_START",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Post Startup Script Behavior",
+          "description": "Behavior for the post startup script."
+        },
+        "disableTerminal": {
+          "type": "boolean",
+          "description": "Bool indicating whether JupyterLab terminal will be available or not. Default: False"
+        },
+        "version": {
+          "type": "string",
+          "description": "Output only. version of boot image such as M100, from release label of the image."
+        },
+        "mixerDisabled": {
+          "type": "boolean",
+          "description": "Bool indicating whether mixer client should be disabled. Default: False"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Software Config",
+      "description": "Specifies the selection and configuration of software inside the runtime. The properties to set on runtime. Properties keys are specified in `key:value` format, for example: * `idle_shutdown: true` * `idle_shutdown_timeout: 180` * `enable_health_monitoring: true`"
+    },
+    "VirtualMachine": {
+      "properties": {
+        "instanceName": {
+          "type": "string",
+          "description": "Output only. The user-friendly name of the Managed Compute Engine instance."
+        },
+        "instanceId": {
+          "type": "string",
+          "description": "Output only. The unique identifier of the Managed Compute Engine instance."
+        },
+        "virtualMachineConfig": {
+          "$ref": "#/definitions/VirtualMachineConfig",
+          "additionalProperties": true,
+          "description": "Virtual Machine configuration settings."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Virtual Machine",
+      "description": "Runtime using Virtual Machine for computing."
+    },
+    "VirtualMachineConfig": {
+      "properties": {
+        "zone": {
+          "type": "string",
+          "description": "Output only. The zone where the virtual machine is located. If using regional request, the notebooks service will pick a location in the corresponding runtime region. On a get request, zone will always be present. Example: * `us-central1-b`"
+        },
+        "machineType": {
+          "type": "string",
+          "description": "Required. The Compute Engine machine type used for runtimes. Short name is valid. Examples: * `n1-standard-2` * `e2-standard-8`"
+        },
+        "containerImages": {
+          "items": {
+            "$ref": "#/definitions/ContainerImage"
+          },
+          "type": "array",
+          "description": "Optional. Use a list of container images to use as Kernels in the notebook instance."
+        },
+        "dataDisk": {
+          "$ref": "#/definitions/LocalDisk",
+          "additionalProperties": true,
+          "description": "Required. Data disk option configuration settings."
+        },
+        "encryptionConfig": {
+          "$ref": "#/definitions/EncryptionConfig",
+          "additionalProperties": true,
+          "description": "Optional. Encryption settings for virtual machine data disk."
+        },
+        "shieldedInstanceConfig": {
+          "$ref": "#/definitions/RuntimeShieldedInstanceConfig",
+          "additionalProperties": true,
+          "description": "Optional. Shielded VM Instance configuration settings."
+        },
+        "acceleratorConfig": {
+          "$ref": "#/definitions/RuntimeAcceleratorConfig",
+          "additionalProperties": true,
+          "description": "Optional. The Compute Engine accelerator configuration for this runtime."
+        },
+        "network": {
+          "type": "string",
+          "description": "Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork. If neither `network` nor `subnet` is specified, the \"default\" network of the project is used, if it exists. A full URL or partial URI. Examples: * `https://www.googleapis.com/compute/v1/projects/[project_id]/global/networks/default` * `projects/[project_id]/global/networks/default` Runtimes are managed resources inside Google Infrastructure. Runtimes support the following network configurations: * Google Managed Network (Network & subnet are empty) * Consumer Project VPC (network & subnet are required). Requires configuring Private Service Access. * Shared VPC (network & subnet are required). Requires configuring Private Service Access."
+        },
+        "subnet": {
+          "type": "string",
+          "description": "Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network. A full URL or partial URI are valid. Examples: * `https://www.googleapis.com/compute/v1/projects/[project_id]/regions/us-east1/subnetworks/sub0` * `projects/[project_id]/regions/us-east1/subnetworks/sub0`"
+        },
+        "internalIpOnly": {
+          "type": "boolean",
+          "description": "Optional. If true, runtime will only have internal IP addresses. By default, runtimes are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each vm. This `internal_ip_only` restriction can only be enabled for subnetwork enabled networks, and all dependencies must be configured to be accessible without external IP addresses."
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The Compute Engine tags to add to runtime (see [Tagging instances](https://cloud.google.com/compute/docs/label-or-tag-resources#tags))."
+        },
+        "guestAttributes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. The Compute Engine guest attributes. (see [Project and instance guest attributes](https://cloud.google.com/compute/docs/storing-retrieving-metadata#guest_attributes))."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The Compute Engine metadata entries to add to virtual machine. (see [Project and instance metadata](https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata))."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The labels to associate with this runtime. Label **keys** must contain 1 to 63 characters, and must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). Label **values** may be empty, but, if present, must contain 1 to 63 characters, and must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster."
+        },
+        "nicType": {
+          "enum": [
+            "UNSPECIFIED_NIC_TYPE",
+            0,
+            "VIRTIO_NET",
+            1,
+            "GVNIC",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Nic Type",
+          "description": "The type of vNIC driver. Default should be UNSPECIFIED_NIC_TYPE."
+        },
+        "reservedIpRange": {
+          "type": "string",
+          "description": "Optional. Reserved IP Range name is used for VPC Peering. The subnetwork allocation will use the range *name* if it's assigned. Example: managed-notebooks-range-c     PEERING_RANGE_NAME_3=managed-notebooks-range-c     gcloud compute addresses create $PEERING_RANGE_NAME_3 \\       --global \\       --prefix-length=24 \\       --description=\"Google Cloud Managed Notebooks Range 24 c\" \\       --network=$NETWORK \\       --addresses=192.168.0.0 \\       --purpose=VPC_PEERING Field value will be: `managed-notebooks-range-c`"
+        },
+        "bootImage": {
+          "$ref": "#/definitions/BootImage",
+          "additionalProperties": true,
+          "description": "Optional. Boot image metadata used for runtime upgradeability."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Virtual Machine Config",
+      "description": "The config settings for virtual machine."
+    },
+    "BootImage": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Boot Image",
+      "description": "Definition of the boot image used by the Runtime. Used to facilitate runtime upgradeability."
+    }
+  }
+}
