@@ -1,0 +1,528 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/InstanceEventData.json",
+  "name": "InstanceEventData",
+  "examples": [],
+  "package": "google.events.cloud.notebooks.v1",
+  "datatype": "google.events.cloud.notebooks.v1.InstanceEventData",
+  "cloudeventTypes": [
+    "google.cloud.notebooks.instance.v1.created",
+    "google.cloud.notebooks.instance.v1.deleted"
+  ],
+  "product": "Notebooks",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/InstanceEventData",
+  "definitions": {
+    "InstanceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Instance",
+          "additionalProperties": true,
+          "description": "Optional. The Instance event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Event Data",
+      "description": "The data within all Instance events."
+    },
+    "ContainerImage": {
+      "properties": {
+        "repository": {
+          "type": "string",
+          "description": "Required. The path to the container image repository. For example: `gcr.io/{project_id}/{image_name}`"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag of the container image. If not specified, this defaults to the latest tag."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Container Image",
+      "description": "Definition of a container image for starting a notebook instance with the environment installed in a container."
+    },
+    "Instance": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}`"
+        },
+        "vmImage": {
+          "$ref": "#/definitions/VmImage",
+          "additionalProperties": true,
+          "description": "Use a Compute Engine VM image to start the notebook instance."
+        },
+        "containerImage": {
+          "$ref": "#/definitions/ContainerImage",
+          "additionalProperties": true,
+          "description": "Use a container image to start the notebook instance."
+        },
+        "postStartupScript": {
+          "type": "string",
+          "description": "Path to a Bash script that automatically runs after a notebook instance fully boots up. The path must be a URL or Cloud Storage path (`gs://path-to-file/file-name`)."
+        },
+        "proxyUri": {
+          "type": "string",
+          "description": "Output only. The proxy endpoint that is used to access the Jupyter notebook."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must have the service account user permission to use the instance. If not specified, the [Compute Engine default service account](https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used."
+        },
+        "serviceAccountScopes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The URIs of service account scopes to be included in Compute Engine instances. If not specified, the following [scopes](https://cloud.google.com/compute/docs/access/service-accounts#accesscopesiam) are defined:  - https://www.googleapis.com/auth/cloud-platform  - https://www.googleapis.com/auth/userinfo.email If not using default scopes, you need at least:    https://www.googleapis.com/auth/compute"
+        },
+        "machineType": {
+          "type": "string",
+          "description": "Required. The [Compute Engine machine type](https://cloud.google.com/compute/docs/machine-types) of this instance."
+        },
+        "acceleratorConfig": {
+          "$ref": "#/definitions/AcceleratorConfig",
+          "additionalProperties": true,
+          "description": "The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has [enough vCPUs and memory to support the `machine_type` you have selected](https://cloud.google.com/compute/docs/gpus/#gpus-list)."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "STARTING",
+            1,
+            "PROVISIONING",
+            2,
+            "ACTIVE",
+            3,
+            "STOPPING",
+            4,
+            "STOPPED",
+            5,
+            "DELETED",
+            6,
+            "UPGRADING",
+            7,
+            "INITIALIZING",
+            8,
+            "REGISTERING",
+            9,
+            "SUSPENDING",
+            10,
+            "SUSPENDED",
+            11
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The definition of the states of this instance."
+        },
+        "installGpuDriver": {
+          "type": "boolean",
+          "description": "Whether the end user authorizes Google Cloud to install GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs."
+        },
+        "customGpuDriverPath": {
+          "type": "string",
+          "description": "Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers."
+        },
+        "disks": {
+          "items": {
+            "$ref": "#/definitions/Disk"
+          },
+          "type": "array",
+          "description": "Output only. Attached disks to notebook instance."
+        },
+        "shieldedInstanceConfig": {
+          "$ref": "#/definitions/ShieldedInstanceConfig",
+          "additionalProperties": true,
+          "description": "Optional. Shielded VM configuration. [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm)."
+        },
+        "noPublicIp": {
+          "type": "boolean",
+          "description": "If true, no external IP will be assigned to this instance."
+        },
+        "noProxyAccess": {
+          "type": "boolean",
+          "description": "If true, the notebook instance will not register with the proxy."
+        },
+        "network": {
+          "type": "string",
+          "description": "The name of the VPC that this instance is in. Format: `projects/{project_id}/global/networks/{network_id}`"
+        },
+        "subnet": {
+          "type": "string",
+          "description": "The name of the subnet that this instance is in. Format: `projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}`"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels to apply to this instance. These can be later modified by the setLabels method."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Custom metadata to apply to this instance."
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The Compute Engine tags to add to runtime (see [Tagging instances](https://cloud.google.com/compute/docs/label-or-tag-resources#tags))."
+        },
+        "upgradeHistory": {
+          "items": {
+            "$ref": "#/definitions/UpgradeHistoryEntry"
+          },
+          "type": "array",
+          "description": "The upgrade history of this instance."
+        },
+        "nicType": {
+          "enum": [
+            "UNSPECIFIED_NIC_TYPE",
+            0,
+            "VIRTIO_NET",
+            1,
+            "GVNIC",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Nic Type",
+          "description": "The type of vNIC driver. Default should be UNSPECIFIED_NIC_TYPE."
+        },
+        "reservationAffinity": {
+          "$ref": "#/definitions/ReservationAffinity",
+          "additionalProperties": true,
+          "description": "Optional. The optional reservation affinity. Setting this field will apply the specified [Zonal Compute Reservation](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) to this notebook instance."
+        },
+        "creator": {
+          "type": "string",
+          "description": "Output only. Email address of entity that sent original CreateInstance request."
+        },
+        "canIpForward": {
+          "type": "boolean",
+          "description": "Optional. Flag to enable ip forwarding or not, default false/off. https://cloud.google.com/vpc/docs/using-routes#canipforward"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Instance creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Instance update time.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance",
+      "description": "The definition of a notebook instance."
+    },
+    "AcceleratorConfig": {
+      "properties": {
+        "type": {
+          "enum": [
+            "ACCELERATOR_TYPE_UNSPECIFIED",
+            0,
+            "NVIDIA_TESLA_K80",
+            1,
+            "NVIDIA_TESLA_P100",
+            2,
+            "NVIDIA_TESLA_V100",
+            3,
+            "NVIDIA_TESLA_P4",
+            4,
+            "NVIDIA_TESLA_T4",
+            5,
+            "NVIDIA_TESLA_A100",
+            11,
+            "NVIDIA_TESLA_T4_VWS",
+            8,
+            "NVIDIA_TESLA_P100_VWS",
+            9,
+            "NVIDIA_TESLA_P4_VWS",
+            10,
+            "TPU_V2",
+            6,
+            "TPU_V3",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Accelerator Type",
+          "description": "Definition of the types of hardware accelerators that can be used on this instance."
+        },
+        "coreCount": {
+          "type": "integer",
+          "description": "Count of cores of this accelerator."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Accelerator Config",
+      "description": "Definition of a hardware accelerator. Note that not all combinations of `type` and `core_count` are valid. See [GPUs on Compute Engine](https://cloud.google.com/compute/docs/gpus/#gpus-list) to find a valid combination. TPUs are not supported."
+    },
+    "Disk": {
+      "properties": {
+        "autoDelete": {
+          "type": "boolean",
+          "description": "Indicates whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance)."
+        },
+        "boot": {
+          "type": "boolean",
+          "description": "Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem."
+        },
+        "deviceName": {
+          "type": "string",
+          "description": "Indicates a unique device name of your choice that is reflected into the `/dev/disk/by-id/google-*` tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine.This field is only applicable for persistent disks."
+        },
+        "diskSizeGb": {
+          "type": "integer",
+          "description": "Indicates the size of the disk in base-2 GB."
+        },
+        "guestOsFeatures": {
+          "items": {
+            "$ref": "#/definitions/GuestOsFeature"
+          },
+          "type": "array",
+          "description": "Indicates a list of features to enable on the guest operating system. Applicable only for bootable images. Read  Enabling guest operating system features to see a list of available options."
+        },
+        "index": {
+          "type": "integer",
+          "description": "A zero-based index to this disk, where 0 is reserved for the boot disk. If you have many disks attached to an instance, each disk would have a unique index number."
+        },
+        "interface": {
+          "type": "string",
+          "description": "Indicates the disk interface to use for attaching this disk, which is either SCSI or NVME. The default is SCSI. Persistent disks must always use SCSI and the request will fail if you attempt to attach a persistent disk in any other format than SCSI. Local SSDs can use either NVME or SCSI. For performance characteristics of SCSI over NVMe, see Local SSD performance. Valid values: * `NVME` * `SCSI`"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Type of the resource. Always compute#attachedDisk for attached disks."
+        },
+        "licenses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of publicly visible licenses. Reserved for Google's use. A License represents billing and aggregate usage data for public and marketplace images."
+        },
+        "mode": {
+          "type": "string",
+          "description": "The mode in which to attach this disk, either `READ_WRITE` or `READ_ONLY`. If not specified, the default is to attach the disk in `READ_WRITE` mode. Valid values: * `READ_ONLY` * `READ_WRITE`"
+        },
+        "source": {
+          "type": "string",
+          "description": "Indicates a valid partial or full URL to an existing Persistent Disk resource."
+        },
+        "type": {
+          "type": "string",
+          "description": "Indicates the type of the disk, either `SCRATCH` or `PERSISTENT`. Valid values: * `PERSISTENT` * `SCRATCH`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Disk",
+      "description": "An instance-attached disk resource."
+    },
+    "GuestOsFeature": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The ID of a supported feature. Read  Enabling guest operating system features to see a list of available options. Valid values: * `FEATURE_TYPE_UNSPECIFIED` * `MULTI_IP_SUBNET` * `SECURE_BOOT` * `UEFI_COMPATIBLE` * `VIRTIO_SCSI_MULTIQUEUE` * `WINDOWS`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Guest Os Feature",
+      "description": "Guest OS features for boot disk."
+    },
+    "ShieldedInstanceConfig": {
+      "properties": {
+        "enableSecureBoot": {
+          "type": "boolean",
+          "description": "Defines whether the instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. Disabled by default."
+        },
+        "enableVtpm": {
+          "type": "boolean",
+          "description": "Defines whether the instance has the vTPM enabled. Enabled by default."
+        },
+        "enableIntegrityMonitoring": {
+          "type": "boolean",
+          "description": "Defines whether the instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. Enabled by default."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Shielded Instance Config",
+      "description": "A set of Shielded Instance options. See [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). Not all combinations are valid."
+    },
+    "UpgradeHistoryEntry": {
+      "properties": {
+        "snapshot": {
+          "type": "string",
+          "description": "The snapshot of the boot disk of this notebook instance before upgrade."
+        },
+        "vmImage": {
+          "type": "string",
+          "description": "The VM image before this instance upgrade."
+        },
+        "containerImage": {
+          "type": "string",
+          "description": "The container image before this instance upgrade."
+        },
+        "framework": {
+          "type": "string",
+          "description": "The framework of this notebook instance."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the notebook instance before this upgrade."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "STARTED",
+            1,
+            "SUCCEEDED",
+            2,
+            "FAILED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "The definition of the states of this upgrade history entry."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time that this instance upgrade history entry is created.",
+          "format": "date-time"
+        },
+        "targetImage": {
+          "type": "string",
+          "description": "Target VM Image. Format: `ainotebooks-vm/project/image-name/name`."
+        },
+        "action": {
+          "enum": [
+            "ACTION_UNSPECIFIED",
+            0,
+            "UPGRADE",
+            1,
+            "ROLLBACK",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Action",
+          "description": "The definition of operations of this upgrade history entry."
+        },
+        "targetVersion": {
+          "type": "string",
+          "description": "Target VM Version, like m63."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Upgrade History Entry",
+      "description": "The entry of VM image upgrade history."
+    },
+    "ReservationAffinity": {
+      "properties": {
+        "consumeReservationType": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "NO_RESERVATION",
+            1,
+            "ANY_RESERVATION",
+            2,
+            "SPECIFIC_RESERVATION",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "Indicates whether to consume capacity from an reservation or not."
+        },
+        "key": {
+          "type": "string",
+          "description": "Optional. Corresponds to the label key of reservation resource."
+        },
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Corresponds to the label values of reservation resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Reservation Affinity",
+      "description": "Reservation Affinity for consuming Zonal reservation."
+    },
+    "VmImage": {
+      "properties": {
+        "project": {
+          "type": "string",
+          "description": "Required. The name of the Google Cloud project that this VM image belongs to. Format: `{project_id}`"
+        },
+        "imageName": {
+          "type": "string",
+          "description": "Use VM image name to find the image."
+        },
+        "imageFamily": {
+          "type": "string",
+          "description": "Use this VM image family to find the image; the newest image in this family will be used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vm Image",
+      "description": "Definition of a custom Compute Engine virtual machine image for starting a notebook instance with the environment installed directly on the VM."
+    }
+  }
+}

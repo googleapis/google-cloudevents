@@ -1,0 +1,1500 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkmanagement/v1/ConnectivityTestEventData.json",
+  "name": "ConnectivityTestEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkmanagement.v1",
+  "datatype": "google.events.cloud.networkmanagement.v1.ConnectivityTestEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkmanagement.connectivityTest.v1.created",
+    "google.cloud.networkmanagement.connectivityTest.v1.updated",
+    "google.cloud.networkmanagement.connectivityTest.v1.deleted"
+  ],
+  "product": "Network Management",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ConnectivityTestEventData",
+  "definitions": {
+    "ConnectivityTestEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ConnectivityTest",
+          "additionalProperties": true,
+          "description": "Optional. The ConnectivityTest event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connectivity Test Event Data",
+      "description": "The data within all ConnectivityTest events."
+    },
+    "AbortInfo": {
+      "properties": {
+        "cause": {
+          "enum": [
+            "CAUSE_UNSPECIFIED",
+            0,
+            "UNKNOWN_NETWORK",
+            1,
+            "UNKNOWN_IP",
+            2,
+            "UNKNOWN_PROJECT",
+            3,
+            "PERMISSION_DENIED",
+            4,
+            "NO_SOURCE_LOCATION",
+            5,
+            "INVALID_ARGUMENT",
+            6,
+            "NO_EXTERNAL_IP",
+            7,
+            "UNINTENDED_DESTINATION",
+            8,
+            "TRACE_TOO_LONG",
+            9,
+            "INTERNAL_ERROR",
+            10,
+            "SOURCE_ENDPOINT_NOT_FOUND",
+            11,
+            "MISMATCHED_SOURCE_NETWORK",
+            12,
+            "DESTINATION_ENDPOINT_NOT_FOUND",
+            13,
+            "MISMATCHED_DESTINATION_NETWORK",
+            14,
+            "UNSUPPORTED",
+            15,
+            "MISMATCHED_IP_VERSION",
+            16,
+            "GKE_KONNECTIVITY_PROXY_UNSUPPORTED",
+            17,
+            "RESOURCE_CONFIG_NOT_FOUND",
+            18
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Cause",
+          "description": "Abort cause types:"
+        },
+        "resourceUri": {
+          "type": "string",
+          "description": "URI of the resource that caused the abort."
+        },
+        "projectsMissingPermission": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of project IDs that the user has specified in the request but does not have permission to access network configs. Analysis is aborted in this case with the PERMISSION_DENIED cause."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Abort Info",
+      "description": "Details of the final state \"abort\" and associated resource."
+    },
+    "AppEngineVersionInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of an App Engine version."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of an App Engine version."
+        },
+        "runtime": {
+          "type": "string",
+          "description": "Runtime of the App Engine version."
+        },
+        "environment": {
+          "type": "string",
+          "description": "App Engine execution environment for a version."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "App Engine Version Info",
+      "description": "For display only. Metadata associated with an App Engine version."
+    },
+    "CloudFunctionInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Cloud Function."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Cloud Function."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location in which the Cloud Function is deployed."
+        },
+        "versionId": {
+          "type": "integer",
+          "description": "Latest successfully deployed version id of the Cloud Function."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Function Info",
+      "description": "For display only. Metadata associated with a Cloud Function."
+    },
+    "CloudRunRevisionInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Cloud Run revision."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Cloud Run revision."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location in which this revision is deployed."
+        },
+        "serviceUri": {
+          "type": "string",
+          "description": "URI of Cloud Run service this revision belongs to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run Revision Info",
+      "description": "For display only. Metadata associated with a Cloud Run revision."
+    },
+    "CloudSQLInstanceInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Cloud SQL instance."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Cloud SQL instance."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "URI of a Cloud SQL instance network or empty string if the instance does not have one."
+        },
+        "internalIp": {
+          "type": "string",
+          "description": "Internal IP address of a Cloud SQL instance."
+        },
+        "externalIp": {
+          "type": "string",
+          "description": "External IP address of a Cloud SQL instance."
+        },
+        "region": {
+          "type": "string",
+          "description": "Region in which the Cloud SQL instance is running."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud SQL Instance Info",
+      "description": "For display only. Metadata associated with a Cloud SQL instance."
+    },
+    "ConnectivityTest": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Unique name of the resource using the form:     `projects/{project_id}/locations/global/connectivityTests/{test_id}`"
+        },
+        "description": {
+          "type": "string",
+          "description": "The user-supplied description of the Connectivity Test. Maximum of 512 characters."
+        },
+        "source": {
+          "$ref": "#/definitions/Endpoint",
+          "additionalProperties": true,
+          "description": "Required. Source specification of the Connectivity Test. You can use a combination of source IP address, virtual machine (VM) instance, or Compute Engine network to uniquely identify the source location. Examples: If the source IP address is an internal IP address within a Google Cloud Virtual Private Cloud (VPC) network, then you must also specify the VPC network. Otherwise, specify the VM instance, which already contains its internal IP address and VPC network information. If the source of the test is within an on-premises network, then you must provide the destination VPC network. If the source endpoint is a Compute Engine VM instance with multiple network interfaces, the instance itself is not sufficient to identify the endpoint. So, you must also specify the source IP address or VPC network. A reachability analysis proceeds even if the source location is ambiguous. However, the test result may include endpoints that you don't intend to test."
+        },
+        "destination": {
+          "$ref": "#/definitions/Endpoint",
+          "additionalProperties": true,
+          "description": "Required. Destination specification of the Connectivity Test. You can use a combination of destination IP address, Compute Engine VM instance, or VPC network to uniquely identify the destination location. Even if the destination IP address is not unique, the source IP location is unique. Usually, the analysis can infer the destination endpoint from route information. If the destination you specify is a VM instance and the instance has multiple network interfaces, then you must also specify either a destination IP address  or VPC network to identify the destination interface. A reachability analysis proceeds even if the destination location is ambiguous. However, the result can include endpoints that you don't intend to test."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "IP Protocol of the test. When not provided, \"TCP\" is assumed."
+        },
+        "relatedProjects": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Other projects that may be relevant for reachability analysis. This is applicable to scenarios where a test can cross project boundaries."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Output only. The display name of a Connectivity Test."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Resource labels to represent user-provided metadata."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time the test was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time the test's configuration was updated.",
+          "format": "date-time"
+        },
+        "reachabilityDetails": {
+          "$ref": "#/definitions/ReachabilityDetails",
+          "additionalProperties": true,
+          "description": "Output only. The reachability details of this test from the latest run. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connectivity Test",
+      "description": "A Connectivity Test for a network reachability analysis."
+    },
+    "DeliverInfo": {
+      "properties": {
+        "target": {
+          "enum": [
+            "TARGET_UNSPECIFIED",
+            0,
+            "INSTANCE",
+            1,
+            "INTERNET",
+            2,
+            "GOOGLE_API",
+            3,
+            "GKE_MASTER",
+            4,
+            "CLOUD_SQL_INSTANCE",
+            5,
+            "PSC_PUBLISHED_SERVICE",
+            6,
+            "PSC_GOOGLE_API",
+            7,
+            "PSC_VPC_SC",
+            8
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Target",
+          "description": "Deliver target types:"
+        },
+        "resourceUri": {
+          "type": "string",
+          "description": "URI of the resource that the packet is delivered to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Deliver Info",
+      "description": "Details of the final state \"deliver\" and associated resource."
+    },
+    "DropInfo": {
+      "properties": {
+        "cause": {
+          "enum": [
+            "CAUSE_UNSPECIFIED",
+            0,
+            "UNKNOWN_EXTERNAL_ADDRESS",
+            1,
+            "FOREIGN_IP_DISALLOWED",
+            2,
+            "FIREWALL_RULE",
+            3,
+            "NO_ROUTE",
+            4,
+            "ROUTE_BLACKHOLE",
+            5,
+            "ROUTE_WRONG_NETWORK",
+            6,
+            "PRIVATE_TRAFFIC_TO_INTERNET",
+            7,
+            "PRIVATE_GOOGLE_ACCESS_DISALLOWED",
+            8,
+            "NO_EXTERNAL_ADDRESS",
+            9,
+            "UNKNOWN_INTERNAL_ADDRESS",
+            10,
+            "FORWARDING_RULE_MISMATCH",
+            11,
+            "FORWARDING_RULE_REGION_MISMATCH",
+            25,
+            "FORWARDING_RULE_NO_INSTANCES",
+            12,
+            "FIREWALL_BLOCKING_LOAD_BALANCER_BACKEND_HEALTH_CHECK",
+            13,
+            "INSTANCE_NOT_RUNNING",
+            14,
+            "GKE_CLUSTER_NOT_RUNNING",
+            27,
+            "CLOUD_SQL_INSTANCE_NOT_RUNNING",
+            28,
+            "TRAFFIC_TYPE_BLOCKED",
+            15,
+            "GKE_MASTER_UNAUTHORIZED_ACCESS",
+            16,
+            "CLOUD_SQL_INSTANCE_UNAUTHORIZED_ACCESS",
+            17,
+            "DROPPED_INSIDE_GKE_SERVICE",
+            18,
+            "DROPPED_INSIDE_CLOUD_SQL_SERVICE",
+            19,
+            "GOOGLE_MANAGED_SERVICE_NO_PEERING",
+            20,
+            "GOOGLE_MANAGED_SERVICE_NO_PSC_ENDPOINT",
+            38,
+            "GKE_PSC_ENDPOINT_MISSING",
+            36,
+            "CLOUD_SQL_INSTANCE_NO_IP_ADDRESS",
+            21,
+            "GKE_CONTROL_PLANE_REGION_MISMATCH",
+            30,
+            "PUBLIC_GKE_CONTROL_PLANE_TO_PRIVATE_DESTINATION",
+            31,
+            "GKE_CONTROL_PLANE_NO_ROUTE",
+            32,
+            "CLOUD_SQL_INSTANCE_NOT_CONFIGURED_FOR_EXTERNAL_TRAFFIC",
+            33,
+            "PUBLIC_CLOUD_SQL_INSTANCE_TO_PRIVATE_DESTINATION",
+            34,
+            "CLOUD_SQL_INSTANCE_NO_ROUTE",
+            35,
+            "CLOUD_FUNCTION_NOT_ACTIVE",
+            22,
+            "VPC_CONNECTOR_NOT_SET",
+            23,
+            "VPC_CONNECTOR_NOT_RUNNING",
+            24,
+            "PSC_CONNECTION_NOT_ACCEPTED",
+            26,
+            "CLOUD_RUN_REVISION_NOT_READY",
+            29,
+            "DROPPED_INSIDE_PSC_SERVICE_PRODUCER",
+            37,
+            "LOAD_BALANCER_HAS_NO_PROXY_SUBNET",
+            39
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Cause",
+          "description": "Drop cause types:"
+        },
+        "resourceUri": {
+          "type": "string",
+          "description": "URI of the resource that caused the drop."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Drop Info",
+      "description": "Details of the final state \"drop\" and associated resource."
+    },
+    "Endpoint": {
+      "properties": {
+        "ipAddress": {
+          "type": "string",
+          "description": "The IP address of the endpoint, which can be an external or internal IP. An IPv6 address is only allowed when the test's destination is a [global load balancer VIP](/load-balancing/docs/load-balancing-overview)."
+        },
+        "port": {
+          "type": "integer",
+          "description": "The IP protocol port of the endpoint. Only applicable when protocol is TCP or UDP."
+        },
+        "instance": {
+          "type": "string",
+          "description": "A Compute Engine instance URI."
+        },
+        "gkeMasterCluster": {
+          "type": "string",
+          "description": "A cluster URI for [Google Kubernetes Engine master](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture)."
+        },
+        "cloudSqlInstance": {
+          "type": "string",
+          "description": "A [Cloud SQL](https://cloud.google.com/sql) instance URI."
+        },
+        "cloudFunction": {
+          "$ref": "#/definitions/CloudFunctionEndpoint",
+          "additionalProperties": true,
+          "description": "A [Cloud Function](https://cloud.google.com/functions)."
+        },
+        "appEngineVersion": {
+          "$ref": "#/definitions/AppEngineVersionEndpoint",
+          "additionalProperties": true,
+          "description": "An [App Engine](https://cloud.google.com/appengine) [service version](https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions)."
+        },
+        "cloudRunRevision": {
+          "$ref": "#/definitions/CloudRunRevisionEndpoint",
+          "additionalProperties": true,
+          "description": "A [Cloud Run](https://cloud.google.com/run) [revision](https://cloud.google.com/run/docs/reference/rest/v1/namespaces.revisions/get)"
+        },
+        "network": {
+          "type": "string",
+          "description": "A Compute Engine network URI."
+        },
+        "networkType": {
+          "enum": [
+            "NETWORK_TYPE_UNSPECIFIED",
+            0,
+            "GCP_NETWORK",
+            1,
+            "NON_GCP_NETWORK",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Network Type",
+          "description": "The type definition of an endpoint's network. Use one of the following choices:"
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Project ID where the endpoint is located. The Project ID can be derived from the URI if you provide a VM instance or network URI. The following are two cases where you must provide the project ID: 1. Only the IP address is specified, and the IP address is within a Google Cloud project. 2. When you are using Shared VPC and the IP address that you provide is from the service project. In this case, the network that the IP address resides in is defined in the host project."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Endpoint",
+      "description": "Source or destination of the Connectivity Test."
+    },
+    "AppEngineVersionEndpoint": {
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "An [App Engine](https://cloud.google.com/appengine) [service version](https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions) name."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "App Engine Version Endpoint",
+      "description": "Wrapper for the App Engine service version attributes."
+    },
+    "CloudFunctionEndpoint": {
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "A [Cloud Function](https://cloud.google.com/functions) name."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Function Endpoint",
+      "description": "Wrapper for Cloud Function attributes."
+    },
+    "CloudRunRevisionEndpoint": {
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "A [Cloud Run](https://cloud.google.com/run) [revision](https://cloud.google.com/run/docs/reference/rest/v1/namespaces.revisions/get) URI. The format is: projects/{project}/locations/{location}/revisions/{revision}"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run Revision Endpoint",
+      "description": "Wrapper for Cloud Run revision attributes."
+    },
+    "EndpointInfo": {
+      "properties": {
+        "sourceIp": {
+          "type": "string",
+          "description": "Source IP address."
+        },
+        "destinationIp": {
+          "type": "string",
+          "description": "Destination IP address."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "IP protocol in string format, for example: \"TCP\", \"UDP\", \"ICMP\"."
+        },
+        "sourcePort": {
+          "type": "integer",
+          "description": "Source port. Only valid when protocol is TCP or UDP."
+        },
+        "destinationPort": {
+          "type": "integer",
+          "description": "Destination port. Only valid when protocol is TCP or UDP."
+        },
+        "sourceNetworkUri": {
+          "type": "string",
+          "description": "URI of the network where this packet originates from."
+        },
+        "destinationNetworkUri": {
+          "type": "string",
+          "description": "URI of the network where this packet is sent to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Endpoint Info",
+      "description": "For display only. The specification of the endpoints for the test. EndpointInfo is derived from source and destination Endpoint and validated by the backend data plane model."
+    },
+    "FirewallInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the VPC firewall rule. This field is not applicable to hierarchical firewall policy rules."
+        },
+        "uri": {
+          "type": "string",
+          "description": "The URI of the VPC firewall rule. This field is not applicable to implied firewall rules or hierarchical firewall policy rules."
+        },
+        "direction": {
+          "type": "string",
+          "description": "Possible values: INGRESS, EGRESS"
+        },
+        "action": {
+          "type": "string",
+          "description": "Possible values: ALLOW, DENY"
+        },
+        "priority": {
+          "type": "integer",
+          "description": "The priority of the firewall rule."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "The URI of the VPC network that the firewall rule is associated with. This field is not applicable to hierarchical firewall policy rules."
+        },
+        "targetTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The target tags defined by the VPC firewall rule. This field is not applicable to hierarchical firewall policy rules."
+        },
+        "targetServiceAccounts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The target service accounts specified by the firewall rule."
+        },
+        "policy": {
+          "type": "string",
+          "description": "The hierarchical firewall policy that this rule is associated with. This field is not applicable to VPC firewall rules."
+        },
+        "firewallRuleType": {
+          "enum": [
+            "FIREWALL_RULE_TYPE_UNSPECIFIED",
+            0,
+            "HIERARCHICAL_FIREWALL_POLICY_RULE",
+            1,
+            "VPC_FIREWALL_RULE",
+            2,
+            "IMPLIED_VPC_FIREWALL_RULE",
+            3,
+            "SERVERLESS_VPC_ACCESS_MANAGED_FIREWALL_RULE",
+            4,
+            "NETWORK_FIREWALL_POLICY_RULE",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Firewall Rule Type",
+          "description": "The firewall rule's type."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Firewall Info",
+      "description": "For display only. Metadata associated with a VPC firewall rule, an implied VPC firewall rule, or a hierarchical firewall policy rule."
+    },
+    "ForwardInfo": {
+      "properties": {
+        "target": {
+          "enum": [
+            "TARGET_UNSPECIFIED",
+            0,
+            "PEERING_VPC",
+            1,
+            "VPN_GATEWAY",
+            2,
+            "INTERCONNECT",
+            3,
+            "GKE_MASTER",
+            4,
+            "IMPORTED_CUSTOM_ROUTE_NEXT_HOP",
+            5,
+            "CLOUD_SQL_INSTANCE",
+            6,
+            "ANOTHER_PROJECT",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Target",
+          "description": "Forward target types."
+        },
+        "resourceUri": {
+          "type": "string",
+          "description": "URI of the resource that the packet is forwarded to."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Forward Info",
+      "description": "Details of the final state \"forward\" and associated resource."
+    },
+    "ForwardingRuleInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Compute Engine forwarding rule."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Compute Engine forwarding rule."
+        },
+        "matchedProtocol": {
+          "type": "string",
+          "description": "Protocol defined in the forwarding rule that matches the test."
+        },
+        "matchedPortRange": {
+          "type": "string",
+          "description": "Port range defined in the forwarding rule that matches the test."
+        },
+        "vip": {
+          "type": "string",
+          "description": "VIP of the forwarding rule."
+        },
+        "target": {
+          "type": "string",
+          "description": "Target type of the forwarding rule."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "Network URI. Only valid for Internal Load Balancer."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Forwarding Rule Info",
+      "description": "For display only. Metadata associated with a Compute Engine forwarding rule."
+    },
+    "GKEMasterInfo": {
+      "properties": {
+        "clusterUri": {
+          "type": "string",
+          "description": "URI of a GKE cluster."
+        },
+        "clusterNetworkUri": {
+          "type": "string",
+          "description": "URI of a GKE cluster network."
+        },
+        "internalIp": {
+          "type": "string",
+          "description": "Internal IP address of a GKE cluster master."
+        },
+        "externalIp": {
+          "type": "string",
+          "description": "External IP address of a GKE cluster master."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "GKE Master Info",
+      "description": "For display only. Metadata associated with a Google Kubernetes Engine (GKE) cluster master."
+    },
+    "GoogleServiceInfo": {
+      "properties": {
+        "sourceIp": {
+          "type": "string",
+          "description": "Source IP address."
+        },
+        "googleServiceType": {
+          "enum": [
+            "GOOGLE_SERVICE_TYPE_UNSPECIFIED",
+            0,
+            "IAP",
+            1,
+            "GFE_PROXY_OR_HEALTH_CHECK_PROBER",
+            2,
+            "CLOUD_DNS",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Google Service Type",
+          "description": "Recognized type of a Google Service."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Google Service Info",
+      "description": "For display only. Details of a Google Service sending packets to a VPC network. Although the source IP might be a publicly routable address, some Google Services use special routes within Google production infrastructure to reach Compute Engine Instances. https://cloud.google.com/vpc/docs/routes#special_return_paths"
+    },
+    "InstanceInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Compute Engine instance."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Compute Engine instance."
+        },
+        "interface": {
+          "type": "string",
+          "description": "Name of the network interface of a Compute Engine instance."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "URI of a Compute Engine network."
+        },
+        "internalIp": {
+          "type": "string",
+          "description": "Internal IP address of the network interface."
+        },
+        "externalIp": {
+          "type": "string",
+          "description": "External IP address of the network interface."
+        },
+        "networkTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Network tags configured on the instance."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Service account authorized for the instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Instance Info",
+      "description": "For display only. Metadata associated with a Compute Engine instance."
+    },
+    "LoadBalancerBackend": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Compute Engine instance or network endpoint."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Compute Engine instance or network endpoint."
+        },
+        "healthCheckFirewallState": {
+          "enum": [
+            "HEALTH_CHECK_FIREWALL_STATE_UNSPECIFIED",
+            0,
+            "CONFIGURED",
+            1,
+            "MISCONFIGURED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Health Check Firewall State",
+          "description": "State of a health check firewall configuration:"
+        },
+        "healthCheckAllowingFirewallRules": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of firewall rule URIs allowing probes from health check IP ranges."
+        },
+        "healthCheckBlockingFirewallRules": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "A list of firewall rule URIs blocking probes from health check IP ranges."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Load Balancer Backend",
+      "description": "For display only. Metadata associated with a specific load balancer backend."
+    },
+    "LoadBalancerInfo": {
+      "properties": {
+        "loadBalancerType": {
+          "enum": [
+            "LOAD_BALANCER_TYPE_UNSPECIFIED",
+            0,
+            "INTERNAL_TCP_UDP",
+            1,
+            "NETWORK_TCP_UDP",
+            2,
+            "HTTP_PROXY",
+            3,
+            "TCP_PROXY",
+            4,
+            "SSL_PROXY",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Load Balancer Type",
+          "description": "The type definition for a load balancer:"
+        },
+        "healthCheckUri": {
+          "type": "string",
+          "description": "URI of the health check for the load balancer."
+        },
+        "backends": {
+          "items": {
+            "$ref": "#/definitions/LoadBalancerBackend"
+          },
+          "type": "array",
+          "description": "Information for the loadbalancer backends."
+        },
+        "backendType": {
+          "enum": [
+            "BACKEND_TYPE_UNSPECIFIED",
+            0,
+            "BACKEND_SERVICE",
+            1,
+            "TARGET_POOL",
+            2,
+            "TARGET_INSTANCE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Backend Type",
+          "description": "The type definition for a load balancer backend configuration:"
+        },
+        "backendUri": {
+          "type": "string",
+          "description": "Backend configuration URI."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Load Balancer Info",
+      "description": "For display only. Metadata associated with a load balancer."
+    },
+    "NetworkInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Compute Engine network."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Compute Engine network."
+        },
+        "matchedIpRange": {
+          "type": "string",
+          "description": "The IP range that matches the test."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Network Info",
+      "description": "For display only. Metadata associated with a Compute Engine network."
+    },
+    "ReachabilityDetails": {
+      "properties": {
+        "result": {
+          "enum": [
+            "RESULT_UNSPECIFIED",
+            0,
+            "REACHABLE",
+            1,
+            "UNREACHABLE",
+            2,
+            "AMBIGUOUS",
+            4,
+            "UNDETERMINED",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Result",
+          "description": "The overall result of the test's configuration analysis."
+        },
+        "verifyTime": {
+          "type": "string",
+          "description": "The time of the configuration analysis.",
+          "format": "date-time"
+        },
+        "error": {
+          "$ref": "#/definitions/Status",
+          "additionalProperties": true,
+          "description": "The details of a failure or a cancellation of reachability analysis."
+        },
+        "traces": {
+          "items": {
+            "$ref": "#/definitions/Trace"
+          },
+          "type": "array",
+          "description": "Result may contain a list of traces if a test has multiple possible paths in the network, such as when destination endpoint is a load balancer with multiple backends."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Reachability Details",
+      "description": "Results of the configuration analysis from the last run of the test."
+    },
+    "RouteInfo": {
+      "properties": {
+        "routeType": {
+          "enum": [
+            "ROUTE_TYPE_UNSPECIFIED",
+            0,
+            "SUBNET",
+            1,
+            "STATIC",
+            2,
+            "DYNAMIC",
+            3,
+            "PEERING_SUBNET",
+            4,
+            "PEERING_STATIC",
+            5,
+            "PEERING_DYNAMIC",
+            6,
+            "POLICY_BASED",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Route Type",
+          "description": "Type of route:"
+        },
+        "nextHopType": {
+          "enum": [
+            "NEXT_HOP_TYPE_UNSPECIFIED",
+            0,
+            "NEXT_HOP_IP",
+            1,
+            "NEXT_HOP_INSTANCE",
+            2,
+            "NEXT_HOP_NETWORK",
+            3,
+            "NEXT_HOP_PEERING",
+            4,
+            "NEXT_HOP_INTERCONNECT",
+            5,
+            "NEXT_HOP_VPN_TUNNEL",
+            6,
+            "NEXT_HOP_VPN_GATEWAY",
+            7,
+            "NEXT_HOP_INTERNET_GATEWAY",
+            8,
+            "NEXT_HOP_BLACKHOLE",
+            9,
+            "NEXT_HOP_ILB",
+            10,
+            "NEXT_HOP_ROUTER_APPLIANCE",
+            11
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Next Hop Type",
+          "description": "Type of next hop:"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Name of a Compute Engine route."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a Compute Engine route. Dynamic route from cloud router does not have a URI. Advertised route from Google Cloud VPC to on-premises network also does not have a URI."
+        },
+        "destIpRange": {
+          "type": "string",
+          "description": "Destination IP range of the route."
+        },
+        "nextHop": {
+          "type": "string",
+          "description": "Next hop of the route."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "URI of a Compute Engine network."
+        },
+        "priority": {
+          "type": "integer",
+          "description": "Priority of the route."
+        },
+        "instanceTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Instance tags of the route."
+        },
+        "srcIpRange": {
+          "type": "string",
+          "description": "Source IP address range of the route. Policy based routes only."
+        },
+        "destPortRanges": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Destination port ranges of the route. Policy based routes only."
+        },
+        "srcPortRanges": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Source port ranges of the route. Policy based routes only."
+        },
+        "protocols": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Protocols of the route. Policy based routes only."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Info",
+      "description": "For display only. Metadata associated with a Compute Engine route."
+    },
+    "Step": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the step. Usually this is a summary of the state."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "START_FROM_INSTANCE",
+            1,
+            "START_FROM_INTERNET",
+            2,
+            "START_FROM_GOOGLE_SERVICE",
+            27,
+            "START_FROM_PRIVATE_NETWORK",
+            3,
+            "START_FROM_GKE_MASTER",
+            21,
+            "START_FROM_CLOUD_SQL_INSTANCE",
+            22,
+            "START_FROM_CLOUD_FUNCTION",
+            23,
+            "START_FROM_APP_ENGINE_VERSION",
+            25,
+            "START_FROM_CLOUD_RUN_REVISION",
+            26,
+            "APPLY_INGRESS_FIREWALL_RULE",
+            4,
+            "APPLY_EGRESS_FIREWALL_RULE",
+            5,
+            "APPLY_ROUTE",
+            6,
+            "APPLY_FORWARDING_RULE",
+            7,
+            "SPOOFING_APPROVED",
+            8,
+            "ARRIVE_AT_INSTANCE",
+            9,
+            "ARRIVE_AT_INTERNAL_LOAD_BALANCER",
+            10,
+            "ARRIVE_AT_EXTERNAL_LOAD_BALANCER",
+            11,
+            "ARRIVE_AT_VPN_GATEWAY",
+            12,
+            "ARRIVE_AT_VPN_TUNNEL",
+            13,
+            "ARRIVE_AT_VPC_CONNECTOR",
+            24,
+            "NAT",
+            14,
+            "PROXY_CONNECTION",
+            15,
+            "DELIVER",
+            16,
+            "DROP",
+            17,
+            "FORWARD",
+            18,
+            "ABORT",
+            19,
+            "VIEWER_PERMISSION_MISSING",
+            20
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Type of states that are defined in the network state machine. Each step in the packet trace is in a specific state."
+        },
+        "causesDrop": {
+          "type": "boolean",
+          "description": "This is a step that leads to the final state Drop."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Project ID that contains the configuration this step is validating."
+        },
+        "instance": {
+          "$ref": "#/definitions/InstanceInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine instance."
+        },
+        "firewall": {
+          "$ref": "#/definitions/FirewallInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine firewall rule."
+        },
+        "route": {
+          "$ref": "#/definitions/RouteInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine route."
+        },
+        "endpoint": {
+          "$ref": "#/definitions/EndpointInfo",
+          "additionalProperties": true,
+          "description": "Display information of the source and destination under analysis. The endpoint information in an intermediate state may differ with the initial input, as it might be modified by state like NAT, or Connection Proxy."
+        },
+        "googleService": {
+          "$ref": "#/definitions/GoogleServiceInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Google service"
+        },
+        "forwardingRule": {
+          "$ref": "#/definitions/ForwardingRuleInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine forwarding rule."
+        },
+        "vpnGateway": {
+          "$ref": "#/definitions/VpnGatewayInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine VPN gateway."
+        },
+        "vpnTunnel": {
+          "$ref": "#/definitions/VpnTunnelInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Compute Engine VPN tunnel."
+        },
+        "vpcConnector": {
+          "$ref": "#/definitions/VpcConnectorInfo",
+          "additionalProperties": true,
+          "description": "Display information of a VPC connector."
+        },
+        "deliver": {
+          "$ref": "#/definitions/DeliverInfo",
+          "additionalProperties": true,
+          "description": "Display information of the final state \"deliver\" and reason."
+        },
+        "forward": {
+          "$ref": "#/definitions/ForwardInfo",
+          "additionalProperties": true,
+          "description": "Display information of the final state \"forward\" and reason."
+        },
+        "abort": {
+          "$ref": "#/definitions/AbortInfo",
+          "additionalProperties": true,
+          "description": "Display information of the final state \"abort\" and reason."
+        },
+        "drop": {
+          "$ref": "#/definitions/DropInfo",
+          "additionalProperties": true,
+          "description": "Display information of the final state \"drop\" and reason."
+        },
+        "loadBalancer": {
+          "$ref": "#/definitions/LoadBalancerInfo",
+          "additionalProperties": true,
+          "description": "Display information of the load balancers."
+        },
+        "network": {
+          "$ref": "#/definitions/NetworkInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Google Cloud network."
+        },
+        "gkeMaster": {
+          "$ref": "#/definitions/GKEMasterInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Google Kubernetes Engine cluster master."
+        },
+        "cloudSqlInstance": {
+          "$ref": "#/definitions/CloudSQLInstanceInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Cloud SQL instance."
+        },
+        "cloudFunction": {
+          "$ref": "#/definitions/CloudFunctionInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Cloud Function."
+        },
+        "appEngineVersion": {
+          "$ref": "#/definitions/AppEngineVersionInfo",
+          "additionalProperties": true,
+          "description": "Display information of an App Engine service version."
+        },
+        "cloudRunRevision": {
+          "$ref": "#/definitions/CloudRunRevisionInfo",
+          "additionalProperties": true,
+          "description": "Display information of a Cloud Run revision."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Step",
+      "description": "A simulated forwarding path is composed of multiple steps. Each step has a well-defined state and an associated configuration."
+    },
+    "Trace": {
+      "properties": {
+        "endpointInfo": {
+          "$ref": "#/definitions/EndpointInfo",
+          "additionalProperties": true,
+          "description": "Derived from the source and destination endpoints definition specified by user request, and validated by the data plane model. If there are multiple traces starting from different source locations, then the endpoint_info may be different between traces."
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/Step"
+          },
+          "type": "array",
+          "description": "A trace of a test contains multiple steps from the initial state to the final state (delivered, dropped, forwarded, or aborted). The steps are ordered by the processing sequence within the simulated network state machine. It is critical to preserve the order of the steps and avoid reordering or sorting them."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Trace",
+      "description": "Trace represents one simulated packet forwarding path.   * Each trace contains multiple ordered steps.   * Each step is in a particular state with associated configuration.   * State is categorized as final or non-final states.   * Each final state has a reason associated.   * Each trace must end with a final state (the last step). ```   |---------------------Trace----------------------|   Step1(State) Step2(State) ---  StepN(State(final)) ```"
+    },
+    "VpcConnectorInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a VPC connector."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a VPC connector."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location in which the VPC connector is deployed."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpc Connector Info",
+      "description": "For display only. Metadata associated with a VPC connector."
+    },
+    "VpnGatewayInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a VPN gateway."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a VPN gateway."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "URI of a Compute Engine network where the VPN gateway is configured."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "IP address of the VPN gateway."
+        },
+        "vpnTunnelUri": {
+          "type": "string",
+          "description": "A VPN tunnel that is associated with this VPN gateway. There may be multiple VPN tunnels configured on a VPN gateway, and only the one relevant to the test is displayed."
+        },
+        "region": {
+          "type": "string",
+          "description": "Name of a Google Cloud region where this VPN gateway is configured."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpn Gateway Info",
+      "description": "For display only. Metadata associated with a Compute Engine VPN gateway."
+    },
+    "VpnTunnelInfo": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Name of a VPN tunnel."
+        },
+        "uri": {
+          "type": "string",
+          "description": "URI of a VPN tunnel."
+        },
+        "sourceGateway": {
+          "type": "string",
+          "description": "URI of the VPN gateway at local end of the tunnel."
+        },
+        "remoteGateway": {
+          "type": "string",
+          "description": "URI of a VPN gateway at remote end of the tunnel."
+        },
+        "remoteGatewayIp": {
+          "type": "string",
+          "description": "Remote VPN gateway's IP address."
+        },
+        "sourceGatewayIp": {
+          "type": "string",
+          "description": "Local VPN gateway's IP address."
+        },
+        "networkUri": {
+          "type": "string",
+          "description": "URI of a Compute Engine network where the VPN tunnel is configured."
+        },
+        "region": {
+          "type": "string",
+          "description": "Name of a Google Cloud region where this VPN tunnel is configured."
+        },
+        "routingType": {
+          "enum": [
+            "ROUTING_TYPE_UNSPECIFIED",
+            0,
+            "ROUTE_BASED",
+            1,
+            "POLICY_BASED",
+            2,
+            "DYNAMIC",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Routing Type",
+          "description": "Types of VPN routing policy. For details, refer to [Networks and Tunnel routing](https://cloud.google.com/network-connectivity/docs/vpn/concepts/choosing-networks-routing/)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Vpn Tunnel Info",
+      "description": "For display only. Metadata associated with a Compute Engine VPN tunnel."
+    },
+    "Status": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "items": {
+            "properties": {
+              "typeUrl": {
+                "type": "string",
+                "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][]   value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the   URL, or have them precompiled into a binary to avoid any   lookup. Therefore, binary compatibility needs to be preserved   on changes to types. (Use versioned type names to manage   breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+              },
+              "value": {
+                "type": "string",
+                "description": "Must be a valid serialized protocol buffer of the above specified type.",
+                "format": "binary",
+                "binaryEncoding": "base64"
+              }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Any",
+            "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++.     Foo foo = ...;     Any any;     any.PackFrom(foo);     ...     if (any.UnpackTo(&foo)) {       ...     } Example 2: Pack and unpack a message in Java.     Foo foo = ...;     Any any = Any.pack(foo);     ...     if (any.is(Foo.class)) {       foo = any.unpack(Foo.class);     }  Example 3: Pack and unpack a message in Python.     foo = Foo(...)     any = Any()     any.Pack(foo)     ...     if any.Is(Foo.DESCRIPTOR):       any.Unpack(foo)       ...  Example 4: Pack and unpack a message in Go      foo := &pb.Foo{...}      any, err := anypb.New(foo)      if err != nil {        ...      }      ...      foo := &pb.Foo{}      if err := any.UnmarshalTo(foo); err != nil {        ...      } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:     package google.profile;     message Person {       string first_name = 1;       string last_name = 2;     }     {       \"@type\": \"type.googleapis.com/google.profile.Person\",       \"firstName\": <string>,       \"lastName\": <string>     } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):     {       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",       \"value\": \"1.212s\"     }"
+          },
+          "type": "array",
+          "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Status",
+      "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+    }
+  }
+}
