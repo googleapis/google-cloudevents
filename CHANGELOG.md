@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/googleapis/google-cloudevents/compare/v2.0.4...v2.1.0) (2023-06-15)
+
+
+### Features
+
+* New Network Management event types added ([#539](https://github.com/googleapis/google-cloudevents/issues/539)) ([2167167](https://github.com/googleapis/google-cloudevents/commit/21671675f4e0d4640d8d8bca63ca251ad66adea6))
+
+
+### Bug Fixes
+
+* Update GKE Hub event type to match API ([#536](https://github.com/googleapis/google-cloudevents/issues/536)) ([2ffe245](https://github.com/googleapis/google-cloudevents/commit/2ffe245a32952ec5ce998dd8bb53ce4a1cafae2e))
+
 ## [2.0.4](https://github.com/googleapis/google-cloudevents/compare/v2.0.3...v2.0.4) (2023-04-28)
 
 
