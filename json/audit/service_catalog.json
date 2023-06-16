@@ -2910,7 +2910,7 @@
     },
     {
       "serviceName": "alloydb.googleapis.com",
-      "displayName": "AlloyDB",
+      "displayName": "AlloyDB for PostgreSQL",
       "methods": [
         {
           "methodName": "alloydb.instances.query"
