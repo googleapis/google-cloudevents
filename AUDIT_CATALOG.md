@@ -1019,7 +1019,7 @@ gcloud eventarc triggers create my-trigger \
 - `google.iam.v1.IAMPolicy.GetIamPolicy`
 - `google.iam.v1.IAMPolicy.SetIamPolicy`
 
-### AlloyDB
+### AlloyDB for PostgreSQL
 
 #### `serviceName`
 
