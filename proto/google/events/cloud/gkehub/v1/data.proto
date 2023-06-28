@@ -19,6 +19,8 @@ package google.events.cloud.gkehub.v1;
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.GkeHub.V1";
+option php_namespace = "Google\\Events\\Cloud\\GkeHub\\V1";
+option ruby_package = "Google::Events::Cloud::GkeHub::V1";
 
 // Feature represents the settings and status of any Hub Feature.
 message Feature {
