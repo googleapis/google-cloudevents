@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/googleapis/google-cloudevents/compare/v2.1.0...v2.1.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* Change alloydb.googleapis.com display name ([#540](https://github.com/googleapis/google-cloudevents/issues/540)) ([dd2ac79](https://github.com/googleapis/google-cloudevents/commit/dd2ac792a59326b07a8c1eaaeba4569e8517f11a))
+
 ## [2.1.0](https://github.com/googleapis/google-cloudevents/compare/v2.0.4...v2.1.0) (2023-06-15)
 
 
