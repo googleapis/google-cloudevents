@@ -22,7 +22,7 @@ import "google/events/cloudevent.proto";
 option csharp_namespace = "Google.Events.Protobuf.Cloud.AlloyDb.V1";
 option php_namespace = "Google\\Events\\Cloud\\AlloyDb\\V1";
 option ruby_package = "Google::Events::Cloud::AlloyDb::V1";
-option (google.events.cloud_event_product) = "AlloyDB";
+option (google.events.cloud_event_product) = "AlloyDB for PostgreSQL";
 option (google.events.cloud_event_extension_attribute) = {
   name: "cluster"
   description: "The resource ID of the Cluster triggering the event."
