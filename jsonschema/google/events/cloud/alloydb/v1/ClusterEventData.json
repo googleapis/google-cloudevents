@@ -9,7 +9,7 @@
     "google.cloud.alloydb.cluster.v1.updated",
     "google.cloud.alloydb.cluster.v1.deleted"
   ],
-  "product": "AlloyDB",
+  "product": "AlloyDB for PostgreSQL",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "$ref": "#/definitions/ClusterEventData",
   "definitions": {
