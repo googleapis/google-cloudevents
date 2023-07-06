@@ -4,7 +4,7 @@
   "schemas": [
     {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/BackupEventData.json",
-      "product": "AlloyDB",
+      "product": "AlloyDB for PostgreSQL",
       "name": "BackupEventData",
       "description": "The data within all Backup events.",
       "datatype": "google.events.cloud.alloydb.v1.BackupEventData",
@@ -16,7 +16,7 @@
     },
     {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/ClusterEventData.json",
-      "product": "AlloyDB",
+      "product": "AlloyDB for PostgreSQL",
       "name": "ClusterEventData",
       "description": "The data within all Cluster events.",
       "datatype": "google.events.cloud.alloydb.v1.ClusterEventData",
@@ -28,7 +28,7 @@
     },
     {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/alloydb/v1/InstanceEventData.json",
-      "product": "AlloyDB",
+      "product": "AlloyDB for PostgreSQL",
       "name": "InstanceEventData",
       "description": "The data within all Instance events.",
       "datatype": "google.events.cloud.alloydb.v1.InstanceEventData",
@@ -296,7 +296,7 @@
     },
     {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/dataflow/v1beta3/JobEventData.json",
-      "product": "Cloud Dataflow",
+      "product": "Dataflow",
       "name": "JobEventData",
       "description": "The data within all Job events.",
       "datatype": "google.events.cloud.dataflow.v1beta3.JobEventData",
