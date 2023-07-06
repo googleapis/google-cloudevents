@@ -7,7 +7,7 @@
   "cloudeventTypes": [
     "google.cloud.dataflow.job.v1beta3.statusChanged"
   ],
-  "product": "Cloud Dataflow",
+  "product": "Dataflow",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "$ref": "#/definitions/JobEventData",
   "definitions": {
