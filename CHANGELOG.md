@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/googleapis/google-cloudevents/compare/v2.1.1...v2.1.2) (2023-07-06)
+
+
+### Bug Fixes
+
+* Change display name for alloydb.googleapis.com and dataflow.googleapis.com ([#543](https://github.com/googleapis/google-cloudevents/issues/543)) ([cab929e](https://github.com/googleapis/google-cloudevents/commit/cab929e47a6a6fb3c0bb01026e923237a346a607))
+
 ## [2.1.1](https://github.com/googleapis/google-cloudevents/compare/v2.1.0...v2.1.1) (2023-06-29)
 
 
