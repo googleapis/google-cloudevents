@@ -23,7 +23,7 @@ import "google/type/timeofday.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.AlloyDb.V1";
 option php_namespace = "Google\\Events\\Cloud\\AlloyDb\\V1";
-option ruby_package = "Google::Events::Cloud::AlloyDb::V1";
+option ruby_package = "Google::Events::Cloud::AlloyDB::V1";
 
 // The username/password for a database user. Used for specifying initial
 // users at cluster creation time.
