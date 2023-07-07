@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/googleapis/google-cloudevents/compare/v2.1.2...v2.1.3) (2023-07-07)
+
+
+### Bug Fixes
+
+* Correct namespaces for AlloyDB and GkeHub ([#546](https://github.com/googleapis/google-cloudevents/issues/546)) ([0f27e75](https://github.com/googleapis/google-cloudevents/commit/0f27e75eb83a96cb7d66acb366cdb7813de58933))
+
 ## [2.1.2](https://github.com/googleapis/google-cloudevents/compare/v2.1.1...v2.1.2) (2023-07-06)
 
 
