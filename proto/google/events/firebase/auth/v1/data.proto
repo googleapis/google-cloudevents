@@ -25,6 +25,17 @@ option ruby_package = "Google::Events::Firebase::Auth::V1";
 
 // The data within all Firebase Auth events.
 message AuthEventData {
+  reserved 1 to 10;
+
+  // This is not populated for delete events.
+  User value = 11;
+
+  // This is only populated for update and delete events.
+  User old_value = 12;
+}
+
+// The user for this Firebase Auth event.
+message User {
   // The user identifier in the Firebase app.
   string uid = 1;
 
@@ -38,7 +49,7 @@ message AuthEventData {
   string display_name = 4;
 
   // The user's photo URL.
-  string photo_URL = 5;
+  string photo_url = 5 [json_name = "photoURL"];
 
   // Whether the user is disabled.
   bool disabled = 6;
@@ -78,7 +89,7 @@ message UserInfo {
   string display_name = 3;
 
   // The photo URL for the linked provider.
-  string photo_URL = 4;
+  string photo_url = 4 [json_name = "photoURL"];
 
   // The linked provider ID (e.g. "google.com" for the Google provider).
   string provider_id = 5;

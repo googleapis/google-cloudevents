@@ -33,6 +33,14 @@ message UserCreatedEvent {
   AuthEventData data = 1;
 }
 
+message UserUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.firebase.auth.user.v1.updated";
+
+  // The original data associated with the user.
+  AuthEventData data = 1;
+}
+
 // The CloudEvent raised when a Firebase user is deleted.
 message UserDeletedEvent {
   option (google.events.cloud_event_type) =
