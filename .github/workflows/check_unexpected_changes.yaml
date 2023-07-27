@@ -27,6 +27,7 @@ jobs:
       uses: ./.github/workflows/generate_jsonschema
 
     - name: Check for schema changes
+      working-directory: jsonschema/
       run: git diff --exit-code .
 
     - if: ${{ failure() }}
