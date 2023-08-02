@@ -60,5 +60,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'JSON Schema generation failed!',
-              body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
             });
