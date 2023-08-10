@@ -19,7 +19,9 @@ runs:
   steps:
     - name: Setup Node for gen/postgen scripts
       uses: actions/setup-node@v3
-
+      with:
+        node-version: "12"
+        
     - name: Setup Go for proto2jsonschema script
       uses: actions/setup-go@v4
       with:
