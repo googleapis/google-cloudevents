@@ -153,8 +153,8 @@ Used for filtering events of type `google.cloud.audit.log.v1.written`.
 
 The following repositories contain data structures per language for types defined in this repo:
 
-- [Node.js](https://github.com/googleapis/google-cloudevents-nodejs)
-- [Python](https://github.com/googleapis/google-cloudevents-python)
-- [Go](https://github.com/googleapis/google-cloudevents-go)
-- [Java](https://github.com/googleapis/google-cloudevents-java)
+- [Python](https://github.com/googleapis/google-cloudevents-python) (Preview)
+- [Go](https://github.com/googleapis/google-cloudevents-go) (Preview)
+- [Java](https://github.com/googleapis/google-cloudevents-java) (Preview)
+- [Ruby](https://github.com/googleapis/google-cloudevents-ruby) (Preview)
 - [.NET](https://github.com/googleapis/google-cloudevents-dotnet)
