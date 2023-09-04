@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Check out repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Test proto syntax via compilation
       run: ./scripts/compile.sh
