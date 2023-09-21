@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.5](https://github.com/googleapis/google-cloudevents/compare/v2.1.4...v2.1.5) (2023-09-21)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency quicktype-core to v23 ([#486](https://github.com/googleapis/google-cloudevents/issues/486)) ([dbdd930](https://github.com/googleapis/google-cloudevents/commit/dbdd9308d98f761b693ecf3a5f1ae51fa69847f3))
+
 ## [2.1.4](https://github.com/googleapis/google-cloudevents/compare/v2.1.3...v2.1.4) (2023-08-24)
 
 
