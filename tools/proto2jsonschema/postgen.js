@@ -27,6 +27,8 @@ import { flatten } from 'flat'
  * - Adds "examples" - A list of paths to the test event data associated with the schema
  *   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
  */
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(`${__dirname}/../../jsonschema`);
 const TESTDATA = path.resolve(`${__dirname}/../../testdata`);
 console.log(`Fixing paths in dir: ${ROOT}`);
