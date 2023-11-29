@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-const path = require('path');
-const fs = require('fs');
-const recursive = require("recursive-readdir");
-const protobufjs = require('protobufjs');
-const flatten = require('flat');
+import path from 'path';
+import fs from 'fs';
+import recursive from 'recursive-readdir';
+import protobufjs from 'protobufjs';
+import { flatten } from 'flat'
 
 /**
  * This tool polishes the JSON schemas with a few modifications:
