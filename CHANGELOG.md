@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/googleapis/google-cloudevents/compare/v2.1.5...v2.1.6) (2023-11-29)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency flat to v6 ([#579](https://github.com/googleapis/google-cloudevents/issues/579)) ([2f0c0ef](https://github.com/googleapis/google-cloudevents/commit/2f0c0ef3590f3cf32d22ab590130d5375b8f701a))
+
 ## [2.1.5](https://github.com/googleapis/google-cloudevents/compare/v2.1.4...v2.1.5) (2023-09-21)
 
 
