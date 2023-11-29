@@ -4,7 +4,7 @@
     "postgen": "node postgen.js"
   },
   "dependencies": {
-    "flat": "^5.0.2",
+    "flat": "^6.0.0",
     "protobufjs": "^7.0.0",
     "recursive-readdir": "^2.2.2"
   }
