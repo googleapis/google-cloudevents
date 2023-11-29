@@ -18,7 +18,7 @@ const path = require('path');
 const fs = require('fs');
 const recursive = require("recursive-readdir");
 const protobufjs = require('protobufjs');
-const { flatten } = await import('flat');
+const flatten = require('flat');
 
 /**
  * This tool polishes the JSON schemas with a few modifications:
