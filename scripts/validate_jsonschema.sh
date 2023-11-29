@@ -18,7 +18,7 @@
 
 # Install JSON schema schema
 mkdir -p tmp
-curl -o tmp/jsonschema-schema.json http://json-schema.org/draft-04/schema
+curl -o tmp/jsonschema-schema.json https://json-schema.org/draft-04/schema
 
 # Validate every schema
 JSON_SCHEMAS=$(find ./jsonschema/google/events -name "*.json")
