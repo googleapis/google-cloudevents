@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-const path = require('path');
-const fs = require('fs');
-const recursive = require("recursive-readdir");
-const protobufjs = require('protobufjs');
-const flatten = require('flat');
+import path from 'path';
+import fs from 'fs';
+import recursive from 'recursive-readdir';
+import protobufjs from 'protobufjs';
+import { flatten } from 'flat'
 
 /**
  * This tool polishes the JSON schemas with a few modifications:
@@ -27,6 +27,8 @@ const flatten = require('flat');
  * - Adds "examples" - A list of paths to the test event data associated with the schema
  *   - e.g. ["https://googleapis.github.io/google-cloudevents/testdata/google/events/cloud/audit/v1/LogEntryData-pubsubCreateTopic.json"]
  */
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(`${__dirname}/../../jsonschema`);
 const TESTDATA = path.resolve(`${__dirname}/../../testdata`);
 console.log(`Fixing paths in dir: ${ROOT}`);
