@@ -84,3 +84,60 @@ message DocumentWrittenEvent {
   // The data associated with the event.
   DocumentEventData data = 1;
 }
+
+// The CloudEvent with Auth Context raised when a Firestore document is created.
+message DocumentCreatedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.firestore.document.v1.created.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent with Auth Context raised when a Firestore document is updated.
+message DocumentUpdatedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.firestore.document.v1.updated.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent with Auth Context raised when a Firestore document is deleted.
+message DocumentDeletedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.firestore.document.v1.deleted.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
+
+// The CloudEvent with Auth Context raised when a Firestore document is created,
+// updated or deleted.
+message DocumentWrittenEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.firestore.document.v1.written.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "document";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  DocumentEventData data = 1;
+}
