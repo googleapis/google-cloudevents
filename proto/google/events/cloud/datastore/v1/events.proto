@@ -84,3 +84,63 @@ message EntityWrittenEvent {
   // The data associated with the event.
   EntityEventData data = 1;
 }
+
+// The CloudEvent with Auth Context is raised when a Firestore entity is
+// created.
+message EntityCreatedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.datastore.entity.v1.created.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "entity";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  EntityEventData data = 1;
+}
+
+// The CloudEvent with Auth Context is raised when a Firestore entity is
+// updated.
+message EntityUpdatedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.datastore.entity.v1.updated.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "entity";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  EntityEventData data = 1;
+}
+
+// The CloudEvent with Auth Context is raised when a Firestore entity is
+// deleted.
+message EntityDeletedEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.datastore.entity.v1.deleted.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "entity";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  EntityEventData data = 1;
+}
+
+// The CloudEvent with Auth Context is raised when a Firestore entity is
+// created, updated or deleted.
+message EntityWrittenEventWithAuthContext {
+  option (google.events.cloud_event_type) =
+      "google.cloud.datastore.entity.v1.written.withAuthContext";
+  option (google.events.cloud_event_extension_name) = "database";
+  option (google.events.cloud_event_extension_name) = "namespace";
+  option (google.events.cloud_event_extension_name) = "entity";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+
+  // The data associated with the event.
+  EntityEventData data = 1;
+}
