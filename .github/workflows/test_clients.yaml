@@ -103,7 +103,7 @@ jobs:
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Setup Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version: 1.19.x
 
