@@ -1,0 +1,1361 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.networkservices.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.NetworkServices.V1";
+option php_namespace = "Google\\Events\\Cloud\\NetworkServices\\V1";
+option ruby_package = "Google::Events::Cloud::NetworkServices::V1";
+
+// Specification of a port-based selector.
+message TrafficPortSelector {
+  // Optional. A list of ports. Can be port numbers or port range
+  // (example, [80-90] specifies all ports from 80 to 90, including
+  // 80 and 90) or named ports or * to specify all ports. If the
+  // list is empty, all ports are selected.
+  repeated string ports = 1;
+}
+
+// A definition of a matcher that selects endpoints to which the policies
+// should be applied.
+message EndpointMatcher {
+  // The matcher that is based on node metadata presented by xDS clients.
+  message MetadataLabelMatcher {
+    // Defines a name-pair value for a single label.
+    message MetadataLabels {
+      // Required. Label name presented as key in xDS Node Metadata.
+      string label_name = 1;
+
+      // Required. Label value presented as value corresponding to the above
+      // key, in xDS Node Metadata.
+      string label_value = 2;
+    }
+
+    // Possible criteria values that define logic of how matching is made.
+    enum MetadataLabelMatchCriteria {
+      // Default value. Should not be used.
+      METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED = 0;
+
+      // At least one of the Labels specified in the matcher should match the
+      // metadata presented by xDS client.
+      MATCH_ANY = 1;
+
+      // The metadata presented by the xDS client should contain all of the
+      // labels specified here.
+      MATCH_ALL = 2;
+    }
+
+    // Specifies how matching should be done.
+    //
+    // Supported values are:
+    // MATCH_ANY: At least one of the Labels specified in the
+    //   matcher should match the metadata presented by xDS client.
+    // MATCH_ALL: The metadata presented by the xDS client should
+    //   contain all of the labels specified here.
+    //
+    // The selection is determined based on the best match. For
+    // example, suppose there are three EndpointPolicy
+    // resources P1, P2 and P3 and if P1 has a the matcher as
+    // MATCH_ANY <A:1, B:1>, P2 has MATCH_ALL <A:1,B:1>, and P3 has
+    // MATCH_ALL <A:1,B:1,C:1>.
+    //
+    // If a client with label <A:1> connects, the config from P1
+    // will be selected.
+    //
+    // If a client with label <A:1,B:1> connects, the config from P2
+    // will be selected.
+    //
+    // If a client with label <A:1,B:1,C:1> connects, the config
+    // from P3 will be selected.
+    //
+    // If there is more than one best match, (for example, if a
+    // config P4 with selector <A:1,D:1> exists and if a client with
+    // label <A:1,B:1,D:1> connects), an error will be thrown.
+    MetadataLabelMatchCriteria metadata_label_match_criteria = 1;
+
+    // The list of label value pairs that must match labels in the
+    // provided metadata based on filterMatchCriteria This list can
+    // have at most 64 entries. The list can be empty if the match
+    // criteria is MATCH_ANY, to specify a wildcard match (i.e this
+    // matches any client).
+    repeated MetadataLabels metadata_labels = 2;
+  }
+
+  // Specifies type of the matcher used for this endpoint matcher.
+  oneof matcher_type {
+    // The matcher is based on node metadata presented by xDS clients.
+    MetadataLabelMatcher metadata_label_matcher = 1;
+  }
+}
+
+// EndpointPolicy is a resource that helps apply desired configuration
+// on the endpoints that match specific criteria.
+// For example, this resource can be used to apply "authentication config"
+// an all endpoints that serve on port 8080.
+message EndpointPolicy {
+  // The type of endpoint policy.
+  enum EndpointPolicyType {
+    // Default value. Must not be used.
+    ENDPOINT_POLICY_TYPE_UNSPECIFIED = 0;
+
+    // Represents a proxy deployed as a sidecar.
+    SIDECAR_PROXY = 1;
+
+    // Represents a proxyless gRPC backend.
+    GRPC_SERVER = 2;
+  }
+
+  // Required. Name of the EndpointPolicy resource. It matches pattern
+  // `projects/{project}/locations/global/endpointPolicies/{endpoint_policy}`.
+  string name = 1;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Set of label tags associated with the EndpointPolicy resource.
+  map<string, string> labels = 4;
+
+  // Required. The type of endpoint policy. This is primarily used to validate
+  // the configuration.
+  EndpointPolicyType type = 5;
+
+  // Optional. This field specifies the URL of AuthorizationPolicy resource that
+  // applies authorization policies to the inbound traffic at the
+  // matched endpoints. Refer to Authorization. If this field is not
+  // specified, authorization is disabled(no authz checks) for this
+  // endpoint.
+  string authorization_policy = 7;
+
+  // Required. A matcher that selects endpoints to which the policies should be
+  // applied.
+  EndpointMatcher endpoint_matcher = 9;
+
+  // Optional. Port selector for the (matched) endpoints. If no port selector is
+  // provided, the matched config is applied to all ports.
+  TrafficPortSelector traffic_port_selector = 10;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 11;
+
+  // Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is
+  // used to determine the authentication policy to be applied to terminate the
+  // inbound traffic at the identified backends. If this field is not set,
+  // authentication is disabled(open) for this endpoint.
+  string server_tls_policy = 12;
+
+  // Optional. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy
+  // can be set to specify the authentication for traffic from the proxy to the
+  // actual endpoints. More specifically, it is applied to the outgoing traffic
+  // from the proxy to the endpoint. This is typically used for sidecar model
+  // where the proxy identifies itself as endpoint to the control plane, with
+  // the connection between sidecar and endpoint requiring authentication. If
+  // this field is not set, authentication is disabled(open). Applicable only
+  // when EndpointPolicyType is SIDECAR_PROXY.
+  string client_tls_policy = 13;
+}
+
+// Gateway represents the configuration for a proxy, typically a load balancer.
+// It captures the ip:port over which the services are exposed by the proxy,
+// along with any policy configurations. Routes have reference to to Gateways to
+// dictate how requests should be routed by this Gateway.
+message Gateway {
+  // The type of the customer-managed gateway.
+  // Possible values are:
+  // * OPEN_MESH
+  // * SECURE_WEB_GATEWAY
+  enum Type {
+    // The type of the customer managed gateway is unspecified.
+    TYPE_UNSPECIFIED = 0;
+
+    // The type of the customer managed gateway is TrafficDirector Open
+    // Mesh.
+    OPEN_MESH = 1;
+
+    // The type of the customer managed gateway is SecureWebGateway (SWG).
+    SECURE_WEB_GATEWAY = 2;
+  }
+
+  // Required. Name of the Gateway resource. It matches pattern
+  // `projects/*/locations/*/gateways/<gateway_name>`.
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 13;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Set of label tags associated with the Gateway resource.
+  map<string, string> labels = 4;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 5;
+
+  // Immutable. The type of the customer managed gateway.
+  // This field is required. If unspecified, an error is returned.
+  Type type = 6;
+
+  // Optional. Zero or one IPv4 or IPv6 address on which the Gateway will
+  // receive the traffic. When no address is provided, an IP from the subnetwork
+  // is allocated
+  //
+  // This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+  // Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
+  repeated string addresses = 7;
+
+  // Required. One or more port numbers (1-65535), on which the Gateway will
+  // receive traffic. The proxy binds to the specified ports.
+  // Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+  // Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and
+  // support multiple ports.
+  repeated int32 ports = 11;
+
+  // Optional. Scope determines how configuration across multiple Gateway
+  // instances are merged. The configuration for multiple Gateway instances with
+  // the same scope will be merged as presented as a single coniguration to the
+  // proxy/load balancer.
+  //
+  // Max length 64 characters.
+  // Scope should start with a letter and can only have letters, numbers,
+  // hyphens.
+  string scope = 8;
+
+  // Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how
+  // TLS traffic is terminated. If empty, TLS termination is disabled.
+  string server_tls_policy = 9;
+
+  // Optional. A fully-qualified Certificates URL reference. The proxy presents
+  // a Certificate (selected based on SNI) when establishing a TLS connection.
+  // This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
+  repeated string certificate_urls = 14;
+
+  // Optional. A fully-qualified GatewaySecurityPolicy URL reference.
+  // Defines how a server should apply security policy to inbound
+  // (VM to Proxy) initiated connections.
+  //
+  // For example:
+  // `projects/*/locations/*/gatewaySecurityPolicies/swg-policy`.
+  //
+  // This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
+  string gateway_security_policy = 18;
+
+  // Optional. The relative resource name identifying the VPC network that is
+  // using this configuration. For example:
+  // `projects/*/global/networks/network-1`.
+  //
+  // Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
+  string network = 16;
+
+  // Optional. The relative resource name identifying  the subnetwork in which
+  // this SWG is allocated. For example:
+  // `projects/*/regions/us-central1/subnetworks/network-1`
+  //
+  // Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY".
+  string subnetwork = 17;
+}
+
+// GrpcRoute is the resource defining how gRPC traffic routed by a Mesh
+// or Gateway resource is routed.
+message GrpcRoute {
+  // Specifies a match against a method.
+  message MethodMatch {
+    // The type of the match.
+    enum Type {
+      // Unspecified.
+      TYPE_UNSPECIFIED = 0;
+
+      // Will only match the exact name provided.
+      EXACT = 1;
+
+      // Will interpret grpc_method and grpc_service as regexes. RE2 syntax is
+      // supported.
+      REGULAR_EXPRESSION = 2;
+    }
+
+    // Optional. Specifies how to match against the name. If not specified, a
+    // default value of "EXACT" is used.
+    Type type = 1;
+
+    // Required. Name of the service to match against. If unspecified, will
+    // match all services.
+    string grpc_service = 2;
+
+    // Required. Name of the method to match against. If unspecified, will match
+    // all methods.
+    string grpc_method = 3;
+
+    // Optional. Specifies that matches are case sensitive.  The default value
+    // is true. case_sensitive must not be used with a type of
+    // REGULAR_EXPRESSION.
+    optional bool case_sensitive = 4;
+  }
+
+  // A match against a collection of headers.
+  message HeaderMatch {
+    // The type of match.
+    enum Type {
+      // Unspecified.
+      TYPE_UNSPECIFIED = 0;
+
+      // Will only match the exact value provided.
+      EXACT = 1;
+
+      // Will match paths conforming to the prefix specified by value. RE2
+      // syntax is supported.
+      REGULAR_EXPRESSION = 2;
+    }
+
+    // Optional. Specifies how to match against the value of the header. If not
+    // specified, a default value of EXACT is used.
+    Type type = 1;
+
+    // Required. The key of the header.
+    string key = 2;
+
+    // Required. The value of the header.
+    string value = 3;
+  }
+
+  // Criteria for matching traffic. A RouteMatch will be considered to match
+  // when all supplied fields match.
+  message RouteMatch {
+    // Optional. A gRPC method to match against. If this field is empty or
+    // omitted, will match all methods.
+    optional MethodMatch method = 1;
+
+    // Optional. Specifies a collection of headers to match.
+    repeated HeaderMatch headers = 2;
+  }
+
+  // The destination to which traffic will be routed.
+  message Destination {
+    // Specifies the kind of destination to which traffic will be routed.
+    oneof destination_type {
+      // Required. The URL of a destination service to which to route traffic.
+      // Must refer to either a BackendService or ServiceDirectoryService.
+      string service_name = 1;
+    }
+
+    // Optional. Specifies the proportion of requests forwarded to the backend
+    // referenced by the serviceName field. This is computed as:
+    //         weight/Sum(weights in this destination list).
+    // For non-zero values, there may be some epsilon from the exact proportion
+    // defined here depending on the precision an implementation supports.
+    //
+    // If only one serviceName is specified and it has a weight greater than 0,
+    // 100% of the traffic is forwarded to that backend.
+    //
+    // If weights are specified for any one service name, they need to be
+    // specified for all of them.
+    //
+    // If weights are unspecified for all services, then, traffic is distributed
+    // in equal proportions to all of them.
+    optional int32 weight = 2;
+  }
+
+  // The specification for fault injection introduced into traffic to test the
+  // resiliency of clients to destination service failure. As part of fault
+  // injection, when clients send requests to a destination, delays can be
+  // introduced on a percentage of requests before sending those requests to the
+  // destination service. Similarly requests from clients can be aborted by for
+  // a percentage of requests.
+  message FaultInjectionPolicy {
+    // Specification of how client requests are delayed as part of fault
+    // injection before being sent to a destination.
+    message Delay {
+      // Specify a fixed delay before forwarding the request.
+      optional google.protobuf.Duration fixed_delay = 1;
+
+      // The percentage of traffic on which delay will be injected.
+      //
+      // The value must be between [0, 100]
+      optional int32 percentage = 2;
+    }
+
+    // Specification of how client requests are aborted as part of fault
+    // injection before being sent to a destination.
+    message Abort {
+      // The HTTP status code used to abort the request.
+      //
+      // The value must be between 200 and 599 inclusive.
+      optional int32 http_status = 1;
+
+      // The percentage of traffic which will be aborted.
+      //
+      // The value must be between [0, 100]
+      optional int32 percentage = 2;
+    }
+
+    // The specification for injecting delay to client requests.
+    optional Delay delay = 1;
+
+    // The specification for aborting to client requests.
+    optional Abort abort = 2;
+  }
+
+  // The specifications for retries.
+  message RetryPolicy {
+    // - connect-failure: Router will retry on failures connecting to Backend
+    //    Services, for example due to connection timeouts.
+    // - refused-stream: Router will retry if the backend service resets the
+    // stream
+    //    with a REFUSED_STREAM error code. This reset type indicates that it is
+    //    safe to retry.
+    // - cancelled: Router will retry if the gRPC status code in the response
+    // header
+    //    is set to cancelled
+    // - deadline-exceeded: Router will retry if the gRPC status code in the
+    // response
+    //    header is set to deadline-exceeded
+    // - resource-exhausted: Router will retry if the gRPC status code in the
+    //    response header is set to resource-exhausted
+    // - unavailable: Router will retry if the gRPC status code in the response
+    //    header is set to unavailable
+    repeated string retry_conditions = 1;
+
+    // Specifies the allowed number of retries. This number must be > 0. If not
+    // specified, default to 1.
+    uint32 num_retries = 2;
+  }
+
+  // Specifies how to route matched traffic.
+  message RouteAction {
+    // Optional. The destination services to which traffic should be forwarded.
+    // If multiple destinations are specified, traffic will be split between
+    // Backend Service(s) according to the weight field of these destinations.
+    repeated Destination destinations = 1;
+
+    // Optional. The specification for fault injection introduced into traffic
+    // to test the resiliency of clients to destination service failure. As part
+    // of fault injection, when clients send requests to a destination, delays
+    // can be introduced on a percentage of requests before sending those
+    // requests to the destination service. Similarly requests from clients can
+    // be aborted by for a percentage of requests.
+    //
+    // timeout and retry_policy will be ignored by clients that are configured
+    // with a fault_injection_policy
+    FaultInjectionPolicy fault_injection_policy = 3;
+
+    // Optional. Specifies the timeout for selected route. Timeout is computed
+    // from the time the request has been fully processed (i.e. end of stream)
+    // up until the response has been completely processed. Timeout includes all
+    // retries.
+    google.protobuf.Duration timeout = 7;
+
+    // Optional. Specifies the retry policy associated with this route.
+    RetryPolicy retry_policy = 8;
+  }
+
+  // Describes how to route traffic.
+  message RouteRule {
+    // Optional. Matches define conditions used for matching the rule against
+    // incoming gRPC requests. Each match is independent, i.e. this rule will be
+    // matched if ANY one of the matches is satisfied.  If no matches field is
+    // specified, this rule will unconditionally match traffic.
+    repeated RouteMatch matches = 1;
+
+    // Required. A detailed rule defining how to route traffic. This field is
+    // required.
+    RouteAction action = 2;
+  }
+
+  // Required. Name of the GrpcRoute resource. It matches pattern
+  // `projects/*/locations/global/grpcRoutes/<grpc_route_name>`
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 12;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Set of label tags associated with the GrpcRoute resource.
+  map<string, string> labels = 4;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 5;
+
+  // Required. Service hostnames with an optional port for which this route
+  // describes traffic.
+  //
+  // Format: <hostname>[:<port>]
+  //
+  // Hostname is the fully qualified domain name of a network host. This matches
+  // the RFC 1123 definition of a hostname with 2 notable exceptions:
+  //  - IPs are not allowed.
+  //  - A hostname may be prefixed with a wildcard label (`*.`). The wildcard
+  //    label must appear by itself as the first label.
+  //
+  // Hostname can be "precise" which is a domain name without the terminating
+  // dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a
+  // domain name prefixed with a single wildcard label (e.g. `*.example.com`).
+  //
+  // Note that as per RFC1035 and RFC1123, a label must consist of lower case
+  // alphanumeric characters or '-', and must start and end with an alphanumeric
+  // character. No other punctuation is allowed.
+  //
+  // The routes associated with a Mesh or Gateway must have unique hostnames. If
+  // you attempt to attach multiple routes with conflicting hostnames, the
+  // configuration will be rejected.
+  //
+  // For example, while it is acceptable for routes for the hostnames
+  // `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is
+  // not possible to associate two routes both with `*.bar.com` or both with
+  // `bar.com`.
+  //
+  // If a port is specified, then gRPC clients must use the channel URI with the
+  // port to match this rule (i.e. "xds:///service:123"), otherwise they must
+  // supply the URI without a port (i.e. "xds:///service").
+  repeated string hostnames = 6;
+
+  // Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as
+  // one of the routing rules to route the requests served by the mesh.
+  //
+  // Each mesh reference should match the pattern:
+  // `projects/*/locations/global/meshes/<mesh_name>`
+  repeated string meshes = 9;
+
+  // Optional. Gateways defines a list of gateways this GrpcRoute is attached
+  // to, as one of the routing rules to route the requests served by the
+  // gateway.
+  //
+  // Each gateway reference should match the pattern:
+  // `projects/*/locations/global/gateways/<gateway_name>`
+  repeated string gateways = 10;
+
+  // Required. A list of detailed rules defining how to route traffic.
+  //
+  // Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the
+  // first matching GrpcRoute.RouteRule will be executed. At least one rule
+  // must be supplied.
+  repeated RouteRule rules = 7;
+}
+
+// HttpRoute is the resource defining how HTTP traffic should be routed by a
+// Mesh or Gateway resource.
+message HttpRoute {
+  // Specifies how to select a route rule based on HTTP request headers.
+  message HeaderMatch {
+    // Represents an integer value range.
+    message IntegerRange {
+      // Start of the range (inclusive)
+      int32 start = 1;
+
+      // End of the range (exclusive)
+      int32 end = 2;
+    }
+
+    oneof MatchType {
+      // The value of the header should match exactly the content of
+      // exact_match.
+      string exact_match = 2;
+
+      // The value of the header must match the regular expression specified in
+      // regex_match. For regular expression grammar, please see:
+      // https://github.com/google/re2/wiki/Syntax
+      string regex_match = 3;
+
+      // The value of the header must start with the contents of prefix_match.
+      string prefix_match = 4;
+
+      // A header with header_name must exist. The match takes place whether or
+      // not the header has a value.
+      bool present_match = 5;
+
+      // The value of the header must end with the contents of suffix_match.
+      string suffix_match = 6;
+
+      // If specified, the rule will match if the request header value is within
+      // the range.
+      IntegerRange range_match = 7;
+    }
+
+    // The name of the HTTP header to match against.
+    string header = 1;
+
+    // If specified, the match result will be inverted before checking. Default
+    // value is set to false.
+    bool invert_match = 8;
+  }
+
+  // Specifications to match a query parameter in the request.
+  message QueryParameterMatch {
+    oneof MatchType {
+      // The value of the query parameter must exactly match the contents of
+      // exact_match.
+      //
+      // Only one of exact_match, regex_match, or present_match must be set.
+      string exact_match = 2;
+
+      // The value of the query parameter must match the regular expression
+      // specified by regex_match. For regular expression grammar, please see
+      // https://github.com/google/re2/wiki/Syntax
+      //
+      // Only one of exact_match, regex_match, or present_match must be set.
+      string regex_match = 3;
+
+      // Specifies that the QueryParameterMatcher matches if request contains
+      // query parameter, irrespective of whether the parameter has a value or
+      // not.
+      //
+      // Only one of exact_match, regex_match, or present_match must be set.
+      bool present_match = 4;
+    }
+
+    // The name of the query parameter to match.
+    string query_parameter = 1;
+  }
+
+  // RouteMatch defines specifications used to match requests. If multiple match
+  // types are set, this RouteMatch will match if ALL type of matches are
+  // matched.
+  message RouteMatch {
+    oneof PathMatch {
+      // The HTTP request path value should exactly match this value.
+      //
+      // Only one of full_path_match, prefix_match, or regex_match should be
+      // used.
+      string full_path_match = 1;
+
+      // The HTTP request path value must begin with specified prefix_match.
+      // prefix_match must begin with a /.
+      //
+      // Only one of full_path_match, prefix_match, or regex_match should be
+      // used.
+      string prefix_match = 2;
+
+      // The HTTP request path value must satisfy the regular expression
+      // specified by regex_match after removing any query parameters and anchor
+      // supplied with the original URL. For regular expression grammar, please
+      // see https://github.com/google/re2/wiki/Syntax
+      //
+      // Only one of full_path_match, prefix_match, or regex_match should be
+      // used.
+      string regex_match = 3;
+    }
+
+    // Specifies if prefix_match and full_path_match matches are case sensitive.
+    // The default value is false.
+    bool ignore_case = 4;
+
+    // Specifies a list of HTTP request headers to match against. ALL of the
+    // supplied headers must be matched.
+    repeated HeaderMatch headers = 5;
+
+    // Specifies a list of query parameters to match against. ALL of the query
+    // parameters must be matched.
+    repeated QueryParameterMatch query_parameters = 6;
+  }
+
+  // Specifications of a destination to which the request should be routed to.
+  message Destination {
+    // The URL of a BackendService to route traffic to.
+    string service_name = 1;
+
+    // Specifies the proportion of requests forwarded to the backend referenced
+    // by the serviceName field. This is computed as:
+    //         weight/Sum(weights in this destination list).
+    // For non-zero values, there may be some epsilon from the exact proportion
+    // defined here depending on the precision an implementation supports.
+    //
+    // If only one serviceName is specified and it has a weight greater than 0,
+    // 100% of the traffic is forwarded to that backend.
+    //
+    // If weights are specified for any one service name, they need to be
+    // specified for all of them.
+    //
+    // If weights are unspecified for all services, then, traffic is distributed
+    // in equal proportions to all of them.
+    int32 weight = 2;
+  }
+
+  // The specification for redirecting traffic.
+  message Redirect {
+    // Supported HTTP response code.
+    enum ResponseCode {
+      // Default value
+      RESPONSE_CODE_UNSPECIFIED = 0;
+
+      // Corresponds to 301.
+      MOVED_PERMANENTLY_DEFAULT = 1;
+
+      // Corresponds to 302.
+      FOUND = 2;
+
+      // Corresponds to 303.
+      SEE_OTHER = 3;
+
+      // Corresponds to 307. In this case, the request method will be retained.
+      TEMPORARY_REDIRECT = 4;
+
+      // Corresponds to 308. In this case, the request method will be retained.
+      PERMANENT_REDIRECT = 5;
+    }
+
+    // The host that will be used in the redirect response instead of the one
+    // that was supplied in the request.
+    string host_redirect = 1;
+
+    // The path that will be used in the redirect response instead of the one
+    // that was supplied in the request.
+    // path_redirect can not be supplied together with prefix_redirect. Supply
+    // one alone or neither. If neither is supplied, the path of the original
+    // request will be used for the redirect.
+    string path_redirect = 2;
+
+    // Indicates that during redirection, the matched prefix (or path) should be
+    // swapped with this value. This option allows URLs be dynamically created
+    // based on the request.
+    string prefix_rewrite = 3;
+
+    // The HTTP Status code to use for the redirect.
+    ResponseCode response_code = 4;
+
+    // If set to true, the URL scheme in the redirected request is set to https.
+    // If set to false, the URL scheme of the redirected request will remain the
+    // same as that of the request.
+    //
+    // The default is set to false.
+    bool https_redirect = 5;
+
+    // if set to true, any accompanying query portion of the original URL is
+    // removed prior to redirecting the request. If set to false, the query
+    // portion of the original URL is retained.
+    //
+    // The default is set to false.
+    bool strip_query = 6;
+
+    // The port that will be used in the redirected request instead of the one
+    // that was supplied in the request.
+    int32 port_redirect = 7;
+  }
+
+  // The specification for fault injection introduced into traffic to test the
+  // resiliency of clients to destination service failure. As part of fault
+  // injection, when clients send requests to a destination, delays can be
+  // introduced by client proxy on a percentage of requests before sending those
+  // requests to the destination service. Similarly requests can be aborted by
+  // client proxy for a percentage of requests.
+  message FaultInjectionPolicy {
+    // Specification of how client requests are delayed as part of fault
+    // injection before being sent to a destination.
+    message Delay {
+      // Specify a fixed delay before forwarding the request.
+      google.protobuf.Duration fixed_delay = 1;
+
+      // The percentage of traffic on which delay will be injected.
+      //
+      // The value must be between [0, 100]
+      int32 percentage = 2;
+    }
+
+    // Specification of how client requests are aborted as part of fault
+    // injection before being sent to a destination.
+    message Abort {
+      // The HTTP status code used to abort the request.
+      //
+      // The value must be between 200 and 599 inclusive.
+      int32 http_status = 1;
+
+      // The percentage of traffic which will be aborted.
+      //
+      // The value must be between [0, 100]
+      int32 percentage = 2;
+    }
+
+    // The specification for injecting delay to client requests.
+    Delay delay = 1;
+
+    // The specification for aborting to client requests.
+    Abort abort = 2;
+  }
+
+  // The specification for modifying HTTP header in HTTP request and HTTP
+  // response.
+  message HeaderModifier {
+    // Completely overwrite/replace the headers with given map where key is the
+    // name of the header, value is the value of the header.
+    map<string, string> set = 1;
+
+    // Add the headers with given map where key is the name of the header, value
+    // is the value of the header.
+    map<string, string> add = 2;
+
+    // Remove headers (matching by header names) specified in the list.
+    repeated string remove = 3;
+  }
+
+  // The specification for modifying the URL of the request, prior to forwarding
+  // the request to the destination.
+  message URLRewrite {
+    // Prior to forwarding the request to the selected destination, the matching
+    // portion of the requests path is replaced by this value.
+    string path_prefix_rewrite = 1;
+
+    // Prior to forwarding the request to the selected destination, the requests
+    // host header is replaced by this value.
+    string host_rewrite = 2;
+  }
+
+  // The specifications for retries.
+  message RetryPolicy {
+    // Specifies one or more conditions when this retry policy applies. Valid
+    // values are:
+    //   5xx: Proxy will attempt a retry if the destination service responds
+    //     with any 5xx response code, of if the destination service does not
+    //     respond at all, example: disconnect, reset, read timeout, connection
+    //     failure and refused streams.
+    //
+    //   gateway-error: Similar to 5xx, but only applies to response codes 502,
+    //     503, 504.
+    //
+    //   reset: Proxy will attempt a retry if the destination service does not
+    //     respond at all (disconnect/reset/read timeout)
+    //
+    //   connect-failure: Proxy will retry on failures connecting to destination
+    //     for example due to connection timeouts.
+    //
+    //   retriable-4xx: Proxy will retry fro retriable 4xx response codes.
+    //     Currently the only retriable error supported is 409.
+    //
+    //   refused-stream: Proxy will retry if the destination resets the stream
+    //     with a REFUSED_STREAM error code. This reset type indicates that it
+    //     is safe to retry.
+    repeated string retry_conditions = 1;
+
+    // Specifies the allowed number of retries. This number must be > 0. If not
+    // specified, default to 1.
+    int32 num_retries = 2;
+
+    // Specifies a non-zero timeout per retry attempt.
+    google.protobuf.Duration per_try_timeout = 3;
+  }
+
+  // Specifies the policy on how requests are shadowed to a separate mirrored
+  // destination service. The proxy does not wait for responses from the
+  // shadow service. Prior to sending traffic to the shadow service, the
+  // host/authority header is suffixed with -shadow.
+  message RequestMirrorPolicy {
+    // The destination the requests will be mirrored to. The weight of the
+    // destination will be ignored.
+    Destination destination = 1;
+  }
+
+  // The Specification for allowing client side cross-origin requests.
+  message CorsPolicy {
+    // Specifies the list of origins that will be allowed to do CORS requests.
+    // An origin is allowed if it matches either an item in allow_origins or
+    // an item in allow_origin_regexes.
+    repeated string allow_origins = 1;
+
+    // Specifies the regular expression patterns that match allowed origins. For
+    // regular expression grammar, please see
+    // https://github.com/google/re2/wiki/Syntax.
+    repeated string allow_origin_regexes = 2;
+
+    // Specifies the content for Access-Control-Allow-Methods header.
+    repeated string allow_methods = 3;
+
+    // Specifies the content for Access-Control-Allow-Headers header.
+    repeated string allow_headers = 4;
+
+    // Specifies the content for Access-Control-Expose-Headers header.
+    repeated string expose_headers = 5;
+
+    // Specifies how long result of a preflight request can be cached in
+    // seconds. This translates to the Access-Control-Max-Age header.
+    string max_age = 6;
+
+    // In response to a preflight request, setting this to true indicates that
+    // the actual request can include user credentials. This translates to the
+    // Access-Control-Allow-Credentials header.
+    //
+    // Default value is false.
+    bool allow_credentials = 7;
+
+    // If true, the CORS policy is disabled. The default value is false, which
+    // indicates that the CORS policy is in effect.
+    bool disabled = 8;
+  }
+
+  // The specifications for routing traffic and applying associated policies.
+  message RouteAction {
+    // The destination to which traffic should be forwarded.
+    repeated Destination destinations = 1;
+
+    // If set, the request is directed as configured by this field.
+    Redirect redirect = 2;
+
+    // The specification for fault injection introduced into traffic to test the
+    // resiliency of clients to backend service failure. As part of fault
+    // injection, when clients send requests to a backend service, delays can be
+    // introduced  on a percentage of requests before sending those requests to
+    // the backend service. Similarly requests from clients can be aborted for a
+    // percentage of requests.
+    //
+    // timeout and retry_policy will be ignored by clients that are configured
+    // with a fault_injection_policy
+    FaultInjectionPolicy fault_injection_policy = 4;
+
+    // The specification for modifying the headers of a matching request prior
+    // to delivery of the request to the destination.
+    HeaderModifier request_header_modifier = 5;
+
+    // The specification for modifying the headers of a response prior to
+    // sending the response back to the client.
+    HeaderModifier response_header_modifier = 6;
+
+    // The specification for rewrite URL before forwarding requests to the
+    // destination.
+    URLRewrite url_rewrite = 7;
+
+    // Specifies the timeout for selected route. Timeout is computed from the
+    // time the request has been fully processed (i.e. end of stream) up until
+    // the response has been completely processed. Timeout includes all retries.
+    google.protobuf.Duration timeout = 8;
+
+    // Specifies the retry policy associated with this route.
+    RetryPolicy retry_policy = 9;
+
+    // Specifies the policy on how requests intended for the routes destination
+    // are shadowed to a separate mirrored destination. Proxy will not wait for
+    // the shadow destination to respond before returning the response. Prior to
+    // sending traffic to the shadow service, the host/authority header is
+    // suffixed with -shadow.
+    RequestMirrorPolicy request_mirror_policy = 10;
+
+    // The specification for allowing client side cross-origin requests.
+    CorsPolicy cors_policy = 11;
+  }
+
+  // Specifies how to match traffic and how to route traffic when traffic is
+  // matched.
+  message RouteRule {
+    // A list of matches define conditions used for matching the rule against
+    // incoming HTTP requests. Each match is independent, i.e. this rule will be
+    // matched if ANY one of the matches is satisfied.
+    //
+    // If no matches field is specified, this rule will unconditionally match
+    // traffic.
+    //
+    // If a default rule is desired to be configured, add a rule with no matches
+    // specified to the end of the rules list.
+    repeated RouteMatch matches = 1;
+
+    // The detailed rule defining how to route matched traffic.
+    RouteAction action = 2;
+  }
+
+  // Required. Name of the HttpRoute resource. It matches pattern
+  // `projects/*/locations/global/httpRoutes/http_route_name>`.
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 11;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 2;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Required. Hostnames define a set of hosts that should match against the
+  // HTTP host header to select a HttpRoute to process the request. Hostname is
+  // the fully qualified domain name of a network host, as defined by RFC 1123
+  // with the exception that:
+  //  - IPs are not allowed.
+  //  - A hostname may be prefixed with a wildcard label (`*.`). The wildcard
+  //    label must appear by itself as the first label.
+  //
+  // Hostname can be "precise" which is a domain name without the terminating
+  // dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a
+  // domain name prefixed with a single wildcard label (e.g. `*.example.com`).
+  //
+  // Note that as per RFC1035 and RFC1123, a label must consist of lower case
+  // alphanumeric characters or '-', and must start and end with an alphanumeric
+  // character. No other punctuation is allowed.
+  //
+  // The routes associated with a Mesh or Gateways  must have unique hostnames.
+  // If you attempt to attach multiple routes with conflicting hostnames,
+  // the configuration will be rejected.
+  //
+  // For example, while it is acceptable for routes for the hostnames
+  // `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or
+  // Gateways under the same scope), it is not possible to associate two routes
+  // both with `*.bar.com` or both with `bar.com`.
+  repeated string hostnames = 5;
+
+  // Optional. Meshes defines a list of meshes this HttpRoute is attached to, as
+  // one of the routing rules to route the requests served by the mesh.
+  //
+  // Each mesh reference should match the pattern:
+  // `projects/*/locations/global/meshes/<mesh_name>`
+  //
+  // The attached Mesh should be of a type SIDECAR
+  repeated string meshes = 8;
+
+  // Optional. Gateways defines a list of gateways this HttpRoute is attached
+  // to, as one of the routing rules to route the requests served by the
+  // gateway.
+  //
+  // Each gateway reference should match the pattern:
+  // `projects/*/locations/global/gateways/<gateway_name>`
+  repeated string gateways = 9;
+
+  // Optional. Set of label tags associated with the HttpRoute resource.
+  map<string, string> labels = 10;
+
+  // Required. Rules that define how traffic is routed and handled.
+  // Rules will be matched sequentially based on the RouteMatch specified for
+  // the rule.
+  repeated RouteRule rules = 6;
+}
+
+// Mesh represents a logical configuration grouping for workload to workload
+// communication within a service mesh. Routes that point to mesh dictate how
+// requests are routed within this logical mesh boundary.
+message Mesh {
+  // Required. Name of the Mesh resource. It matches pattern
+  // `projects/*/locations/global/meshes/<mesh_name>`.
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 9;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Set of label tags associated with the Mesh resource.
+  map<string, string> labels = 4;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 5;
+
+  // Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy
+  // to listen on the specified port of localhost (127.0.0.1) address. The
+  // SIDECAR proxy will expect all traffic to be redirected to this port
+  // regardless of its actual ip:port destination. If unset, a port '15001' is
+  // used as the interception port. This is applicable only for sidecar proxy
+  // deployments.
+  int32 interception_port = 8;
+}
+
+// ServiceBinding is the resource that defines a Service Directory Service to
+// be used in a BackendService resource.
+message ServiceBinding {
+  // Required. Name of the ServiceBinding resource. It matches pattern
+  // `projects/*/locations/global/serviceBindings/service_binding_name`.
+  string name = 1;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 2;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Required. The full Service Directory Service name of the format
+  // projects/*/locations/*/namespaces/*/services/*
+  string service = 5;
+
+  // Output only. The unique identifier of the Service Directory Service against
+  // which the Service Binding resource is validated. This is populated when the
+  // Service Binding resource is used in another resource (like Backend
+  // Service). This is of the UUID4 format.
+  string service_id = 8;
+
+  // Optional. Set of label tags associated with the ServiceBinding resource.
+  map<string, string> labels = 7;
+}
+
+// TcpRoute is the resource defining how TCP traffic should be routed by a
+// Mesh/Gateway resource.
+message TcpRoute {
+  // Specifies how to match traffic and how to route traffic when traffic is
+  // matched.
+  message RouteRule {
+    // Optional. RouteMatch defines the predicate used to match requests to a
+    // given action. Multiple match types are "OR"ed for evaluation. If no
+    // routeMatch field is specified, this rule will unconditionally match
+    // traffic.
+    repeated RouteMatch matches = 1;
+
+    // Required. The detailed rule defining how to route matched traffic.
+    RouteAction action = 2;
+  }
+
+  // RouteMatch defines the predicate used to match requests to a given action.
+  // Multiple match types are "OR"ed for evaluation.
+  // If no routeMatch field is specified, this rule will unconditionally match
+  // traffic.
+  message RouteMatch {
+    // Required. Must be specified in the CIDR range format. A CIDR range
+    // consists of an IP Address and a prefix length to construct the subnet
+    // mask. By default, the prefix length is 32 (i.e. matches a single IP
+    // address). Only IPV4 addresses are supported. Examples: "10.0.0.1" -
+    // matches against this exact IP address. "10.0.0.0/8" - matches against any
+    // IP address within the 10.0.0.0 subnet and 255.255.255.0 mask. "0.0.0.0/0"
+    // - matches against any IP address'.
+    string address = 1;
+
+    // Required. Specifies the destination port to match against.
+    string port = 2;
+  }
+
+  // The specifications for routing traffic and applying associated policies.
+  message RouteAction {
+    // Optional. The destination services to which traffic should be forwarded.
+    // At least one destination service is required. Only one of route
+    // destination or original destination can be set.
+    repeated RouteDestination destinations = 1;
+
+    // Optional. If true, Router will use the destination IP and port of the
+    // original connection as the destination of the request. Default is false.
+    // Only one of route destinations or original destination can be set.
+    bool original_destination = 3;
+  }
+
+  // Describe the destination for traffic to be routed to.
+  message RouteDestination {
+    // Required. The URL of a BackendService to route traffic to.
+    string service_name = 1;
+
+    // Optional. Specifies the proportion of requests forwarded to the backend
+    // referenced by the serviceName field. This is computed as:
+    //         weight/Sum(weights in this destination list).
+    // For non-zero values, there may be some epsilon from the exact proportion
+    // defined here depending on the precision an implementation supports.
+    //
+    // If only one serviceName is specified and it has a weight greater than 0,
+    // 100% of the traffic is forwarded to that backend.
+    //
+    // If weights are specified for any one service name, they need to be
+    // specified for all of them.
+    //
+    // If weights are unspecified for all services, then, traffic is distributed
+    // in equal proportions to all of them.
+    int32 weight = 2;
+  }
+
+  // Required. Name of the TcpRoute resource. It matches pattern
+  // `projects/*/locations/global/tcpRoutes/tcp_route_name>`.
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 11;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 4;
+
+  // Required. Rules that define how traffic is routed and handled. At least one
+  // RouteRule must be supplied. If there are multiple rules then the action
+  // taken will be the first rule to match.
+  repeated RouteRule rules = 5;
+
+  // Optional. Meshes defines a list of meshes this TcpRoute is attached to, as
+  // one of the routing rules to route the requests served by the mesh.
+  //
+  // Each mesh reference should match the pattern:
+  // `projects/*/locations/global/meshes/<mesh_name>`
+  //
+  // The attached Mesh should be of a type SIDECAR
+  repeated string meshes = 8;
+
+  // Optional. Gateways defines a list of gateways this TcpRoute is attached to,
+  // as one of the routing rules to route the requests served by the gateway.
+  //
+  // Each gateway reference should match the pattern:
+  // `projects/*/locations/global/gateways/<gateway_name>`
+  repeated string gateways = 9;
+
+  // Optional. Set of label tags associated with the TcpRoute resource.
+  map<string, string> labels = 10;
+}
+
+// TlsRoute defines how traffic should be routed based on SNI and other matching
+// L3 attributes.
+message TlsRoute {
+  // Specifies how to match traffic and how to route traffic when traffic is
+  // matched.
+  message RouteRule {
+    // Required. RouteMatch defines the predicate used to match requests to a
+    // given action. Multiple match types are "OR"ed for evaluation.
+    repeated RouteMatch matches = 1;
+
+    // Required. The detailed rule defining how to route matched traffic.
+    RouteAction action = 2;
+  }
+
+  // RouteMatch defines the predicate used to match requests to a given action.
+  // Multiple match types are "AND"ed for evaluation.
+  // If no routeMatch field is specified, this rule will unconditionally match
+  // traffic.
+  message RouteMatch {
+    // Optional. SNI (server name indicator) to match against.
+    // SNI will be matched against all wildcard domains, i.e. `www.example.com`
+    // will be first matched against `www.example.com`, then `*.example.com`,
+    // then `*.com.`
+    // Partial wildcards are not supported, and values like *w.example.com are
+    // invalid.
+    // At least one of sni_host and alpn is required.
+    // Up to 5 sni hosts across all matches can be set.
+    repeated string sni_host = 1;
+
+    // Optional. ALPN (Application-Layer Protocol Negotiation) to match against.
+    // Examples: "http/1.1", "h2".
+    // At least one of sni_host and alpn is required.
+    // Up to 5 alpns across all matches can be set.
+    repeated string alpn = 2;
+  }
+
+  // The specifications for routing traffic and applying associated policies.
+  message RouteAction {
+    // Required. The destination services to which traffic should be forwarded.
+    // At least one destination service is required.
+    repeated RouteDestination destinations = 1;
+  }
+
+  // Describe the destination for traffic to be routed to.
+  message RouteDestination {
+    // Required. The URL of a BackendService to route traffic to.
+    string service_name = 1;
+
+    // Optional. Specifies the proportion of requests forwareded to the backend
+    // referenced by the service_name field. This is computed as:
+    //         weight/Sum(weights in destinations)
+    // Weights in all destinations does not need to sum up to 100.
+    int32 weight = 2;
+  }
+
+  // Required. Name of the TlsRoute resource. It matches pattern
+  // `projects/*/locations/global/tlsRoutes/tls_route_name>`.
+  string name = 1;
+
+  // Output only. Server-defined URL of this resource
+  string self_link = 8;
+
+  // Output only. The timestamp when the resource was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The timestamp when the resource was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. A free-text description of the resource. Max length 1024
+  // characters.
+  string description = 4;
+
+  // Required. Rules that define how traffic is routed and handled. At least one
+  // RouteRule must be supplied. If there are multiple rules then the action
+  // taken will be the first rule to match.
+  repeated RouteRule rules = 5;
+
+  // Optional. Meshes defines a list of meshes this TlsRoute is attached to, as
+  // one of the routing rules to route the requests served by the mesh.
+  //
+  // Each mesh reference should match the pattern:
+  // `projects/*/locations/global/meshes/<mesh_name>`
+  //
+  // The attached Mesh should be of a type SIDECAR
+  repeated string meshes = 6;
+
+  // Optional. Gateways defines a list of gateways this TlsRoute is attached to,
+  // as one of the routing rules to route the requests served by the gateway.
+  //
+  // Each gateway reference should match the pattern:
+  // `projects/*/locations/global/gateways/<gateway_name>`
+  repeated string gateways = 7;
+}
+
+// The data within all EndpointPolicy events.
+message EndpointPolicyEventData {
+  // Optional. The EndpointPolicy event payload. Unset for deletion events.
+  optional EndpointPolicy payload = 1;
+}
+
+// The data within all HttpRoute events.
+message HttpRouteEventData {
+  // Optional. The HttpRoute event payload. Unset for deletion events.
+  optional HttpRoute payload = 1;
+}
+
+// The data within all ServiceBinding events.
+message ServiceBindingEventData {
+  // Optional. The ServiceBinding event payload. Unset for deletion events.
+  optional ServiceBinding payload = 1;
+}
+
+// The data within all Gateway events.
+message GatewayEventData {
+  // Optional. The Gateway event payload. Unset for deletion events.
+  optional Gateway payload = 1;
+}
+
+// The data within all TlsRoute events.
+message TlsRouteEventData {
+  // Optional. The TlsRoute event payload. Unset for deletion events.
+  optional TlsRoute payload = 1;
+}
+
+// The data within all GrpcRoute events.
+message GrpcRouteEventData {
+  // Optional. The GrpcRoute event payload. Unset for deletion events.
+  optional GrpcRoute payload = 1;
+}
+
+// The data within all Mesh events.
+message MeshEventData {
+  // Optional. The Mesh event payload. Unset for deletion events.
+  optional Mesh payload = 1;
+}
+
+// The data within all TcpRoute events.
+message TcpRouteEventData {
+  // Optional. The TcpRoute event payload. Unset for deletion events.
+  optional TcpRoute payload = 1;
+}
