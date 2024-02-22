@@ -1,0 +1,197 @@
+// Copyright 2024 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.deploy.v1;
+
+import "google/events/cloud/deploy/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Deploy.V1";
+option php_namespace = "Google\\Events\\Cloud\\Deploy\\V1";
+option ruby_package = " Google::Events::Cloud::Deploy::V1";
+option (google.events.cloud_event_product) = "Cloud Deploy";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "automation"
+  description: "The resource ID of the Automation triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "customtargettype"
+  description: "The resource ID of the CustomTargetType triggering the event."
+  camel_case_name: "customTargetType"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "deliverypipeline"
+  description: "The resource ID of the DeliveryPipeline triggering the event."
+  camel_case_name: "deliveryPipeline"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "release"
+  description: "The resource ID of the Release triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "rollout"
+  description: "The resource ID of the Rollout triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "target"
+  description: "The resource ID of the Target triggering the event."
+};
+
+// The CloudEvent raised when a DeliveryPipeline is created.
+message DeliveryPipelineCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.deliveryPipeline.v1.created";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  DeliveryPipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a DeliveryPipeline is updated.
+message DeliveryPipelineUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.deliveryPipeline.v1.updated";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  DeliveryPipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a DeliveryPipeline is deleted.
+message DeliveryPipelineDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.deliveryPipeline.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  DeliveryPipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a Target is created.
+message TargetCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.target.v1.created";
+  option (google.events.cloud_event_extension_name) = "target";
+
+  // The data associated with the event.
+  TargetEventData data = 1;
+}
+
+// The CloudEvent raised when a Target is updated.
+message TargetUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.target.v1.updated";
+  option (google.events.cloud_event_extension_name) = "target";
+
+  // The data associated with the event.
+  TargetEventData data = 1;
+}
+
+// The CloudEvent raised when a Target is deleted.
+message TargetDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.target.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "target";
+
+  // The data associated with the event.
+  TargetEventData data = 1;
+}
+
+// The CloudEvent raised when a CustomTargetType is created.
+message CustomTargetTypeCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.customTargetType.v1.created";
+  option (google.events.cloud_event_extension_name) = "customtargettype";
+
+  // The data associated with the event.
+  CustomTargetTypeEventData data = 1;
+}
+
+// The CloudEvent raised when a CustomTargetType is updated.
+message CustomTargetTypeUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.customTargetType.v1.updated";
+  option (google.events.cloud_event_extension_name) = "customtargettype";
+
+  // The data associated with the event.
+  CustomTargetTypeEventData data = 1;
+}
+
+// The CloudEvent raised when a CustomTargetType is deleted.
+message CustomTargetTypeDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.customTargetType.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "customtargettype";
+
+  // The data associated with the event.
+  CustomTargetTypeEventData data = 1;
+}
+
+// The CloudEvent raised when a Release is created.
+message ReleaseCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.release.v1.created";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+  option (google.events.cloud_event_extension_name) = "release";
+
+  // The data associated with the event.
+  ReleaseEventData data = 1;
+}
+
+// The CloudEvent raised when a Rollout is created.
+message RolloutCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.rollout.v1.created";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+  option (google.events.cloud_event_extension_name) = "release";
+  option (google.events.cloud_event_extension_name) = "rollout";
+
+  // The data associated with the event.
+  RolloutEventData data = 1;
+}
+
+// The CloudEvent raised when a Automation is created.
+message AutomationCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.automation.v1.created";
+  option (google.events.cloud_event_extension_name) = "automation";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  AutomationEventData data = 1;
+}
+
+// The CloudEvent raised when a Automation is updated.
+message AutomationUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.automation.v1.updated";
+  option (google.events.cloud_event_extension_name) = "automation";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  AutomationEventData data = 1;
+}
+
+// The CloudEvent raised when a Automation is deleted.
+message AutomationDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.deploy.automation.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "automation";
+  option (google.events.cloud_event_extension_name) = "deliverypipeline";
+
+  // The data associated with the event.
+  AutomationEventData data = 1;
+}
