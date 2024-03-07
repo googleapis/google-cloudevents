@@ -1,0 +1,128 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/GatewayEventData.json",
+  "name": "GatewayEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkservices.v1",
+  "datatype": "google.events.cloud.networkservices.v1.GatewayEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkservices.gateway.v1.created",
+    "google.cloud.networkservices.gateway.v1.updated",
+    "google.cloud.networkservices.gateway.v1.deleted"
+  ],
+  "product": "Network Services",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/GatewayEventData",
+  "definitions": {
+    "GatewayEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Gateway",
+          "additionalProperties": true,
+          "description": "Optional. The Gateway event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway Event Data",
+      "description": "The data within all Gateway events."
+    },
+    "Gateway": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Name of the Gateway resource. It matches pattern `projects/*/locations/*/gateways/<gateway_name>`."
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "Output only. Server-defined URL of this resource"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Set of label tags associated with the Gateway resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A free-text description of the resource. Max length 1024 characters."
+        },
+        "type": {
+          "enum": [
+            "TYPE_UNSPECIFIED",
+            0,
+            "OPEN_MESH",
+            1,
+            "SECURE_WEB_GATEWAY",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Type",
+          "description": "The type of the customer-managed gateway. Possible values are: * OPEN_MESH * SECURE_WEB_GATEWAY"
+        },
+        "addresses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic. When no address is provided, an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6."
+        },
+        "ports": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "description": "Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single coniguration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens."
+        },
+        "serverTlsPolicy": {
+          "type": "string",
+          "description": "Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled."
+        },
+        "certificateUrls": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'."
+        },
+        "gatewaySecurityPolicy": {
+          "type": "string",
+          "description": "Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*/locations/*/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'."
+        },
+        "network": {
+          "type": "string",
+          "description": "Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'."
+        },
+        "subnetwork": {
+          "type": "string",
+          "description": "Optional. The relative resource name identifying  the subnetwork in which this SWG is allocated. For example: `projects/*/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY\"."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway",
+      "description": "Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway."
+    }
+  }
+}

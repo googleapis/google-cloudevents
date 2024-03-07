@@ -1,0 +1,71 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/MeshEventData.json",
+  "name": "MeshEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkservices.v1",
+  "datatype": "google.events.cloud.networkservices.v1.MeshEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkservices.mesh.v1.created",
+    "google.cloud.networkservices.mesh.v1.updated",
+    "google.cloud.networkservices.mesh.v1.deleted"
+  ],
+  "product": "Network Services",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MeshEventData",
+  "definitions": {
+    "MeshEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Mesh",
+          "additionalProperties": true,
+          "description": "Optional. The Mesh event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mesh Event Data",
+      "description": "The data within all Mesh events."
+    },
+    "Mesh": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Name of the Mesh resource. It matches pattern `projects/*/locations/global/meshes/<mesh_name>`."
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "Output only. Server-defined URL of this resource"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was updated.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Set of label tags associated with the Mesh resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A free-text description of the resource. Max length 1024 characters."
+        },
+        "interceptionPort": {
+          "type": "integer",
+          "description": "Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mesh",
+      "description": "Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary."
+    }
+  }
+}

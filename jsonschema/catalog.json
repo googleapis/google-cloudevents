@@ -144,6 +144,17 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/batch/v1/JobEventData.json",
+      "product": "Batch",
+      "name": "JobEventData",
+      "description": "The data within all Job events.",
+      "datatype": "google.events.cloud.batch.v1.JobEventData",
+      "cloudeventTypes": [
+        "google.cloud.batch.job.v1.created",
+        "google.cloud.batch.job.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/beyondcorp/appconnections/v1/AppConnectionEventData.json",
       "product": "BeyondCorp",
       "name": "AppConnectionEventData",
@@ -830,6 +841,101 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/EndpointPolicyEventData.json",
+      "product": "Network Services",
+      "name": "EndpointPolicyEventData",
+      "description": "The data within all EndpointPolicy events.",
+      "datatype": "google.events.cloud.networkservices.v1.EndpointPolicyEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.endpointPolicy.v1.created",
+        "google.cloud.networkservices.endpointPolicy.v1.updated",
+        "google.cloud.networkservices.endpointPolicy.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/GatewayEventData.json",
+      "product": "Network Services",
+      "name": "GatewayEventData",
+      "description": "The data within all Gateway events.",
+      "datatype": "google.events.cloud.networkservices.v1.GatewayEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.gateway.v1.created",
+        "google.cloud.networkservices.gateway.v1.updated",
+        "google.cloud.networkservices.gateway.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/GrpcRouteEventData.json",
+      "product": "Network Services",
+      "name": "GrpcRouteEventData",
+      "description": "The data within all GrpcRoute events.",
+      "datatype": "google.events.cloud.networkservices.v1.GrpcRouteEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.grpcRoute.v1.created",
+        "google.cloud.networkservices.grpcRoute.v1.updated",
+        "google.cloud.networkservices.grpcRoute.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/HttpRouteEventData.json",
+      "product": "Network Services",
+      "name": "HttpRouteEventData",
+      "description": "The data within all HttpRoute events.",
+      "datatype": "google.events.cloud.networkservices.v1.HttpRouteEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.httpRoute.v1.created",
+        "google.cloud.networkservices.httpRoute.v1.updated",
+        "google.cloud.networkservices.httpRoute.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/MeshEventData.json",
+      "product": "Network Services",
+      "name": "MeshEventData",
+      "description": "The data within all Mesh events.",
+      "datatype": "google.events.cloud.networkservices.v1.MeshEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.mesh.v1.created",
+        "google.cloud.networkservices.mesh.v1.updated",
+        "google.cloud.networkservices.mesh.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/ServiceBindingEventData.json",
+      "product": "Network Services",
+      "name": "ServiceBindingEventData",
+      "description": "The data within all ServiceBinding events.",
+      "datatype": "google.events.cloud.networkservices.v1.ServiceBindingEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.serviceBinding.v1.created",
+        "google.cloud.networkservices.serviceBinding.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/TcpRouteEventData.json",
+      "product": "Network Services",
+      "name": "TcpRouteEventData",
+      "description": "The data within all TcpRoute events.",
+      "datatype": "google.events.cloud.networkservices.v1.TcpRouteEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.tcpRoute.v1.created",
+        "google.cloud.networkservices.tcpRoute.v1.updated",
+        "google.cloud.networkservices.tcpRoute.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/TlsRouteEventData.json",
+      "product": "Network Services",
+      "name": "TlsRouteEventData",
+      "description": "The data within all TlsRoute events.",
+      "datatype": "google.events.cloud.networkservices.v1.TlsRouteEventData",
+      "cloudeventTypes": [
+        "google.cloud.networkservices.tlsRoute.v1.created",
+        "google.cloud.networkservices.tlsRoute.v1.updated",
+        "google.cloud.networkservices.tlsRoute.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/notebooks/v1/EnvironmentEventData.json",
       "product": "Notebooks",
       "name": "EnvironmentEventData",
@@ -915,6 +1021,30 @@
       "datatype": "google.events.cloud.scheduler.v1.SchedulerJobData",
       "cloudeventTypes": [
         "google.cloud.scheduler.job.v1.executed"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/speech/v1/CustomClassEventData.json",
+      "product": "Cloud Speech-to-Text",
+      "name": "CustomClassEventData",
+      "description": "The data within all CustomClass events.",
+      "datatype": "google.events.cloud.speech.v1.CustomClassEventData",
+      "cloudeventTypes": [
+        "google.cloud.speech.customClass.v1.created",
+        "google.cloud.speech.customClass.v1.updated",
+        "google.cloud.speech.customClass.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/speech/v1/PhraseSetEventData.json",
+      "product": "Cloud Speech-to-Text",
+      "name": "PhraseSetEventData",
+      "description": "The data within all PhraseSet events.",
+      "datatype": "google.events.cloud.speech.v1.PhraseSetEventData",
+      "cloudeventTypes": [
+        "google.cloud.speech.phraseSet.v1.created",
+        "google.cloud.speech.phraseSet.v1.updated",
+        "google.cloud.speech.phraseSet.v1.deleted"
       ]
     },
     {

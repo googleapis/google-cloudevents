@@ -1,0 +1,126 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/speech/v1/CustomClassEventData.json",
+  "name": "CustomClassEventData",
+  "examples": [],
+  "package": "google.events.cloud.speech.v1",
+  "datatype": "google.events.cloud.speech.v1.CustomClassEventData",
+  "cloudeventTypes": [
+    "google.cloud.speech.customClass.v1.created",
+    "google.cloud.speech.customClass.v1.updated",
+    "google.cloud.speech.customClass.v1.deleted"
+  ],
+  "product": "Cloud Speech-to-Text",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/CustomClassEventData",
+  "definitions": {
+    "CustomClassEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/CustomClass",
+          "additionalProperties": true,
+          "description": "Optional. The CustomClass event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Class Event Data",
+      "description": "The data within all CustomClass events."
+    },
+    "CustomClass": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource name of the custom class."
+        },
+        "customClassId": {
+          "type": "string",
+          "description": "If this custom class is a resource, the custom_class_id is the resource id of the CustomClass. Case sensitive."
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/ClassItem"
+          },
+          "type": "array",
+          "description": "A collection of class items."
+        },
+        "kmsKeyName": {
+          "type": "string",
+          "description": "Output only. The [KMS key name](https://cloud.google.com/kms/docs/resource-hierarchy#keys) with which the content of the ClassItem is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`."
+        },
+        "kmsKeyVersionName": {
+          "type": "string",
+          "description": "Output only. The [KMS key version name](https://cloud.google.com/kms/docs/resource-hierarchy#key_versions) with which content of the ClassItem is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System-assigned unique identifier for the CustomClass. This field is not used."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Output only. User-settable, human-readable name for the CustomClass. Must be 63 characters or less. This field is not used."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            2,
+            "DELETED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Set of states that define the lifecycle of a CustomClass."
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. The time at which this resource was requested for deletion. This field is not used.",
+          "format": "date-time"
+        },
+        "expireTime": {
+          "type": "string",
+          "description": "Output only. The time at which this resource will be purged. This field is not used.",
+          "format": "date-time"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. Allows users to store small amounts of arbitrary data. Both the key and the value must be 63 characters or less each. At most 100 annotations. This field is not used."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields. This may be sent on update, undelete, and delete requests to ensure the client has an up-to-date value before proceeding. This field is not used."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. Whether or not this CustomClass is in the process of being updated. This field is not used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Class",
+      "description": "A set of words or phrases that represents a common concept likely to appear in your audio, for example a list of passenger ship names. CustomClass items can be substituted into placeholders that you set in PhraseSet phrases."
+    },
+    "ClassItem": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The class item's value."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Class Item",
+      "description": "An item of the class."
+    }
+  }
+}
