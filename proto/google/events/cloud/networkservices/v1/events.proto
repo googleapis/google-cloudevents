@@ -1,0 +1,293 @@
+// Copyright 2024 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.networkservices.v1;
+
+import "google/events/cloud/networkservices/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.NetworkServices.V1";
+option php_namespace = "Google\\Events\\Cloud\\NetworkServices\\V1";
+option ruby_package = "Google::Events::Cloud::NetworkServices::V1";
+option (google.events.cloud_event_product) = "Network Services";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "endpointpolicy"
+  description: "The resource ID of the EndpointPolicy triggering the event."
+  camel_case_name: "endpointPolicy"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "gateway"
+  description: "The resource ID of the Gateway triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "grpcroute"
+  description: "The resource ID of the GrpcRoute triggering the event."
+  camel_case_name: "grpcRoute"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "httproute"
+  description: "The resource ID of the HttpRoute triggering the event."
+  camel_case_name: "httpRoute"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "tcproute"
+  description: "The resource ID of the TcpRoute triggering the event."
+  camel_case_name: "tcpRoute"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "tlsroute"
+  description: "The resource ID of the TlsRoute triggering the event."
+  camel_case_name: "tlsRoute"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "servicebinding"
+  description: "The resource ID of the ServiceBinding triggering the event."
+  camel_case_name: "serviceBinding"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "mesh"
+  description: "The resource ID of the Mesh triggering the event."
+};
+
+// The CloudEvent raised when an EndpointPolicy is created.
+message EndpointPolicyCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.endpointPolicy.v1.created";
+  option (google.events.cloud_event_extension_name) = "endpointpolicy";
+
+  // The data associated with the event.
+  EndpointPolicyEventData data = 1;
+}
+
+// The CloudEvent raised when an EndpointPolicy is updated.
+message EndpointPolicyUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.endpointPolicy.v1.updated";
+  option (google.events.cloud_event_extension_name) = "endpointpolicy";
+
+  // The data associated with the event.
+  EndpointPolicyEventData data = 1;
+}
+
+// The CloudEvent raised when an EndpointPolicy is deleted.
+message EndpointPolicyDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.endpointPolicy.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "endpointpolicy";
+
+  // The data associated with the event.
+  EndpointPolicyEventData data = 1;
+}
+
+// The CloudEvent raised when a Gateway is created.
+message GatewayCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.gateway.v1.created";
+  option (google.events.cloud_event_extension_name) = "gateway";
+
+  // The data associated with the event.
+  GatewayEventData data = 1;
+}
+
+// The CloudEvent raised when a Gateway is updated.
+message GatewayUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.gateway.v1.updated";
+  option (google.events.cloud_event_extension_name) = "gateway";
+
+  // The data associated with the event.
+  GatewayEventData data = 1;
+}
+
+// The CloudEvent raised when a Gateway is deleted.
+message GatewayDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.gateway.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "gateway";
+
+  // The data associated with the event.
+  GatewayEventData data = 1;
+}
+
+// The CloudEvent raised when a GrpcRoute is created.
+message GrpcRouteCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.grpcRoute.v1.created";
+  option (google.events.cloud_event_extension_name) = "grpcroute";
+
+  // The data associated with the event.
+  GrpcRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a GrpcRoute is updated.
+message GrpcRouteUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.grpcRoute.v1.updated";
+  option (google.events.cloud_event_extension_name) = "grpcroute";
+
+  // The data associated with the event.
+  GrpcRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a GrpcRoute is deleted.
+message GrpcRouteDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.grpcRoute.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "grpcroute";
+
+  // The data associated with the event.
+  GrpcRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a HttpRoute is created.
+message HttpRouteCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.httpRoute.v1.created";
+  option (google.events.cloud_event_extension_name) = "httproute";
+
+  // The data associated with the event.
+  HttpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a HttpRoute is updated.
+message HttpRouteUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.httpRoute.v1.updated";
+  option (google.events.cloud_event_extension_name) = "httproute";
+
+  // The data associated with the event.
+  HttpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a HttpRoute is deleted.
+message HttpRouteDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.httpRoute.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "httproute";
+
+  // The data associated with the event.
+  HttpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TcpRoute is created.
+message TcpRouteCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tcpRoute.v1.created";
+  option (google.events.cloud_event_extension_name) = "tcproute";
+
+  // The data associated with the event.
+  TcpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TcpRoute is updated.
+message TcpRouteUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tcpRoute.v1.updated";
+  option (google.events.cloud_event_extension_name) = "tcproute";
+
+  // The data associated with the event.
+  TcpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TcpRoute is deleted.
+message TcpRouteDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tcpRoute.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "tcproute";
+
+  // The data associated with the event.
+  TcpRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TlsRoute is created.
+message TlsRouteCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tlsRoute.v1.created";
+  option (google.events.cloud_event_extension_name) = "tlsroute";
+
+  // The data associated with the event.
+  TlsRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TlsRoute is updated.
+message TlsRouteUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tlsRoute.v1.updated";
+  option (google.events.cloud_event_extension_name) = "tlsroute";
+
+  // The data associated with the event.
+  TlsRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a TlsRoute is deleted.
+message TlsRouteDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.tlsRoute.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "tlsroute";
+
+  // The data associated with the event.
+  TlsRouteEventData data = 1;
+}
+
+// The CloudEvent raised when a ServiceBinding is created.
+message ServiceBindingCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.serviceBinding.v1.created";
+  option (google.events.cloud_event_extension_name) = "servicebinding";
+
+  // The data associated with the event.
+  ServiceBindingEventData data = 1;
+}
+
+// The CloudEvent raised when a ServiceBinding is deleted.
+message ServiceBindingDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.serviceBinding.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "servicebinding";
+
+  // The data associated with the event.
+  ServiceBindingEventData data = 1;
+}
+
+// The CloudEvent raised when a Mesh is created.
+message MeshCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.mesh.v1.created";
+  option (google.events.cloud_event_extension_name) = "mesh";
+
+  // The data associated with the event.
+  MeshEventData data = 1;
+}
+
+// The CloudEvent raised when a Mesh is updated.
+message MeshUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.mesh.v1.updated";
+  option (google.events.cloud_event_extension_name) = "mesh";
+
+  // The data associated with the event.
+  MeshEventData data = 1;
+}
+
+// The CloudEvent raised when a Mesh is deleted.
+message MeshDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkservices.mesh.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "mesh";
+
+  // The data associated with the event.
+  MeshEventData data = 1;
+}
