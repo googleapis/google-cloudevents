@@ -1,0 +1,154 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/TlsRouteEventData.json",
+  "name": "TlsRouteEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkservices.v1",
+  "datatype": "google.events.cloud.networkservices.v1.TlsRouteEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkservices.tlsRoute.v1.created",
+    "google.cloud.networkservices.tlsRoute.v1.updated",
+    "google.cloud.networkservices.tlsRoute.v1.deleted"
+  ],
+  "product": "Network Services",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/TlsRouteEventData",
+  "definitions": {
+    "TlsRouteEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/TlsRoute",
+          "additionalProperties": true,
+          "description": "Optional. The TlsRoute event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Tls Route Event Data",
+      "description": "The data within all TlsRoute events."
+    },
+    "TlsRoute": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Name of the TlsRoute resource. It matches pattern `projects/*/locations/global/tlsRoutes/tls_route_name>`."
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "Output only. Server-defined URL of this resource"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was updated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A free-text description of the resource. Max length 1024 characters."
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/RouteRule"
+          },
+          "type": "array",
+          "description": "Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match."
+        },
+        "meshes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*/locations/global/meshes/<mesh_name>` The attached Mesh should be of a type SIDECAR"
+        },
+        "gateways": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*/locations/global/gateways/<gateway_name>`"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Tls Route",
+      "description": "TlsRoute defines how traffic should be routed based on SNI and other matching L3 attributes."
+    },
+    "RouteAction": {
+      "properties": {
+        "destinations": {
+          "items": {
+            "$ref": "#/definitions/RouteDestination"
+          },
+          "type": "array",
+          "description": "Required. The destination services to which traffic should be forwarded. At least one destination service is required."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Action",
+      "description": "The specifications for routing traffic and applying associated policies."
+    },
+    "RouteDestination": {
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "Required. The URL of a BackendService to route traffic to."
+        },
+        "weight": {
+          "type": "integer",
+          "description": "Optional. Specifies the proportion of requests forwareded to the backend referenced by the service_name field. This is computed as:         weight/Sum(weights in destinations) Weights in all destinations does not need to sum up to 100."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Destination",
+      "description": "Describe the destination for traffic to be routed to."
+    },
+    "RouteMatch": {
+      "properties": {
+        "sniHost": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. SNI (server name indicator) to match against. SNI will be matched against all wildcard domains, i.e. `www.example.com` will be first matched against `www.example.com`, then `*.example.com`, then `*.com.` Partial wildcards are not supported, and values like *w.example.com are invalid. At least one of sni_host and alpn is required. Up to 5 sni hosts across all matches can be set."
+        },
+        "alpn": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. ALPN (Application-Layer Protocol Negotiation) to match against. Examples: \"http/1.1\", \"h2\". At least one of sni_host and alpn is required. Up to 5 alpns across all matches can be set."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Match",
+      "description": "RouteMatch defines the predicate used to match requests to a given action. Multiple match types are \"AND\"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic."
+    },
+    "RouteRule": {
+      "properties": {
+        "matches": {
+          "items": {
+            "$ref": "#/definitions/RouteMatch"
+          },
+          "type": "array",
+          "description": "Required. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are \"OR\"ed for evaluation."
+        },
+        "action": {
+          "$ref": "#/definitions/RouteAction",
+          "additionalProperties": true,
+          "description": "Required. The detailed rule defining how to route matched traffic."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Rule",
+      "description": "Specifies how to match traffic and how to route traffic when traffic is matched."
+    }
+  }
+}

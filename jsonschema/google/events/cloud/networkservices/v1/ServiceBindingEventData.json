@@ -1,0 +1,70 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/ServiceBindingEventData.json",
+  "name": "ServiceBindingEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkservices.v1",
+  "datatype": "google.events.cloud.networkservices.v1.ServiceBindingEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkservices.serviceBinding.v1.created",
+    "google.cloud.networkservices.serviceBinding.v1.deleted"
+  ],
+  "product": "Network Services",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ServiceBindingEventData",
+  "definitions": {
+    "ServiceBindingEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ServiceBinding",
+          "additionalProperties": true,
+          "description": "Optional. The ServiceBinding event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Binding Event Data",
+      "description": "The data within all ServiceBinding events."
+    },
+    "ServiceBinding": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Name of the ServiceBinding resource. It matches pattern `projects/*/locations/global/serviceBindings/service_binding_name`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A free-text description of the resource. Max length 1024 characters."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was updated.",
+          "format": "date-time"
+        },
+        "service": {
+          "type": "string",
+          "description": "Required. The full Service Directory Service name of the format projects/*/locations/*/namespaces/*/services/*"
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "Output only. The unique identifier of the Service Directory Service against which the Service Binding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Set of label tags associated with the ServiceBinding resource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Binding",
+      "description": "ServiceBinding is the resource that defines a Service Directory Service to be used in a BackendService resource."
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/speech/v1/PhraseSetEventData.json",
+  "name": "PhraseSetEventData",
+  "examples": [],
+  "package": "google.events.cloud.speech.v1",
+  "datatype": "google.events.cloud.speech.v1.PhraseSetEventData",
+  "cloudeventTypes": [
+    "google.cloud.speech.phraseSet.v1.created",
+    "google.cloud.speech.phraseSet.v1.updated",
+    "google.cloud.speech.phraseSet.v1.deleted"
+  ],
+  "product": "Cloud Speech-to-Text",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/PhraseSetEventData",
+  "definitions": {
+    "PhraseSetEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/PhraseSet",
+          "additionalProperties": true,
+          "description": "Optional. The PhraseSet event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Phrase Set Event Data",
+      "description": "The data within all PhraseSet events."
+    },
+    "PhraseSet": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource name of the phrase set."
+        },
+        "phrases": {
+          "items": {
+            "$ref": "#/definitions/Phrase"
+          },
+          "type": "array",
+          "description": "A list of word and phrases."
+        },
+        "boost": {
+          "type": "number",
+          "description": "Hint Boost. Positive value will increase the probability that a specific phrase will be recognized over other similar sounding phrases. The higher the boost, the higher the chance of false positive recognition as well. Negative boost values would correspond to anti-biasing. Anti-biasing is not enabled, so negative boost will simply be ignored. Though `boost` can accept a wide range of positive values, most use cases are best served with values between 0 (exclusive) and 20. We recommend using a binary search approach to finding the optimal value for your use case as well as adding phrases both with and without boost to your requests."
+        },
+        "kmsKeyName": {
+          "type": "string",
+          "description": "Output only. The [KMS key name](https://cloud.google.com/kms/docs/resource-hierarchy#keys) with which the content of the PhraseSet is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`."
+        },
+        "kmsKeyVersionName": {
+          "type": "string",
+          "description": "Output only. The [KMS key version name](https://cloud.google.com/kms/docs/resource-hierarchy#key_versions) with which content of the PhraseSet is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System-assigned unique identifier for the PhraseSet. This field is not used."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Output only. User-settable, human-readable name for the PhraseSet. Must be 63 characters or less. This field is not used."
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "ACTIVE",
+            2,
+            "DELETED",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "Set of states that define the lifecycle of a CustomClass."
+        },
+        "deleteTime": {
+          "type": "string",
+          "description": "Output only. The time at which this resource was requested for deletion. This field is not used.",
+          "format": "date-time"
+        },
+        "expireTime": {
+          "type": "string",
+          "description": "Output only. The time at which this resource will be purged. This field is not used.",
+          "format": "date-time"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. Allows users to store small amounts of arbitrary data. Both the key and the value must be 63 characters or less each. At most 100 annotations. This field is not used."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields. This may be sent on update, undelete, and delete requests to ensure the client has an up-to-date value before proceeding. This field is not used."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. Whether or not this PhraseSet is in the process of being updated. This field is not used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Phrase Set",
+      "description": "Provides \"hints\" to the speech recognizer to favor specific words and phrases in the results."
+    },
+    "Phrase": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The phrase itself."
+        },
+        "boost": {
+          "type": "number",
+          "description": "Hint Boost. Overrides the boost set at the phrase set level. Positive value will increase the probability that a specific phrase will be recognized over other similar sounding phrases. The higher the boost, the higher the chance of false positive recognition as well. Negative boost will simply be ignored. Though `boost` can accept a wide range of positive values, most use cases are best served with values between 0 and 20. We recommend using a binary search approach to finding the optimal value for your use case as well as adding phrases both with and without boost to your requests."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Phrase",
+      "description": "A phrases containing words and phrase \"hints\" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See [usage limits](https://cloud.google.com/speech-to-text/quotas#content). List items can also include pre-built or custom classes containing groups of words that represent common concepts that occur in natural language. For example, rather than providing a phrase hint for every month of the year (e.g. \"i was born in january\", \"i was born in febuary\", ...), use the pre-built `$MONTH` class improves the likelihood of correctly transcribing audio that includes months (e.g. \"i was born in $month\"). To refer to pre-built classes, use the class' symbol prepended with `$` e.g. `$MONTH`. To refer to custom classes that were defined inline in the request, set the class's `custom_class_id` to a string unique to all class resources and inline classes. Then use the class' id wrapped in $`{...}` e.g. \"${my-months}\". To refer to custom classes resources, use the class' id wrapped in `${}` (e.g. `${my-months}`). Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value."
+    }
+  }
+}

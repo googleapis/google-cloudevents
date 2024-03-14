@@ -1,0 +1,559 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/networkservices/v1/HttpRouteEventData.json",
+  "name": "HttpRouteEventData",
+  "examples": [],
+  "package": "google.events.cloud.networkservices.v1",
+  "datatype": "google.events.cloud.networkservices.v1.HttpRouteEventData",
+  "cloudeventTypes": [
+    "google.cloud.networkservices.httpRoute.v1.created",
+    "google.cloud.networkservices.httpRoute.v1.updated",
+    "google.cloud.networkservices.httpRoute.v1.deleted"
+  ],
+  "product": "Network Services",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/HttpRouteEventData",
+  "definitions": {
+    "HttpRouteEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/HttpRoute",
+          "additionalProperties": true,
+          "description": "Optional. The HttpRoute event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Http Route Event Data",
+      "description": "The data within all HttpRoute events."
+    },
+    "HttpRoute": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. Name of the HttpRoute resource. It matches pattern `projects/*/locations/global/httpRoutes/http_route_name>`."
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "Output only. Server-defined URL of this resource"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A free-text description of the resource. Max length 1024 characters."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The timestamp when the resource was updated.",
+          "format": "date-time"
+        },
+        "hostnames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that:  - IPs are not allowed.  - A hostname may be prefixed with a wildcard label (`*.`). The wildcard    label must appear by itself as the first label. Hostname can be \"precise\" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or \"wildcard\", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways  must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`."
+        },
+        "meshes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*/locations/global/meshes/<mesh_name>` The attached Mesh should be of a type SIDECAR"
+        },
+        "gateways": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*/locations/global/gateways/<gateway_name>`"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Set of label tags associated with the HttpRoute resource."
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/RouteRule"
+          },
+          "type": "array",
+          "description": "Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Http Route",
+      "description": "HttpRoute is the resource defining how HTTP traffic should be routed by a Mesh or Gateway resource."
+    },
+    "CorsPolicy": {
+      "properties": {
+        "allowOrigins": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allow_origins or an item in allow_origin_regexes."
+        },
+        "allowOriginRegexes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies the regular expression patterns that match allowed origins. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax."
+        },
+        "allowMethods": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies the content for Access-Control-Allow-Methods header."
+        },
+        "allowHeaders": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies the content for Access-Control-Allow-Headers header."
+        },
+        "exposeHeaders": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies the content for Access-Control-Expose-Headers header."
+        },
+        "maxAge": {
+          "type": "string",
+          "description": "Specifies how long result of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header."
+        },
+        "allowCredentials": {
+          "type": "boolean",
+          "description": "In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default value is false."
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "If true, the CORS policy is disabled. The default value is false, which indicates that the CORS policy is in effect."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cors Policy",
+      "description": "The Specification for allowing client side cross-origin requests."
+    },
+    "Destination": {
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "The URL of a BackendService to route traffic to."
+        },
+        "weight": {
+          "type": "integer",
+          "description": "Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as:         weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Destination",
+      "description": "Specifications of a destination to which the request should be routed to."
+    },
+    "FaultInjectionPolicy": {
+      "properties": {
+        "delay": {
+          "$ref": "#/definitions/Delay",
+          "additionalProperties": true,
+          "description": "The specification for injecting delay to client requests."
+        },
+        "abort": {
+          "$ref": "#/definitions/Abort",
+          "additionalProperties": true,
+          "description": "The specification for aborting to client requests."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Fault Injection Policy",
+      "description": "The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced by client proxy on a percentage of requests before sending those requests to the destination service. Similarly requests can be aborted by client proxy for a percentage of requests."
+    },
+    "Abort": {
+      "properties": {
+        "httpStatus": {
+          "type": "integer",
+          "description": "The HTTP status code used to abort the request. The value must be between 200 and 599 inclusive."
+        },
+        "percentage": {
+          "type": "integer",
+          "description": "The percentage of traffic which will be aborted. The value must be between [0, 100]"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Abort",
+      "description": "Specification of how client requests are aborted as part of fault injection before being sent to a destination."
+    },
+    "Delay": {
+      "properties": {
+        "fixedDelay": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Specify a fixed delay before forwarding the request.",
+          "format": "regex"
+        },
+        "percentage": {
+          "type": "integer",
+          "description": "The percentage of traffic on which delay will be injected. The value must be between [0, 100]"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Delay",
+      "description": "Specification of how client requests are delayed as part of fault injection before being sent to a destination."
+    },
+    "HeaderMatch": {
+      "properties": {
+        "exactMatch": {
+          "type": "string",
+          "description": "The value of the header should match exactly the content of exact_match."
+        },
+        "regexMatch": {
+          "type": "string",
+          "description": "The value of the header must match the regular expression specified in regex_match. For regular expression grammar, please see: https://github.com/google/re2/wiki/Syntax"
+        },
+        "prefixMatch": {
+          "type": "string",
+          "description": "The value of the header must start with the contents of prefix_match."
+        },
+        "presentMatch": {
+          "type": "boolean",
+          "description": "A header with header_name must exist. The match takes place whether or not the header has a value."
+        },
+        "suffixMatch": {
+          "type": "string",
+          "description": "The value of the header must end with the contents of suffix_match."
+        },
+        "rangeMatch": {
+          "$ref": "#/definitions/IntegerRange",
+          "additionalProperties": true,
+          "description": "If specified, the rule will match if the request header value is within the range."
+        },
+        "header": {
+          "type": "string",
+          "description": "The name of the HTTP header to match against."
+        },
+        "invertMatch": {
+          "type": "boolean",
+          "description": "If specified, the match result will be inverted before checking. Default value is set to false."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Header Match",
+      "description": "Specifies how to select a route rule based on HTTP request headers."
+    },
+    "IntegerRange": {
+      "properties": {
+        "start": {
+          "type": "integer",
+          "description": "Start of the range (inclusive)"
+        },
+        "end": {
+          "type": "integer",
+          "description": "End of the range (exclusive)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Integer Range",
+      "description": "Represents an integer value range."
+    },
+    "HeaderModifier": {
+      "properties": {
+        "set": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Completely overwrite/replace the headers with given map where key is the name of the header, value is the value of the header."
+        },
+        "add": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Add the headers with given map where key is the name of the header, value is the value of the header."
+        },
+        "remove": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Remove headers (matching by header names) specified in the list."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Header Modifier",
+      "description": "The specification for modifying HTTP header in HTTP request and HTTP response."
+    },
+    "QueryParameterMatch": {
+      "properties": {
+        "exactMatch": {
+          "type": "string",
+          "description": "The value of the query parameter must exactly match the contents of exact_match. Only one of exact_match, regex_match, or present_match must be set."
+        },
+        "regexMatch": {
+          "type": "string",
+          "description": "The value of the query parameter must match the regular expression specified by regex_match. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of exact_match, regex_match, or present_match must be set."
+        },
+        "presentMatch": {
+          "type": "boolean",
+          "description": "Specifies that the QueryParameterMatcher matches if request contains query parameter, irrespective of whether the parameter has a value or not. Only one of exact_match, regex_match, or present_match must be set."
+        },
+        "queryParameter": {
+          "type": "string",
+          "description": "The name of the query parameter to match."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Query Parameter Match",
+      "description": "Specifications to match a query parameter in the request."
+    },
+    "Redirect": {
+      "properties": {
+        "hostRedirect": {
+          "type": "string",
+          "description": "The host that will be used in the redirect response instead of the one that was supplied in the request."
+        },
+        "pathRedirect": {
+          "type": "string",
+          "description": "The path that will be used in the redirect response instead of the one that was supplied in the request. path_redirect can not be supplied together with prefix_redirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect."
+        },
+        "prefixRewrite": {
+          "type": "string",
+          "description": "Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows URLs be dynamically created based on the request."
+        },
+        "responseCode": {
+          "enum": [
+            "RESPONSE_CODE_UNSPECIFIED",
+            0,
+            "MOVED_PERMANENTLY_DEFAULT",
+            1,
+            "FOUND",
+            2,
+            "SEE_OTHER",
+            3,
+            "TEMPORARY_REDIRECT",
+            4,
+            "PERMANENT_REDIRECT",
+            5
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Response Code",
+          "description": "Supported HTTP response code."
+        },
+        "httpsRedirect": {
+          "type": "boolean",
+          "description": "If set to true, the URL scheme in the redirected request is set to https. If set to false, the URL scheme of the redirected request will remain the same as that of the request. The default is set to false."
+        },
+        "stripQuery": {
+          "type": "boolean",
+          "description": "if set to true, any accompanying query portion of the original URL is removed prior to redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false."
+        },
+        "portRedirect": {
+          "type": "integer",
+          "description": "The port that will be used in the redirected request instead of the one that was supplied in the request."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Redirect",
+      "description": "The specification for redirecting traffic."
+    },
+    "RequestMirrorPolicy": {
+      "properties": {
+        "destination": {
+          "$ref": "#/definitions/Destination",
+          "additionalProperties": true,
+          "description": "The destination the requests will be mirrored to. The weight of the destination will be ignored."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Request Mirror Policy",
+      "description": "Specifies the policy on how requests are shadowed to a separate mirrored destination service. The proxy does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow."
+    },
+    "RetryPolicy": {
+      "properties": {
+        "retryConditions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specifies one or more conditions when this retry policy applies. Valid values are:   5xx: Proxy will attempt a retry if the destination service responds     with any 5xx response code, of if the destination service does not     respond at all, example: disconnect, reset, read timeout, connection     failure and refused streams.   gateway-error: Similar to 5xx, but only applies to response codes 502,     503, 504.   reset: Proxy will attempt a retry if the destination service does not     respond at all (disconnect/reset/read timeout)   connect-failure: Proxy will retry on failures connecting to destination     for example due to connection timeouts.   retriable-4xx: Proxy will retry fro retriable 4xx response codes.     Currently the only retriable error supported is 409.   refused-stream: Proxy will retry if the destination resets the stream     with a REFUSED_STREAM error code. This reset type indicates that it     is safe to retry."
+        },
+        "numRetries": {
+          "type": "integer",
+          "description": "Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1."
+        },
+        "perTryTimeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Specifies a non-zero timeout per retry attempt.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Retry Policy",
+      "description": "The specifications for retries."
+    },
+    "RouteAction": {
+      "properties": {
+        "destinations": {
+          "items": {
+            "$ref": "#/definitions/Destination"
+          },
+          "type": "array",
+          "description": "The destination to which traffic should be forwarded."
+        },
+        "redirect": {
+          "$ref": "#/definitions/Redirect",
+          "additionalProperties": true,
+          "description": "If set, the request is directed as configured by this field."
+        },
+        "faultInjectionPolicy": {
+          "$ref": "#/definitions/FaultInjectionPolicy",
+          "additionalProperties": true,
+          "description": "The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced  on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy"
+        },
+        "requestHeaderModifier": {
+          "$ref": "#/definitions/HeaderModifier",
+          "additionalProperties": true,
+          "description": "The specification for modifying the headers of a matching request prior to delivery of the request to the destination."
+        },
+        "responseHeaderModifier": {
+          "$ref": "#/definitions/HeaderModifier",
+          "additionalProperties": true,
+          "description": "The specification for modifying the headers of a response prior to sending the response back to the client."
+        },
+        "urlRewrite": {
+          "$ref": "#/definitions/URLRewrite",
+          "additionalProperties": true,
+          "description": "The specification for rewrite URL before forwarding requests to the destination."
+        },
+        "timeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries.",
+          "format": "regex"
+        },
+        "retryPolicy": {
+          "$ref": "#/definitions/RetryPolicy",
+          "additionalProperties": true,
+          "description": "Specifies the retry policy associated with this route."
+        },
+        "requestMirrorPolicy": {
+          "$ref": "#/definitions/RequestMirrorPolicy",
+          "additionalProperties": true,
+          "description": "Specifies the policy on how requests intended for the routes destination are shadowed to a separate mirrored destination. Proxy will not wait for the shadow destination to respond before returning the response. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow."
+        },
+        "corsPolicy": {
+          "$ref": "#/definitions/CorsPolicy",
+          "additionalProperties": true,
+          "description": "The specification for allowing client side cross-origin requests."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Action",
+      "description": "The specifications for routing traffic and applying associated policies."
+    },
+    "RouteMatch": {
+      "properties": {
+        "fullPathMatch": {
+          "type": "string",
+          "description": "The HTTP request path value should exactly match this value. Only one of full_path_match, prefix_match, or regex_match should be used."
+        },
+        "prefixMatch": {
+          "type": "string",
+          "description": "The HTTP request path value must begin with specified prefix_match. prefix_match must begin with a /. Only one of full_path_match, prefix_match, or regex_match should be used."
+        },
+        "regexMatch": {
+          "type": "string",
+          "description": "The HTTP request path value must satisfy the regular expression specified by regex_match after removing any query parameters and anchor supplied with the original URL. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of full_path_match, prefix_match, or regex_match should be used."
+        },
+        "ignoreCase": {
+          "type": "boolean",
+          "description": "Specifies if prefix_match and full_path_match matches are case sensitive. The default value is false."
+        },
+        "headers": {
+          "items": {
+            "$ref": "#/definitions/HeaderMatch"
+          },
+          "type": "array",
+          "description": "Specifies a list of HTTP request headers to match against. ALL of the supplied headers must be matched."
+        },
+        "queryParameters": {
+          "items": {
+            "$ref": "#/definitions/QueryParameterMatch"
+          },
+          "type": "array",
+          "description": "Specifies a list of query parameters to match against. ALL of the query parameters must be matched."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Match",
+      "description": "RouteMatch defines specifications used to match requests. If multiple match types are set, this RouteMatch will match if ALL type of matches are matched."
+    },
+    "RouteRule": {
+      "properties": {
+        "matches": {
+          "items": {
+            "$ref": "#/definitions/RouteMatch"
+          },
+          "type": "array",
+          "description": "A list of matches define conditions used for matching the rule against incoming HTTP requests. Each match is independent, i.e. this rule will be matched if ANY one of the matches is satisfied. If no matches field is specified, this rule will unconditionally match traffic. If a default rule is desired to be configured, add a rule with no matches specified to the end of the rules list."
+        },
+        "action": {
+          "$ref": "#/definitions/RouteAction",
+          "additionalProperties": true,
+          "description": "The detailed rule defining how to route matched traffic."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Route Rule",
+      "description": "Specifies how to match traffic and how to route traffic when traffic is matched."
+    },
+    "URLRewrite": {
+      "properties": {
+        "pathPrefixRewrite": {
+          "type": "string",
+          "description": "Prior to forwarding the request to the selected destination, the matching portion of the requests path is replaced by this value."
+        },
+        "hostRewrite": {
+          "type": "string",
+          "description": "Prior to forwarding the request to the selected destination, the requests host header is replaced by this value."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "URL Rewrite",
+      "description": "The specification for modifying the URL of the request, prior to forwarding the request to the destination."
+    }
+  }
+}
