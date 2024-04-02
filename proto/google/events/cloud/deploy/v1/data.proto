@@ -1,0 +1,1697 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.deploy.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Deploy.V1";
+option php_namespace = "Google\\Events\\Cloud\\Deploy\\V1";
+option ruby_package = " Google::Events::Cloud::Deploy::V1";
+
+// A `DeliveryPipeline` resource in the Cloud Deploy API.
+//
+// A `DeliveryPipeline` defines a pipeline through which a Skaffold
+// configuration can progress.
+message DeliveryPipeline {
+  // Optional. Name of the `DeliveryPipeline`. Format is
+  // `projects/{project}/locations/{location}/deliveryPipelines/[a-z][a-z0-9\-]{0,62}`.
+  string name = 1;
+
+  // Output only. Unique identifier of the `DeliveryPipeline`.
+  string uid = 2;
+
+  // Description of the `DeliveryPipeline`. Max length is 255 characters.
+  string description = 3;
+
+  // User annotations. These attributes can only be set and used by the
+  // user, and not by Cloud Deploy.
+  map<string, string> annotations = 4;
+
+  // Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 128 bytes.
+  map<string, string> labels = 5;
+
+  // Output only. Time at which the pipeline was created.
+  google.protobuf.Timestamp create_time = 6;
+
+  // Output only. Most recent time at which the pipeline was updated.
+  google.protobuf.Timestamp update_time = 7;
+
+  // The ordering configuration of the `DeliveryPipeline`.
+  oneof pipeline {
+    // SerialPipeline defines a sequential set of stages for a
+    // `DeliveryPipeline`.
+    SerialPipeline serial_pipeline = 8;
+  }
+
+  // Output only. Information around the state of the Delivery Pipeline.
+  PipelineCondition condition = 11;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 10;
+
+  // When suspended, no new releases or rollouts can be created,
+  // but in-progress ones will complete.
+  bool suspended = 12;
+}
+
+// SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`.
+message SerialPipeline {
+  // Each stage specifies configuration for a `Target`. The ordering
+  // of this list defines the promotion flow.
+  repeated Stage stages = 1;
+}
+
+// Stage specifies a location to which to deploy.
+message Stage {
+  // The target_id to which this stage points. This field refers exclusively to
+  // the last segment of a target name. For example, this field would just be
+  // `my-target` (rather than
+  // `projects/project/locations/location/targets/my-target`). The location of
+  // the `Target` is inferred to be the same as the location of the
+  // `DeliveryPipeline` that contains this `Stage`.
+  string target_id = 1;
+
+  // Skaffold profiles to use when rendering the manifest for this stage's
+  // `Target`.
+  repeated string profiles = 2;
+
+  // Optional. The strategy to use for a `Rollout` to this stage.
+  Strategy strategy = 5;
+
+  // Optional. The deploy parameters to use for the target in this stage.
+  repeated DeployParameters deploy_parameters = 6;
+}
+
+// DeployParameters contains deploy parameters information.
+message DeployParameters {
+  // Required. Values are deploy parameters in key-value pairs.
+  map<string, string> values = 1;
+
+  // Optional. Deploy parameters are applied to targets with match labels.
+  // If unspecified, deploy parameters are applied to all targets (including
+  // child targets of a multi-target).
+  map<string, string> match_target_labels = 2;
+}
+
+// Strategy contains deployment strategy information.
+message Strategy {
+  // Deployment strategy details.
+  oneof deployment_strategy {
+    // Standard deployment strategy executes a single deploy and allows
+    // verifying the deployment.
+    Standard standard = 1;
+
+    // Canary deployment strategy provides progressive percentage based
+    // deployments to a Target.
+    Canary canary = 2;
+  }
+}
+
+// Predeploy contains the predeploy job configuration information.
+message Predeploy {
+  // Optional. A sequence of Skaffold custom actions to invoke during execution
+  // of the predeploy job.
+  repeated string actions = 1;
+}
+
+// Postdeploy contains the postdeploy job configuration information.
+message Postdeploy {
+  // Optional. A sequence of Skaffold custom actions to invoke during execution
+  // of the postdeploy job.
+  repeated string actions = 1;
+}
+
+// Standard represents the standard deployment strategy.
+message Standard {
+  // Whether to verify a deployment.
+  bool verify = 1;
+
+  // Optional. Configuration for the predeploy job. If this is not configured,
+  // predeploy job will not be present.
+  Predeploy predeploy = 2;
+
+  // Optional. Configuration for the postdeploy job. If this is not configured,
+  // postdeploy job will not be present.
+  Postdeploy postdeploy = 3;
+}
+
+// Canary represents the canary deployment strategy.
+message Canary {
+  // Optional. Runtime specific configurations for the deployment strategy. The
+  // runtime configuration is used to determine how Cloud Deploy will split
+  // traffic to enable a progressive deployment.
+  RuntimeConfig runtime_config = 1;
+
+  // The mode to use for the canary deployment strategy.
+  oneof mode {
+    // Configures the progressive based deployment for a Target.
+    CanaryDeployment canary_deployment = 2;
+
+    // Configures the progressive based deployment for a Target, but allows
+    // customizing at the phase level where a phase represents each of the
+    // percentage deployments.
+    CustomCanaryDeployment custom_canary_deployment = 3;
+  }
+}
+
+// CanaryDeployment represents the canary deployment configuration
+message CanaryDeployment {
+  // Required. The percentage based deployments that will occur as a part of a
+  // `Rollout`. List is expected in ascending order and each integer n is
+  // 0 <= n < 100.
+  repeated int32 percentages = 1;
+
+  // Whether to run verify tests after each percentage deployment.
+  bool verify = 2;
+
+  // Optional. Configuration for the predeploy job of the first phase. If this
+  // is not configured, there will be no predeploy job for this phase.
+  Predeploy predeploy = 3;
+
+  // Optional. Configuration for the postdeploy job of the last phase. If this
+  // is not configured, there will be no postdeploy job for this phase.
+  Postdeploy postdeploy = 4;
+}
+
+// CustomCanaryDeployment represents the custom canary deployment
+// configuration.
+message CustomCanaryDeployment {
+  // PhaseConfig represents the configuration for a phase in the custom
+  // canary deployment.
+  message PhaseConfig {
+    // Required. The ID to assign to the `Rollout` phase.
+    // This value must consist of lower-case letters, numbers, and hyphens,
+    // start with a letter and end with a letter or a number, and have a max
+    // length of 63 characters. In other words, it must match the following
+    // regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
+    string phase_id = 1;
+
+    // Required. Percentage deployment for the phase.
+    int32 percentage = 2;
+
+    // Skaffold profiles to use when rendering the manifest for this phase.
+    // These are in addition to the profiles list specified in the
+    // `DeliveryPipeline` stage.
+    repeated string profiles = 3;
+
+    // Whether to run verify tests after the deployment.
+    bool verify = 4;
+
+    // Optional. Configuration for the predeploy job of this phase. If this is
+    // not configured, there will be no predeploy job for this phase.
+    Predeploy predeploy = 5;
+
+    // Optional. Configuration for the postdeploy job of this phase. If this is
+    // not configured, there will be no postdeploy job for this phase.
+    Postdeploy postdeploy = 6;
+  }
+
+  // Required. Configuration for each phase in the canary deployment in the
+  // order executed.
+  repeated PhaseConfig phase_configs = 1;
+}
+
+// KubernetesConfig contains the Kubernetes runtime configuration.
+message KubernetesConfig {
+  // Information about the Kubernetes Gateway API service mesh configuration.
+  message GatewayServiceMesh {
+    // Required. Name of the Gateway API HTTPRoute.
+    string http_route = 1;
+
+    // Required. Name of the Kubernetes Service.
+    string service = 2;
+
+    // Required. Name of the Kubernetes Deployment whose traffic is managed by
+    // the specified HTTPRoute and Service.
+    string deployment = 3;
+
+    // Optional. The time to wait for route updates to propagate. The maximum
+    // configurable time is 3 hours, in seconds format. If unspecified, there is
+    // no wait time.
+    google.protobuf.Duration route_update_wait_time = 4;
+
+    // Optional. The amount of time to migrate traffic back from the canary
+    // Service to the original Service during the stable phase deployment. If
+    // specified, must be between 15s and 3600s. If unspecified, there is no
+    // cutback time.
+    google.protobuf.Duration stable_cutback_duration = 5;
+  }
+
+  // Information about the Kubernetes Service networking configuration.
+  message ServiceNetworking {
+    // Required. Name of the Kubernetes Service.
+    string service = 1;
+
+    // Required. Name of the Kubernetes Deployment whose traffic is managed by
+    // the specified Service.
+    string deployment = 2;
+
+    // Optional. Whether to disable Pod overprovisioning. If Pod
+    // overprovisioning is disabled then Cloud Deploy will limit the number of
+    // total Pods used for the deployment strategy to the number of Pods the
+    // Deployment has on the cluster.
+    bool disable_pod_overprovisioning = 3;
+  }
+
+  // The service definition configuration.
+  oneof service_definition {
+    // Kubernetes Gateway API service mesh configuration.
+    GatewayServiceMesh gateway_service_mesh = 1;
+
+    // Kubernetes Service networking configuration.
+    ServiceNetworking service_networking = 2;
+  }
+}
+
+// CloudRunConfig contains the Cloud Run runtime configuration.
+message CloudRunConfig {
+  // Whether Cloud Deploy should update the traffic stanza in a Cloud Run
+  // Service on the user's behalf to facilitate traffic splitting. This is
+  // required to be true for CanaryDeployments, but optional for
+  // CustomCanaryDeployments.
+  bool automatic_traffic_control = 1;
+
+  // Optional. A list of tags that are added to the canary revision while the
+  // canary phase is in progress.
+  repeated string canary_revision_tags = 2;
+
+  // Optional. A list of tags that are added to the prior revision while the
+  // canary phase is in progress.
+  repeated string prior_revision_tags = 3;
+
+  // Optional. A list of tags that are added to the final stable revision when
+  // the stable phase is applied.
+  repeated string stable_revision_tags = 4;
+}
+
+// RuntimeConfig contains the runtime specific configurations for a deployment
+// strategy.
+message RuntimeConfig {
+  // The runtime configuration details.
+  oneof runtime_config {
+    // Kubernetes runtime configuration.
+    KubernetesConfig kubernetes = 1;
+
+    // Cloud Run runtime configuration.
+    CloudRunConfig cloud_run = 2;
+  }
+}
+
+// PipelineReadyCondition contains information around the status of the
+// Pipeline.
+message PipelineReadyCondition {
+  // True if the Pipeline is in a valid state. Otherwise at least one condition
+  // in `PipelineCondition` is in an invalid state. Iterate over those
+  // conditions and see which condition(s) has status = false to find out what
+  // is wrong with the Pipeline.
+  bool status = 3;
+
+  // Last time the condition was updated.
+  google.protobuf.Timestamp update_time = 4;
+}
+
+// `TargetsPresentCondition` contains information on any Targets referenced in
+// the Delivery Pipeline that do not actually exist.
+message TargetsPresentCondition {
+  // True if there aren't any missing Targets.
+  bool status = 1;
+
+  // The list of Target names that do not exist. For example,
+  // `projects/{project_id}/locations/{location_name}/targets/{target_name}`.
+  repeated string missing_targets = 2;
+
+  // Last time the condition was updated.
+  google.protobuf.Timestamp update_time = 4;
+}
+
+// TargetsTypeCondition contains information on whether the Targets defined in
+// the Delivery Pipeline are of the same type.
+message TargetsTypeCondition {
+  // True if the targets are all a comparable type. For example this is true if
+  // all targets are GKE clusters. This is false if some targets are Cloud Run
+  // targets and others are GKE clusters.
+  bool status = 1;
+
+  // Human readable error message.
+  string error_details = 2;
+}
+
+// PipelineCondition contains all conditions relevant to a Delivery Pipeline.
+message PipelineCondition {
+  // Details around the Pipeline's overall status.
+  PipelineReadyCondition pipeline_ready_condition = 1;
+
+  // Details around targets enumerated in the pipeline.
+  TargetsPresentCondition targets_present_condition = 3;
+
+  // Details on the whether the targets enumerated in the pipeline are of the
+  // same type.
+  TargetsTypeCondition targets_type_condition = 4;
+}
+
+// A `Target` resource in the Cloud Deploy API.
+//
+// A `Target` defines a location to which a Skaffold configuration
+// can be deployed.
+message Target {
+  // Optional. Name of the `Target`. Format is
+  // `projects/{project}/locations/{location}/targets/[a-z][a-z0-9\-]{0,62}`.
+  string name = 1;
+
+  // Output only. Resource id of the `Target`.
+  string target_id = 2;
+
+  // Output only. Unique identifier of the `Target`.
+  string uid = 3;
+
+  // Optional. Description of the `Target`. Max length is 255 characters.
+  string description = 4;
+
+  // Optional. User annotations. These attributes can only be set and used by
+  // the user, and not by Cloud Deploy. See
+  // https://google.aip.dev/128#annotations for more details such as format and
+  // size limitations.
+  map<string, string> annotations = 5;
+
+  // Optional. Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 128 bytes.
+  map<string, string> labels = 6;
+
+  // Optional. Whether or not the `Target` requires approval.
+  bool require_approval = 13;
+
+  // Output only. Time at which the `Target` was created.
+  google.protobuf.Timestamp create_time = 8;
+
+  // Output only. Most recent time at which the `Target` was updated.
+  google.protobuf.Timestamp update_time = 9;
+
+  // Destination to which the Skaffold configuration is applied during a
+  // rollout.
+  oneof deployment_target {
+    // Optional. Information specifying a GKE Cluster.
+    GkeCluster gke = 15;
+
+    // Optional. Information specifying an Anthos Cluster.
+    AnthosCluster anthos_cluster = 17;
+
+    // Optional. Information specifying a Cloud Run deployment target.
+    CloudRunLocation run = 18;
+
+    // Optional. Information specifying a multiTarget.
+    MultiTarget multi_target = 19;
+
+    // Optional. Information specifying a Custom Target.
+    CustomTarget custom_target = 21;
+  }
+
+  // Optional. This checksum is computed by the server based on the value of
+  // other fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 12;
+
+  // Configurations for all execution that relates to this `Target`.
+  // Each `ExecutionEnvironmentUsage` value may only be used in a single
+  // configuration; using the same value multiple times is an error.
+  // When one or more configurations are specified, they must include the
+  // `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values.
+  // When no configurations are specified, execution will use the default
+  // specified in `DefaultPool`.
+  repeated ExecutionConfig execution_configs = 16;
+
+  // Optional. The deploy parameters to use for this target.
+  map<string, string> deploy_parameters = 20;
+}
+
+// Configuration of the environment to use when calling Skaffold.
+message ExecutionConfig {
+  // Possible usages of this configuration.
+  enum ExecutionEnvironmentUsage {
+    // Default value. This value is unused.
+    EXECUTION_ENVIRONMENT_USAGE_UNSPECIFIED = 0;
+
+    // Use for rendering.
+    RENDER = 1;
+
+    // Use for deploying and deployment hooks.
+    DEPLOY = 2;
+
+    // Use for deployment verification.
+    VERIFY = 3;
+
+    // Use for predeploy job execution.
+    PREDEPLOY = 4;
+
+    // Use for postdeploy job execution.
+    POSTDEPLOY = 5;
+  }
+
+  // Required. Usages when this configuration should be applied.
+  repeated ExecutionEnvironmentUsage usages = 1;
+
+  // Details of the environment.
+  oneof execution_environment {
+    // Optional. Use default Cloud Build pool.
+    DefaultPool default_pool = 2;
+
+    // Optional. Use private Cloud Build pool.
+    PrivatePool private_pool = 3;
+  }
+
+  // Optional. The resource name of the `WorkerPool`, with the format
+  // `projects/{project}/locations/{location}/workerPools/{worker_pool}`.
+  // If this optional field is unspecified, the default Cloud Build pool will be
+  // used.
+  string worker_pool = 4;
+
+  // Optional. Google service account to use for execution. If unspecified,
+  // the project execution service account
+  // (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) is used.
+  string service_account = 5;
+
+  // Optional. Cloud Storage location in which to store execution outputs. This
+  // can either be a bucket ("gs://my-bucket") or a path within a bucket
+  // ("gs://my-bucket/my-dir").
+  // If unspecified, a default bucket located in the same region will be used.
+  string artifact_storage = 6;
+
+  // Optional. Execution timeout for a Cloud Build Execution. This must be
+  // between 10m and 24h in seconds format. If unspecified, a default timeout of
+  // 1h is used.
+  google.protobuf.Duration execution_timeout = 7;
+}
+
+// Execution using the default Cloud Build pool.
+message DefaultPool {
+  // Optional. Google service account to use for execution. If unspecified,
+  // the project execution service account
+  // (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) will be used.
+  string service_account = 1;
+
+  // Optional. Cloud Storage location where execution outputs should be stored.
+  // This can either be a bucket ("gs://my-bucket") or a path within a bucket
+  // ("gs://my-bucket/my-dir").
+  // If unspecified, a default bucket located in the same region will be used.
+  string artifact_storage = 2;
+}
+
+// Execution using a private Cloud Build pool.
+message PrivatePool {
+  // Required. Resource name of the Cloud Build worker pool to use. The format
+  // is `projects/{project}/locations/{location}/workerPools/{pool}`.
+  string worker_pool = 1;
+
+  // Optional. Google service account to use for execution. If unspecified,
+  // the project execution service account
+  // (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) will be used.
+  string service_account = 2;
+
+  // Optional. Cloud Storage location where execution outputs should be stored.
+  // This can either be a bucket ("gs://my-bucket") or a path within a bucket
+  // ("gs://my-bucket/my-dir").
+  // If unspecified, a default bucket located in the same region will be used.
+  string artifact_storage = 3;
+}
+
+// Information specifying a GKE Cluster.
+message GkeCluster {
+  // Information specifying a GKE Cluster. Format is
+  // `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`.
+  string cluster = 1;
+
+  // Optional. If true, `cluster` is accessed using the private IP address of
+  // the control plane endpoint. Otherwise, the default IP address of the
+  // control plane endpoint is used. The default IP address is the private IP
+  // address for clusters with private control-plane endpoints and the public IP
+  // address otherwise.
+  //
+  // Only specify this option when `cluster` is a [private GKE
+  // cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept).
+  bool internal_ip = 2;
+}
+
+// Information specifying an Anthos Cluster.
+message AnthosCluster {
+  // Membership of the GKE Hub-registered cluster to which to apply the Skaffold
+  // configuration. Format is
+  // `projects/{project}/locations/{location}/memberships/{membership_name}`.
+  string membership = 1;
+}
+
+// Information specifying where to deploy a Cloud Run Service.
+message CloudRunLocation {
+  // Required. The location for the Cloud Run Service. Format must be
+  // `projects/{project}/locations/{location}`.
+  string location = 1;
+}
+
+// Information specifying a multiTarget.
+message MultiTarget {
+  // Required. The target_ids of this multiTarget.
+  repeated string target_ids = 1;
+}
+
+// Information specifying a Custom Target.
+message CustomTarget {
+  // Required. The name of the CustomTargetType. Format must be
+  // `projects/{project}/locations/{location}/customTargetTypes/{custom_target_type}`.
+  string custom_target_type = 1;
+}
+
+// A `CustomTargetType` resource in the Cloud Deploy API.
+//
+// A `CustomTargetType` defines a type of custom target that can be referenced
+// in a `Target` in order to facilitate deploying to other systems besides the
+// supported runtimes.
+message CustomTargetType {
+  // Optional. Name of the `CustomTargetType`. Format is
+  // `projects/{project}/locations/{location}/customTargetTypes/[a-z][a-z0-9\-]{0,62}`.
+  string name = 1;
+
+  // Output only. Resource id of the `CustomTargetType`.
+  string custom_target_type_id = 2;
+
+  // Output only. Unique identifier of the `CustomTargetType`.
+  string uid = 3;
+
+  // Optional. Description of the `CustomTargetType`. Max length is 255
+  // characters.
+  string description = 4;
+
+  // Optional. User annotations. These attributes can only be set and used by
+  // the user, and not by Cloud Deploy. See
+  // https://google.aip.dev/128#annotations for more details such as format and
+  // size limitations.
+  map<string, string> annotations = 5;
+
+  // Optional. Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 128 bytes.
+  map<string, string> labels = 6;
+
+  // Output only. Time at which the `CustomTargetType` was created.
+  google.protobuf.Timestamp create_time = 7;
+
+  // Output only. Most recent time at which the `CustomTargetType` was updated.
+  google.protobuf.Timestamp update_time = 8;
+
+  // Optional. This checksum is computed by the server based on the value of
+  // other fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 9;
+
+  // Defines the `CustomTargetType` renderer and deployer.
+  oneof definition {
+    // Configures render and deploy for the `CustomTargetType` using Skaffold
+    // custom actions.
+    CustomTargetSkaffoldActions custom_actions = 10;
+  }
+}
+
+// CustomTargetSkaffoldActions represents the `CustomTargetType` configuration
+// using Skaffold custom actions.
+message CustomTargetSkaffoldActions {
+  // Optional. The Skaffold custom action responsible for render operations. If
+  // not provided then Cloud Deploy will perform the render operations via
+  // `skaffold render`.
+  string render_action = 1;
+
+  // Required. The Skaffold custom action responsible for deploy operations.
+  string deploy_action = 2;
+
+  // Optional. List of Skaffold modules Cloud Deploy will include in the
+  // Skaffold Config as required before performing diagnose.
+  repeated SkaffoldModules include_skaffold_modules = 3;
+}
+
+// Skaffold Config modules and their remote source.
+message SkaffoldModules {
+  // Git repository containing Skaffold Config modules.
+  message SkaffoldGitSource {
+    // Required. Git repository the package should be cloned from.
+    string repo = 1;
+
+    // Optional. Relative path from the repository root to the Skaffold file.
+    string path = 2;
+
+    // Optional. Git ref the package should be cloned from.
+    string ref = 3;
+  }
+
+  // Cloud Storage bucket containing Skaffold Config modules.
+  message SkaffoldGCSSource {
+    // Required. Cloud Storage source paths to copy recursively. For example,
+    // providing "gs://my-bucket/dir/configs/*" will result in Skaffold copying
+    // all files within the "dir/configs" directory in the bucket "my-bucket".
+    string source = 1;
+
+    // Optional. Relative path from the source to the Skaffold file.
+    string path = 2;
+  }
+
+  // Optional. The Skaffold Config modules to use from the specified source.
+  repeated string configs = 1;
+
+  // The source that contains the Skaffold Config modules.
+  oneof source {
+    // Remote git repository containing the Skaffold Config modules.
+    SkaffoldGitSource git = 2;
+
+    // Cloud Storage bucket containing the Skaffold Config modules.
+    SkaffoldGCSSource google_cloud_storage = 3;
+  }
+}
+
+// Contains criteria for selecting Targets.
+message TargetAttribute {
+  // ID of the `Target`. The value of this field could be one of the
+  // following:
+  // * The last segment of a target name. It only needs the ID to determine
+  // which target is being referred to
+  // * "*", all targets in a location.
+  string id = 1;
+
+  // Target labels.
+  map<string, string> labels = 2;
+}
+
+// A `Release` resource in the Cloud Deploy API.
+//
+// A `Release` defines a specific Skaffold configuration instance
+// that can be deployed.
+message Release {
+  // Details of rendering for a single target.
+  message TargetRender {
+    // Valid states of the render operation.
+    enum TargetRenderState {
+      // The render operation state is unspecified.
+      TARGET_RENDER_STATE_UNSPECIFIED = 0;
+
+      // The render operation has completed successfully.
+      SUCCEEDED = 1;
+
+      // The render operation has failed.
+      FAILED = 2;
+
+      // The render operation is in progress.
+      IN_PROGRESS = 3;
+    }
+
+    // Well-known rendering failures.
+    enum FailureCause {
+      // No reason for failure is specified.
+      FAILURE_CAUSE_UNSPECIFIED = 0;
+
+      // Cloud Build is not available, either because it is not enabled or
+      // because Cloud Deploy has insufficient permissions. See [required
+      // permission](https://cloud.google.com/deploy/docs/cloud-deploy-service-account#required_permissions).
+      CLOUD_BUILD_UNAVAILABLE = 1;
+
+      // The render operation did not complete successfully; check Cloud Build
+      // logs.
+      EXECUTION_FAILED = 2;
+
+      // Cloud Build failed to fulfill Cloud Deploy's request. See
+      // failure_message for additional details.
+      CLOUD_BUILD_REQUEST_FAILED = 3;
+
+      // The render operation did not complete successfully because the
+      // verification stanza required for verify was not found on the Skaffold
+      // configuration.
+      VERIFICATION_CONFIG_NOT_FOUND = 4;
+
+      // The render operation did not complete successfully because the custom
+      // action required for predeploy or postdeploy was not found in the
+      // Skaffold configuration. See failure_message for additional details.
+      CUSTOM_ACTION_NOT_FOUND = 5;
+
+      // Release failed during rendering because the release configuration is
+      // not supported with the specified deployment strategy.
+      DEPLOYMENT_STRATEGY_NOT_SUPPORTED = 6;
+
+      // The render operation had a feature configured that is not supported.
+      RENDER_FEATURE_NOT_SUPPORTED = 7;
+    }
+
+    // Output only. The resource name of the Cloud Build `Build` object that is
+    // used to render the manifest for this target. Format is
+    // `projects/{project}/locations/{location}/builds/{build}`.
+    string rendering_build = 1;
+
+    // Output only. Current state of the render operation for this Target.
+    TargetRenderState rendering_state = 2;
+
+    // Output only. Metadata related to the `Release` render for this Target.
+    RenderMetadata metadata = 6;
+
+    // Output only. Reason this render failed. This will always be unspecified
+    // while the render in progress.
+    FailureCause failure_cause = 4;
+
+    // Output only. Additional information about the render failure, if
+    // available.
+    string failure_message = 5;
+  }
+
+  // ReleaseReadyCondition contains information around the status of the
+  // Release. If a release is not ready, you cannot create a rollout with the
+  // release.
+  message ReleaseReadyCondition {
+    // True if the Release is in a valid state. Otherwise at least one condition
+    // in `ReleaseCondition` is in an invalid state. Iterate over those
+    // conditions and see which condition(s) has status = false to find out what
+    // is wrong with the Release.
+    bool status = 1;
+  }
+
+  // SkaffoldSupportedCondition contains information about when support for the
+  // release's version of Skaffold ends.
+  message SkaffoldSupportedCondition {
+    // True if the version of Skaffold used by this release is supported.
+    bool status = 1;
+
+    // The Skaffold support state for this release's version of Skaffold.
+    SkaffoldSupportState skaffold_support_state = 2;
+
+    // The time at which this release's version of Skaffold will enter
+    // maintenance mode.
+    google.protobuf.Timestamp maintenance_mode_time = 3;
+
+    // The time at which this release's version of Skaffold will no longer be
+    // supported.
+    google.protobuf.Timestamp support_expiration_time = 4;
+  }
+
+  // ReleaseCondition contains all conditions relevant to a Release.
+  message ReleaseCondition {
+    // Details around the Releases's overall status.
+    ReleaseReadyCondition release_ready_condition = 1;
+
+    // Details around the support state of the release's Skaffold
+    // version.
+    SkaffoldSupportedCondition skaffold_supported_condition = 2;
+  }
+
+  // Valid states of the render operation.
+  enum RenderState {
+    // The render state is unspecified.
+    RENDER_STATE_UNSPECIFIED = 0;
+
+    // All rendering operations have completed successfully.
+    SUCCEEDED = 1;
+
+    // All rendering operations have completed, and one or more have failed.
+    FAILED = 2;
+
+    // Rendering has started and is not complete.
+    IN_PROGRESS = 3;
+  }
+
+  // Optional. Name of the `Release`. Format is
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/[a-z][a-z0-9\-]{0,62}`.
+  string name = 1;
+
+  // Output only. Unique identifier of the `Release`.
+  string uid = 2;
+
+  // Description of the `Release`. Max length is 255 characters.
+  string description = 3;
+
+  // User annotations. These attributes can only be set and used by the
+  // user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations
+  // for more details such as format and size limitations.
+  map<string, string> annotations = 4;
+
+  // Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 128 bytes.
+  map<string, string> labels = 5;
+
+  // Output only. Indicates whether this is an abandoned release.
+  bool abandoned = 23;
+
+  // Output only. Time at which the `Release` was created.
+  google.protobuf.Timestamp create_time = 6;
+
+  // Output only. Time at which the render began.
+  google.protobuf.Timestamp render_start_time = 7;
+
+  // Output only. Time at which the render completed.
+  google.protobuf.Timestamp render_end_time = 8;
+
+  // Cloud Storage URI of tar.gz archive containing Skaffold configuration.
+  string skaffold_config_uri = 17;
+
+  // Filepath of the Skaffold config inside of the config URI.
+  string skaffold_config_path = 9;
+
+  // List of artifacts to pass through to Skaffold command.
+  repeated BuildArtifact build_artifacts = 10;
+
+  // Output only. Snapshot of the parent pipeline taken at release creation
+  // time.
+  DeliveryPipeline delivery_pipeline_snapshot = 11;
+
+  // Output only. Snapshot of the targets taken at release creation time.
+  repeated Target target_snapshots = 12;
+
+  // Output only. Snapshot of the custom target types referenced by the targets
+  // taken at release creation time.
+  repeated CustomTargetType custom_target_type_snapshots = 27;
+
+  // Output only. Current state of the render operation.
+  RenderState render_state = 13;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 16;
+
+  // The Skaffold version to use when operating on this release, such as
+  // "1.20.0". Not all versions are valid; Cloud Deploy supports a specific set
+  // of versions.
+  //
+  // If unset, the most recent supported Skaffold version will be used.
+  string skaffold_version = 19;
+
+  // Output only. Map from target ID to the target artifacts created
+  // during the render operation.
+  map<string, TargetArtifact> target_artifacts = 20;
+
+  // Output only. Map from target ID to details of the render operation for that
+  // target.
+  map<string, TargetRender> target_renders = 22;
+
+  // Output only. Information around the state of the Release.
+  ReleaseCondition condition = 24;
+
+  // Optional. The deploy parameters to use for all targets in this release.
+  map<string, string> deploy_parameters = 25;
+}
+
+// Description of an a image to use during Skaffold rendering.
+message BuildArtifact {
+  // Image name in Skaffold configuration.
+  string image = 3;
+
+  // Image tag to use. This will generally be the full path to an image, such
+  // as "gcr.io/my-project/busybox:1.2.3" or
+  // "gcr.io/my-project/busybox@sha256:abc123".
+  string tag = 2;
+}
+
+// The artifacts produced by a target render operation.
+message TargetArtifact {
+  // Contains the paths to the artifacts, relative to the URI, for a phase.
+  message PhaseArtifact {
+    // Output only. File path of the resolved Skaffold configuration relative to
+    // the URI.
+    string skaffold_config_path = 1;
+
+    // Output only. File path of the rendered manifest relative to the URI.
+    string manifest_path = 3;
+
+    // Output only. File path of the directory of rendered job manifests
+    // relative to the URI. This is only set if it is applicable.
+    string job_manifests_path = 4;
+  }
+
+  oneof uri {
+    // Output only. URI of a directory containing the artifacts. This contains
+    // deployment configuration used by Skaffold during a rollout, and all
+    // paths are relative to this location.
+    string artifact_uri = 4;
+  }
+
+  // Output only. File path of the resolved Skaffold configuration relative to
+  // the URI.
+  string skaffold_config_path = 2;
+
+  // Output only. File path of the rendered manifest relative to the URI.
+  string manifest_path = 3;
+
+  // Output only. Map from the phase ID to the phase artifacts for the `Target`.
+  map<string, PhaseArtifact> phase_artifacts = 5;
+}
+
+// CloudRunRenderMetadata contains Cloud Run information associated with a
+// `Release` render.
+message CloudRunRenderMetadata {
+  // Output only. The name of the Cloud Run Service in the rendered manifest.
+  // Format is `projects/{project}/locations/{location}/services/{service}`.
+  string service = 1;
+}
+
+// RenderMetadata includes information associated with a `Release` render.
+message RenderMetadata {
+  // Output only. Metadata associated with rendering for Cloud Run.
+  CloudRunRenderMetadata cloud_run = 1;
+
+  // Output only. Custom metadata provided by user-defined render operation.
+  CustomMetadata custom = 2;
+}
+
+// A `Rollout` resource in the Cloud Deploy API.
+//
+// A `Rollout` contains information around a specific deployment to a `Target`.
+message Rollout {
+  // Valid approval states of a `Rollout`.
+  enum ApprovalState {
+    // The `Rollout` has an unspecified approval state.
+    APPROVAL_STATE_UNSPECIFIED = 0;
+
+    // The `Rollout` requires approval.
+    NEEDS_APPROVAL = 1;
+
+    // The `Rollout` does not require approval.
+    DOES_NOT_NEED_APPROVAL = 2;
+
+    // The `Rollout` has been approved.
+    APPROVED = 3;
+
+    // The `Rollout` has been rejected.
+    REJECTED = 4;
+  }
+
+  // Valid states of a `Rollout`.
+  enum State {
+    // The `Rollout` has an unspecified state.
+    STATE_UNSPECIFIED = 0;
+
+    // The `Rollout` has completed successfully.
+    SUCCEEDED = 1;
+
+    // The `Rollout` has failed.
+    FAILED = 2;
+
+    // The `Rollout` is being deployed.
+    IN_PROGRESS = 3;
+
+    // The `Rollout` needs approval.
+    PENDING_APPROVAL = 4;
+
+    // An approver rejected the `Rollout`.
+    APPROVAL_REJECTED = 5;
+
+    // The `Rollout` is waiting for an earlier Rollout(s) to complete on this
+    // `Target`.
+    PENDING = 6;
+
+    // The `Rollout` is waiting for the `Release` to be fully rendered.
+    PENDING_RELEASE = 7;
+
+    // The `Rollout` is in the process of being cancelled.
+    CANCELLING = 8;
+
+    // The `Rollout` has been cancelled.
+    CANCELLED = 9;
+
+    // The `Rollout` is halted.
+    HALTED = 10;
+  }
+
+  // Well-known rollout failures.
+  enum FailureCause {
+    // No reason for failure is specified.
+    FAILURE_CAUSE_UNSPECIFIED = 0;
+
+    // Cloud Build is not available, either because it is not enabled or because
+    // Cloud Deploy has insufficient permissions. See [required
+    // permission](https://cloud.google.com/deploy/docs/cloud-deploy-service-account#required_permissions).
+    CLOUD_BUILD_UNAVAILABLE = 1;
+
+    // The deploy operation did not complete successfully; check Cloud Build
+    // logs.
+    EXECUTION_FAILED = 2;
+
+    // Deployment did not complete within the alloted time.
+    DEADLINE_EXCEEDED = 3;
+
+    // Release is in a failed state.
+    RELEASE_FAILED = 4;
+
+    // Release is abandoned.
+    RELEASE_ABANDONED = 5;
+
+    // No Skaffold verify configuration was found.
+    VERIFICATION_CONFIG_NOT_FOUND = 6;
+
+    // Cloud Build failed to fulfill Cloud Deploy's request. See failure_message
+    // for additional details.
+    CLOUD_BUILD_REQUEST_FAILED = 7;
+
+    // A Rollout operation had a feature configured that is not supported.
+    OPERATION_FEATURE_NOT_SUPPORTED = 8;
+  }
+
+  // Optional. Name of the `Rollout`. Format is
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/[a-z][a-z0-9\-]{0,62}`.
+  string name = 1;
+
+  // Output only. Unique identifier of the `Rollout`.
+  string uid = 2;
+
+  // Description of the `Rollout` for user purposes. Max length is 255
+  // characters.
+  string description = 3;
+
+  // User annotations. These attributes can only be set and used by the
+  // user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations
+  // for more details such as format and size limitations.
+  map<string, string> annotations = 4;
+
+  // Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 128 bytes.
+  map<string, string> labels = 5;
+
+  // Output only. Time at which the `Rollout` was created.
+  google.protobuf.Timestamp create_time = 6;
+
+  // Output only. Time at which the `Rollout` was approved.
+  google.protobuf.Timestamp approve_time = 7;
+
+  // Output only. Time at which the `Rollout` was enqueued.
+  google.protobuf.Timestamp enqueue_time = 8;
+
+  // Output only. Time at which the `Rollout` started deploying.
+  google.protobuf.Timestamp deploy_start_time = 9;
+
+  // Output only. Time at which the `Rollout` finished deploying.
+  google.protobuf.Timestamp deploy_end_time = 10;
+
+  // Required. The ID of Target to which this `Rollout` is deploying.
+  string target_id = 18;
+
+  // Output only. Approval state of the `Rollout`.
+  ApprovalState approval_state = 12;
+
+  // Output only. Current state of the `Rollout`.
+  State state = 13;
+
+  // Output only. Additional information about the rollout failure, if
+  // available.
+  string failure_reason = 14;
+
+  // Output only. The resource name of the Cloud Build `Build` object that is
+  // used to deploy the Rollout. Format is
+  // `projects/{project}/locations/{location}/builds/{build}`.
+  string deploying_build = 17;
+
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 16;
+
+  // Output only. The reason this rollout failed. This will always be
+  // unspecified while the rollout is in progress.
+  FailureCause deploy_failure_cause = 19;
+
+  // Output only. The phases that represent the workflows of this `Rollout`.
+  repeated Phase phases = 23;
+
+  // Output only. Metadata contains information about the rollout.
+  Metadata metadata = 24;
+
+  // Output only. Name of the `ControllerRollout`. Format is
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/[a-z][a-z0-9\-]{0,62}`.
+  string controller_rollout = 25;
+
+  // Output only. Name of the `Rollout` that is rolled back by this `Rollout`.
+  // Empty if this `Rollout` wasn't created as a rollback.
+  string rollback_of_rollout = 26;
+
+  // Output only. Names of `Rollouts` that rolled back this `Rollout`.
+  repeated string rolled_back_by_rollouts = 27;
+}
+
+// Metadata includes information associated with a `Rollout`.
+message Metadata {
+  // Output only. The name of the Cloud Run Service that is associated with a
+  // `Rollout`.
+  CloudRunMetadata cloud_run = 1;
+
+  // Output only. AutomationRolloutMetadata contains the information about the
+  // interactions between Automation service and this rollout.
+  AutomationRolloutMetadata automation = 2;
+
+  // Output only. Custom metadata provided by user-defined `Rollout` operations.
+  CustomMetadata custom = 3;
+}
+
+// CloudRunMetadata contains information from a Cloud Run deployment.
+message CloudRunMetadata {
+  // Output only. The name of the Cloud Run Service that is associated with a
+  // `Rollout`. Format is
+  // `projects/{project}/locations/{location}/services/{service}`.
+  string service = 1;
+
+  // Output only. The Cloud Run Service urls that are associated with a
+  // `Rollout`.
+  repeated string service_urls = 2;
+
+  // Output only. The Cloud Run Revision id associated with a `Rollout`.
+  string revision = 3;
+
+  // Output only. The name of the Cloud Run job that is associated with a
+  // `Rollout`. Format is
+  // `projects/{project}/locations/{location}/jobs/{job_name}`.
+  string job = 4;
+}
+
+// AutomationRolloutMetadata contains Automation-related actions that
+// were performed on a rollout.
+message AutomationRolloutMetadata {
+  // Output only. The ID of the AutomationRun initiated by a promote release
+  // rule.
+  string promote_automation_run = 1;
+
+  // Output only. The IDs of the AutomationRuns initiated by an advance rollout
+  // rule.
+  repeated string advance_automation_runs = 2;
+
+  // Output only. The IDs of the AutomationRuns initiated by a repair rollout
+  // rule.
+  repeated string repair_automation_runs = 3;
+
+  // Output only. The current AutomationRun repairing the rollout.
+  string current_repair_automation_run = 4;
+}
+
+// CustomMetadata contains information from a user-defined operation.
+message CustomMetadata {
+  // Output only. Key-value pairs provided by the user-defined operation.
+  map<string, string> values = 1;
+}
+
+// Phase represents a collection of jobs that are logically grouped together
+// for a `Rollout`.
+message Phase {
+  // Valid states of a Phase.
+  enum State {
+    // The Phase has an unspecified state.
+    STATE_UNSPECIFIED = 0;
+
+    // The Phase is waiting for an earlier Phase(s) to complete.
+    PENDING = 1;
+
+    // The Phase is in progress.
+    IN_PROGRESS = 2;
+
+    // The Phase has succeeded.
+    SUCCEEDED = 3;
+
+    // The Phase has failed.
+    FAILED = 4;
+
+    // The Phase was aborted.
+    ABORTED = 5;
+
+    // The Phase was skipped.
+    SKIPPED = 6;
+  }
+
+  // Output only. The ID of the Phase.
+  string id = 1;
+
+  // Output only. Current state of the Phase.
+  State state = 3;
+
+  // Output only. Additional information on why the Phase was skipped, if
+  // available.
+  string skip_message = 6;
+
+  // The job composition of this Phase.
+  oneof jobs {
+    // Output only. Deployment job composition.
+    DeploymentJobs deployment_jobs = 4;
+
+    // Output only. ChildRollout job composition.
+    ChildRolloutJobs child_rollout_jobs = 5;
+  }
+}
+
+// Deployment job composition.
+message DeploymentJobs {
+  // Output only. The deploy Job. This is the deploy job in the phase.
+  Job deploy_job = 1;
+
+  // Output only. The verify Job. Runs after a deploy if the deploy succeeds.
+  Job verify_job = 2;
+
+  // Output only. The predeploy Job, which is the first job on the phase.
+  Job predeploy_job = 3;
+
+  // Output only. The postdeploy Job, which is the last job on the phase.
+  Job postdeploy_job = 4;
+}
+
+// ChildRollouts job composition
+message ChildRolloutJobs {
+  // Output only. List of CreateChildRolloutJobs
+  repeated Job create_rollout_jobs = 1;
+
+  // Output only. List of AdvanceChildRolloutJobs
+  repeated Job advance_rollout_jobs = 2;
+}
+
+// Job represents an operation for a `Rollout`.
+message Job {
+  // Valid states of a Job.
+  enum State {
+    // The Job has an unspecified state.
+    STATE_UNSPECIFIED = 0;
+
+    // The Job is waiting for an earlier Phase(s) or Job(s) to complete.
+    PENDING = 1;
+
+    // The Job is disabled.
+    DISABLED = 2;
+
+    // The Job is in progress.
+    IN_PROGRESS = 3;
+
+    // The Job succeeded.
+    SUCCEEDED = 4;
+
+    // The Job failed.
+    FAILED = 5;
+
+    // The Job was aborted.
+    ABORTED = 6;
+
+    // The Job was skipped.
+    SKIPPED = 7;
+
+    // The Job was ignored.
+    IGNORED = 8;
+  }
+
+  // Output only. The ID of the Job.
+  string id = 1;
+
+  // Output only. The current state of the Job.
+  State state = 2;
+
+  // Output only. Additional information on why the Job was skipped, if
+  // available.
+  string skip_message = 8;
+
+  // Output only. The name of the `JobRun` responsible for the most recent
+  // invocation of this Job.
+  string job_run = 3;
+
+  // The type of Job.
+  oneof job_type {
+    // Output only. A deploy Job.
+    DeployJob deploy_job = 4;
+
+    // Output only. A verify Job.
+    VerifyJob verify_job = 5;
+
+    // Output only. A predeploy Job.
+    PredeployJob predeploy_job = 9;
+
+    // Output only. A postdeploy Job.
+    PostdeployJob postdeploy_job = 10;
+
+    // Output only. A createChildRollout Job.
+    CreateChildRolloutJob create_child_rollout_job = 6;
+
+    // Output only. An advanceChildRollout Job.
+    AdvanceChildRolloutJob advance_child_rollout_job = 7;
+  }
+}
+
+// A deploy Job.
+message DeployJob {}
+
+// A verify Job.
+message VerifyJob {}
+
+// A predeploy Job.
+message PredeployJob {
+  // Output only. The custom actions that the predeploy Job executes.
+  repeated string actions = 1;
+}
+
+// A postdeploy Job.
+message PostdeployJob {
+  // Output only. The custom actions that the postdeploy Job executes.
+  repeated string actions = 1;
+}
+
+// A createChildRollout Job.
+message CreateChildRolloutJob {}
+
+// An advanceChildRollout Job.
+message AdvanceChildRolloutJob {}
+
+// An `Automation` resource in the Cloud Deploy API.
+//
+// An `Automation` enables the automation of manually driven actions for
+// a Delivery Pipeline, which includes Release promotion among Targets,
+// Rollout repair and Rollout deployment strategy advancement. The intention
+// of Automation is to reduce manual intervention in the continuous delivery
+// process.
+message Automation {
+  // Output only. Name of the `Automation`. Format is
+  // `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`.
+  string name = 1;
+
+  // Output only. Unique identifier of the `Automation`.
+  string uid = 2;
+
+  // Optional. Description of the `Automation`. Max length is 255 characters.
+  string description = 3;
+
+  // Output only. Time at which the automation was created.
+  google.protobuf.Timestamp create_time = 4;
+
+  // Output only. Time at which the automation was updated.
+  google.protobuf.Timestamp update_time = 5;
+
+  // Optional. User annotations. These attributes can only be set and used by
+  // the user, and not by Cloud Deploy. Annotations must meet the following
+  // constraints:
+  //
+  // * Annotations are key/value pairs.
+  // * Valid annotation keys have two segments: an optional prefix and name,
+  // separated by a slash (`/`).
+  // * The name segment is required and must be 63 characters or less,
+  // beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with
+  // dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between.
+  // * The prefix is optional. If specified, the prefix must be a DNS subdomain:
+  // a series of DNS labels separated by dots(`.`), not longer than 253
+  // characters in total, followed by a slash (`/`).
+  //
+  // See
+  // https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set
+  // for more details.
+  map<string, string> annotations = 6;
+
+  // Optional. Labels are attributes that can be set and used by both the
+  // user and by Cloud Deploy. Labels must meet the following constraints:
+  //
+  // * Keys and values can contain only lowercase letters, numeric characters,
+  // underscores, and dashes.
+  // * All characters must use UTF-8 encoding, and international characters are
+  // allowed.
+  // * Keys must start with a lowercase letter or international character.
+  // * Each resource is limited to a maximum of 64 labels.
+  //
+  // Both keys and values are additionally constrained to be <= 63 characters.
+  map<string, string> labels = 7;
+
+  // Optional. The weak etag of the `Automation` resource.
+  // This checksum is computed by the server based on the value of other
+  // fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  string etag = 8;
+
+  // Optional. When Suspended, automation is deactivated from execution.
+  bool suspended = 9;
+
+  // Required. Email address of the user-managed IAM service account that
+  // creates Cloud Deploy release and rollout resources.
+  string service_account = 10;
+
+  // Required. Selected resources to which the automation will be applied.
+  AutomationResourceSelector selector = 11;
+
+  // Required. List of Automation rules associated with the Automation resource.
+  // Must have at least one rule and limited to 250 rules per Delivery Pipeline.
+  // Note: the order of the rules here is not the same as the order of
+  // execution.
+  repeated AutomationRule rules = 14;
+}
+
+// AutomationResourceSelector contains the information to select the resources
+// to which an Automation is going to be applied.
+message AutomationResourceSelector {
+  // Contains attributes about a target.
+  repeated TargetAttribute targets = 1;
+}
+
+// `AutomationRule` defines the automation activities.
+message AutomationRule {
+  // The configuration of the Automation rule.
+  oneof rule {
+    // Optional. `PromoteReleaseRule` will automatically promote a release from
+    // the current target to a specified target.
+    PromoteReleaseRule promote_release_rule = 1;
+
+    // Optional. The `AdvanceRolloutRule` will automatically advance a
+    // successful Rollout.
+    AdvanceRolloutRule advance_rollout_rule = 2;
+
+    // Optional. The `RepairRolloutRule` will automatically repair a failed
+    // rollout.
+    RepairRolloutRule repair_rollout_rule = 3;
+  }
+}
+
+// `PromoteRelease` rule will automatically promote a release from the current
+// target to a specified target.
+message PromoteReleaseRule {
+  // Required. ID of the rule. This id must be unique in the `Automation`
+  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  string id = 1;
+
+  // Optional. How long the release need to be paused until being promoted to
+  // the next target.
+  google.protobuf.Duration wait = 2;
+
+  // Optional. The ID of the stage in the pipeline to which this `Release` is
+  // deploying. If unspecified, default it to the next stage in the promotion
+  // flow. The value of this field could be one of the following:
+  //
+  // * The last segment of a target name. It only needs the ID to determine
+  // if the target is one of the stages in the promotion sequence defined
+  // in the pipeline.
+  // * "@next", the next target in the promotion sequence.
+  string destination_target_id = 7;
+
+  // Output only. Information around the state of the Automation rule.
+  AutomationRuleCondition condition = 5;
+
+  // Optional. The starting phase of the rollout created by this operation.
+  // Default to the first phase.
+  string destination_phase = 8;
+}
+
+// The `AdvanceRollout` automation rule will automatically advance a successful
+// Rollout to the next phase.
+message AdvanceRolloutRule {
+  // Required. ID of the rule. This id must be unique in the `Automation`
+  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  string id = 1;
+
+  // Optional. Proceeds only after phase name matched any one in the list.
+  // This value must consist of lower-case letters, numbers, and hyphens,
+  // start with a letter and end with a letter or a number, and have a max
+  // length of 63 characters. In other words, it must match the following
+  // regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
+  repeated string source_phases = 6;
+
+  // Optional. How long to wait after a rollout is finished.
+  google.protobuf.Duration wait = 3;
+
+  // Output only. Information around the state of the Automation rule.
+  AutomationRuleCondition condition = 5;
+}
+
+// The `RepairRolloutRule` automation rule will automatically repair a failed
+// `Rollout`.
+message RepairRolloutRule {
+  // Required. ID of the rule. This id must be unique in the `Automation`
+  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  string id = 1;
+
+  // Optional. Phases within which jobs are subject to automatic repair actions
+  // on failure. Proceeds only after phase name matched any one in the list, or
+  // for all phases if unspecified. This value must consist of lower-case
+  // letters, numbers, and hyphens, start with a letter and end with a letter or
+  // a number, and have a max length of 63 characters. In other words, it must
+  // match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
+  repeated string source_phases = 2;
+
+  // Optional. Jobs to repair. Proceeds only after job name matched any one in
+  // the list, or for all jobs if unspecified or empty. The phase that includes
+  // the job must match the phase ID specified in `source_phase`. This value
+  // must consist of lower-case letters, numbers, and hyphens, start with a
+  // letter and end with a letter or a number, and have a max length of 63
+  // characters. In other words, it must match the following regex:
+  // `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
+  repeated string jobs = 3;
+
+  // Required. Defines the types of automatic repair actions for failed jobs.
+  repeated RepairMode repair_modes = 4;
+
+  // Output only. Information around the state of the 'Automation' rule.
+  AutomationRuleCondition condition = 6;
+}
+
+// Configuration of the repair action.
+message RepairMode {
+  // The repair action to perform.
+  oneof mode {
+    // Optional. Retries a failed job.
+    Retry retry = 1;
+
+    // Optional. Rolls back a `Rollout`.
+    Rollback rollback = 2;
+  }
+}
+
+// Retries the failed job.
+message Retry {
+  // Required. Total number of retries. Retry is skipped if set to 0; The
+  // minimum value is 1, and the maximum value is 10.
+  int64 attempts = 1;
+
+  // Optional. How long to wait for the first retry. Default is 0, and the
+  // maximum value is 14d.
+  google.protobuf.Duration wait = 2;
+
+  // Optional. The pattern of how wait time will be increased. Default is
+  // linear. Backoff mode will be ignored if `wait` is 0.
+  BackoffMode backoff_mode = 3;
+}
+
+// Rolls back a `Rollout`.
+message Rollback {
+  // Optional. The starting phase ID for the `Rollout`. If unspecified, the
+  // `Rollout` will start in the stable phase.
+  string destination_phase = 1;
+}
+
+// `AutomationRuleCondition` contains conditions relevant to an
+// `Automation` rule.
+message AutomationRuleCondition {
+  // Optional. Details around targets enumerated in the rule.
+  TargetsPresentCondition targets_present_condition = 1;
+}
+
+// The support state of a specific Skaffold version.
+enum SkaffoldSupportState {
+  // Default value. This value is unused.
+  SKAFFOLD_SUPPORT_STATE_UNSPECIFIED = 0;
+
+  // This Skaffold version is currently supported.
+  SKAFFOLD_SUPPORT_STATE_SUPPORTED = 1;
+
+  // This Skaffold version is in maintenance mode.
+  SKAFFOLD_SUPPORT_STATE_MAINTENANCE_MODE = 2;
+
+  // This Skaffold version is no longer supported.
+  SKAFFOLD_SUPPORT_STATE_UNSUPPORTED = 3;
+}
+
+// The pattern of how wait time is increased.
+enum BackoffMode {
+  // No WaitMode is specified.
+  BACKOFF_MODE_UNSPECIFIED = 0;
+
+  // Increases the wait time linearly.
+  BACKOFF_MODE_LINEAR = 1;
+
+  // Increases the wait time exponentially.
+  BACKOFF_MODE_EXPONENTIAL = 2;
+}
+
+// The data within all DeliveryPipeline events.
+message DeliveryPipelineEventData {
+  // Optional. The DeliveryPipeline event payload. Unset for deletion events.
+  DeliveryPipeline payload = 1;
+}
+
+// The data within all Target events.
+message TargetEventData {
+  // Optional. The Target event payload. Unset for deletion events.
+  Target payload = 1;
+}
+
+// The data within all CustomTargetType events.
+message CustomTargetTypeEventData {
+  // Optional. The CustomTargetType event payload. Unset for deletion events.
+  CustomTargetType payload = 1;
+}
+
+// The data within all Release events.
+message ReleaseEventData {
+  // The Release event payload.
+  Release payload = 1;
+}
+
+// The data within all Rollout events.
+message RolloutEventData {
+  // The Rollout event payload.
+  Rollout payload = 1;
+}
+
+// The data within all Automation events.
+message AutomationEventData {
+  // Optional. The Automation event payload. Unset for deletion events.
+  Automation payload = 1;
+}
