@@ -1,0 +1,359 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/AutomationEventData.json",
+  "name": "AutomationEventData",
+  "examples": [],
+  "package": "google.events.cloud.deploy.v1",
+  "datatype": "google.events.cloud.deploy.v1.AutomationEventData",
+  "cloudeventTypes": [
+    "google.cloud.deploy.automation.v1.created",
+    "google.cloud.deploy.automation.v1.updated",
+    "google.cloud.deploy.automation.v1.deleted"
+  ],
+  "product": "Cloud Deploy",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/AutomationEventData",
+  "definitions": {
+    "AutomationEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Automation",
+          "additionalProperties": true,
+          "description": "Optional. The Automation event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automation Event Data",
+      "description": "The data within all Automation events."
+    },
+    "AdvanceRolloutRule": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "sourcePhases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Proceeds only after phase name matched any one in the list. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`."
+        },
+        "wait": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. How long to wait after a rollout is finished.",
+          "format": "regex"
+        },
+        "condition": {
+          "$ref": "#/definitions/AutomationRuleCondition",
+          "additionalProperties": true,
+          "description": "Output only. Information around the state of the Automation rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Advance Rollout Rule",
+      "description": "The `AdvanceRollout` automation rule will automatically advance a successful Rollout to the next phase."
+    },
+    "Automation": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `Automation`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the `Automation`. Max length is 255 characters."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the automation was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Time at which the automation was updated.",
+          "format": "date-time"
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 63 characters."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Optional. The weak etag of the `Automation` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "suspended": {
+          "type": "boolean",
+          "description": "Optional. When Suspended, automation is deactivated from execution."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Required. Email address of the user-managed IAM service account that creates Cloud Deploy release and rollout resources."
+        },
+        "selector": {
+          "$ref": "#/definitions/AutomationResourceSelector",
+          "additionalProperties": true,
+          "description": "Required. Selected resources to which the automation will be applied."
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/AutomationRule"
+          },
+          "type": "array",
+          "description": "Required. List of Automation rules associated with the Automation resource. Must have at least one rule and limited to 250 rules per Delivery Pipeline. Note: the order of the rules here is not the same as the order of execution."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automation",
+      "description": "An `Automation` resource in the Cloud Deploy API. An `Automation` enables the automation of manually driven actions for a Delivery Pipeline, which includes Release promotion among Targets, Rollout repair and Rollout deployment strategy advancement. The intention of Automation is to reduce manual intervention in the continuous delivery process."
+    },
+    "AutomationResourceSelector": {
+      "properties": {
+        "targets": {
+          "items": {
+            "$ref": "#/definitions/TargetAttribute"
+          },
+          "type": "array",
+          "description": "Contains attributes about a target."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automation Resource Selector",
+      "description": "AutomationResourceSelector contains the information to select the resources to which an Automation is going to be applied."
+    },
+    "AutomationRule": {
+      "properties": {
+        "promoteReleaseRule": {
+          "$ref": "#/definitions/PromoteReleaseRule",
+          "additionalProperties": true,
+          "description": "Optional. `PromoteReleaseRule` will automatically promote a release from the current target to a specified target."
+        },
+        "advanceRolloutRule": {
+          "$ref": "#/definitions/AdvanceRolloutRule",
+          "additionalProperties": true,
+          "description": "Optional. The `AdvanceRolloutRule` will automatically advance a successful Rollout."
+        },
+        "repairRolloutRule": {
+          "$ref": "#/definitions/RepairRolloutRule",
+          "additionalProperties": true,
+          "description": "Optional. The `RepairRolloutRule` will automatically repair a failed rollout."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automation Rule",
+      "description": "`AutomationRule` defines the automation activities."
+    },
+    "AutomationRuleCondition": {
+      "properties": {
+        "targetsPresentCondition": {
+          "$ref": "#/definitions/TargetsPresentCondition",
+          "additionalProperties": true,
+          "description": "Optional. Details around targets enumerated in the rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Automation Rule Condition",
+      "description": "`AutomationRuleCondition` contains conditions relevant to an `Automation` rule."
+    },
+    "PromoteReleaseRule": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "wait": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. How long the release need to be paused until being promoted to the next target.",
+          "format": "regex"
+        },
+        "destinationTargetId": {
+          "type": "string",
+          "description": "Optional. The ID of the stage in the pipeline to which this `Release` is deploying. If unspecified, default it to the next stage in the promotion flow. The value of this field could be one of the following: * The last segment of a target name. It only needs the ID to determine if the target is one of the stages in the promotion sequence defined in the pipeline. * \"@next\", the next target in the promotion sequence."
+        },
+        "condition": {
+          "$ref": "#/definitions/AutomationRuleCondition",
+          "additionalProperties": true,
+          "description": "Output only. Information around the state of the Automation rule."
+        },
+        "destinationPhase": {
+          "type": "string",
+          "description": "Optional. The starting phase of the rollout created by this operation. Default to the first phase."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Promote Release Rule",
+      "description": "`PromoteRelease` rule will automatically promote a release from the current target to a specified target."
+    },
+    "RepairMode": {
+      "properties": {
+        "retry": {
+          "$ref": "#/definitions/Retry",
+          "additionalProperties": true,
+          "description": "Optional. Retries a failed job."
+        },
+        "rollback": {
+          "$ref": "#/definitions/Rollback",
+          "additionalProperties": true,
+          "description": "Optional. Rolls back a `Rollout`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Repair Mode",
+      "description": "Configuration of the repair action."
+    },
+    "RepairRolloutRule": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "sourcePhases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Phases within which jobs are subject to automatic repair actions on failure. Proceeds only after phase name matched any one in the list, or for all phases if unspecified. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`."
+        },
+        "jobs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Jobs to repair. Proceeds only after job name matched any one in the list, or for all jobs if unspecified or empty. The phase that includes the job must match the phase ID specified in `source_phase`. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`."
+        },
+        "repairModes": {
+          "items": {
+            "$ref": "#/definitions/RepairMode"
+          },
+          "type": "array",
+          "description": "Required. Defines the types of automatic repair actions for failed jobs."
+        },
+        "condition": {
+          "$ref": "#/definitions/AutomationRuleCondition",
+          "additionalProperties": true,
+          "description": "Output only. Information around the state of the 'Automation' rule."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Repair Rollout Rule",
+      "description": "The `RepairRolloutRule` automation rule will automatically repair a failed `Rollout`."
+    },
+    "Retry": {
+      "properties": {
+        "attempts": {
+          "type": "integer",
+          "description": "Required. Total number of retries. Retry is skipped if set to 0; The minimum value is 1, and the maximum value is 10."
+        },
+        "wait": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. How long to wait for the first retry. Default is 0, and the maximum value is 14d.",
+          "format": "regex"
+        },
+        "backoffMode": {
+          "enum": [
+            "BACKOFF_MODE_UNSPECIFIED",
+            0,
+            "BACKOFF_MODE_LINEAR",
+            1,
+            "BACKOFF_MODE_EXPONENTIAL",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Backoff Mode",
+          "description": "The pattern of how wait time is increased."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Retry",
+      "description": "Retries the failed job."
+    },
+    "Rollback": {
+      "properties": {
+        "destinationPhase": {
+          "type": "string",
+          "description": "Optional. The starting phase ID for the `Rollout`. If unspecified, the `Rollout` will start in the stable phase."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Rollback",
+      "description": "Rolls back a `Rollout`."
+    },
+    "TargetAttribute": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the `Target`. The value of this field could be one of the following: * The last segment of a target name. It only needs the ID to determine which target is being referred to * \"*\", all targets in a location."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Target labels."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target Attribute",
+      "description": "Contains criteria for selecting Targets."
+    },
+    "TargetsPresentCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if there aren't any missing Targets."
+        },
+        "missingTargets": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of Target names that do not exist. For example, `projects/{project_id}/locations/{location_name}/targets/{target_name}`."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Last time the condition was updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Targets Present Condition",
+      "description": "`TargetsPresentCondition` contains information on any Targets referenced in the Delivery Pipeline that do not actually exist."
+    }
+  }
+}

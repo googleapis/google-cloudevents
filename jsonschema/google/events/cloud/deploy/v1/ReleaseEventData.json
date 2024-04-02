@@ -1,0 +1,1330 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/ReleaseEventData.json",
+  "name": "ReleaseEventData",
+  "examples": [],
+  "package": "google.events.cloud.deploy.v1",
+  "datatype": "google.events.cloud.deploy.v1.ReleaseEventData",
+  "cloudeventTypes": [
+    "google.cloud.deploy.release.v1.created"
+  ],
+  "product": "Cloud Deploy",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ReleaseEventData",
+  "definitions": {
+    "ReleaseEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Release",
+          "additionalProperties": true,
+          "description": "The Release event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Release Event Data",
+      "description": "The data within all Release events."
+    },
+    "AnthosCluster": {
+      "properties": {
+        "membership": {
+          "type": "string",
+          "description": "Membership of the GKE Hub-registered cluster to which to apply the Skaffold configuration. Format is `projects/{project}/locations/{location}/memberships/{membership_name}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Anthos Cluster",
+      "description": "Information specifying an Anthos Cluster."
+    },
+    "BuildArtifact": {
+      "properties": {
+        "image": {
+          "type": "string",
+          "description": "Image name in Skaffold configuration."
+        },
+        "tag": {
+          "type": "string",
+          "description": "Image tag to use. This will generally be the full path to an image, such as \"gcr.io/my-project/busybox:1.2.3\" or \"gcr.io/my-project/busybox@sha256:abc123\"."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Build Artifact",
+      "description": "Description of an a image to use during Skaffold rendering."
+    },
+    "Canary": {
+      "properties": {
+        "runtimeConfig": {
+          "$ref": "#/definitions/RuntimeConfig",
+          "additionalProperties": true,
+          "description": "Optional. Runtime specific configurations for the deployment strategy. The runtime configuration is used to determine how Cloud Deploy will split traffic to enable a progressive deployment."
+        },
+        "canaryDeployment": {
+          "$ref": "#/definitions/CanaryDeployment",
+          "additionalProperties": true,
+          "description": "Configures the progressive based deployment for a Target."
+        },
+        "customCanaryDeployment": {
+          "$ref": "#/definitions/CustomCanaryDeployment",
+          "additionalProperties": true,
+          "description": "Configures the progressive based deployment for a Target, but allows customizing at the phase level where a phase represents each of the percentage deployments."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Canary",
+      "description": "Canary represents the canary deployment strategy."
+    },
+    "CanaryDeployment": {
+      "properties": {
+        "percentages": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "description": "Required. The percentage based deployments that will occur as a part of a `Rollout`. List is expected in ascending order and each integer n is 0 <= n < 100."
+        },
+        "verify": {
+          "type": "boolean",
+          "description": "Whether to run verify tests after each percentage deployment."
+        },
+        "predeploy": {
+          "$ref": "#/definitions/Predeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the predeploy job of the first phase. If this is not configured, there will be no predeploy job for this phase."
+        },
+        "postdeploy": {
+          "$ref": "#/definitions/Postdeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the postdeploy job of the last phase. If this is not configured, there will be no postdeploy job for this phase."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Canary Deployment",
+      "description": "CanaryDeployment represents the canary deployment configuration"
+    },
+    "CloudRunConfig": {
+      "properties": {
+        "automaticTrafficControl": {
+          "type": "boolean",
+          "description": "Whether Cloud Deploy should update the traffic stanza in a Cloud Run Service on the user's behalf to facilitate traffic splitting. This is required to be true for CanaryDeployments, but optional for CustomCanaryDeployments."
+        },
+        "canaryRevisionTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of tags that are added to the canary revision while the canary phase is in progress."
+        },
+        "priorRevisionTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of tags that are added to the prior revision while the canary phase is in progress."
+        },
+        "stableRevisionTags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A list of tags that are added to the final stable revision when the stable phase is applied."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run Config",
+      "description": "CloudRunConfig contains the Cloud Run runtime configuration."
+    },
+    "CloudRunLocation": {
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Required. The location for the Cloud Run Service. Format must be `projects/{project}/locations/{location}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run Location",
+      "description": "Information specifying where to deploy a Cloud Run Service."
+    },
+    "CloudRunRenderMetadata": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "Output only. The name of the Cloud Run Service in the rendered manifest. Format is `projects/{project}/locations/{location}/services/{service}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Run Render Metadata",
+      "description": "CloudRunRenderMetadata contains Cloud Run information associated with a `Release` render."
+    },
+    "CustomCanaryDeployment": {
+      "properties": {
+        "phaseConfigs": {
+          "items": {
+            "$ref": "#/definitions/PhaseConfig"
+          },
+          "type": "array",
+          "description": "Required. Configuration for each phase in the canary deployment in the order executed."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Canary Deployment",
+      "description": "CustomCanaryDeployment represents the custom canary deployment configuration."
+    },
+    "PhaseConfig": {
+      "properties": {
+        "phaseId": {
+          "type": "string",
+          "description": "Required. The ID to assign to the `Rollout` phase. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`."
+        },
+        "percentage": {
+          "type": "integer",
+          "description": "Required. Percentage deployment for the phase."
+        },
+        "profiles": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Skaffold profiles to use when rendering the manifest for this phase. These are in addition to the profiles list specified in the `DeliveryPipeline` stage."
+        },
+        "verify": {
+          "type": "boolean",
+          "description": "Whether to run verify tests after the deployment."
+        },
+        "predeploy": {
+          "$ref": "#/definitions/Predeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the predeploy job of this phase. If this is not configured, there will be no predeploy job for this phase."
+        },
+        "postdeploy": {
+          "$ref": "#/definitions/Postdeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the postdeploy job of this phase. If this is not configured, there will be no postdeploy job for this phase."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Phase Config",
+      "description": "PhaseConfig represents the configuration for a phase in the custom canary deployment."
+    },
+    "CustomMetadata": {
+      "properties": {
+        "values": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Output only. Key-value pairs provided by the user-defined operation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Metadata",
+      "description": "CustomMetadata contains information from a user-defined operation."
+    },
+    "CustomTarget": {
+      "properties": {
+        "customTargetType": {
+          "type": "string",
+          "description": "Required. The name of the CustomTargetType. Format must be `projects/{project}/locations/{location}/customTargetTypes/{custom_target_type}`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target",
+      "description": "Information specifying a Custom Target."
+    },
+    "CustomTargetSkaffoldActions": {
+      "properties": {
+        "renderAction": {
+          "type": "string",
+          "description": "Optional. The Skaffold custom action responsible for render operations. If not provided then Cloud Deploy will perform the render operations via `skaffold render`."
+        },
+        "deployAction": {
+          "type": "string",
+          "description": "Required. The Skaffold custom action responsible for deploy operations."
+        },
+        "includeSkaffoldModules": {
+          "items": {
+            "$ref": "#/definitions/SkaffoldModules"
+          },
+          "type": "array",
+          "description": "Optional. List of Skaffold modules Cloud Deploy will include in the Skaffold Config as required before performing diagnose."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target Skaffold Actions",
+      "description": "CustomTargetSkaffoldActions represents the `CustomTargetType` configuration using Skaffold custom actions."
+    },
+    "CustomTargetType": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "customTargetTypeId": {
+          "type": "string",
+          "description": "Output only. Resource id of the `CustomTargetType`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `CustomTargetType`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the `CustomTargetType`. Max length is 255 characters."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the `CustomTargetType` was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Most recent time at which the `CustomTargetType` was updated.",
+          "format": "date-time"
+        },
+        "etag": {
+          "type": "string",
+          "description": "Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "customActions": {
+          "$ref": "#/definitions/CustomTargetSkaffoldActions",
+          "additionalProperties": true,
+          "description": "Configures render and deploy for the `CustomTargetType` using Skaffold custom actions."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target Type",
+      "description": "A `CustomTargetType` resource in the Cloud Deploy API. A `CustomTargetType` defines a type of custom target that can be referenced in a `Target` in order to facilitate deploying to other systems besides the supported runtimes."
+    },
+    "DefaultPool": {
+      "properties": {
+        "serviceAccount": {
+          "type": "string",
+          "description": "Optional. Google service account to use for execution. If unspecified, the project execution service account (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) will be used."
+        },
+        "artifactStorage": {
+          "type": "string",
+          "description": "Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket (\"gs://my-bucket\") or a path within a bucket (\"gs://my-bucket/my-dir\"). If unspecified, a default bucket located in the same region will be used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Default Pool",
+      "description": "Execution using the default Cloud Build pool."
+    },
+    "DeliveryPipeline": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `DeliveryPipeline`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the `DeliveryPipeline`. Max length is 255 characters."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the pipeline was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Most recent time at which the pipeline was updated.",
+          "format": "date-time"
+        },
+        "serialPipeline": {
+          "$ref": "#/definitions/SerialPipeline",
+          "additionalProperties": true,
+          "description": "SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`."
+        },
+        "condition": {
+          "$ref": "#/definitions/PipelineCondition",
+          "additionalProperties": true,
+          "description": "Output only. Information around the state of the Delivery Pipeline."
+        },
+        "etag": {
+          "type": "string",
+          "description": "This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "suspended": {
+          "type": "boolean",
+          "description": "When suspended, no new releases or rollouts can be created, but in-progress ones will complete."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Delivery Pipeline",
+      "description": "A `DeliveryPipeline` resource in the Cloud Deploy API. A `DeliveryPipeline` defines a pipeline through which a Skaffold configuration can progress."
+    },
+    "DeployParameters": {
+      "properties": {
+        "values": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Required. Values are deploy parameters in key-value pairs."
+        },
+        "matchTargetLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Deploy parameters are applied to targets with match labels. If unspecified, deploy parameters are applied to all targets (including child targets of a multi-target)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Deploy Parameters",
+      "description": "DeployParameters contains deploy parameters information."
+    },
+    "ExecutionConfig": {
+      "properties": {
+        "usages": {
+          "items": {
+            "enum": [
+              "EXECUTION_ENVIRONMENT_USAGE_UNSPECIFIED",
+              0,
+              "RENDER",
+              1,
+              "DEPLOY",
+              2,
+              "VERIFY",
+              3,
+              "PREDEPLOY",
+              4,
+              "POSTDEPLOY",
+              5
+            ]
+          },
+          "type": "array",
+          "title": "Execution Environment Usage",
+          "description": "Possible usages of this configuration."
+        },
+        "defaultPool": {
+          "$ref": "#/definitions/DefaultPool",
+          "additionalProperties": true,
+          "description": "Optional. Use default Cloud Build pool."
+        },
+        "privatePool": {
+          "$ref": "#/definitions/PrivatePool",
+          "additionalProperties": true,
+          "description": "Optional. Use private Cloud Build pool."
+        },
+        "workerPool": {
+          "type": "string",
+          "description": "Optional. The resource name of the `WorkerPool`, with the format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. If this optional field is unspecified, the default Cloud Build pool will be used."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Optional. Google service account to use for execution. If unspecified, the project execution service account (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) is used."
+        },
+        "artifactStorage": {
+          "type": "string",
+          "description": "Optional. Cloud Storage location in which to store execution outputs. This can either be a bucket (\"gs://my-bucket\") or a path within a bucket (\"gs://my-bucket/my-dir\"). If unspecified, a default bucket located in the same region will be used."
+        },
+        "executionTimeout": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. Execution timeout for a Cloud Build Execution. This must be between 10m and 24h in seconds format. If unspecified, a default timeout of 1h is used.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Execution Config",
+      "description": "Configuration of the environment to use when calling Skaffold."
+    },
+    "GkeCluster": {
+      "properties": {
+        "cluster": {
+          "type": "string",
+          "description": "Information specifying a GKE Cluster. Format is `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`."
+        },
+        "internalIp": {
+          "type": "boolean",
+          "description": "Optional. If true, `cluster` is accessed using the private IP address of the control plane endpoint. Otherwise, the default IP address of the control plane endpoint is used. The default IP address is the private IP address for clusters with private control-plane endpoints and the public IP address otherwise. Only specify this option when `cluster` is a [private GKE cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gke Cluster",
+      "description": "Information specifying a GKE Cluster."
+    },
+    "KubernetesConfig": {
+      "properties": {
+        "gatewayServiceMesh": {
+          "$ref": "#/definitions/GatewayServiceMesh",
+          "additionalProperties": true,
+          "description": "Kubernetes Gateway API service mesh configuration."
+        },
+        "serviceNetworking": {
+          "$ref": "#/definitions/ServiceNetworking",
+          "additionalProperties": true,
+          "description": "Kubernetes Service networking configuration."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Kubernetes Config",
+      "description": "KubernetesConfig contains the Kubernetes runtime configuration."
+    },
+    "GatewayServiceMesh": {
+      "properties": {
+        "httpRoute": {
+          "type": "string",
+          "description": "Required. Name of the Gateway API HTTPRoute."
+        },
+        "service": {
+          "type": "string",
+          "description": "Required. Name of the Kubernetes Service."
+        },
+        "deployment": {
+          "type": "string",
+          "description": "Required. Name of the Kubernetes Deployment whose traffic is managed by the specified HTTPRoute and Service."
+        },
+        "routeUpdateWaitTime": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. The time to wait for route updates to propagate. The maximum configurable time is 3 hours, in seconds format. If unspecified, there is no wait time.",
+          "format": "regex"
+        },
+        "stableCutbackDuration": {
+          "pattern": "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$",
+          "type": "string",
+          "description": "Optional. The amount of time to migrate traffic back from the canary Service to the original Service during the stable phase deployment. If specified, must be between 15s and 3600s. If unspecified, there is no cutback time.",
+          "format": "regex"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Gateway Service Mesh",
+      "description": "Information about the Kubernetes Gateway API service mesh configuration."
+    },
+    "ServiceNetworking": {
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "Required. Name of the Kubernetes Service."
+        },
+        "deployment": {
+          "type": "string",
+          "description": "Required. Name of the Kubernetes Deployment whose traffic is managed by the specified Service."
+        },
+        "disablePodOverprovisioning": {
+          "type": "boolean",
+          "description": "Optional. Whether to disable Pod overprovisioning. If Pod overprovisioning is disabled then Cloud Deploy will limit the number of total Pods used for the deployment strategy to the number of Pods the Deployment has on the cluster."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Networking",
+      "description": "Information about the Kubernetes Service networking configuration."
+    },
+    "MultiTarget": {
+      "properties": {
+        "targetIds": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. The target_ids of this multiTarget."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Multi Target",
+      "description": "Information specifying a multiTarget."
+    },
+    "PipelineCondition": {
+      "properties": {
+        "pipelineReadyCondition": {
+          "$ref": "#/definitions/PipelineReadyCondition",
+          "additionalProperties": true,
+          "description": "Details around the Pipeline's overall status."
+        },
+        "targetsPresentCondition": {
+          "$ref": "#/definitions/TargetsPresentCondition",
+          "additionalProperties": true,
+          "description": "Details around targets enumerated in the pipeline."
+        },
+        "targetsTypeCondition": {
+          "$ref": "#/definitions/TargetsTypeCondition",
+          "additionalProperties": true,
+          "description": "Details on the whether the targets enumerated in the pipeline are of the same type."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Pipeline Condition",
+      "description": "PipelineCondition contains all conditions relevant to a Delivery Pipeline."
+    },
+    "PipelineReadyCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if the Pipeline is in a valid state. Otherwise at least one condition in `PipelineCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Pipeline."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Last time the condition was updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Pipeline Ready Condition",
+      "description": "PipelineReadyCondition contains information around the status of the Pipeline."
+    },
+    "Postdeploy": {
+      "properties": {
+        "actions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A sequence of Skaffold custom actions to invoke during execution of the postdeploy job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Postdeploy",
+      "description": "Postdeploy contains the postdeploy job configuration information."
+    },
+    "Predeploy": {
+      "properties": {
+        "actions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. A sequence of Skaffold custom actions to invoke during execution of the predeploy job."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Predeploy",
+      "description": "Predeploy contains the predeploy job configuration information."
+    },
+    "PrivatePool": {
+      "properties": {
+        "workerPool": {
+          "type": "string",
+          "description": "Required. Resource name of the Cloud Build worker pool to use. The format is `projects/{project}/locations/{location}/workerPools/{pool}`."
+        },
+        "serviceAccount": {
+          "type": "string",
+          "description": "Optional. Google service account to use for execution. If unspecified, the project execution service account (<PROJECT_NUMBER>-compute@developer.gserviceaccount.com) will be used."
+        },
+        "artifactStorage": {
+          "type": "string",
+          "description": "Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket (\"gs://my-bucket\") or a path within a bucket (\"gs://my-bucket/my-dir\"). If unspecified, a default bucket located in the same region will be used."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Private Pool",
+      "description": "Execution using a private Cloud Build pool."
+    },
+    "Release": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. Name of the `Release`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `Release`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the `Release`. Max length is 255 characters."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes."
+        },
+        "abandoned": {
+          "type": "boolean",
+          "description": "Output only. Indicates whether this is an abandoned release."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the `Release` was created.",
+          "format": "date-time"
+        },
+        "renderStartTime": {
+          "type": "string",
+          "description": "Output only. Time at which the render began.",
+          "format": "date-time"
+        },
+        "renderEndTime": {
+          "type": "string",
+          "description": "Output only. Time at which the render completed.",
+          "format": "date-time"
+        },
+        "skaffoldConfigUri": {
+          "type": "string",
+          "description": "Cloud Storage URI of tar.gz archive containing Skaffold configuration."
+        },
+        "skaffoldConfigPath": {
+          "type": "string",
+          "description": "Filepath of the Skaffold config inside of the config URI."
+        },
+        "buildArtifacts": {
+          "items": {
+            "$ref": "#/definitions/BuildArtifact"
+          },
+          "type": "array",
+          "description": "List of artifacts to pass through to Skaffold command."
+        },
+        "deliveryPipelineSnapshot": {
+          "$ref": "#/definitions/DeliveryPipeline",
+          "additionalProperties": true,
+          "description": "Output only. Snapshot of the parent pipeline taken at release creation time."
+        },
+        "targetSnapshots": {
+          "items": {
+            "$ref": "#/definitions/Target"
+          },
+          "type": "array",
+          "description": "Output only. Snapshot of the targets taken at release creation time."
+        },
+        "customTargetTypeSnapshots": {
+          "items": {
+            "$ref": "#/definitions/CustomTargetType"
+          },
+          "type": "array",
+          "description": "Output only. Snapshot of the custom target types referenced by the targets taken at release creation time."
+        },
+        "renderState": {
+          "enum": [
+            "RENDER_STATE_UNSPECIFIED",
+            0,
+            "SUCCEEDED",
+            1,
+            "FAILED",
+            2,
+            "IN_PROGRESS",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Render State",
+          "description": "Valid states of the render operation."
+        },
+        "etag": {
+          "type": "string",
+          "description": "This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "skaffoldVersion": {
+          "type": "string",
+          "description": "The Skaffold version to use when operating on this release, such as \"1.20.0\". Not all versions are valid; Cloud Deploy supports a specific set of versions. If unset, the most recent supported Skaffold version will be used."
+        },
+        "targetArtifacts": {
+          "additionalProperties": {
+            "$ref": "#/definitions/TargetArtifact",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. Map from target ID to the target artifacts created during the render operation."
+        },
+        "targetRenders": {
+          "additionalProperties": {
+            "$ref": "#/definitions/TargetRender",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. Map from target ID to details of the render operation for that target."
+        },
+        "condition": {
+          "$ref": "#/definitions/ReleaseCondition",
+          "additionalProperties": true,
+          "description": "Output only. Information around the state of the Release."
+        },
+        "deployParameters": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The deploy parameters to use for all targets in this release."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Release",
+      "description": "A `Release` resource in the Cloud Deploy API. A `Release` defines a specific Skaffold configuration instance that can be deployed."
+    },
+    "ReleaseCondition": {
+      "properties": {
+        "releaseReadyCondition": {
+          "$ref": "#/definitions/ReleaseReadyCondition",
+          "additionalProperties": true,
+          "description": "Details around the Releases's overall status."
+        },
+        "skaffoldSupportedCondition": {
+          "$ref": "#/definitions/SkaffoldSupportedCondition",
+          "additionalProperties": true,
+          "description": "Details around the support state of the release's Skaffold version."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Release Condition",
+      "description": "ReleaseCondition contains all conditions relevant to a Release."
+    },
+    "ReleaseReadyCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if the Release is in a valid state. Otherwise at least one condition in `ReleaseCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Release."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Release Ready Condition",
+      "description": "ReleaseReadyCondition contains information around the status of the Release. If a release is not ready, you cannot create a rollout with the release."
+    },
+    "SkaffoldSupportedCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if the version of Skaffold used by this release is supported."
+        },
+        "skaffoldSupportState": {
+          "enum": [
+            "SKAFFOLD_SUPPORT_STATE_UNSPECIFIED",
+            0,
+            "SKAFFOLD_SUPPORT_STATE_SUPPORTED",
+            1,
+            "SKAFFOLD_SUPPORT_STATE_MAINTENANCE_MODE",
+            2,
+            "SKAFFOLD_SUPPORT_STATE_UNSUPPORTED",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Skaffold Support State",
+          "description": "The support state of a specific Skaffold version."
+        },
+        "maintenanceModeTime": {
+          "type": "string",
+          "description": "The time at which this release's version of Skaffold will enter maintenance mode.",
+          "format": "date-time"
+        },
+        "supportExpirationTime": {
+          "type": "string",
+          "description": "The time at which this release's version of Skaffold will no longer be supported.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold Supported Condition",
+      "description": "SkaffoldSupportedCondition contains information about when support for the release's version of Skaffold ends."
+    },
+    "TargetRender": {
+      "properties": {
+        "renderingBuild": {
+          "type": "string",
+          "description": "Output only. The resource name of the Cloud Build `Build` object that is used to render the manifest for this target. Format is `projects/{project}/locations/{location}/builds/{build}`."
+        },
+        "renderingState": {
+          "enum": [
+            "TARGET_RENDER_STATE_UNSPECIFIED",
+            0,
+            "SUCCEEDED",
+            1,
+            "FAILED",
+            2,
+            "IN_PROGRESS",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Target Render State",
+          "description": "Valid states of the render operation."
+        },
+        "metadata": {
+          "$ref": "#/definitions/RenderMetadata",
+          "additionalProperties": true,
+          "description": "Output only. Metadata related to the `Release` render for this Target."
+        },
+        "failureCause": {
+          "enum": [
+            "FAILURE_CAUSE_UNSPECIFIED",
+            0,
+            "CLOUD_BUILD_UNAVAILABLE",
+            1,
+            "EXECUTION_FAILED",
+            2,
+            "CLOUD_BUILD_REQUEST_FAILED",
+            3,
+            "VERIFICATION_CONFIG_NOT_FOUND",
+            4,
+            "CUSTOM_ACTION_NOT_FOUND",
+            5,
+            "DEPLOYMENT_STRATEGY_NOT_SUPPORTED",
+            6,
+            "RENDER_FEATURE_NOT_SUPPORTED",
+            7
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Failure Cause",
+          "description": "Well-known rendering failures."
+        },
+        "failureMessage": {
+          "type": "string",
+          "description": "Output only. Additional information about the render failure, if available."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target Render",
+      "description": "Details of rendering for a single target."
+    },
+    "RenderMetadata": {
+      "properties": {
+        "cloudRun": {
+          "$ref": "#/definitions/CloudRunRenderMetadata",
+          "additionalProperties": true,
+          "description": "Output only. Metadata associated with rendering for Cloud Run."
+        },
+        "custom": {
+          "$ref": "#/definitions/CustomMetadata",
+          "additionalProperties": true,
+          "description": "Output only. Custom metadata provided by user-defined render operation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Render Metadata",
+      "description": "RenderMetadata includes information associated with a `Release` render."
+    },
+    "RuntimeConfig": {
+      "properties": {
+        "kubernetes": {
+          "$ref": "#/definitions/KubernetesConfig",
+          "additionalProperties": true,
+          "description": "Kubernetes runtime configuration."
+        },
+        "cloudRun": {
+          "$ref": "#/definitions/CloudRunConfig",
+          "additionalProperties": true,
+          "description": "Cloud Run runtime configuration."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Runtime Config",
+      "description": "RuntimeConfig contains the runtime specific configurations for a deployment strategy."
+    },
+    "SerialPipeline": {
+      "properties": {
+        "stages": {
+          "items": {
+            "$ref": "#/definitions/Stage"
+          },
+          "type": "array",
+          "description": "Each stage specifies configuration for a `Target`. The ordering of this list defines the promotion flow."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Serial Pipeline",
+      "description": "SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`."
+    },
+    "SkaffoldModules": {
+      "properties": {
+        "configs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The Skaffold Config modules to use from the specified source."
+        },
+        "git": {
+          "$ref": "#/definitions/SkaffoldGitSource",
+          "additionalProperties": true,
+          "description": "Remote git repository containing the Skaffold Config modules."
+        },
+        "googleCloudStorage": {
+          "$ref": "#/definitions/SkaffoldGCSSource",
+          "additionalProperties": true,
+          "description": "Cloud Storage bucket containing the Skaffold Config modules."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold Modules",
+      "description": "Skaffold Config modules and their remote source."
+    },
+    "SkaffoldGCSSource": {
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Required. Cloud Storage source paths to copy recursively. For example, providing \"gs://my-bucket/dir/configs/*\" will result in Skaffold copying all files within the \"dir/configs\" directory in the bucket \"my-bucket\"."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. Relative path from the source to the Skaffold file."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold GCS Source",
+      "description": "Cloud Storage bucket containing Skaffold Config modules."
+    },
+    "SkaffoldGitSource": {
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "Required. Git repository the package should be cloned from."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. Relative path from the repository root to the Skaffold file."
+        },
+        "ref": {
+          "type": "string",
+          "description": "Optional. Git ref the package should be cloned from."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold Git Source",
+      "description": "Git repository containing Skaffold Config modules."
+    },
+    "Stage": {
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "description": "The target_id to which this stage points. This field refers exclusively to the last segment of a target name. For example, this field would just be `my-target` (rather than `projects/project/locations/location/targets/my-target`). The location of the `Target` is inferred to be the same as the location of the `DeliveryPipeline` that contains this `Stage`."
+        },
+        "profiles": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Skaffold profiles to use when rendering the manifest for this stage's `Target`."
+        },
+        "strategy": {
+          "$ref": "#/definitions/Strategy",
+          "additionalProperties": true,
+          "description": "Optional. The strategy to use for a `Rollout` to this stage."
+        },
+        "deployParameters": {
+          "items": {
+            "$ref": "#/definitions/DeployParameters"
+          },
+          "type": "array",
+          "description": "Optional. The deploy parameters to use for the target in this stage."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Stage",
+      "description": "Stage specifies a location to which to deploy."
+    },
+    "Standard": {
+      "properties": {
+        "verify": {
+          "type": "boolean",
+          "description": "Whether to verify a deployment."
+        },
+        "predeploy": {
+          "$ref": "#/definitions/Predeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the predeploy job. If this is not configured, predeploy job will not be present."
+        },
+        "postdeploy": {
+          "$ref": "#/definitions/Postdeploy",
+          "additionalProperties": true,
+          "description": "Optional. Configuration for the postdeploy job. If this is not configured, postdeploy job will not be present."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Standard",
+      "description": "Standard represents the standard deployment strategy."
+    },
+    "Strategy": {
+      "properties": {
+        "standard": {
+          "$ref": "#/definitions/Standard",
+          "additionalProperties": true,
+          "description": "Standard deployment strategy executes a single deploy and allows verifying the deployment."
+        },
+        "canary": {
+          "$ref": "#/definitions/Canary",
+          "additionalProperties": true,
+          "description": "Canary deployment strategy provides progressive percentage based deployments to a Target."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Strategy",
+      "description": "Strategy contains deployment strategy information."
+    },
+    "Target": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "targetId": {
+          "type": "string",
+          "description": "Output only. Resource id of the `Target`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `Target`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the `Target`. Max length is 255 characters."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes."
+        },
+        "requireApproval": {
+          "type": "boolean",
+          "description": "Optional. Whether or not the `Target` requires approval."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the `Target` was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Most recent time at which the `Target` was updated.",
+          "format": "date-time"
+        },
+        "gke": {
+          "$ref": "#/definitions/GkeCluster",
+          "additionalProperties": true,
+          "description": "Optional. Information specifying a GKE Cluster."
+        },
+        "anthosCluster": {
+          "$ref": "#/definitions/AnthosCluster",
+          "additionalProperties": true,
+          "description": "Optional. Information specifying an Anthos Cluster."
+        },
+        "run": {
+          "$ref": "#/definitions/CloudRunLocation",
+          "additionalProperties": true,
+          "description": "Optional. Information specifying a Cloud Run deployment target."
+        },
+        "multiTarget": {
+          "$ref": "#/definitions/MultiTarget",
+          "additionalProperties": true,
+          "description": "Optional. Information specifying a multiTarget."
+        },
+        "customTarget": {
+          "$ref": "#/definitions/CustomTarget",
+          "additionalProperties": true,
+          "description": "Optional. Information specifying a Custom Target."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "executionConfigs": {
+          "items": {
+            "$ref": "#/definitions/ExecutionConfig"
+          },
+          "type": "array",
+          "description": "Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`."
+        },
+        "deployParameters": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. The deploy parameters to use for this target."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target",
+      "description": "A `Target` resource in the Cloud Deploy API. A `Target` defines a location to which a Skaffold configuration can be deployed."
+    },
+    "TargetArtifact": {
+      "properties": {
+        "artifactUri": {
+          "type": "string",
+          "description": "Output only. URI of a directory containing the artifacts. This contains deployment configuration used by Skaffold during a rollout, and all paths are relative to this location."
+        },
+        "skaffoldConfigPath": {
+          "type": "string",
+          "description": "Output only. File path of the resolved Skaffold configuration relative to the URI."
+        },
+        "manifestPath": {
+          "type": "string",
+          "description": "Output only. File path of the rendered manifest relative to the URI."
+        },
+        "phaseArtifacts": {
+          "additionalProperties": {
+            "$ref": "#/definitions/PhaseArtifact",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Output only. Map from the phase ID to the phase artifacts for the `Target`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Target Artifact",
+      "description": "The artifacts produced by a target render operation."
+    },
+    "PhaseArtifact": {
+      "properties": {
+        "skaffoldConfigPath": {
+          "type": "string",
+          "description": "Output only. File path of the resolved Skaffold configuration relative to the URI."
+        },
+        "manifestPath": {
+          "type": "string",
+          "description": "Output only. File path of the rendered manifest relative to the URI."
+        },
+        "jobManifestsPath": {
+          "type": "string",
+          "description": "Output only. File path of the directory of rendered job manifests relative to the URI. This is only set if it is applicable."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Phase Artifact",
+      "description": "Contains the paths to the artifacts, relative to the URI, for a phase."
+    },
+    "TargetsPresentCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if there aren't any missing Targets."
+        },
+        "missingTargets": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The list of Target names that do not exist. For example, `projects/{project_id}/locations/{location_name}/targets/{target_name}`."
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Last time the condition was updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Targets Present Condition",
+      "description": "`TargetsPresentCondition` contains information on any Targets referenced in the Delivery Pipeline that do not actually exist."
+    },
+    "TargetsTypeCondition": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "description": "True if the targets are all a comparable type. For example this is true if all targets are GKE clusters. This is false if some targets are Cloud Run targets and others are GKE clusters."
+        },
+        "errorDetails": {
+          "type": "string",
+          "description": "Human readable error message."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Targets Type Condition",
+      "description": "TargetsTypeCondition contains information on whether the Targets defined in the Delivery Pipeline are of the same type."
+    }
+  }
+}
