@@ -518,6 +518,74 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/AutomationEventData.json",
+      "product": "Cloud Deploy",
+      "name": "AutomationEventData",
+      "description": "The data within all Automation events.",
+      "datatype": "google.events.cloud.deploy.v1.AutomationEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.automation.v1.created",
+        "google.cloud.deploy.automation.v1.updated",
+        "google.cloud.deploy.automation.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/CustomTargetTypeEventData.json",
+      "product": "Cloud Deploy",
+      "name": "CustomTargetTypeEventData",
+      "description": "The data within all CustomTargetType events.",
+      "datatype": "google.events.cloud.deploy.v1.CustomTargetTypeEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.customTargetType.v1.created",
+        "google.cloud.deploy.customTargetType.v1.updated",
+        "google.cloud.deploy.customTargetType.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/DeliveryPipelineEventData.json",
+      "product": "Cloud Deploy",
+      "name": "DeliveryPipelineEventData",
+      "description": "The data within all DeliveryPipeline events.",
+      "datatype": "google.events.cloud.deploy.v1.DeliveryPipelineEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.deliveryPipeline.v1.created",
+        "google.cloud.deploy.deliveryPipeline.v1.updated",
+        "google.cloud.deploy.deliveryPipeline.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/ReleaseEventData.json",
+      "product": "Cloud Deploy",
+      "name": "ReleaseEventData",
+      "description": "The data within all Release events.",
+      "datatype": "google.events.cloud.deploy.v1.ReleaseEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.release.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/RolloutEventData.json",
+      "product": "Cloud Deploy",
+      "name": "RolloutEventData",
+      "description": "The data within all Rollout events.",
+      "datatype": "google.events.cloud.deploy.v1.RolloutEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.rollout.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/TargetEventData.json",
+      "product": "Cloud Deploy",
+      "name": "TargetEventData",
+      "description": "The data within all Target events.",
+      "datatype": "google.events.cloud.deploy.v1.TargetEventData",
+      "cloudeventTypes": [
+        "google.cloud.deploy.target.v1.created",
+        "google.cloud.deploy.target.v1.updated",
+        "google.cloud.deploy.target.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/ChannelConnectionEventData.json",
       "product": "Eventarc",
       "name": "ChannelConnectionEventData",

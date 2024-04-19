@@ -1,0 +1,171 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/deploy/v1/CustomTargetTypeEventData.json",
+  "name": "CustomTargetTypeEventData",
+  "examples": [],
+  "package": "google.events.cloud.deploy.v1",
+  "datatype": "google.events.cloud.deploy.v1.CustomTargetTypeEventData",
+  "cloudeventTypes": [
+    "google.cloud.deploy.customTargetType.v1.created",
+    "google.cloud.deploy.customTargetType.v1.updated",
+    "google.cloud.deploy.customTargetType.v1.deleted"
+  ],
+  "product": "Cloud Deploy",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/CustomTargetTypeEventData",
+  "definitions": {
+    "CustomTargetTypeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/CustomTargetType",
+          "additionalProperties": true,
+          "description": "Optional. The CustomTargetType event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target Type Event Data",
+      "description": "The data within all CustomTargetType events."
+    },
+    "CustomTargetSkaffoldActions": {
+      "properties": {
+        "renderAction": {
+          "type": "string",
+          "description": "Optional. The Skaffold custom action responsible for render operations. If not provided then Cloud Deploy will perform the render operations via `skaffold render`."
+        },
+        "deployAction": {
+          "type": "string",
+          "description": "Required. The Skaffold custom action responsible for deploy operations."
+        },
+        "includeSkaffoldModules": {
+          "items": {
+            "$ref": "#/definitions/SkaffoldModules"
+          },
+          "type": "array",
+          "description": "Optional. List of Skaffold modules Cloud Deploy will include in the Skaffold Config as required before performing diagnose."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target Skaffold Actions",
+      "description": "CustomTargetSkaffoldActions represents the `CustomTargetType` configuration using Skaffold custom actions."
+    },
+    "CustomTargetType": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/[a-z][a-z0-9\\-]{0,62}`."
+        },
+        "customTargetTypeId": {
+          "type": "string",
+          "description": "Output only. Resource id of the `CustomTargetType`."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique identifier of the `CustomTargetType`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the `CustomTargetType`. Max length is 255 characters."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Time at which the `CustomTargetType` was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Most recent time at which the `CustomTargetType` was updated.",
+          "format": "date-time"
+        },
+        "etag": {
+          "type": "string",
+          "description": "Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding."
+        },
+        "customActions": {
+          "$ref": "#/definitions/CustomTargetSkaffoldActions",
+          "additionalProperties": true,
+          "description": "Configures render and deploy for the `CustomTargetType` using Skaffold custom actions."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Custom Target Type",
+      "description": "A `CustomTargetType` resource in the Cloud Deploy API. A `CustomTargetType` defines a type of custom target that can be referenced in a `Target` in order to facilitate deploying to other systems besides the supported runtimes."
+    },
+    "SkaffoldModules": {
+      "properties": {
+        "configs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. The Skaffold Config modules to use from the specified source."
+        },
+        "git": {
+          "$ref": "#/definitions/SkaffoldGitSource",
+          "additionalProperties": true,
+          "description": "Remote git repository containing the Skaffold Config modules."
+        },
+        "googleCloudStorage": {
+          "$ref": "#/definitions/SkaffoldGCSSource",
+          "additionalProperties": true,
+          "description": "Cloud Storage bucket containing the Skaffold Config modules."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold Modules",
+      "description": "Skaffold Config modules and their remote source."
+    },
+    "SkaffoldGCSSource": {
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Required. Cloud Storage source paths to copy recursively. For example, providing \"gs://my-bucket/dir/configs/*\" will result in Skaffold copying all files within the \"dir/configs\" directory in the bucket \"my-bucket\"."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. Relative path from the source to the Skaffold file."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold GCS Source",
+      "description": "Cloud Storage bucket containing Skaffold Config modules."
+    },
+    "SkaffoldGitSource": {
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "Required. Git repository the package should be cloned from."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional. Relative path from the repository root to the Skaffold file."
+        },
+        "ref": {
+          "type": "string",
+          "description": "Optional. Git ref the package should be cloned from."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Skaffold Git Source",
+      "description": "Git repository containing Skaffold Config modules."
+    }
+  }
+}
