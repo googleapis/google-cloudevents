@@ -1,0 +1,50 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.example.zoo.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Example.Zoo.V1";
+option php_namespace = "Google\\Events\\Example\\Zoo\\V1";
+option ruby_package = "Google::Events::Example::Zoo::V1";
+
+// Message for Animal.
+message Animal {
+  // The animal name. It has the format of "projects/*/locations/*/animals/*".
+  // Note that this is a generated field that cannot be set explicitly
+  string name = 1;
+  // The display name of the animal.
+  string display_name = 2;
+  // The creation time of the animal.
+  google.protobuf.Timestamp create_time = 3;
+  // The last update time of the animal.
+  google.protobuf.Timestamp update_time = 4;
+  // The species of the animal.
+  string species = 5;
+  // The delete time of the animal.
+  // If it is set, it means anminal has been marked deletion by invoking rpc
+  // DeleteAnmial. It can be reversed by calling rpc UndeleteAnimal within 30
+  // days after delete time. And it will be purged after 30 days after delete
+  // time.
+  google.protobuf.Timestamp delete_time = 6;
+}
+
+// The data within all Zoo Animal events.
+message AnimalEventData {
+  // The Animal event payload.
+  Animal payload = 1;
+}
