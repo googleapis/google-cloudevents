@@ -29,7 +29,9 @@ option ruby_package = " Google::Events::Cloud::Deploy::V1";
 // configuration can progress.
 message DeliveryPipeline {
   // Optional. Name of the `DeliveryPipeline`. Format is
-  // `projects/{project}/locations/{location}/deliveryPipelines/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`.
+  // The `deliveryPipeline` component must match
+  // `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
   string name = 1;
 
   // Output only. Unique identifier of the `DeliveryPipeline`.
@@ -186,6 +188,8 @@ message CanaryDeployment {
   // Required. The percentage based deployments that will occur as a part of a
   // `Rollout`. List is expected in ascending order and each integer n is
   // 0 <= n < 100.
+  // If the GatewayServiceMesh is configured for Kubernetes, then the range for
+  // n is 0 <= n <= 100.
   repeated int32 percentages = 1;
 
   // Whether to run verify tests after each percentage deployment.
@@ -262,6 +266,10 @@ message KubernetesConfig {
     // specified, must be between 15s and 3600s. If unspecified, there is no
     // cutback time.
     google.protobuf.Duration stable_cutback_duration = 5;
+
+    // Optional. The label to use when selecting Pods for the Deployment and
+    // Service resources. This label must already be present in both resources.
+    string pod_selector_label = 6;
   }
 
   // Information about the Kubernetes Service networking configuration.
@@ -278,6 +286,10 @@ message KubernetesConfig {
     // total Pods used for the deployment strategy to the number of Pods the
     // Deployment has on the cluster.
     bool disable_pod_overprovisioning = 3;
+
+    // Optional. The label to use when selecting Pods for the Deployment
+    // resource. This label must already be present in the Deployment.
+    string pod_selector_label = 4;
   }
 
   // The service definition configuration.
@@ -382,7 +394,8 @@ message PipelineCondition {
 // can be deployed.
 message Target {
   // Optional. Name of the `Target`. Format is
-  // `projects/{project}/locations/{location}/targets/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/targets/{target}`.
+  // The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
   string name = 1;
 
   // Output only. Resource id of the `Target`.
@@ -515,6 +528,10 @@ message ExecutionConfig {
   // between 10m and 24h in seconds format. If unspecified, a default timeout of
   // 1h is used.
   google.protobuf.Duration execution_timeout = 7;
+
+  // Optional. If true, additional logging will be enabled when running builds
+  // in this execution environment.
+  bool verbose = 8;
 }
 
 // Execution using the default Cloud Build pool.
@@ -551,7 +568,7 @@ message PrivatePool {
 
 // Information specifying a GKE Cluster.
 message GkeCluster {
-  // Information specifying a GKE Cluster. Format is
+  // Optional. Information specifying a GKE Cluster. Format is
   // `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`.
   string cluster = 1;
 
@@ -564,12 +581,17 @@ message GkeCluster {
   // Only specify this option when `cluster` is a [private GKE
   // cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept).
   bool internal_ip = 2;
+
+  // Optional. If set, used to configure a
+  // [proxy](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#proxy)
+  // to the Kubernetes server.
+  string proxy_url = 3;
 }
 
 // Information specifying an Anthos Cluster.
 message AnthosCluster {
-  // Membership of the GKE Hub-registered cluster to which to apply the Skaffold
-  // configuration. Format is
+  // Optional. Membership of the GKE Hub-registered cluster to which to apply
+  // the Skaffold configuration. Format is
   // `projects/{project}/locations/{location}/memberships/{membership_name}`.
   string membership = 1;
 }
@@ -601,7 +623,9 @@ message CustomTarget {
 // supported runtimes.
 message CustomTargetType {
   // Optional. Name of the `CustomTargetType`. Format is
-  // `projects/{project}/locations/{location}/customTargetTypes/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`.
+  // The `customTargetType` component must match
+  // `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
   string name = 1;
 
   // Output only. Resource id of the `CustomTargetType`.
@@ -678,7 +702,7 @@ message SkaffoldModules {
     // Optional. Relative path from the repository root to the Skaffold file.
     string path = 2;
 
-    // Optional. Git ref the package should be cloned from.
+    // Optional. Git branch or tag to use when cloning the repository.
     string ref = 3;
   }
 
@@ -693,6 +717,21 @@ message SkaffoldModules {
     string path = 2;
   }
 
+  // Cloud Build V2 Repository containing Skaffold Configs.
+  message SkaffoldGCBRepoSource {
+    // Required. Name of the Cloud Build V2 Repository.
+    // Format is
+    // projects/{project}/locations/{location}/connections/{connection}/repositories/{repository}.
+    string repository = 1;
+
+    // Optional. Relative path from the repository root to the Skaffold Config
+    // file.
+    string path = 2;
+
+    // Optional. Branch or tag to use when cloning the repository.
+    string ref = 3;
+  }
+
   // Optional. The Skaffold Config modules to use from the specified source.
   repeated string configs = 1;
 
@@ -703,6 +742,9 @@ message SkaffoldModules {
 
     // Cloud Storage bucket containing the Skaffold Config modules.
     SkaffoldGCSSource google_cloud_storage = 3;
+
+    // Cloud Build V2 repository containing the Skaffold Config modules.
+    SkaffoldGCBRepoSource google_cloud_build_repo = 4;
   }
 }
 
@@ -710,6 +752,7 @@ message SkaffoldModules {
 message TargetAttribute {
   // ID of the `Target`. The value of this field could be one of the
   // following:
+  //
   // * The last segment of a target name. It only needs the ID to determine
   // which target is being referred to
   // * "*", all targets in a location.
@@ -852,7 +895,8 @@ message Release {
   }
 
   // Optional. Name of the `Release`. Format is
-  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}`.
+  // The `release` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
   string name = 1;
 
   // Output only. Unique identifier of the `Release`.
@@ -1097,7 +1141,8 @@ message Rollout {
   }
 
   // Optional. Name of the `Rollout`. Format is
-  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`.
+  // The `rollout` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`
   string name = 1;
 
   // Output only. Unique identifier of the `Rollout`.
@@ -1174,7 +1219,7 @@ message Rollout {
   Metadata metadata = 24;
 
   // Output only. Name of the `ControllerRollout`. Format is
-  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/[a-z][a-z0-9\-]{0,62}`.
+  // `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`.
   string controller_rollout = 25;
 
   // Output only. Name of the `Rollout` that is rolled back by this `Rollout`.
@@ -1222,20 +1267,17 @@ message CloudRunMetadata {
 // AutomationRolloutMetadata contains Automation-related actions that
 // were performed on a rollout.
 message AutomationRolloutMetadata {
-  // Output only. The ID of the AutomationRun initiated by a promote release
+  // Output only. The name of the AutomationRun initiated by a promote release
   // rule.
   string promote_automation_run = 1;
 
-  // Output only. The IDs of the AutomationRuns initiated by an advance rollout
-  // rule.
+  // Output only. The names of the AutomationRuns initiated by an advance
+  // rollout rule.
   repeated string advance_automation_runs = 2;
 
-  // Output only. The IDs of the AutomationRuns initiated by a repair rollout
+  // Output only. The names of the AutomationRuns initiated by a repair rollout
   // rule.
   repeated string repair_automation_runs = 3;
-
-  // Output only. The current AutomationRun repairing the rollout.
-  string current_repair_automation_run = 4;
 }
 
 // CustomMetadata contains information from a user-defined operation.
@@ -1511,11 +1553,12 @@ message AutomationRule {
   }
 }
 
-// `PromoteRelease` rule will automatically promote a release from the current
-// target to a specified target.
+// The `PromoteRelease` rule will automatically promote a release from the
+// current target to a specified target.
 message PromoteReleaseRule {
   // Required. ID of the rule. This id must be unique in the `Automation`
-  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  // resource to which this rule belongs. The format is
+  // `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`.
   string id = 1;
 
   // Optional. How long the release need to be paused until being promoted to
@@ -1544,7 +1587,8 @@ message PromoteReleaseRule {
 // Rollout to the next phase.
 message AdvanceRolloutRule {
   // Required. ID of the rule. This id must be unique in the `Automation`
-  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  // resource to which this rule belongs. The format is
+  // `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`.
   string id = 1;
 
   // Optional. Proceeds only after phase name matched any one in the list.
@@ -1565,16 +1609,9 @@ message AdvanceRolloutRule {
 // `Rollout`.
 message RepairRolloutRule {
   // Required. ID of the rule. This id must be unique in the `Automation`
-  // resource to which this rule belongs. The format is `[a-z][a-z0-9\-]{0,62}`.
+  // resource to which this rule belongs. The format is
+  // `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`.
   string id = 1;
-
-  // Optional. Phases within which jobs are subject to automatic repair actions
-  // on failure. Proceeds only after phase name matched any one in the list, or
-  // for all phases if unspecified. This value must consist of lower-case
-  // letters, numbers, and hyphens, start with a letter and end with a letter or
-  // a number, and have a max length of 63 characters. In other words, it must
-  // match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
-  repeated string source_phases = 2;
 
   // Optional. Jobs to repair. Proceeds only after job name matched any one in
   // the list, or for all jobs if unspecified or empty. The phase that includes
@@ -1585,45 +1622,8 @@ message RepairRolloutRule {
   // `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`.
   repeated string jobs = 3;
 
-  // Required. Defines the types of automatic repair actions for failed jobs.
-  repeated RepairMode repair_modes = 4;
-
   // Output only. Information around the state of the 'Automation' rule.
   AutomationRuleCondition condition = 6;
-}
-
-// Configuration of the repair action.
-message RepairMode {
-  // The repair action to perform.
-  oneof mode {
-    // Optional. Retries a failed job.
-    Retry retry = 1;
-
-    // Optional. Rolls back a `Rollout`.
-    Rollback rollback = 2;
-  }
-}
-
-// Retries the failed job.
-message Retry {
-  // Required. Total number of retries. Retry is skipped if set to 0; The
-  // minimum value is 1, and the maximum value is 10.
-  int64 attempts = 1;
-
-  // Optional. How long to wait for the first retry. Default is 0, and the
-  // maximum value is 14d.
-  google.protobuf.Duration wait = 2;
-
-  // Optional. The pattern of how wait time will be increased. Default is
-  // linear. Backoff mode will be ignored if `wait` is 0.
-  BackoffMode backoff_mode = 3;
-}
-
-// Rolls back a `Rollout`.
-message Rollback {
-  // Optional. The starting phase ID for the `Rollout`. If unspecified, the
-  // `Rollout` will start in the stable phase.
-  string destination_phase = 1;
 }
 
 // `AutomationRuleCondition` contains conditions relevant to an
@@ -1646,18 +1646,6 @@ enum SkaffoldSupportState {
 
   // This Skaffold version is no longer supported.
   SKAFFOLD_SUPPORT_STATE_UNSUPPORTED = 3;
-}
-
-// The pattern of how wait time is increased.
-enum BackoffMode {
-  // No WaitMode is specified.
-  BACKOFF_MODE_UNSPECIFIED = 0;
-
-  // Increases the wait time linearly.
-  BACKOFF_MODE_LINEAR = 1;
-
-  // Increases the wait time exponentially.
-  BACKOFF_MODE_EXPONENTIAL = 2;
 }
 
 // The data within all DeliveryPipeline events.
