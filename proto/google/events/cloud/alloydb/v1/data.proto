@@ -20,6 +20,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/dayofweek.proto";
 import "google/type/timeofday.proto";
+import "storage/datapol/annotations/proto/semantic_annotations.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Cloud.AlloyDb.V1";
 option php_namespace = "Google\\Events\\Cloud\\AlloyDb\\V1";
@@ -32,7 +33,7 @@ message UserPassword {
   string user = 1;
 
   // The initial password for the user.
-  string password = 2;
+  string password = 2 [(datapol.semantic_type) = ST_ACCOUNT_CREDENTIAL];
 }
 
 // Subset of the source instance configuration that is available when reading
