@@ -47,12 +47,18 @@ message DocumentMask {
   repeated string field_paths = 1;
 }
 
-// A Firestore document.
-message Document {
-  // The resource name of the document. For example:
-  // `projects/{project_id}/databases/{database_id}/documents/{document_path}`
-  string name = 1;
+message DocumentIdKeyValue {
+    string key = 1;  
+    string value = 3;  
+}
 
+message DocumentIds {
+    string name = 1;  
+    repeated DocumentIdKeyValue collections = 2;  
+}
+
+message DocumentData {
+  DocumentIds ids = 1;
   // The document's fields.
   //
   // The map keys represent field names.
@@ -77,21 +83,27 @@ message Document {
   // may contain any character. Some characters, including `` ` ``, must be
   // escaped using a `\`. For example, `` `x&y` `` represents `x&y` and
   // `` `bak\`tik` `` represents `` bak`tik ``.
-  map<string, Value> fields = 2;
+  map<string, Value> fields = 3;  
+}
 
+// A Firestore document.
+message Document {
+  // The resource name of the document. For example:
+  // `projects/{project_id}/databases/{database_id}/documents/{document_path}`
+  DocumentData data = 1;
   // The time at which the document was created.
   //
   // This value increases monotonically when a document is deleted then
   // recreated. It can also be compared to values from other documents and
   // the `read_time` of a query.
-  google.protobuf.Timestamp create_time = 3;
+  google.protobuf.Timestamp create_time = 5;
 
   // The time at which the document was last changed.
   //
   // This value is initially set to the `create_time` then increases
   // monotonically with each change to the document. It can also be
   // compared to values from other documents and the `read_time` of a query.
-  google.protobuf.Timestamp update_time = 4;
+  google.protobuf.Timestamp update_time = 6;
 }
 
 // A message that can hold any of the supported value types.
