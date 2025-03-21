@@ -7695,18 +7695,6 @@ gcloud eventarc triggers create my-trigger \
 - `google.longrunning.Operations.CancelOperation`
 - `google.longrunning.Operations.GetOperation`
 
-### Resource Settings
-
-#### `serviceName`
-
-- `resourcesettings.googleapis.com`
-
-#### `methodName`
-
-- `google.cloud.resourcesettings.v1.ResourceSettingsService.GetSetting`
-- `google.cloud.resourcesettings.v1.ResourceSettingsService.ListSettings`
-- `google.cloud.resourcesettings.v1.ResourceSettingsService.UpdateSetting`
-
 ### Cloud Retail
 
 #### `serviceName`
