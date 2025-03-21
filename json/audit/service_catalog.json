@@ -20827,21 +20827,6 @@
       "apiDocsUrl": "https://cloud.google.com/sdk/gcloud/reference/alpha/remote-build-execution"
     },
     {
-      "serviceName": "resourcesettings.googleapis.com",
-      "displayName": "Resource Settings",
-      "methods": [
-        {
-          "methodName": "google.cloud.resourcesettings.v1.ResourceSettingsService.GetSetting"
-        },
-        {
-          "methodName": "google.cloud.resourcesettings.v1.ResourceSettingsService.ListSettings"
-        },
-        {
-          "methodName": "google.cloud.resourcesettings.v1.ResourceSettingsService.UpdateSetting"
-        }
-      ]
-    },
-    {
       "serviceName": "retail.googleapis.com",
       "displayName": "Cloud Retail",
       "methods": [
