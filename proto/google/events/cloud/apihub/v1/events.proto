@@ -1,0 +1,310 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.apihub.v1;
+
+import "google/events/cloud/apihub/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.ApiHub.V1";
+option php_namespace = "Google\\Events\\Cloud\\ApiHub\\V1";
+option ruby_package = "Google::Events::Cloud::ApiHub::V1";
+option (google.events.cloud_event_product) = "API hub";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "api"
+  description: "The resource ID of the Api triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "apihubinstance"
+  description: "The resource ID of the ApiHubInstance triggering the event."
+  camel_case_name: "apiHubInstance"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "attribute"
+  description: "The resource ID of the Attribute triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "dependency"
+  description: "The resource ID of the Dependency triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "deployment"
+  description: "The resource ID of the Deployment triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "externalapi"
+  description: "The resource ID of the ExternalApi triggering the event."
+  camel_case_name: "externalApi"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "hostprojectregistration"
+  description: "The resource ID of the HostProjectRegistration triggering the event."
+  camel_case_name: "hostProjectRegistration"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "runtimeprojectattachment"
+  description: "The resource ID of the RuntimeProjectAttachment triggering the event."
+  camel_case_name: "runtimeProjectAttachment"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "spec"
+  description: "The resource ID of the Spec triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "version"
+  description: "The resource ID of the Version triggering the event."
+};
+
+// The CloudEvent raised when a Api is created.
+message ApiCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.api.v1.created";
+  option (google.events.cloud_event_extension_name) = "api";
+
+  // The data associated with the event.
+  ApiEventData data = 1;
+}
+
+// The CloudEvent raised when a Api is updated.
+message ApiUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.api.v1.updated";
+  option (google.events.cloud_event_extension_name) = "api";
+
+  // The data associated with the event.
+  ApiEventData data = 1;
+}
+
+// The CloudEvent raised when a Api is deleted.
+message ApiDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.api.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "api";
+
+  // The data associated with the event.
+  ApiEventData data = 1;
+}
+
+// The CloudEvent raised when a Version is created.
+message VersionCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.version.v1.created";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  VersionEventData data = 1;
+}
+
+// The CloudEvent raised when a Version is updated.
+message VersionUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.version.v1.updated";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  VersionEventData data = 1;
+}
+
+// The CloudEvent raised when a Version is deleted.
+message VersionDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.version.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  VersionEventData data = 1;
+}
+
+// The CloudEvent raised when a Spec is created.
+message SpecCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.spec.v1.created";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "spec";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  SpecEventData data = 1;
+}
+
+// The CloudEvent raised when a Spec is updated.
+message SpecUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.spec.v1.updated";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "spec";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  SpecEventData data = 1;
+}
+
+// The CloudEvent raised when a Spec is deleted.
+message SpecDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.spec.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "api";
+  option (google.events.cloud_event_extension_name) = "spec";
+  option (google.events.cloud_event_extension_name) = "version";
+
+  // The data associated with the event.
+  SpecEventData data = 1;
+}
+
+// The CloudEvent raised when a Deployment is created.
+message DeploymentCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.deployment.v1.created";
+  option (google.events.cloud_event_extension_name) = "deployment";
+
+  // The data associated with the event.
+  DeploymentEventData data = 1;
+}
+
+// The CloudEvent raised when a Deployment is updated.
+message DeploymentUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.deployment.v1.updated";
+  option (google.events.cloud_event_extension_name) = "deployment";
+
+  // The data associated with the event.
+  DeploymentEventData data = 1;
+}
+
+// The CloudEvent raised when a Deployment is deleted.
+message DeploymentDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.deployment.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "deployment";
+
+  // The data associated with the event.
+  DeploymentEventData data = 1;
+}
+
+// The CloudEvent raised when a Attribute is created.
+message AttributeCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.attribute.v1.created";
+  option (google.events.cloud_event_extension_name) = "attribute";
+
+  // The data associated with the event.
+  AttributeEventData data = 1;
+}
+
+// The CloudEvent raised when a ExternalApi is created.
+message ExternalApiCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.externalApi.v1.created";
+  option (google.events.cloud_event_extension_name) = "externalapi";
+
+  // The data associated with the event.
+  ExternalApiEventData data = 1;
+}
+
+// The CloudEvent raised when a ExternalApi is updated.
+message ExternalApiUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.externalApi.v1.updated";
+  option (google.events.cloud_event_extension_name) = "externalapi";
+
+  // The data associated with the event.
+  ExternalApiEventData data = 1;
+}
+
+// The CloudEvent raised when a ExternalApi is deleted.
+message ExternalApiDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.externalApi.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "externalapi";
+
+  // The data associated with the event.
+  ExternalApiEventData data = 1;
+}
+
+// The CloudEvent raised when a Dependency is created.
+message DependencyCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.dependency.v1.created";
+  option (google.events.cloud_event_extension_name) = "dependency";
+
+  // The data associated with the event.
+  DependencyEventData data = 1;
+}
+
+// The CloudEvent raised when a Dependency is updated.
+message DependencyUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.dependency.v1.updated";
+  option (google.events.cloud_event_extension_name) = "dependency";
+
+  // The data associated with the event.
+  DependencyEventData data = 1;
+}
+
+// The CloudEvent raised when a Dependency is deleted.
+message DependencyDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.dependency.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "dependency";
+
+  // The data associated with the event.
+  DependencyEventData data = 1;
+}
+
+// The CloudEvent raised when a HostProjectRegistration is created.
+message HostProjectRegistrationCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.hostProjectRegistration.v1.created";
+  option (google.events.cloud_event_extension_name) = "hostprojectregistration";
+
+  // The data associated with the event.
+  HostProjectRegistrationEventData data = 1;
+}
+
+// The CloudEvent raised when a ApiHubInstance is created.
+message ApiHubInstanceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.apiHubInstance.v1.created";
+  option (google.events.cloud_event_extension_name) = "apihubinstance";
+
+  // The data associated with the event.
+  ApiHubInstanceEventData data = 1;
+}
+
+// The CloudEvent raised when a RuntimeProjectAttachment is created.
+message RuntimeProjectAttachmentCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.runtimeProjectAttachment.v1.created";
+  option (google.events.cloud_event_extension_name) =
+      "runtimeprojectattachment";
+
+  // The data associated with the event.
+  RuntimeProjectAttachmentEventData data = 1;
+}
+
+// The CloudEvent raised when a RuntimeProjectAttachment is deleted.
+message RuntimeProjectAttachmentDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.apihub.runtimeProjectAttachment.v1.deleted";
+  option (google.events.cloud_event_extension_name) =
+      "runtimeprojectattachment";
+
+  // The data associated with the event.
+  RuntimeProjectAttachmentEventData data = 1;
+}

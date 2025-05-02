@@ -1,0 +1,1008 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.apihub.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.ApiHub.V1";
+option php_namespace = "Google\\Events\\Cloud\\ApiHub\\V1";
+option ruby_package = "Google::Events::Cloud::ApiHub::V1";
+
+// An API resource in the API Hub.
+message Api {
+  // Identifier. The name of the API resource in the API Hub.
+  //
+  // Format:
+  // `projects/{project}/locations/{location}/apis/{api}`
+  string name = 1;
+
+  // Required. The display name of the API resource.
+  string display_name = 2;
+
+  // Optional. The description of the API resource.
+  string description = 3;
+
+  // Optional. The documentation for the API resource.
+  Documentation documentation = 4;
+
+  // Optional. Owner details for the API resource.
+  Owner owner = 5;
+
+  // Output only. The list of versions present in an API resource.
+  // Note: An API resource can be associated with more than 1 version.
+  // Format is
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}`
+  repeated string versions = 6;
+
+  // Output only. The time at which the API resource was created.
+  google.protobuf.Timestamp create_time = 7;
+
+  // Output only. The time at which the API resource was last updated.
+  google.protobuf.Timestamp update_time = 8;
+
+  // Optional. The target users for the API.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-target-user`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues target_user = 9;
+
+  // Optional. The team owning the API.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-team`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues team = 10;
+
+  // Optional. The business unit owning the API.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-business-unit`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues business_unit = 11;
+
+  // Optional. The maturity level of the API.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-maturity-level`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues maturity_level = 12;
+
+  // Optional. The list of user defined attributes associated with the API
+  // resource. The key is the attribute name. It will be of the format:
+  // `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 13;
+
+  // Optional. The style of the API.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-api-style`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues api_style = 14;
+
+  // Optional. The selected version for an API resource.
+  // This can be used when special handling is needed on client side for
+  // particular version of the API. Format is
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}`
+  string selected_version = 15;
+}
+
+// Represents a version of the API resource in API hub. This is also referred
+// to as the API version.
+message Version {
+  // Identifier. The name of the version.
+  //
+  // Format:
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}`
+  string name = 1;
+
+  // Required. The display name of the version.
+  string display_name = 2;
+
+  // Optional. The description of the version.
+  string description = 3;
+
+  // Optional. The documentation of the version.
+  Documentation documentation = 4;
+
+  // Output only. The specs associated with this version.
+  // Note that an API version can be associated with multiple specs.
+  // Format is
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}`
+  repeated string specs = 5;
+
+  // Output only. The operations contained in the API version.
+  // These operations will be added to the version when a new spec is
+  // added or when an existing spec is updated. Format is
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}`
+  repeated string api_operations = 6;
+
+  // Output only. The definitions contained in the API version.
+  // These definitions will be added to the version when a new spec is
+  // added or when an existing spec is updated. Format is
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}/definitions/{definition}`
+  repeated string definitions = 7;
+
+  // Optional. The deployments linked to this API version.
+  // Note: A particular API version could be deployed to multiple deployments
+  // (for dev deployment, UAT deployment, etc)
+  // Format is
+  // `projects/{project}/locations/{location}/deployments/{deployment}`
+  repeated string deployments = 8;
+
+  // Output only. The time at which the version was created.
+  google.protobuf.Timestamp create_time = 9;
+
+  // Output only. The time at which the version was last updated.
+  google.protobuf.Timestamp update_time = 10;
+
+  // Optional. The lifecycle of the API version.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-lifecycle`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues lifecycle = 11;
+
+  // Optional. The compliance associated with the API version.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-compliance`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues compliance = 12;
+
+  // Optional. The accreditations associated with the API version.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-accreditation`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues accreditation = 13;
+
+  // Optional. The list of user defined attributes associated with the Version
+  // resource. The key is the attribute name. It will be of the format:
+  // `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 14;
+
+  // Optional. The selected deployment for a Version resource.
+  // This can be used when special handling is needed on client side for a
+  // particular deployment linked to the version.
+  // Format is
+  // `projects/{project}/locations/{location}/deployments/{deployment}`
+  string selected_deployment = 16;
+}
+
+// Represents a spec associated with an API version in the API
+// Hub. Note that specs of various types can be uploaded, however
+// parsing of details is supported for OpenAPI spec currently.
+message Spec {
+  // Identifier. The name of the spec.
+  //
+  // Format:
+  // `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}`
+  string name = 1;
+
+  // Required. The display name of the spec.
+  // This can contain the file name of the spec.
+  string display_name = 2;
+
+  // Required. The type of spec.
+  // The value should be one of the allowed values defined for
+  // `projects/{project}/locations/{location}/attributes/system-spec-type`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API.
+  //
+  // Note, this field is mandatory if content is provided.
+  AttributeValues spec_type = 3;
+
+  // Output only. Details parsed from the spec.
+  SpecDetails details = 5;
+
+  // Optional. The URI of the spec source in case file is uploaded
+  // from an external version control system.
+  string source_uri = 6;
+
+  // Output only. The time at which the spec was created.
+  google.protobuf.Timestamp create_time = 7;
+
+  // Output only. The time at which the spec was last updated.
+  google.protobuf.Timestamp update_time = 8;
+
+  // Optional. The lint response for the spec.
+  LintResponse lint_response = 9;
+
+  // Optional. The list of user defined attributes associated with the spec.
+  // The key is the attribute name. It will be of the format:
+  // `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 10;
+
+  // Optional. The documentation of the spec.
+  // For OpenAPI spec, this will be populated from `externalDocs` in OpenAPI
+  // spec.
+  Documentation documentation = 11;
+}
+
+// Details of the deployment where APIs are hosted.
+// A deployment could represent an Apigee proxy, API gateway, other Google Cloud
+// services or non-Google Cloud services as well. A deployment entity is a root
+// level entity in the API hub and exists independent of any API.
+message Deployment {
+  // Identifier. The name of the deployment.
+  //
+  // Format:
+  // `projects/{project}/locations/{location}/deployments/{deployment}`
+  string name = 1;
+
+  // Required. The display name of the deployment.
+  string display_name = 2;
+
+  // Optional. The description of the deployment.
+  string description = 3;
+
+  // Optional. The documentation of the deployment.
+  Documentation documentation = 4;
+
+  // Required. The type of deployment.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-deployment-type`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues deployment_type = 5;
+
+  // Required. A URI to the runtime resource. This URI can be used to manage the
+  // resource. For example, if the runtime resource is of type APIGEE_PROXY,
+  // then this field will contain the URI to the management UI of the proxy.
+  string resource_uri = 6;
+
+  // Required. The endpoints at which this deployment resource is listening for
+  // API requests. This could be a list of complete URIs, hostnames or an IP
+  // addresses.
+  repeated string endpoints = 7;
+
+  // Output only. The API versions linked to this deployment.
+  // Note: A particular deployment could be linked to multiple different API
+  // versions (of same or different APIs).
+  repeated string api_versions = 8;
+
+  // Output only. The time at which the deployment was created.
+  google.protobuf.Timestamp create_time = 9;
+
+  // Output only. The time at which the deployment was last updated.
+  google.protobuf.Timestamp update_time = 10;
+
+  // Optional. The SLO for this deployment.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-slo`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues slo = 11;
+
+  // Optional. The environment mapping to this deployment.
+  // This maps to the following system defined attribute:
+  // `projects/{project}/locations/{location}/attributes/system-environment`
+  // attribute.
+  // The number of values for this attribute will be based on the
+  // cardinality of the attribute. The same can be retrieved via GetAttribute
+  // API. All values should be from the list of allowed values defined for the
+  // attribute.
+  AttributeValues environment = 12;
+
+  // Optional. The list of user defined attributes associated with the
+  // deployment resource. The key is the attribute name. It will be of the
+  // format: `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 13;
+}
+
+// An attribute in the API Hub.
+// An attribute is a name value pair which can be attached to different
+// resources in the API hub based on the scope of the attribute. Attributes can
+// either be pre-defined by the API Hub or created by users.
+message Attribute {
+  // The value that can be assigned to the attribute when the data type is
+  // enum.
+  message AllowedValue {
+    // Required. The ID of the allowed value.
+    // * If provided, the same will be used. The service will throw an error if
+    // the specified id is already used by another allowed value in the same
+    // attribute resource.
+    // * If not provided, a system generated id derived from the display name
+    // will be used. In this case, the service will handle conflict resolution
+    // by adding a system generated suffix in case of duplicates.
+    //
+    // This value should be 4-63 characters, and valid characters
+    // are /[a-z][0-9]-/.
+    string id = 1;
+
+    // Required. The display name of the allowed value.
+    string display_name = 2;
+
+    // Optional. The detailed description of the allowed value.
+    string description = 3;
+
+    // Optional. When set to true, the allowed value cannot be updated or
+    // deleted by the user. It can only be true for System defined attributes.
+    bool immutable = 4;
+  }
+
+  // Enumeration of attribute definition types.
+  enum DefinitionType {
+    // Attribute definition type unspecified.
+    DEFINITION_TYPE_UNSPECIFIED = 0;
+
+    // The attribute is predefined by the API Hub. Note that only the list of
+    // allowed values can be updated in this case via UpdateAttribute method.
+    SYSTEM_DEFINED = 1;
+
+    // The attribute is defined by the user.
+    USER_DEFINED = 2;
+  }
+
+  // Enumeration for the scope of the attribute representing the resource in the
+  // API Hub to which the attribute can be linked.
+  enum Scope {
+    // Scope Unspecified.
+    SCOPE_UNSPECIFIED = 0;
+
+    // Attribute can be linked to an API.
+    API = 1;
+
+    // Attribute can be linked to an API version.
+    VERSION = 2;
+
+    // Attribute can be linked to a Spec.
+    SPEC = 3;
+
+    // Attribute can be linked to an API Operation.
+    API_OPERATION = 4;
+
+    // Attribute can be linked to a Deployment.
+    DEPLOYMENT = 5;
+
+    // Attribute can be linked to a Dependency.
+    DEPENDENCY = 6;
+
+    // Attribute can be linked to a definition.
+    DEFINITION = 7;
+
+    // Attribute can be linked to a ExternalAPI.
+    EXTERNAL_API = 8;
+
+    // Attribute can be linked to a Plugin.
+    PLUGIN = 9;
+  }
+
+  // Enumeration of attribute's data type.
+  enum DataType {
+    // Attribute data type unspecified.
+    DATA_TYPE_UNSPECIFIED = 0;
+
+    // Attribute's value is of type enum.
+    ENUM = 1;
+
+    // Attribute's value is of type json.
+    JSON = 2;
+
+    // Attribute's value is of type string.
+    STRING = 3;
+  }
+
+  // Identifier. The name of the attribute in the API Hub.
+  //
+  // Format:
+  // `projects/{project}/locations/{location}/attributes/{attribute}`
+  string name = 1;
+
+  // Required. The display name of the attribute.
+  string display_name = 2;
+
+  // Optional. The description of the attribute.
+  string description = 3;
+
+  // Output only. The definition type of the attribute.
+  DefinitionType definition_type = 4;
+
+  // Required. The scope of the attribute. It represents the resource in the API
+  // Hub to which the attribute can be linked.
+  Scope scope = 5;
+
+  // Required. The type of the data of the attribute.
+  DataType data_type = 6;
+
+  // Optional. The list of allowed values when the attribute value is of type
+  // enum. This is required when the data_type of the attribute is ENUM. The
+  // maximum number of allowed values of an attribute will be 1000.
+  repeated AllowedValue allowed_values = 7;
+
+  // Optional. The maximum number of values that the attribute can have when
+  // associated with an API Hub resource. Cardinality 1 would represent a
+  // single-valued attribute. It must not be less than 1 or greater than 20. If
+  // not specified, the cardinality would be set to 1 by default and represent a
+  // single-valued attribute.
+  int32 cardinality = 8;
+
+  // Output only. When mandatory is true, the attribute is mandatory for the
+  // resource specified in the scope. Only System defined attributes can be
+  // mandatory.
+  bool mandatory = 9;
+
+  // Output only. The time at which the attribute was created.
+  google.protobuf.Timestamp create_time = 10;
+
+  // Output only. The time at which the attribute was last updated.
+  google.protobuf.Timestamp update_time = 11;
+}
+
+// The spec contents.
+message SpecContents {
+  // Required. The contents of the spec.
+  bytes contents = 1;
+
+  // Required. The mime type of the content for example application/json,
+  // application/yaml, application/wsdl etc.
+  string mime_type = 2;
+}
+
+// SpecDetails contains the details parsed from supported
+// spec types.
+message SpecDetails {
+  oneof details {
+    // Output only. Additional details apart from `OperationDetails` parsed from
+    // an OpenAPI spec. The OperationDetails parsed from the spec can be
+    // obtained by using
+    // [ListAPIOperations][google.cloud.apihub.v1.ApiHub.ListApiOperations]
+    // method.
+    OpenApiSpecDetails open_api_spec_details = 2;
+  }
+
+  // Output only. The description of the spec.
+  string description = 1;
+}
+
+// OpenApiSpecDetails contains the details parsed from an OpenAPI spec in
+// addition to the fields mentioned in
+// [SpecDetails][google.cloud.apihub.v1.SpecDetails].
+message OpenApiSpecDetails {
+  // Enumeration of spec formats.
+  enum Format {
+    // SpecFile type unspecified.
+    FORMAT_UNSPECIFIED = 0;
+
+    // OpenAPI Spec v2.0.
+    OPEN_API_SPEC_2_0 = 1;
+
+    // OpenAPI Spec v3.0.
+    OPEN_API_SPEC_3_0 = 2;
+
+    // OpenAPI Spec v3.1.
+    OPEN_API_SPEC_3_1 = 3;
+  }
+
+  // Output only. The format of the spec.
+  Format format = 1;
+
+  // Output only. The version in the spec.
+  // This maps to `info.version` in OpenAPI spec.
+  string version = 2;
+
+  // Output only. Owner details for the spec.
+  // This maps to `info.contact` in OpenAPI spec.
+  Owner owner = 3;
+}
+
+// Owner details.
+message Owner {
+  // Optional. The name of the owner.
+  string display_name = 1;
+
+  // Required. The email of the owner.
+  string email = 2;
+}
+
+// Documentation details.
+message Documentation {
+  // Optional. The uri of the externally hosted documentation.
+  string external_uri = 1;
+}
+
+// The attribute values associated with resource.
+message AttributeValues {
+  // The attribute values of data type enum.
+  message EnumAttributeValues {
+    // Required. The attribute values in case attribute data type is enum.
+    repeated Attribute.AllowedValue values = 1;
+  }
+
+  // The attribute values of data type string or JSON.
+  message StringAttributeValues {
+    // Required. The attribute values in case attribute data type is string or
+    // JSON.
+    repeated string values = 1;
+  }
+
+  // The attribute values associated with the resource.
+  oneof Value {
+    // The attribute values associated with a resource in case attribute data
+    // type is enum.
+    EnumAttributeValues enum_values = 2;
+
+    // The attribute values associated with a resource in case attribute data
+    // type is string.
+    StringAttributeValues string_values = 3;
+
+    // The attribute values associated with a resource in case attribute data
+    // type is JSON.
+    StringAttributeValues json_values = 4;
+  }
+
+  // Output only. The name of the attribute.
+  // Format: projects/{project}/locations/{location}/attributes/{attribute}
+  string attribute = 1;
+}
+
+// A dependency resource defined in the API hub describes a dependency directed
+// from a consumer to a supplier entity. A dependency can be defined between two
+// [Operations][google.cloud.apihub.v1.Operation] or between
+// an [Operation][google.cloud.apihub.v1.Operation] and [External
+// API][google.cloud.apihub.v1.ExternalApi].
+message Dependency {
+  // Possible states for a dependency.
+  enum State {
+    // Default value. This value is unused.
+    STATE_UNSPECIFIED = 0;
+
+    // Dependency will be in a proposed state when it is newly identified by the
+    // API hub on its own.
+    PROPOSED = 1;
+
+    // Dependency will be in a validated state when it is validated by the
+    // admin or manually created in the API hub.
+    VALIDATED = 2;
+  }
+
+  // Possible modes of discovering the dependency.
+  enum DiscoveryMode {
+    // Default value. This value is unused.
+    DISCOVERY_MODE_UNSPECIFIED = 0;
+
+    // Manual mode of discovery when the dependency is defined by the user.
+    MANUAL = 1;
+  }
+
+  // Identifier. The name of the dependency in the API Hub.
+  //
+  // Format: `projects/{project}/locations/{location}/dependencies/{dependency}`
+  string name = 1;
+
+  // Required. Immutable. The entity acting as the consumer in the dependency.
+  DependencyEntityReference consumer = 2;
+
+  // Required. Immutable. The entity acting as the supplier in the dependency.
+  DependencyEntityReference supplier = 3;
+
+  // Output only. State of the dependency.
+  State state = 4;
+
+  // Optional. Human readable description corresponding of the dependency.
+  string description = 5;
+
+  // Output only. Discovery mode of the dependency.
+  DiscoveryMode discovery_mode = 6;
+
+  // Output only. Error details of a dependency if the system has detected it
+  // internally.
+  DependencyErrorDetail error_detail = 7;
+
+  // Output only. The time at which the dependency was created.
+  google.protobuf.Timestamp create_time = 8;
+
+  // Output only. The time at which the dependency was last updated.
+  google.protobuf.Timestamp update_time = 9;
+
+  // Optional. The list of user defined attributes associated with the
+  // dependency resource. The key is the attribute name. It will be of the
+  // format: `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 10;
+}
+
+// Reference to an entity participating in a dependency.
+message DependencyEntityReference {
+  // Required. Unique identifier for the participating entity.
+  oneof identifier {
+    // The resource name of an operation in the API Hub.
+    //
+    // Format:
+    // `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}`
+    string operation_resource_name = 2;
+
+    // The resource name of an external API in the API Hub.
+    //
+    // Format:
+    // `projects/{project}/locations/{location}/externalApis/{external_api}`
+    string external_api_resource_name = 3;
+  }
+
+  // Output only. Display name of the entity.
+  string display_name = 1;
+}
+
+// Details describing error condition of a dependency.
+message DependencyErrorDetail {
+  // Possible values representing an error in the dependency.
+  enum Error {
+    // Default value used for no error in the dependency.
+    ERROR_UNSPECIFIED = 0;
+
+    // Supplier entity has been deleted.
+    SUPPLIER_NOT_FOUND = 1;
+
+    // Supplier entity has been recreated.
+    SUPPLIER_RECREATED = 2;
+  }
+
+  // Optional. Error in the dependency.
+  Error error = 1;
+
+  // Optional. Timestamp at which the error was found.
+  google.protobuf.Timestamp error_time = 2;
+}
+
+// LintResponse contains the response from the linter.
+message LintResponse {
+  // Count of issues with a given severity.
+  message SummaryEntry {
+    // Required. Severity of the issue.
+    Severity severity = 1;
+
+    // Required. Count of issues with the given severity.
+    int32 count = 2;
+  }
+
+  // Optional. Array of issues found in the analyzed document.
+  repeated Issue issues = 1;
+
+  // Optional. Summary of all issue types and counts for each severity level.
+  repeated SummaryEntry summary = 2;
+
+  // Required. Lint state represents success or failure for linting.
+  LintState state = 3;
+
+  // Required. Name of the linting application.
+  string source = 4;
+
+  // Required. Name of the linter used.
+  Linter linter = 5;
+
+  // Required. Timestamp when the linting response was generated.
+  google.protobuf.Timestamp create_time = 6;
+}
+
+// Issue contains the details of a single issue found by the linter.
+message Issue {
+  // Required. Rule code unique to each rule defined in linter.
+  string code = 1;
+
+  // Required. An array of strings indicating the location in the analyzed
+  // document where the rule was triggered.
+  repeated string path = 2;
+
+  // Required. Human-readable message describing the issue found by the linter.
+  string message = 3;
+
+  // Required. Severity level of the rule violation.
+  Severity severity = 4;
+
+  // Required. Object describing where in the file the issue was found.
+  Range range = 5;
+}
+
+// Object describing where in the file the issue was found.
+message Range {
+  // Required. Start of the issue.
+  Point start = 1;
+
+  // Required. End of the issue.
+  Point end = 2;
+}
+
+// Point within the file (line and character).
+message Point {
+  // Required. Line number (zero-indexed).
+  int32 line = 1;
+
+  // Required. Character position within the line (zero-indexed).
+  int32 character = 2;
+}
+
+// An ApiHubInstance represents the instance resources of the API Hub.
+// Currently, only one ApiHub instance is allowed for each project.
+message ApiHubInstance {
+  // Available configurations to provision an ApiHub Instance.
+  message Config {
+    // Required. The Customer Managed Encryption Key (CMEK) used for data
+    // encryption. The CMEK name should follow the format of
+    // `projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)`,
+    // where the location must match the instance location.
+    string cmek_key_name = 1;
+  }
+
+  // State of the ApiHub Instance.
+  enum State {
+    // The default value. This value is used if the state is omitted.
+    STATE_UNSPECIFIED = 0;
+
+    // The ApiHub instance has not been initialized or has been deleted.
+    INACTIVE = 1;
+
+    // The ApiHub instance is being created.
+    CREATING = 2;
+
+    // The ApiHub instance has been created and is ready for use.
+    ACTIVE = 3;
+
+    // The ApiHub instance is being updated.
+    UPDATING = 4;
+
+    // The ApiHub instance is being deleted.
+    DELETING = 5;
+
+    // The ApiHub instance encountered an error during a state change.
+    FAILED = 6;
+  }
+
+  // Identifier. Format:
+  // `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`.
+  string name = 1;
+
+  // Output only. Creation timestamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. Last update timestamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Output only. The current state of the ApiHub instance.
+  State state = 4;
+
+  // Output only. Extra information about ApiHub instance state. Currently the
+  // message would be populated when state is `FAILED`.
+  string state_message = 5;
+
+  // Required. Config of the ApiHub instance.
+  Config config = 6;
+
+  // Optional. Instance labels to represent user-provided metadata.
+  // Refer to cloud documentation on labels for more details.
+  // https://cloud.google.com/compute/docs/labeling-resources
+  map<string, string> labels = 7;
+
+  // Optional. Description of the ApiHub instance.
+  string description = 8;
+}
+
+// An external API represents an API being provided by external sources. This
+// can be used to model third-party APIs and can be used to define dependencies.
+message ExternalApi {
+  // Identifier. Format:
+  // `projects/{project}/locations/{location}/externalApi/{externalApi}`.
+  string name = 1;
+
+  // Required. Display name of the external API. Max length is 63 characters
+  // (Unicode Code Points).
+  string display_name = 2;
+
+  // Optional. Description of the external API. Max length is 2000 characters
+  // (Unicode Code Points).
+  string description = 3;
+
+  // Optional. List of endpoints on which this API is accessible.
+  repeated string endpoints = 4;
+
+  // Optional. List of paths served by this API.
+  repeated string paths = 5;
+
+  // Optional. Documentation of the external API.
+  Documentation documentation = 6;
+
+  // Optional. The list of user defined attributes associated with the Version
+  // resource. The key is the attribute name. It will be of the format:
+  // `projects/{project}/locations/{location}/attributes/{attribute}`.
+  // The value is the attribute values associated with the resource.
+  map<string, AttributeValues> attributes = 7;
+
+  // Output only. Creation timestamp.
+  google.protobuf.Timestamp create_time = 8;
+
+  // Output only. Last update timestamp.
+  google.protobuf.Timestamp update_time = 9;
+}
+
+// Lint state represents success or failure for linting.
+enum LintState {
+  // Lint state unspecified.
+  LINT_STATE_UNSPECIFIED = 0;
+
+  // Linting was completed successfully.
+  LINT_STATE_SUCCESS = 1;
+
+  // Linting encountered errors.
+  LINT_STATE_ERROR = 2;
+}
+
+// Enumeration of linter types.
+enum Linter {
+  // Linter type unspecified.
+  LINTER_UNSPECIFIED = 0;
+
+  // Linter type spectral.
+  SPECTRAL = 1;
+
+  // Linter type other.
+  OTHER = 2;
+}
+
+// Severity of the issue.
+enum Severity {
+  // Severity unspecified.
+  SEVERITY_UNSPECIFIED = 0;
+
+  // Severity error.
+  SEVERITY_ERROR = 1;
+
+  // Severity warning.
+  SEVERITY_WARNING = 2;
+
+  // Severity info.
+  SEVERITY_INFO = 3;
+
+  // Severity hint.
+  SEVERITY_HINT = 4;
+}
+
+// Host project registration refers to the registration of a Google cloud
+// project with Api Hub as a host project. This is the project where Api Hub is
+// provisioned. It acts as the consumer project for the Api Hub instance
+// provisioned. Multiple runtime projects can be attached to the host project
+// and these attachments define the scope of Api Hub.
+message HostProjectRegistration {
+  // Identifier. The name of the host project registration.
+  // Format:
+  // "projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration}".
+  string name = 1;
+
+  // Required. Immutable. Google cloud project name in the format:
+  // "projects/abc" or "projects/123". As input, project name with either
+  // project id or number are accepted. As output, this field will contain
+  // project number.
+  string gcp_project = 2;
+
+  // Output only. The time at which the host project registration was created.
+  google.protobuf.Timestamp create_time = 3;
+}
+
+// Runtime project attachment represents an attachment from the runtime project
+// to the host project. Api Hub looks for deployments in the attached runtime
+// projects and creates corresponding resources in Api Hub for the discovered
+// deployments.
+message RuntimeProjectAttachment {
+  // Identifier. The resource name of a runtime project attachment. Format:
+  // "projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}".
+  string name = 1;
+
+  // Required. Immutable. Google cloud project name in the format:
+  // "projects/abc" or "projects/123". As input, project name with either
+  // project id or number are accepted. As output, this field will contain
+  // project number.
+  string runtime_project = 2;
+
+  // Output only. Create time.
+  google.protobuf.Timestamp create_time = 3;
+}
+
+// The data within all Api events.
+message ApiEventData {
+  // Optional. The Api event payload. Unset for deletion events.
+  Api payload = 1;
+}
+
+// The data within all Version events.
+message VersionEventData {
+  // Optional. The Version event payload. Unset for deletion events.
+  Version payload = 1;
+}
+
+// The data within all Spec events.
+message SpecEventData {
+  // Optional. The Spec event payload. Unset for deletion events.
+  Spec payload = 1;
+}
+
+// The data within all Deployment events.
+message DeploymentEventData {
+  // Optional. The Deployment event payload. Unset for deletion events.
+  Deployment payload = 1;
+}
+
+// The data within all Attribute events.
+message AttributeEventData {
+  // Optional. The Attribute event payload. Unset for deletion events.
+  Attribute payload = 1;
+}
+
+// The data within all ExternalApi events.
+message ExternalApiEventData {
+  // Optional. The ExternalApi event payload. Unset for deletion events.
+  ExternalApi payload = 1;
+}
+
+// The data within all Dependency events.
+message DependencyEventData {
+  // Optional. The Dependency event payload. Unset for deletion events.
+  Dependency payload = 1;
+}
+
+// The data within all HostProjectRegistration events.
+message HostProjectRegistrationEventData {
+  // The HostProjectRegistration event payload.
+  HostProjectRegistration payload = 1;
+}
+
+// The data within all ApiHubInstance events.
+message ApiHubInstanceEventData {
+  // The ApiHubInstance event payload.
+  ApiHubInstance payload = 1;
+}
+
+// The data within all RuntimeProjectAttachment events.
+message RuntimeProjectAttachmentEventData {
+  // Optional. The RuntimeProjectAttachment event payload. Unset for deletion
+  // events.
+  RuntimeProjectAttachment payload = 1;
+}
