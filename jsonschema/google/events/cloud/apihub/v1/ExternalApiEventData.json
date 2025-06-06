@@ -1,0 +1,180 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/ExternalApiEventData.json",
+  "name": "ExternalApiEventData",
+  "examples": [],
+  "package": "google.events.cloud.apihub.v1",
+  "datatype": "google.events.cloud.apihub.v1.ExternalApiEventData",
+  "cloudeventTypes": [
+    "google.cloud.apihub.externalApi.v1.created",
+    "google.cloud.apihub.externalApi.v1.updated",
+    "google.cloud.apihub.externalApi.v1.deleted"
+  ],
+  "product": "API hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ExternalApiEventData",
+  "definitions": {
+    "ExternalApiEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ExternalApi",
+          "additionalProperties": true,
+          "description": "Optional. The ExternalApi event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "External Api Event Data",
+      "description": "The data within all ExternalApi events."
+    },
+    "AllowedValue": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. The ID of the allowed value. * If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. * If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. The display name of the allowed value."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. The detailed description of the allowed value."
+        },
+        "immutable": {
+          "type": "boolean",
+          "description": "Optional. When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Allowed Value",
+      "description": "The value that can be assigned to the attribute when the data type is enum."
+    },
+    "AttributeValues": {
+      "properties": {
+        "enumValues": {
+          "$ref": "#/definitions/EnumAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is enum."
+        },
+        "stringValues": {
+          "$ref": "#/definitions/StringAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is string."
+        },
+        "jsonValues": {
+          "$ref": "#/definitions/StringAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is JSON."
+        },
+        "attribute": {
+          "type": "string",
+          "description": "Output only. The name of the attribute. Format: projects/{project}/locations/{location}/attributes/{attribute}"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Attribute Values",
+      "description": "The attribute values associated with resource."
+    },
+    "EnumAttributeValues": {
+      "properties": {
+        "values": {
+          "items": {
+            "$ref": "#/definitions/AllowedValue"
+          },
+          "type": "array",
+          "description": "Required. The attribute values in case attribute data type is enum."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Enum Attribute Values",
+      "description": "The attribute values of data type enum."
+    },
+    "StringAttributeValues": {
+      "properties": {
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. The attribute values in case attribute data type is string or JSON."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "String Attribute Values",
+      "description": "The attribute values of data type string or JSON."
+    },
+    "Documentation": {
+      "properties": {
+        "externalUri": {
+          "type": "string",
+          "description": "Optional. The uri of the externally hosted documentation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Documentation",
+      "description": "Documentation details."
+    },
+    "ExternalApi": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. Format: `projects/{project}/locations/{location}/externalApi/{externalApi}`."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. Display name of the external API. Max length is 63 characters (Unicode Code Points)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the external API. Max length is 2000 characters (Unicode Code Points)."
+        },
+        "endpoints": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. List of endpoints on which this API is accessible."
+        },
+        "paths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. List of paths served by this API."
+        },
+        "documentation": {
+          "$ref": "#/definitions/Documentation",
+          "additionalProperties": true,
+          "description": "Optional. Documentation of the external API."
+        },
+        "attributes": {
+          "additionalProperties": {
+            "$ref": "#/definitions/AttributeValues",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Optional. The list of user defined attributes associated with the Version resource. The key is the attribute name. It will be of the format: `projects/{project}/locations/{location}/attributes/{attribute}`. The value is the attribute values associated with the resource."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Creation timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Last update timestamp.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "External Api",
+      "description": "An external API represents an API being provided by external sources. This can be used to model third-party APIs and can be used to define dependencies."
+    }
+  }
+}

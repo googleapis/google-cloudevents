@@ -1,0 +1,446 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/SpecEventData.json",
+  "name": "SpecEventData",
+  "examples": [],
+  "package": "google.events.cloud.apihub.v1",
+  "datatype": "google.events.cloud.apihub.v1.SpecEventData",
+  "cloudeventTypes": [
+    "google.cloud.apihub.spec.v1.created",
+    "google.cloud.apihub.spec.v1.updated",
+    "google.cloud.apihub.spec.v1.deleted"
+  ],
+  "product": "API hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/SpecEventData",
+  "definitions": {
+    "SpecEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Spec",
+          "additionalProperties": true,
+          "description": "Optional. The Spec event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spec Event Data",
+      "description": "The data within all Spec events."
+    },
+    "AllowedValue": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. The ID of the allowed value. * If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. * If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. The display name of the allowed value."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. The detailed description of the allowed value."
+        },
+        "immutable": {
+          "type": "boolean",
+          "description": "Optional. When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Allowed Value",
+      "description": "The value that can be assigned to the attribute when the data type is enum."
+    },
+    "AttributeValues": {
+      "properties": {
+        "enumValues": {
+          "$ref": "#/definitions/EnumAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is enum."
+        },
+        "stringValues": {
+          "$ref": "#/definitions/StringAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is string."
+        },
+        "jsonValues": {
+          "$ref": "#/definitions/StringAttributeValues",
+          "additionalProperties": true,
+          "description": "The attribute values associated with a resource in case attribute data type is JSON."
+        },
+        "attribute": {
+          "type": "string",
+          "description": "Output only. The name of the attribute. Format: projects/{project}/locations/{location}/attributes/{attribute}"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Attribute Values",
+      "description": "The attribute values associated with resource."
+    },
+    "EnumAttributeValues": {
+      "properties": {
+        "values": {
+          "items": {
+            "$ref": "#/definitions/AllowedValue"
+          },
+          "type": "array",
+          "description": "Required. The attribute values in case attribute data type is enum."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Enum Attribute Values",
+      "description": "The attribute values of data type enum."
+    },
+    "StringAttributeValues": {
+      "properties": {
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. The attribute values in case attribute data type is string or JSON."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "String Attribute Values",
+      "description": "The attribute values of data type string or JSON."
+    },
+    "Documentation": {
+      "properties": {
+        "externalUri": {
+          "type": "string",
+          "description": "Optional. The uri of the externally hosted documentation."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Documentation",
+      "description": "Documentation details."
+    },
+    "Issue": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Required. Rule code unique to each rule defined in linter."
+        },
+        "path": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. An array of strings indicating the location in the analyzed document where the rule was triggered."
+        },
+        "message": {
+          "type": "string",
+          "description": "Required. Human-readable message describing the issue found by the linter."
+        },
+        "severity": {
+          "enum": [
+            "SEVERITY_UNSPECIFIED",
+            0,
+            "SEVERITY_ERROR",
+            1,
+            "SEVERITY_WARNING",
+            2,
+            "SEVERITY_INFO",
+            3,
+            "SEVERITY_HINT",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Severity",
+          "description": "Severity of the issue."
+        },
+        "range": {
+          "$ref": "#/definitions/Range",
+          "additionalProperties": true,
+          "description": "Required. Object describing where in the file the issue was found."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Issue",
+      "description": "Issue contains the details of a single issue found by the linter."
+    },
+    "LintResponse": {
+      "properties": {
+        "issues": {
+          "items": {
+            "$ref": "#/definitions/Issue"
+          },
+          "type": "array",
+          "description": "Optional. Array of issues found in the analyzed document."
+        },
+        "summary": {
+          "items": {
+            "$ref": "#/definitions/SummaryEntry"
+          },
+          "type": "array",
+          "description": "Optional. Summary of all issue types and counts for each severity level."
+        },
+        "state": {
+          "enum": [
+            "LINT_STATE_UNSPECIFIED",
+            0,
+            "LINT_STATE_SUCCESS",
+            1,
+            "LINT_STATE_ERROR",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Lint State",
+          "description": "Lint state represents success or failure for linting."
+        },
+        "source": {
+          "type": "string",
+          "description": "Required. Name of the linting application."
+        },
+        "linter": {
+          "enum": [
+            "LINTER_UNSPECIFIED",
+            0,
+            "SPECTRAL",
+            1,
+            "OTHER",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Linter",
+          "description": "Enumeration of linter types."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Required. Timestamp when the linting response was generated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Lint Response",
+      "description": "LintResponse contains the response from the linter."
+    },
+    "SummaryEntry": {
+      "properties": {
+        "severity": {
+          "enum": [
+            "SEVERITY_UNSPECIFIED",
+            0,
+            "SEVERITY_ERROR",
+            1,
+            "SEVERITY_WARNING",
+            2,
+            "SEVERITY_INFO",
+            3,
+            "SEVERITY_HINT",
+            4
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Severity",
+          "description": "Severity of the issue."
+        },
+        "count": {
+          "type": "integer",
+          "description": "Required. Count of issues with the given severity."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Summary Entry",
+      "description": "Count of issues with a given severity."
+    },
+    "OpenApiSpecDetails": {
+      "properties": {
+        "format": {
+          "enum": [
+            "FORMAT_UNSPECIFIED",
+            0,
+            "OPEN_API_SPEC_2_0",
+            1,
+            "OPEN_API_SPEC_3_0",
+            2,
+            "OPEN_API_SPEC_3_1",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Format",
+          "description": "Enumeration of spec formats."
+        },
+        "version": {
+          "type": "string",
+          "description": "Output only. The version in the spec. This maps to `info.version` in OpenAPI spec."
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "additionalProperties": true,
+          "description": "Output only. Owner details for the spec. This maps to `info.contact` in OpenAPI spec."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Open Api Spec Details",
+      "description": "OpenApiSpecDetails contains the details parsed from an OpenAPI spec in addition to the fields mentioned in [SpecDetails][google.cloud.apihub.v1.SpecDetails]."
+    },
+    "Owner": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Optional. The name of the owner."
+        },
+        "email": {
+          "type": "string",
+          "description": "Required. The email of the owner."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Owner",
+      "description": "Owner details."
+    },
+    "Point": {
+      "properties": {
+        "line": {
+          "type": "integer",
+          "description": "Required. Line number (zero-indexed)."
+        },
+        "character": {
+          "type": "integer",
+          "description": "Required. Character position within the line (zero-indexed)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Point",
+      "description": "Point within the file (line and character)."
+    },
+    "Range": {
+      "properties": {
+        "start": {
+          "$ref": "#/definitions/Point",
+          "additionalProperties": true,
+          "description": "Required. Start of the issue."
+        },
+        "end": {
+          "$ref": "#/definitions/Point",
+          "additionalProperties": true,
+          "description": "Required. End of the issue."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Range",
+      "description": "Object describing where in the file the issue was found."
+    },
+    "Spec": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The name of the spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}`"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. The display name of the spec. This can contain the file name of the spec."
+        },
+        "specType": {
+          "$ref": "#/definitions/AttributeValues",
+          "additionalProperties": true,
+          "description": "Required. The type of spec. The value should be one of the allowed values defined for `projects/{project}/locations/{location}/attributes/system-spec-type` attribute. The number of values for this attribute will be based on the cardinality of the attribute. The same can be retrieved via GetAttribute API. Note, this field is mandatory if content is provided."
+        },
+        "details": {
+          "$ref": "#/definitions/SpecDetails",
+          "additionalProperties": true,
+          "description": "Output only. Details parsed from the spec."
+        },
+        "sourceUri": {
+          "type": "string",
+          "description": "Optional. The URI of the spec source in case file is uploaded from an external version control system."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time at which the spec was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time at which the spec was last updated.",
+          "format": "date-time"
+        },
+        "lintResponse": {
+          "$ref": "#/definitions/LintResponse",
+          "additionalProperties": true,
+          "description": "Optional. The lint response for the spec."
+        },
+        "attributes": {
+          "additionalProperties": {
+            "$ref": "#/definitions/AttributeValues",
+            "additionalProperties": true
+          },
+          "type": "object",
+          "description": "Optional. The list of user defined attributes associated with the spec. The key is the attribute name. It will be of the format: `projects/{project}/locations/{location}/attributes/{attribute}`. The value is the attribute values associated with the resource."
+        },
+        "documentation": {
+          "$ref": "#/definitions/Documentation",
+          "additionalProperties": true,
+          "description": "Optional. The documentation of the spec. For OpenAPI spec, this will be populated from `externalDocs` in OpenAPI spec."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spec",
+      "description": "Represents a spec associated with an API version in the API Hub. Note that specs of various types can be uploaded, however parsing of details is supported for OpenAPI spec currently."
+    },
+    "SpecDetails": {
+      "properties": {
+        "openApiSpecDetails": {
+          "$ref": "#/definitions/OpenApiSpecDetails",
+          "additionalProperties": true,
+          "description": "Output only. Additional details apart from `OperationDetails` parsed from an OpenAPI spec. The OperationDetails parsed from the spec can be obtained by using [ListAPIOperations][google.cloud.apihub.v1.ApiHub.ListApiOperations] method."
+        },
+        "description": {
+          "type": "string",
+          "description": "Output only. The description of the spec."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Spec Details",
+      "description": "SpecDetails contains the details parsed from supported spec types."
+    }
+  }
+}
