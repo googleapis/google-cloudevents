@@ -38,10 +38,10 @@ jobs:
         repository: googleapis/google-cloudevents-dotnet
         path: google-cloudevents-dotnet
 
-    - name: Setup .NET 6
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Run smoke tests
       run: google-cloudevents-dotnet/validate-schema.sh .
