@@ -134,6 +134,119 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/ApiEventData.json",
+      "product": "API hub",
+      "name": "ApiEventData",
+      "description": "The data within all Api events.",
+      "datatype": "google.events.cloud.apihub.v1.ApiEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.api.v1.created",
+        "google.cloud.apihub.api.v1.updated",
+        "google.cloud.apihub.api.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/ApiHubInstanceEventData.json",
+      "product": "API hub",
+      "name": "ApiHubInstanceEventData",
+      "description": "The data within all ApiHubInstance events.",
+      "datatype": "google.events.cloud.apihub.v1.ApiHubInstanceEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.apiHubInstance.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/AttributeEventData.json",
+      "product": "API hub",
+      "name": "AttributeEventData",
+      "description": "The data within all Attribute events.",
+      "datatype": "google.events.cloud.apihub.v1.AttributeEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.attribute.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/DependencyEventData.json",
+      "product": "API hub",
+      "name": "DependencyEventData",
+      "description": "The data within all Dependency events.",
+      "datatype": "google.events.cloud.apihub.v1.DependencyEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.dependency.v1.created",
+        "google.cloud.apihub.dependency.v1.updated",
+        "google.cloud.apihub.dependency.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/DeploymentEventData.json",
+      "product": "API hub",
+      "name": "DeploymentEventData",
+      "description": "The data within all Deployment events.",
+      "datatype": "google.events.cloud.apihub.v1.DeploymentEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.deployment.v1.created",
+        "google.cloud.apihub.deployment.v1.updated",
+        "google.cloud.apihub.deployment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/ExternalApiEventData.json",
+      "product": "API hub",
+      "name": "ExternalApiEventData",
+      "description": "The data within all ExternalApi events.",
+      "datatype": "google.events.cloud.apihub.v1.ExternalApiEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.externalApi.v1.created",
+        "google.cloud.apihub.externalApi.v1.updated",
+        "google.cloud.apihub.externalApi.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/HostProjectRegistrationEventData.json",
+      "product": "API hub",
+      "name": "HostProjectRegistrationEventData",
+      "description": "The data within all HostProjectRegistration events.",
+      "datatype": "google.events.cloud.apihub.v1.HostProjectRegistrationEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.hostProjectRegistration.v1.created"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/RuntimeProjectAttachmentEventData.json",
+      "product": "API hub",
+      "name": "RuntimeProjectAttachmentEventData",
+      "description": "The data within all RuntimeProjectAttachment events.",
+      "datatype": "google.events.cloud.apihub.v1.RuntimeProjectAttachmentEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.runtimeProjectAttachment.v1.created",
+        "google.cloud.apihub.runtimeProjectAttachment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/SpecEventData.json",
+      "product": "API hub",
+      "name": "SpecEventData",
+      "description": "The data within all Spec events.",
+      "datatype": "google.events.cloud.apihub.v1.SpecEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.spec.v1.created",
+        "google.cloud.apihub.spec.v1.updated",
+        "google.cloud.apihub.spec.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/VersionEventData.json",
+      "product": "API hub",
+      "name": "VersionEventData",
+      "description": "The data within all Version events.",
+      "datatype": "google.events.cloud.apihub.v1.VersionEventData",
+      "cloudeventTypes": [
+        "google.cloud.apihub.version.v1.created",
+        "google.cloud.apihub.version.v1.updated",
+        "google.cloud.apihub.version.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/audit/v1/LogEntryData.json",
       "product": "Cloud Audit Logs",
       "name": "LogEntryData",

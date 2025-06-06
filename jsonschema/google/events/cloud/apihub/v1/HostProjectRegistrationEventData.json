@@ -1,0 +1,49 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/HostProjectRegistrationEventData.json",
+  "name": "HostProjectRegistrationEventData",
+  "examples": [],
+  "package": "google.events.cloud.apihub.v1",
+  "datatype": "google.events.cloud.apihub.v1.HostProjectRegistrationEventData",
+  "cloudeventTypes": [
+    "google.cloud.apihub.hostProjectRegistration.v1.created"
+  ],
+  "product": "API hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/HostProjectRegistrationEventData",
+  "definitions": {
+    "HostProjectRegistrationEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/HostProjectRegistration",
+          "additionalProperties": true,
+          "description": "The HostProjectRegistration event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Host Project Registration Event Data",
+      "description": "The data within all HostProjectRegistration events."
+    },
+    "HostProjectRegistration": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The name of the host project registration. Format: \"projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration}\"."
+        },
+        "gcpProject": {
+          "type": "string",
+          "description": "Required. Immutable. Google cloud project name in the format: \"projects/abc\" or \"projects/123\". As input, project name with either project id or number are accepted. As output, this field will contain project number."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time at which the host project registration was created.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Host Project Registration",
+      "description": "Host project registration refers to the registration of a Google cloud project with Api Hub as a host project. This is the project where Api Hub is provisioned. It acts as the consumer project for the Api Hub instance provisioned. Multiple runtime projects can be attached to the host project and these attachments define the scope of Api Hub."
+    }
+  }
+}
