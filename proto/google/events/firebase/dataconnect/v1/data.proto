@@ -1,0 +1,269 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.firebase.dataconnect.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Firebase.DataConnect.V1";
+option php_namespace = "Google\\Events\\Firebase\\DataConnect\\V1";
+option ruby_package = "Google::Events::Firebase::DataConnect::V1";
+
+// A Firebase Data Connect service.
+message Service {
+  // Identifier. The relative resource name of the Firebase Data Connect
+  // service, in the format:
+  // ```
+  // projects/{project}/locations/{location}/services/{service}
+  // ```
+  // Note that the service ID is specific to Firebase Data Connect and does not
+  // correspond to any of the instance IDs of the underlying data source
+  // connections.
+  string name = 1;
+
+  // Output only. [Output only] Create time stamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update time stamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Optional. Stores small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // Output only. System-assigned, unique identifier.
+  string uid = 6;
+
+  // Output only. A field that if true, indicates that the system is working
+  // update the service.
+  bool reconciling = 7;
+
+  // Optional. Mutable human-readable name. 63 character limit.
+  string display_name = 8;
+
+  // Output only. This checksum is computed by the server based on the value of
+  // other fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  // [AIP-154](https://google.aip.dev/154)
+  string etag = 99;
+}
+
+// A data source that backs Firebase Data Connect services.
+message Datasource {
+  // Settings and configurations of the underlying data source.
+  oneof configuration {
+    // PostgreSQL configurations.
+    PostgreSql postgresql = 2;
+  }
+}
+
+// Settings for PostgreSQL data source.
+message PostgreSql {
+  // Configure the behavior before deploying this schema.
+  // Default to `schema_validation=STRICT` if not specified.
+  oneof before_deploy {
+    // Optional. Configure how much Postgresql schema validation to perform.
+    SqlSchemaValidation schema_validation = 3;
+
+    // Optional. Configure how to perform Postgresql schema migration.
+    SqlSchemaMigration schema_migration = 5;
+  }
+
+  // Settings and configurations of the underlying database.
+  oneof configuration {
+    // No Postgres data source is linked.
+    // If set, don't allow `database` and `schema_validation` to be configured.
+    bool unlinked = 4;
+
+    // Cloud SQL configurations.
+    CloudSqlInstance cloud_sql = 2;
+  }
+
+  // Required. Name of the PostgreSQL database.
+  string database = 1;
+}
+
+// Settings for CloudSQL instance configuration.
+message CloudSqlInstance {
+  // Required. Name of the CloudSQL instance, in the format:
+  // ```
+  // projects/{project}/locations/{location}/instances/{instance}
+  // ```
+  string instance = 1;
+}
+
+// The application schema of a Firebase Data Connect service.
+message Schema {
+  // Identifier. The relative resource name of the schema, in the format:
+  // ```
+  // projects/{project}/locations/{location}/services/{service}/schemas/{schema}
+  // ```
+  // Right now, the only supported schema is "main".
+  string name = 1;
+
+  // Output only. [Output only] Create time stamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update time stamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Optional. Stores small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // Required. The data sources linked in the schema.
+  repeated Datasource datasources = 11;
+
+  // Required. The source files that comprise the application schema.
+  Source source = 7;
+
+  // Output only. System-assigned, unique identifier.
+  string uid = 8;
+
+  // Output only. A field that if true, indicates that the system is working to
+  // compile and deploy the schema.
+  bool reconciling = 9;
+
+  // Optional. Mutable human-readable name. 63 character limit.
+  string display_name = 10;
+
+  // Output only. This checksum is computed by the server based on the value of
+  // other fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  // [AIP-154](https://google.aip.dev/154)
+  string etag = 99;
+}
+
+// Connector consists of a set of operations, i.e. queries and mutations.
+message Connector {
+  // Identifier. The relative resource name of the connector, in the format:
+  // ```
+  // projects/{project}/locations/{location}/services/{service}/connectors/{connector}
+  // ```
+  string name = 1;
+
+  // Output only. [Output only] Create time stamp.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. [Output only] Update time stamp.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Optional. Labels as key value pairs.
+  map<string, string> labels = 4;
+
+  // Optional. Stores small amounts of arbitrary data.
+  map<string, string> annotations = 5;
+
+  // Required. The source files that comprise the connector.
+  Source source = 6;
+
+  // Output only. System-assigned, unique identifier.
+  string uid = 7;
+
+  // Output only. A field that if true, indicates that the system is working to
+  // compile and deploy the connector.
+  bool reconciling = 8;
+
+  // Optional. Mutable human-readable name. 63 character limit.
+  string display_name = 9;
+
+  // Output only. This checksum is computed by the server based on the value of
+  // other fields, and may be sent on update and delete requests to ensure the
+  // client has an up-to-date value before proceeding.
+  // [AIP-154](https://google.aip.dev/154)
+  string etag = 99;
+}
+
+// Used to represent a set of source files.
+message Source {
+  // Required. The files that comprise the source set.
+  repeated File files = 1;
+}
+
+// Individual files.
+message File {
+  // Required. The file name including folder path, if applicable. The path
+  // should be relative to a local workspace (e.g.
+  // dataconnect/(schema|connector)/*.gql) and not an absolute path (e.g.
+  // /absolute/path/(schema|connector)/*.gql).
+  string path = 1;
+
+  // Required. The file's textual content.
+  string content = 2;
+}
+
+// Configure how much SQL Schema to perform for the given schema.
+enum SqlSchemaValidation {
+  // Unspecified SQL schema validation.
+  // Default to STRICT.
+  SQL_SCHEMA_VALIDATION_UNSPECIFIED = 0;
+
+  // Skip no SQL schema validation. Use it with extreme caution.
+  // CreateSchema or UpdateSchema will succeed even if SQL database is
+  // unavailable or SQL schema is incompatible.
+  // Generated SQL may fail at execution time.
+  NONE = 1;
+
+  // Connect to the SQL database and validate that the SQL DDL matches the
+  // schema exactly. Surface any discrepancies as `FAILED_PRECONDITION` with an
+  // `IncompatibleSqlSchemaError` error detail.
+  STRICT = 2;
+
+  // Connect to the SQL database and validate that the SQL DDL has all the SQL
+  // resources used in the given Firebase Data Connect Schema. Surface any
+  // missing resources as `FAILED_PRECONDITION` with an
+  // `IncompatibleSqlSchemaError` error detail. Succeed even if there are
+  // unknown tables and columns.
+  COMPATIBLE = 3;
+}
+
+// Configure how to perform SQL Schema migration before deploying the Schema.
+enum SqlSchemaMigration {
+  // Unspecified SQL schema migration.
+  SQL_SCHEMA_MIGRATION_UNSPECIFIED = 0;
+
+  // Connect to the SQL database and identify any missing SQL resources used
+  // in the given Firebase Data Connect Schema.
+  // Automatically create necessary SQL resources (SQL table, column, etc)
+  // before deploying the schema.
+  // During migration steps, the SQL Schema must comply with the previous
+  // before_deploy setting in case the migration is interrupted.
+  // Therefore, the previous before_deploy setting must not be
+  // `schema_validation=STRICT`.
+  MIGRATE_COMPATIBLE = 1;
+}
+
+// The data within all Service events.
+message ServiceEventData {
+  // Optional. The Service event payload. Unset for deletion events.
+  Service payload = 1;
+}
+
+// The data within all Schema events.
+message SchemaEventData {
+  // Optional. The Schema event payload. Unset for deletion events.
+  Schema payload = 1;
+}
+
+// The data within all Connector events.
+message ConnectorEventData {
+  // Optional. The Connector event payload. Unset for deletion events.
+  Connector payload = 1;
+}
