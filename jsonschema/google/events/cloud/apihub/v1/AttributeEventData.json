@@ -1,0 +1,173 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/AttributeEventData.json",
+  "name": "AttributeEventData",
+  "examples": [],
+  "package": "google.events.cloud.apihub.v1",
+  "datatype": "google.events.cloud.apihub.v1.AttributeEventData",
+  "cloudeventTypes": [
+    "google.cloud.apihub.attribute.v1.created"
+  ],
+  "product": "API hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/AttributeEventData",
+  "definitions": {
+    "AttributeEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Attribute",
+          "additionalProperties": true,
+          "description": "Optional. The Attribute event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Attribute Event Data",
+      "description": "The data within all Attribute events."
+    },
+    "Attribute": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The name of the attribute in the API Hub. Format: `projects/{project}/locations/{location}/attributes/{attribute}`"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. The display name of the attribute."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. The description of the attribute."
+        },
+        "definitionType": {
+          "enum": [
+            "DEFINITION_TYPE_UNSPECIFIED",
+            0,
+            "SYSTEM_DEFINED",
+            1,
+            "USER_DEFINED",
+            2
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Definition Type",
+          "description": "Enumeration of attribute definition types."
+        },
+        "scope": {
+          "enum": [
+            "SCOPE_UNSPECIFIED",
+            0,
+            "API",
+            1,
+            "VERSION",
+            2,
+            "SPEC",
+            3,
+            "API_OPERATION",
+            4,
+            "DEPLOYMENT",
+            5,
+            "DEPENDENCY",
+            6,
+            "DEFINITION",
+            7,
+            "EXTERNAL_API",
+            8,
+            "PLUGIN",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Scope",
+          "description": "Enumeration for the scope of the attribute representing the resource in the API Hub to which the attribute can be linked."
+        },
+        "dataType": {
+          "enum": [
+            "DATA_TYPE_UNSPECIFIED",
+            0,
+            "ENUM",
+            1,
+            "JSON",
+            2,
+            "STRING",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Data Type",
+          "description": "Enumeration of attribute's data type."
+        },
+        "allowedValues": {
+          "items": {
+            "$ref": "#/definitions/AllowedValue"
+          },
+          "type": "array",
+          "description": "Optional. The list of allowed values when the attribute value is of type enum. This is required when the data_type of the attribute is ENUM. The maximum number of allowed values of an attribute will be 1000."
+        },
+        "cardinality": {
+          "type": "integer",
+          "description": "Optional. The maximum number of values that the attribute can have when associated with an API Hub resource. Cardinality 1 would represent a single-valued attribute. It must not be less than 1 or greater than 20. If not specified, the cardinality would be set to 1 by default and represent a single-valued attribute."
+        },
+        "mandatory": {
+          "type": "boolean",
+          "description": "Output only. When mandatory is true, the attribute is mandatory for the resource specified in the scope. Only System defined attributes can be mandatory."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The time at which the attribute was created.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The time at which the attribute was last updated.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Attribute",
+      "description": "An attribute in the API Hub. An attribute is a name value pair which can be attached to different resources in the API hub based on the scope of the attribute. Attributes can either be pre-defined by the API Hub or created by users."
+    },
+    "AllowedValue": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Required. The ID of the allowed value. * If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. * If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Required. The display name of the allowed value."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. The detailed description of the allowed value."
+        },
+        "immutable": {
+          "type": "boolean",
+          "description": "Optional. When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Allowed Value",
+      "description": "The value that can be assigned to the attribute when the data type is enum."
+    }
+  }
+}

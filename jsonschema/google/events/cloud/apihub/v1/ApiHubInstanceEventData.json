@@ -1,0 +1,110 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/apihub/v1/ApiHubInstanceEventData.json",
+  "name": "ApiHubInstanceEventData",
+  "examples": [],
+  "package": "google.events.cloud.apihub.v1",
+  "datatype": "google.events.cloud.apihub.v1.ApiHubInstanceEventData",
+  "cloudeventTypes": [
+    "google.cloud.apihub.apiHubInstance.v1.created"
+  ],
+  "product": "API hub",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ApiHubInstanceEventData",
+  "definitions": {
+    "ApiHubInstanceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ApiHubInstance",
+          "additionalProperties": true,
+          "description": "The ApiHubInstance event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Hub Instance Event Data",
+      "description": "The data within all ApiHubInstance events."
+    },
+    "ApiHubInstance": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. Creation timestamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. Last update timestamp.",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "STATE_UNSPECIFIED",
+            0,
+            "INACTIVE",
+            1,
+            "CREATING",
+            2,
+            "ACTIVE",
+            3,
+            "UPDATING",
+            4,
+            "DELETING",
+            5,
+            "FAILED",
+            6
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "State",
+          "description": "State of the ApiHub Instance."
+        },
+        "stateMessage": {
+          "type": "string",
+          "description": "Output only. Extra information about ApiHub instance state. Currently the message would be populated when state is `FAILED`."
+        },
+        "config": {
+          "$ref": "#/definitions/Config",
+          "additionalProperties": true,
+          "description": "Required. Config of the ApiHub instance."
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Instance labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. Description of the ApiHub instance."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Api Hub Instance",
+      "description": "An ApiHubInstance represents the instance resources of the API Hub. Currently, only one ApiHub instance is allowed for each project."
+    },
+    "Config": {
+      "properties": {
+        "cmekKeyName": {
+          "type": "string",
+          "description": "Required. The Customer Managed Encryption Key (CMEK) used for data encryption. The CMEK name should follow the format of `projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)`, where the location must match the instance location."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Config",
+      "description": "Available configurations to provision an ApiHub Instance."
+    }
+  }
+}
