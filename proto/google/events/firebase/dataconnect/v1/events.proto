@@ -131,3 +131,15 @@ message ConnectorDeletedEvent {
   // The data associated with the event.
   ConnectorEventData data = 1;
 }
+
+// The CloudEvent raised when a Mutation is executed.
+message MutationExecutedEvent {
+  option (google.events.cloud_event_type) =
+      "google.firebase.dataconnect.connector.v1.mutationExecuted";
+  option (google.events.cloud_event_extension_name) = "connector";
+  option (google.events.cloud_event_extension_name) = "service";
+  option (google.events.cloud_event_extension_name) = "operation";
+
+  // The data associated with the event.
+  MutationEventData data = 1;
+}
