@@ -1520,6 +1520,52 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ConnectorEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "ConnectorEventData",
+      "description": "The data within all Connector events.",
+      "datatype": "google.events.firebase.dataconnect.v1.ConnectorEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.connector.v1.created",
+        "google.firebase.dataconnect.connector.v1.updated",
+        "google.firebase.dataconnect.connector.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/MutationEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "MutationEventData",
+      "description": "The data within all Mutation events.",
+      "datatype": "google.events.firebase.dataconnect.v1.MutationEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.connector.v1.mutationExecuted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/SchemaEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "SchemaEventData",
+      "description": "The data within all Schema events.",
+      "datatype": "google.events.firebase.dataconnect.v1.SchemaEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.schema.v1.created",
+        "google.firebase.dataconnect.schema.v1.updated",
+        "google.firebase.dataconnect.schema.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ServiceEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "ServiceEventData",
+      "description": "The data within all Service events.",
+      "datatype": "google.events.firebase.dataconnect.v1.ServiceEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.service.v1.created",
+        "google.firebase.dataconnect.service.v1.updated",
+        "google.firebase.dataconnect.service.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/firebasealerts/v1/AlertData.json",
       "product": "Firebase Alerts",
       "name": "AlertData",
