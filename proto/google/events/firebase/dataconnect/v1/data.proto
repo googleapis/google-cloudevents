@@ -16,7 +16,9 @@ syntax = "proto3";
 
 package google.events.firebase.dataconnect.v1;
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/code.proto";
 
 option csharp_namespace = "Google.Events.Protobuf.Firebase.DataConnect.V1";
 option php_namespace = "Google\\Events\\Firebase\\DataConnect\\V1";
@@ -266,4 +268,93 @@ message SchemaEventData {
 message ConnectorEventData {
   // Optional. The Connector event payload. Unset for deletion events.
   Connector payload = 1;
+}
+
+// GraphqlError contains the error information of a GraphQL query or mutation.
+message GraphqlError {
+  // The detailed error message.
+  // The message should help developer understand the underlying problem without
+  // leaking internal data.
+  string message = 1;
+
+  // The source locations where the error occurred.
+  // Locations should help developers and toolings identify the source of error
+  // quickly.
+  //
+  // Included in admin endpoints (`ExecuteGraphql`, `ExecuteGraphqlRead`,
+  // `UpdateSchema` and `UpdateConnector`) to reference the provided GraphQL
+  // GQL document.
+  //
+  // Omitted in `ExecuteMutation` and `ExecuteQuery` since the caller shouldn't
+  // have access access the underlying GQL source.
+  repeated SourceLocation locations = 2;
+
+  // The result field which could not be populated due to error.
+  //
+  // Clients can use path to identify whether a null result is intentional or
+  // caused by a runtime error.
+  // It should be a list of string or index from the root of GraphQL query
+  // document.
+  google.protobuf.ListValue path = 3;
+
+  // Additional error information.
+  GraphqlErrorExtensions extensions = 4;
+}
+
+// GraphqlErrorExtensions contains additional information of `GraphqlError`.
+message GraphqlErrorExtensions {
+  // The source file name where the error occurred.
+  // Included only for `UpdateSchema` and `UpdateConnector`, it corresponds
+  // to `File.path` of the provided `Source`.
+  string file = 1;
+
+  // Maps to canonical gRPC codes.
+  // If not specified, it represents `Code.INTERNAL`.
+  google.rpc.Code code = 2;
+
+  // More detailed error message to assist debugging.
+  // It contains application business logic that are inappropriate to leak
+  // publicly.
+  //
+  // In the emulator, Data Connect API always includes it to assist local
+  // development and debugging.
+  // In the backend, ConnectorService always hides it.
+  // GraphqlService without impersonation always include it.
+  // GraphqlService with impersonation includes it only if explicitly opted-in
+  // with `include_debug_details` in `GraphqlRequestExtensions`.
+  string debug_details = 3;
+}
+
+// SourceLocation references a location in a GraphQL source.
+message SourceLocation {
+  // Line number starting at 1.
+  int32 line = 1;
+
+  // Column number starting at 1.
+  int32 column = 2;
+}
+
+message Mutation {
+  // The result of the execution of the requested operation.
+  // If an error was raised before execution begins, the data entry should not
+  // be present in the result. (a request error:
+  // https://spec.graphql.org/draft/#sec-Errors.Request-Errors) If an error was
+  // raised during the execution that prevented a valid response, the data entry
+  // in the response should be null. (a field error:
+  // https://spec.graphql.org/draft/#sec-Errors.Error-Result-Format)
+  google.protobuf.Struct data = 1;
+
+  // Values for GraphQL variables provided in this request.
+  google.protobuf.Struct variables = 2;
+
+  // Errors of this response.
+  // If the data entry in the response is not present, the errors entry must be
+  // present.
+  // It conforms to https://spec.graphql.org/draft/#sec-Errors.
+  repeated GraphqlError errors = 3;
+}
+
+// The data within all Mutation events.
+message MutationEventData {
+  Mutation payload = 1;
 }
