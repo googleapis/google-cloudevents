@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "gts": "^5.0.0",
-    "typescript": "~5.4.0"
+    "typescript": "~5.9.0"
   },
   "dependencies": {
     "quicktype-core": "^23.0.0",
