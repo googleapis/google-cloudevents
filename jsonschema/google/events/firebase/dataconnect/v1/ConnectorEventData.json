@@ -1,0 +1,118 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ConnectorEventData.json",
+  "name": "ConnectorEventData",
+  "examples": [],
+  "package": "google.events.firebase.dataconnect.v1",
+  "datatype": "google.events.firebase.dataconnect.v1.ConnectorEventData",
+  "cloudeventTypes": [
+    "google.firebase.dataconnect.connector.v1.created",
+    "google.firebase.dataconnect.connector.v1.updated",
+    "google.firebase.dataconnect.connector.v1.deleted"
+  ],
+  "product": "Firebase Data Connect",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ConnectorEventData",
+  "definitions": {
+    "ConnectorEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Connector",
+          "additionalProperties": true,
+          "description": "Optional. The Connector event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connector Event Data",
+      "description": "The data within all Connector events."
+    },
+    "Connector": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ```"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create time stamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Update time stamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels as key value pairs."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Stores small amounts of arbitrary data."
+        },
+        "source": {
+          "$ref": "#/definitions/Source",
+          "additionalProperties": true,
+          "description": "Required. The source files that comprise the connector."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System-assigned, unique identifier."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. A field that if true, indicates that the system is working to compile and deploy the connector."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Mutable human-readable name. 63 character limit."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Connector",
+      "description": "Connector consists of a set of operations, i.e. queries and mutations."
+    },
+    "File": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Required. The file name including folder path, if applicable. The path should be relative to a local workspace (e.g. dataconnect/(schema|connector)/*.gql) and not an absolute path (e.g. /absolute/path/(schema|connector)/*.gql)."
+        },
+        "content": {
+          "type": "string",
+          "description": "Required. The file's textual content."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "File",
+      "description": "Individual files."
+    },
+    "Source": {
+      "properties": {
+        "files": {
+          "items": {
+            "$ref": "#/definitions/File"
+          },
+          "type": "array",
+          "description": "Required. The files that comprise the source set."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Source",
+      "description": "Used to represent a set of source files."
+    }
+  }
+}
