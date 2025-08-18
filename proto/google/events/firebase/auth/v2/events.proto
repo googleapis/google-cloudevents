@@ -22,6 +22,7 @@ import "google/events/firebase/auth/v2/data.proto";
 option csharp_namespace = "Google.Events.Protobuf.Firebase.Auth.V2";
 option php_namespace = "Google\\Events\\Firebase\\Auth\\V2";
 option ruby_package = "Google::Events::Firebase::Auth::V2";
+option java_package = "com.google.events.firebase.auth.v2";
 option (google.events.cloud_event_product) = "Firebase Authentication";
 option (google.events.cloud_event_extension_attribute) = {
   name: "tenantid"
