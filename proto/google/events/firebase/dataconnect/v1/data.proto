@@ -345,13 +345,13 @@ message Mutation {
   google.protobuf.Struct data = 1;
 
   // Values for GraphQL variables provided in this request.
-  google.protobuf.Struct variables = 2;
+  google.protobuf.Struct variables = 3;
 
   // Errors of this response.
   // If the data entry in the response is not present, the errors entry must be
   // present.
   // It conforms to https://spec.graphql.org/draft/#sec-Errors.
-  repeated GraphqlError errors = 3;
+  repeated GraphqlError errors = 2;
 }
 
 // The data within all Mutation events.
