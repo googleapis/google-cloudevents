@@ -1,0 +1,134 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v2/AuthEventData.json",
+  "name": "AuthEventData",
+  "examples": [],
+  "package": "google.events.firebase.auth.v2",
+  "datatype": "google.events.firebase.auth.v2.AuthEventData",
+  "cloudeventTypes": [
+    "google.firebase.auth.user.v2.created",
+    "google.firebase.auth.user.v2.updated",
+    "google.firebase.auth.user.v2.deleted"
+  ],
+  "product": "Firebase Authentication",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/AuthEventData",
+  "definitions": {
+    "AuthEventData": {
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/User",
+          "additionalProperties": true,
+          "description": "This is not populated for delete events."
+        },
+        "oldValue": {
+          "$ref": "#/definitions/User",
+          "additionalProperties": true,
+          "description": "This is only populated for update and delete events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Auth Event Data",
+      "description": "The data within all Firebase Auth events."
+    },
+    "User": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user identifier in the Firebase app."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's primary email, if set."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Whether or not the user's primary email is verified."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The user's photo URL."
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Whether the user is disabled."
+        },
+        "metadata": {
+          "$ref": "#/definitions/UserMetadata",
+          "additionalProperties": true,
+          "description": "Additional metadata about the user."
+        },
+        "providerData": {
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          },
+          "type": "array",
+          "description": "User's info at the providers"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number."
+        },
+        "customClaims": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "User's custom claims, typically used to define user roles and propagated to an authenticated user's ID token."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "User",
+      "description": "The user for this Firebase Auth event."
+    },
+    "UserInfo": {
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user identifier for the linked provider."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email for the linked provider."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name for the linked provider."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The photo URL for the linked provider."
+        },
+        "providerId": {
+          "type": "string",
+          "description": "The linked provider ID (e.g. \"google.com\" for the Google provider)."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "User Info",
+      "description": "User's info at the identity provider"
+    },
+    "UserMetadata": {
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "description": "The date the user was created.",
+          "format": "date-time"
+        },
+        "lastSignInTime": {
+          "type": "string",
+          "description": "The date the user last signed in.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "User Metadata",
+      "description": "Additional metadata about the user."
+    }
+  }
+}
