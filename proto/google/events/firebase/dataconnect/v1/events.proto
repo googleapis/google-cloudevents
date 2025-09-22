@@ -143,6 +143,9 @@ message MutationExecutedEvent {
   option (google.events.cloud_event_extension_name) = "connector";
   option (google.events.cloud_event_extension_name) = "service";
   option (google.events.cloud_event_extension_name) = "operation";
+  option (google.events.cloud_event_extension_name) = "authtype";
+  option (google.events.cloud_event_extension_name) = "authid";
+  option (google.events.cloud_event_extension_name) = "authclaims";
 
   // The data associated with the event.
   MutationEventData data = 1;
