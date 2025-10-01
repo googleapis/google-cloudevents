@@ -282,6 +282,7 @@ message GraphqlError {
   // quickly.
   //
   // Included in admin endpoints (`ExecuteGraphql`, `ExecuteGraphqlRead`,
+  // `IntrospectGraphql`, `ImpersonateQuery` and `ImpersonateMutation`,
   // `UpdateSchema` and `UpdateConnector`) to reference the provided GraphQL
   // GQL document.
   //
