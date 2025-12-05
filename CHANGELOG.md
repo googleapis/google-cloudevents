@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/googleapis/google-cloudevents/compare/v2.1.6...v3.0.0) (2025-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Fix namespace for Ruby and PHP
+
+### Bug Fixes
+
+* Fix namespace for Ruby and PHP ([b2b1516](https://github.com/googleapis/google-cloudevents/commit/b2b1516d342364270974623c60b8fda6a4a58e6c))
+
 ## [2.1.6](https://github.com/googleapis/google-cloudevents/compare/v2.1.5...v2.1.6) (2023-11-29)
 
 
