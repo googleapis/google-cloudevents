@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,10 +24,6 @@ option php_namespace = "Google\\Events\\Cloud\\Eventarc\\V1";
 option ruby_package = "Google::Events::Cloud::Eventarc::V1";
 option (google.events.cloud_event_product) = "Eventarc";
 option (google.events.cloud_event_extension_attribute) = {
-  name: "trigger"
-  description: "The resource ID of the Trigger triggering the event."
-};
-option (google.events.cloud_event_extension_attribute) = {
   name: "channel"
   description: "The resource ID of the Channel triggering the event."
 };
@@ -36,10 +32,33 @@ option (google.events.cloud_event_extension_attribute) = {
   description: "The resource ID of the ChannelConnection triggering the event."
   camel_case_name: "channelConnection"
 };
+option (google.events.cloud_event_extension_attribute) = {
+  name: "enrollment"
+  description: "The resource ID of the Enrollment triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "googleapisource"
+  description: "The resource ID of the GoogleApiSource triggering the event."
+  camel_case_name: "googleApiSource"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "messagebus"
+  description: "The resource ID of the MessageBus triggering the event."
+  camel_case_name: "messageBus"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "pipeline"
+  description: "The resource ID of the Pipeline triggering the event."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "trigger"
+  description: "The resource ID of the Trigger triggering the event."
+};
 
 // The CloudEvent raised when a Trigger is created.
 message TriggerCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.trigger.v1.created";
   option (google.events.cloud_event_extension_name) = "trigger";
 
   // The data associated with the event.
@@ -48,7 +67,8 @@ message TriggerCreatedEvent {
 
 // The CloudEvent raised when a Trigger is updated.
 message TriggerUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.trigger.v1.updated";
   option (google.events.cloud_event_extension_name) = "trigger";
 
   // The data associated with the event.
@@ -57,7 +77,8 @@ message TriggerUpdatedEvent {
 
 // The CloudEvent raised when a Trigger is deleted.
 message TriggerDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.trigger.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.trigger.v1.deleted";
   option (google.events.cloud_event_extension_name) = "trigger";
 
   // The data associated with the event.
@@ -66,7 +87,8 @@ message TriggerDeletedEvent {
 
 // The CloudEvent raised when a Channel is created.
 message ChannelCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.channel.v1.created";
   option (google.events.cloud_event_extension_name) = "channel";
 
   // The data associated with the event.
@@ -75,7 +97,8 @@ message ChannelCreatedEvent {
 
 // The CloudEvent raised when a Channel is updated.
 message ChannelUpdatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.updated";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.channel.v1.updated";
   option (google.events.cloud_event_extension_name) = "channel";
 
   // The data associated with the event.
@@ -84,7 +107,8 @@ message ChannelUpdatedEvent {
 
 // The CloudEvent raised when a Channel is deleted.
 message ChannelDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.channel.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.channel.v1.deleted";
   option (google.events.cloud_event_extension_name) = "channel";
 
   // The data associated with the event.
@@ -93,7 +117,8 @@ message ChannelDeletedEvent {
 
 // The CloudEvent raised when a ChannelConnection is created.
 message ChannelConnectionCreatedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.channelConnection.v1.created";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.channelConnection.v1.created";
   option (google.events.cloud_event_extension_name) = "channelconnection";
 
   // The data associated with the event.
@@ -102,9 +127,130 @@ message ChannelConnectionCreatedEvent {
 
 // The CloudEvent raised when a ChannelConnection is deleted.
 message ChannelConnectionDeletedEvent {
-  option (google.events.cloud_event_type) = "google.cloud.eventarc.channelConnection.v1.deleted";
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.channelConnection.v1.deleted";
   option (google.events.cloud_event_extension_name) = "channelconnection";
 
   // The data associated with the event.
   ChannelConnectionEventData data = 1;
+}
+
+// The CloudEvent raised when a MessageBus is created.
+message MessageBusCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.messageBus.v1.created";
+  option (google.events.cloud_event_extension_name) = "messagebus";
+
+  // The data associated with the event.
+  MessageBusEventData data = 1;
+}
+
+// The CloudEvent raised when a MessageBus is updated.
+message MessageBusUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.messageBus.v1.updated";
+  option (google.events.cloud_event_extension_name) = "messagebus";
+
+  // The data associated with the event.
+  MessageBusEventData data = 1;
+}
+
+// The CloudEvent raised when a MessageBus is deleted.
+message MessageBusDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.messageBus.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "messagebus";
+
+  // The data associated with the event.
+  MessageBusEventData data = 1;
+}
+
+// The CloudEvent raised when a Enrollment is created.
+message EnrollmentCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.enrollment.v1.created";
+  option (google.events.cloud_event_extension_name) = "enrollment";
+
+  // The data associated with the event.
+  EnrollmentEventData data = 1;
+}
+
+// The CloudEvent raised when a Enrollment is updated.
+message EnrollmentUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.enrollment.v1.updated";
+  option (google.events.cloud_event_extension_name) = "enrollment";
+
+  // The data associated with the event.
+  EnrollmentEventData data = 1;
+}
+
+// The CloudEvent raised when a Enrollment is deleted.
+message EnrollmentDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.enrollment.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "enrollment";
+
+  // The data associated with the event.
+  EnrollmentEventData data = 1;
+}
+
+// The CloudEvent raised when a Pipeline is created.
+message PipelineCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.pipeline.v1.created";
+  option (google.events.cloud_event_extension_name) = "pipeline";
+
+  // The data associated with the event.
+  PipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a Pipeline is updated.
+message PipelineUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.pipeline.v1.updated";
+  option (google.events.cloud_event_extension_name) = "pipeline";
+
+  // The data associated with the event.
+  PipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a Pipeline is deleted.
+message PipelineDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.pipeline.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "pipeline";
+
+  // The data associated with the event.
+  PipelineEventData data = 1;
+}
+
+// The CloudEvent raised when a GoogleApiSource is created.
+message GoogleApiSourceCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.googleApiSource.v1.created";
+  option (google.events.cloud_event_extension_name) = "googleapisource";
+
+  // The data associated with the event.
+  GoogleApiSourceEventData data = 1;
+}
+
+// The CloudEvent raised when a GoogleApiSource is updated.
+message GoogleApiSourceUpdatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.googleApiSource.v1.updated";
+  option (google.events.cloud_event_extension_name) = "googleapisource";
+
+  // The data associated with the event.
+  GoogleApiSourceEventData data = 1;
+}
+
+// The CloudEvent raised when a GoogleApiSource is deleted.
+message GoogleApiSourceDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.eventarc.googleApiSource.v1.deleted";
+  option (google.events.cloud_event_extension_name) = "googleapisource";
+
+  // The data associated with the event.
+  GoogleApiSourceEventData data = 1;
 }
