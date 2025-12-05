@@ -1,0 +1,187 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/MutationEventData.json",
+  "name": "MutationEventData",
+  "examples": [],
+  "package": "google.events.firebase.dataconnect.v1",
+  "datatype": "google.events.firebase.dataconnect.v1.MutationEventData",
+  "cloudeventTypes": [
+    "google.firebase.dataconnect.connector.v1.mutationExecuted"
+  ],
+  "product": "Firebase Data Connect",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MutationEventData",
+  "definitions": {
+    "MutationEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Mutation",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mutation Event Data",
+      "description": "The data within all Mutation events."
+    },
+    "GraphqlError": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The detailed error message. The message should help developer understand the underlying problem without leaking internal data."
+        },
+        "locations": {
+          "items": {
+            "$ref": "#/definitions/SourceLocation"
+          },
+          "type": "array",
+          "description": "The source locations where the error occurred. Locations should help developers and toolings identify the source of error quickly. Included in admin endpoints (`ExecuteGraphql`, `ExecuteGraphqlRead`, `IntrospectGraphql`, `ImpersonateQuery` and `ImpersonateMutation`, `UpdateSchema` and `UpdateConnector`) to reference the provided GraphQL GQL document. Omitted in `ExecuteMutation` and `ExecuteQuery` since the caller shouldn't have access access the underlying GQL source."
+        },
+        "path": {
+          "properties": {
+            "values": {
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "title": "Value",
+                "description": "`Value` represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values. A producer of value is expected to set one of that variants, absence of any variant indicates an error. The JSON representation for `Value` is JSON value."
+              },
+              "type": "array",
+              "description": "Repeated field of dynamically typed values."
+            }
+          },
+          "additionalProperties": true,
+          "type": "object",
+          "description": "The result field which could not be populated due to error. Clients can use path to identify whether a null result is intentional or caused by a runtime error. It should be a list of string or index from the root of GraphQL query document."
+        },
+        "extensions": {
+          "$ref": "#/definitions/GraphqlErrorExtensions",
+          "additionalProperties": true,
+          "description": "Additional error information."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Graphql Error",
+      "description": "GraphqlError contains the error information of a GraphQL query or mutation."
+    },
+    "GraphqlErrorExtensions": {
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "The source file name where the error occurred. Included only for `UpdateSchema` and `UpdateConnector`, it corresponds to `File.path` of the provided `Source`."
+        },
+        "code": {
+          "enum": [
+            "OK",
+            0,
+            "CANCELLED",
+            1,
+            "UNKNOWN",
+            2,
+            "INVALID_ARGUMENT",
+            3,
+            "DEADLINE_EXCEEDED",
+            4,
+            "NOT_FOUND",
+            5,
+            "ALREADY_EXISTS",
+            6,
+            "PERMISSION_DENIED",
+            7,
+            "UNAUTHENTICATED",
+            16,
+            "RESOURCE_EXHAUSTED",
+            8,
+            "FAILED_PRECONDITION",
+            9,
+            "ABORTED",
+            10,
+            "OUT_OF_RANGE",
+            11,
+            "UNIMPLEMENTED",
+            12,
+            "INTERNAL",
+            13,
+            "UNAVAILABLE",
+            14,
+            "DATA_LOSS",
+            15
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Code",
+          "description": "The canonical error codes for gRPC APIs. Sometimes multiple error codes may apply.  Services should return the most specific error code that applies.  For example, prefer `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply. Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`."
+        },
+        "debugDetails": {
+          "type": "string",
+          "description": "More detailed error message to assist debugging. It contains application business logic that are inappropriate to leak publicly. In the emulator, Data Connect API always includes it to assist local development and debugging. In the backend, ConnectorService always hides it. GraphqlService without impersonation always include it. GraphqlService with impersonation includes it only if explicitly opted-in with `include_debug_details` in `GraphqlRequestExtensions`."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Graphql Error Extensions",
+      "description": "GraphqlErrorExtensions contains additional information of `GraphqlError`."
+    },
+    "Mutation": {
+      "properties": {
+        "data": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "The result of the execution of the requested operation. If an error was raised before execution begins, the data entry should not be present in the result. (a request error: https://spec.graphql.org/draft/#sec-Errors.Request-Errors) If an error was raised during the execution that prevented a valid response, the data entry in the response should be null. (a field error: https://spec.graphql.org/draft/#sec-Errors.Error-Result-Format)"
+        },
+        "variables": {
+          "additionalProperties": true,
+          "type": "object",
+          "description": "Values for GraphQL variables provided in this request."
+        },
+        "errors": {
+          "items": {
+            "$ref": "#/definitions/GraphqlError"
+          },
+          "type": "array",
+          "description": "Errors of this response. If the data entry in the response is not present, the errors entry must be present. It conforms to https://spec.graphql.org/draft/#sec-Errors."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Mutation"
+    },
+    "SourceLocation": {
+      "properties": {
+        "line": {
+          "type": "integer",
+          "description": "Line number starting at 1."
+        },
+        "column": {
+          "type": "integer",
+          "description": "Column number starting at 1."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Source Location",
+      "description": "SourceLocation references a location in a GraphQL source."
+    }
+  }
+}

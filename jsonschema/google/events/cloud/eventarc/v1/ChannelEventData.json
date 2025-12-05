@@ -82,7 +82,18 @@
         },
         "cryptoKeyName": {
           "type": "string",
-          "description": "Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+          "description": "Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+        },
+        "satisfiesPzs": {
+          "type": "boolean",
+          "description": "Output only. Whether or not this Channel satisfies the requirements of physical zone separation"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels."
         }
       },
       "additionalProperties": true,

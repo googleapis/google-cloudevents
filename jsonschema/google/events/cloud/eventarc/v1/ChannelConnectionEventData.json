@@ -48,6 +48,13 @@
           "type": "string",
           "description": "Output only. The last-modified time.",
           "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels."
         }
       },
       "additionalProperties": true,
