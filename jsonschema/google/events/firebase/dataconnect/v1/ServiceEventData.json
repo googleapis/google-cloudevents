@@ -1,0 +1,82 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ServiceEventData.json",
+  "name": "ServiceEventData",
+  "examples": [],
+  "package": "google.events.firebase.dataconnect.v1",
+  "datatype": "google.events.firebase.dataconnect.v1.ServiceEventData",
+  "cloudeventTypes": [
+    "google.firebase.dataconnect.service.v1.created",
+    "google.firebase.dataconnect.service.v1.updated",
+    "google.firebase.dataconnect.service.v1.deleted"
+  ],
+  "product": "Firebase Data Connect",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/ServiceEventData",
+  "definitions": {
+    "ServiceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Service",
+          "additionalProperties": true,
+          "description": "Optional. The Service event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service Event Data",
+      "description": "The data within all Service events."
+    },
+    "Service": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The relative resource name of the Firebase Data Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase Data Connect and does not correspond to any of the instance IDs of the underlying data source connections."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create time stamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Update time stamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels as key value pairs."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Stores small amounts of arbitrary data."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System-assigned, unique identifier."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. A field that if true, indicates that the system is working update the service."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Mutable human-readable name. 63 character limit."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Service",
+      "description": "A Firebase Data Connect service."
+    }
+  }
+}

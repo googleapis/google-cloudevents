@@ -1,0 +1,90 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/EnrollmentEventData.json",
+  "name": "EnrollmentEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.EnrollmentEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.enrollment.v1.created",
+    "google.cloud.eventarc.enrollment.v1.updated",
+    "google.cloud.eventarc.enrollment.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/EnrollmentEventData",
+  "definitions": {
+    "EnrollmentEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Enrollment",
+          "additionalProperties": true,
+          "description": "The Enrollment event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Enrollment Event Data",
+      "description": "The data within all Enrollment events."
+    },
+    "Enrollment": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment}"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource annotations."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Resource display name."
+        },
+        "celMatch": {
+          "type": "string",
+          "description": "Required. A CEL expression identifying which messages this enrollment applies to."
+        },
+        "messageBus": {
+          "type": "string",
+          "description": "Required. Immutable. Resource name of the message bus identifying the source of the messages. It matches the form projects/{project}/locations/{location}/messageBuses/{messageBus}."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Required. Destination is the Pipeline that the Enrollment is delivering to. It must point to the full resource name of a Pipeline. Format: \"projects/{PROJECT_ID}/locations/{region}/pipelines/{PIPELINE_ID)\""
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Enrollment",
+      "description": "An enrollment represents a subscription for messages on a particular message bus. It defines a matching criteria for messages on the bus and the subscriber endpoint where matched messages should be delivered."
+    }
+  }
+}
