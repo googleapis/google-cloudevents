@@ -4,7 +4,7 @@
 # For syntax help see:
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
 
-*           @googleapis/torus-dpe
+*           @googleapis/acep-team
 
 proto/      @googleapis/eventarc-team
 json/audit/ @googleapis/eventarc-team
