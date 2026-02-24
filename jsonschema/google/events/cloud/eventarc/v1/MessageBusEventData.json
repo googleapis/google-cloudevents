@@ -1,0 +1,129 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/MessageBusEventData.json",
+  "name": "MessageBusEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.MessageBusEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.messageBus.v1.created",
+    "google.cloud.eventarc.messageBus.v1.updated",
+    "google.cloud.eventarc.messageBus.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/MessageBusEventData",
+  "definitions": {
+    "MessageBusEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/MessageBus",
+          "additionalProperties": true,
+          "description": "The MessageBus event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Message Bus Event Data",
+      "description": "The data within all MessageBus events."
+    },
+    "LoggingConfig": {
+      "properties": {
+        "logSeverity": {
+          "enum": [
+            "LOG_SEVERITY_UNSPECIFIED",
+            0,
+            "NONE",
+            1,
+            "DEBUG",
+            2,
+            "INFO",
+            3,
+            "NOTICE",
+            4,
+            "WARNING",
+            5,
+            "ERROR",
+            6,
+            "CRITICAL",
+            7,
+            "ALERT",
+            8,
+            "EMERGENCY",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Log Severity",
+          "description": "The different severities for logging supported by Eventarc Advanced resources. This enum is an exhaustive list of log severities and is FROZEN. Do not expect new values to be added."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Logging Config",
+      "description": "The configuration for Platform Telemetry logging for Eventarc Advanced resources."
+    },
+    "MessageBus": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus}"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource annotations."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Resource display name."
+        },
+        "cryptoKeyName": {
+          "type": "string",
+          "description": "Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+        },
+        "loggingConfig": {
+          "$ref": "#/definitions/LoggingConfig",
+          "additionalProperties": true,
+          "description": "Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Message Bus",
+      "description": "MessageBus for the messages flowing through the system. The admin has visibility and control over the messages being published and consumed and can restrict publishers and subscribers to only a subset of data available in the system by defining authorization policies."
+    }
+  }
+}

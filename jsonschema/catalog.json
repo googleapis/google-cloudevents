@@ -722,6 +722,54 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/EnrollmentEventData.json",
+      "product": "Eventarc",
+      "name": "EnrollmentEventData",
+      "description": "The data within all Enrollment events.",
+      "datatype": "google.events.cloud.eventarc.v1.EnrollmentEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.enrollment.v1.created",
+        "google.cloud.eventarc.enrollment.v1.updated",
+        "google.cloud.eventarc.enrollment.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/GoogleApiSourceEventData.json",
+      "product": "Eventarc",
+      "name": "GoogleApiSourceEventData",
+      "description": "The data within all GoogleApiSource events.",
+      "datatype": "google.events.cloud.eventarc.v1.GoogleApiSourceEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.googleApiSource.v1.created",
+        "google.cloud.eventarc.googleApiSource.v1.updated",
+        "google.cloud.eventarc.googleApiSource.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/MessageBusEventData.json",
+      "product": "Eventarc",
+      "name": "MessageBusEventData",
+      "description": "The data within all MessageBus events.",
+      "datatype": "google.events.cloud.eventarc.v1.MessageBusEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.messageBus.v1.created",
+        "google.cloud.eventarc.messageBus.v1.updated",
+        "google.cloud.eventarc.messageBus.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/PipelineEventData.json",
+      "product": "Eventarc",
+      "name": "PipelineEventData",
+      "description": "The data within all Pipeline events.",
+      "datatype": "google.events.cloud.eventarc.v1.PipelineEventData",
+      "cloudeventTypes": [
+        "google.cloud.eventarc.pipeline.v1.created",
+        "google.cloud.eventarc.pipeline.v1.updated",
+        "google.cloud.eventarc.pipeline.v1.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/TriggerEventData.json",
       "product": "Eventarc",
       "name": "TriggerEventData",
@@ -1507,6 +1555,18 @@
       ]
     },
     {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/auth/v2/AuthEventData.json",
+      "product": "Firebase Authentication",
+      "name": "AuthEventData",
+      "description": "The data within all Firebase Auth events.",
+      "datatype": "google.events.firebase.auth.v2.AuthEventData",
+      "cloudeventTypes": [
+        "google.firebase.auth.user.v2.created",
+        "google.firebase.auth.user.v2.updated",
+        "google.firebase.auth.user.v2.deleted"
+      ]
+    },
+    {
       "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/database/v1/ReferenceEventData.json",
       "product": "Firebase Realtime Database",
       "name": "ReferenceEventData",
@@ -1517,6 +1577,52 @@
         "google.firebase.database.ref.v1.updated",
         "google.firebase.database.ref.v1.deleted",
         "google.firebase.database.ref.v1.written"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ConnectorEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "ConnectorEventData",
+      "description": "The data within all Connector events.",
+      "datatype": "google.events.firebase.dataconnect.v1.ConnectorEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.connector.v1.created",
+        "google.firebase.dataconnect.connector.v1.updated",
+        "google.firebase.dataconnect.connector.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/MutationEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "MutationEventData",
+      "description": "The data within all Mutation events.",
+      "datatype": "google.events.firebase.dataconnect.v1.MutationEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.connector.v1.mutationExecuted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/SchemaEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "SchemaEventData",
+      "description": "The data within all Schema events.",
+      "datatype": "google.events.firebase.dataconnect.v1.SchemaEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.schema.v1.created",
+        "google.firebase.dataconnect.schema.v1.updated",
+        "google.firebase.dataconnect.schema.v1.deleted"
+      ]
+    },
+    {
+      "url": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/ServiceEventData.json",
+      "product": "Firebase Data Connect",
+      "name": "ServiceEventData",
+      "description": "The data within all Service events.",
+      "datatype": "google.events.firebase.dataconnect.v1.ServiceEventData",
+      "cloudeventTypes": [
+        "google.firebase.dataconnect.service.v1.created",
+        "google.firebase.dataconnect.service.v1.updated",
+        "google.firebase.dataconnect.service.v1.deleted"
       ]
     },
     {
