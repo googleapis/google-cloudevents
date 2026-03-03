@@ -30,10 +30,10 @@ jobs:
       DOTNET_NOLOGO: true
     steps:
     - name: Proto Schemas > Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: .NET Library > Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: googleapis/google-cloudevents-dotnet
         path: google-cloudevents-dotnet
@@ -55,13 +55,13 @@ jobs:
       DATA_SOURCE_CHECKOUT_PATH: google-cloudevents
     steps:
       - name: Java Library > Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: googleapis/google-cloudevents-java
           path: ${{ env.LIBRARY_CHECKOUT_PATH }}
 
       - name: Proto Schemas > Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
@@ -92,13 +92,13 @@ jobs:
     
     steps:
     - name: Go Library > Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: googleapis/google-cloudevents-go
         path: ${{ env.LIBRARY_CHECKOUT_PATH }}
     
     - name: Proto Schemas > Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
