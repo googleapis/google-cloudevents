@@ -1,0 +1,211 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/firebase/dataconnect/v1/SchemaEventData.json",
+  "name": "SchemaEventData",
+  "examples": [],
+  "package": "google.events.firebase.dataconnect.v1",
+  "datatype": "google.events.firebase.dataconnect.v1.SchemaEventData",
+  "cloudeventTypes": [
+    "google.firebase.dataconnect.schema.v1.created",
+    "google.firebase.dataconnect.schema.v1.updated",
+    "google.firebase.dataconnect.schema.v1.deleted"
+  ],
+  "product": "Firebase Data Connect",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/SchemaEventData",
+  "definitions": {
+    "SchemaEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Schema",
+          "additionalProperties": true,
+          "description": "Optional. The Schema event payload. Unset for deletion events."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Schema Event Data",
+      "description": "The data within all Schema events."
+    },
+    "CloudSqlInstance": {
+      "properties": {
+        "instance": {
+          "type": "string",
+          "description": "Required. Name of the CloudSQL instance, in the format: ``` projects/{project}/locations/{location}/instances/{instance} ```"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Cloud Sql Instance",
+      "description": "Settings for CloudSQL instance configuration."
+    },
+    "Datasource": {
+      "properties": {
+        "postgresql": {
+          "$ref": "#/definitions/PostgreSql",
+          "additionalProperties": true,
+          "description": "PostgreSQL configurations."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Datasource",
+      "description": "A data source that backs Firebase Data Connect services."
+    },
+    "File": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Required. The file name including folder path, if applicable. The path should be relative to a local workspace (e.g. dataconnect/(schema|connector)/*.gql) and not an absolute path (e.g. /absolute/path/(schema|connector)/*.gql)."
+        },
+        "content": {
+          "type": "string",
+          "description": "Required. The file's textual content."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "File",
+      "description": "Individual files."
+    },
+    "PostgreSql": {
+      "properties": {
+        "schemaValidation": {
+          "enum": [
+            "SQL_SCHEMA_VALIDATION_UNSPECIFIED",
+            0,
+            "NONE",
+            1,
+            "STRICT",
+            2,
+            "COMPATIBLE",
+            3
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Schema Validation",
+          "description": "Configure how much SQL Schema to perform for the given schema."
+        },
+        "schemaMigration": {
+          "enum": [
+            "SQL_SCHEMA_MIGRATION_UNSPECIFIED",
+            0,
+            "MIGRATE_COMPATIBLE",
+            1
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sql Schema Migration",
+          "description": "Configure how to perform SQL Schema migration before deploying the Schema."
+        },
+        "unlinked": {
+          "type": "boolean",
+          "description": "No Postgres data source is linked. If set, don't allow `database` and `schema_validation` to be configured."
+        },
+        "cloudSql": {
+          "$ref": "#/definitions/CloudSqlInstance",
+          "additionalProperties": true,
+          "description": "Cloud SQL configurations."
+        },
+        "database": {
+          "type": "string",
+          "description": "Required. Name of the PostgreSQL database."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Postgre Sql",
+      "description": "Settings for PostgreSQL data source."
+    },
+    "Schema": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is \"main\"."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Create time stamp.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. [Output only] Update time stamp.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Labels as key value pairs."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Stores small amounts of arbitrary data."
+        },
+        "datasources": {
+          "items": {
+            "$ref": "#/definitions/Datasource"
+          },
+          "type": "array",
+          "description": "Required. The data sources linked in the schema."
+        },
+        "source": {
+          "$ref": "#/definitions/Source",
+          "additionalProperties": true,
+          "description": "Required. The source files that comprise the application schema."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. System-assigned, unique identifier."
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. A field that if true, indicates that the system is working to compile and deploy the schema."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Mutable human-readable name. 63 character limit."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154)"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Schema",
+      "description": "The application schema of a Firebase Data Connect service."
+    },
+    "Source": {
+      "properties": {
+        "files": {
+          "items": {
+            "$ref": "#/definitions/File"
+          },
+          "type": "array",
+          "description": "Required. The files that comprise the source set."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Source",
+      "description": "Used to represent a set of source files."
+    }
+  }
+}

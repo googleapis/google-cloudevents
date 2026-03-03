@@ -1,0 +1,170 @@
+{
+  "$id": "https://googleapis.github.io/google-cloudevents/jsonschema/google/events/cloud/eventarc/v1/GoogleApiSourceEventData.json",
+  "name": "GoogleApiSourceEventData",
+  "examples": [],
+  "package": "google.events.cloud.eventarc.v1",
+  "datatype": "google.events.cloud.eventarc.v1.GoogleApiSourceEventData",
+  "cloudeventTypes": [
+    "google.cloud.eventarc.googleApiSource.v1.created",
+    "google.cloud.eventarc.googleApiSource.v1.updated",
+    "google.cloud.eventarc.googleApiSource.v1.deleted"
+  ],
+  "product": "Eventarc",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/GoogleApiSourceEventData",
+  "definitions": {
+    "GoogleApiSourceEventData": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/GoogleApiSource",
+          "additionalProperties": true,
+          "description": "The GoogleApiSource event payload."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Google Api Source Event Data",
+      "description": "The data within all GoogleApiSource events."
+    },
+    "GoogleApiSource": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source}"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Output only. The creation time.",
+          "format": "date-time"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Output only. The last-modified time.",
+          "format": "date-time"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource labels."
+        },
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Optional. Resource annotations."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Optional. Resource display name."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Required. Destination is the message bus that the GoogleApiSource is delivering to. It must be point to the full resource name of a MessageBus. Format: \"projects/{PROJECT_ID}/locations/{region}/messagesBuses/{MESSAGE_BUS_ID)"
+        },
+        "cryptoKeyName": {
+          "type": "string",
+          "description": "Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*/locations/*/keyRings/*/cryptoKeys/*`."
+        },
+        "loggingConfig": {
+          "$ref": "#/definitions/LoggingConfig",
+          "additionalProperties": true,
+          "description": "Optional. Config to control Platform logging for the GoogleApiSource."
+        },
+        "organizationSubscription": {
+          "$ref": "#/definitions/OrganizationSubscription",
+          "additionalProperties": true,
+          "description": "Optional. Config to enable subscribing to events from all projects in the GoogleApiSource's org."
+        },
+        "projectSubscriptions": {
+          "$ref": "#/definitions/ProjectSubscriptions",
+          "additionalProperties": true,
+          "description": "Optional. Config to enable subscribing to all events from a list of projects. All the projects must be in the same org as the GoogleApiSource."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Google Api Source",
+      "description": "A GoogleApiSource represents a subscription of 1P events from a MessageBus."
+    },
+    "OrganizationSubscription": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Required. Enable org level subscription."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Organization Subscription",
+      "description": "Config to enabled subscribing to events from other projects in the org."
+    },
+    "ProjectSubscriptions": {
+      "properties": {
+        "list": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. A list of projects to receive events from. All the projects must be in the same org. The listed projects should have the format project/{identifier} where identifier can be either the project id for project number. A single list may contain both formats. At most 100 projects can be listed."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Project Subscriptions",
+      "description": "Config to enable subscribing to all events from a list of projects."
+    },
+    "LoggingConfig": {
+      "properties": {
+        "logSeverity": {
+          "enum": [
+            "LOG_SEVERITY_UNSPECIFIED",
+            0,
+            "NONE",
+            1,
+            "DEBUG",
+            2,
+            "INFO",
+            3,
+            "NOTICE",
+            4,
+            "WARNING",
+            5,
+            "ERROR",
+            6,
+            "CRITICAL",
+            7,
+            "ALERT",
+            8,
+            "EMERGENCY",
+            9
+          ],
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Log Severity",
+          "description": "The different severities for logging supported by Eventarc Advanced resources. This enum is an exhaustive list of log severities and is FROZEN. Do not expect new values to be added."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Logging Config",
+      "description": "The configuration for Platform Telemetry logging for Eventarc Advanced resources."
+    }
+  }
+}
