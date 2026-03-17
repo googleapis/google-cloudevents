@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ option ruby_package = "Google::Events::Cloud::BeyondCorp::AppConnections::V1";
 // A BeyondCorp AppConnection resource represents a BeyondCorp protected
 // AppConnection to a remote application. It creates all the necessary GCP
 // components needed for creating a BeyondCorp protected AppConnection. Multiple
-// connectors can be authorised for a single AppConnection.
+// connectors can be authorized for a single AppConnection.
 message AppConnection {
   // ApplicationEndpoint represents a remote application endpoint.
   message ApplicationEndpoint {
@@ -128,7 +128,7 @@ message AppConnection {
   ApplicationEndpoint application_endpoint = 8;
 
   // Optional. List of [google.cloud.beyondcorp.v1main.Connector.name] that are
-  // authorised to be associated with this AppConnection.
+  // authorized to be associated with this AppConnection.
   repeated string connectors = 9;
 
   // Output only. The current state of the AppConnection.
@@ -136,6 +136,12 @@ message AppConnection {
 
   // Optional. Gateway used by the AppConnection.
   Gateway gateway = 11;
+
+  // Output only. Reserved for future use.
+  optional bool satisfies_pzs = 12;
+
+  // Output only. Reserved for future use.
+  optional bool satisfies_pzi = 13;
 }
 
 // The data within all AppConnection events.
