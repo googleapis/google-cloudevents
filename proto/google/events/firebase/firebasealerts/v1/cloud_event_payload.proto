@@ -105,6 +105,22 @@ message CrashlyticsNewAnrIssuePayload {
   CrashlyticsIssue issue = 1;
 }
 
+message CrashlyticsAnrVelocityAlertPayload {
+  // Basic information of the Crashlytics issue
+  CrashlyticsIssue issue = 1;
+
+  // The time that the Crashlytics issue gets created
+  google.protobuf.Timestamp create_time = 2;
+
+  // The percentage of users for the given app version that had this
+  // specific ANR issue in the time period used to trigger the velocity alert
+  double user_percentage = 3;
+
+  // The first app version where this issue was seen, and not necessarily the
+  // version that has triggered the alert
+  string first_version = 4;
+}
+
 message CrashlyticsMissingSymbolsPayload {
   string app_version = 1;
   string uuid = 2;
