@@ -1,0 +1,130 @@
+// Copyright 2026 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.dataproc.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Dataproc.V1";
+option php_namespace = "Google\\Events\\Cloud\\Dataproc\\V1";
+option ruby_package = "Google::Events::Cloud::Dataproc::V1";
+
+// Message describing Attachment object.
+message Attachment {
+  // The resource name of the attachment, in the format:
+  // `projects/{project}/locations/{location}/attachments/{attachment}`
+  string name = 1;
+
+  // The unique identifier for the attachment.
+  string uid = 2;
+
+  // The time when the attachment was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // The time when the attachment was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // Labels as key value pairs.
+  map<string, string> labels = 5;
+
+  // The GKE cluster resource name.
+  // Format: `projects/{project}/locations/{location}/clusters/{cluster}`
+  string gke_cluster = 6;
+
+  // The current state of the attachment.
+  // Example values: CREATING, FAILED, ACTIVE, DELETING.
+  string state = 7;
+
+  // Error details if the attachment is in a FAILED state.
+  google.rpc.Status error_details = 8;
+}
+
+// Message describing VirtualCluster object.
+message VirtualCluster {
+  // The resource name of the virtual cluster, in the format:
+  // `projects/{project}/locations/{location}/attachments/{attachment}/virtualClusters/{virtual_cluster}`
+  string name = 1;
+
+  // The unique identifier for the virtual cluster.
+  string uid = 2;
+
+  // The time when the virtual cluster was created.
+  google.protobuf.Timestamp create_time = 3;
+
+  // The time when the virtual cluster was last updated.
+  google.protobuf.Timestamp update_time = 4;
+
+  // User-provided labels for the virtual cluster.
+  map<string, string> labels = 5;
+
+  // Target Kubernetes namespace on the attached GKE cluster.
+  string kubernetes_namespace = 6;
+
+  // Current operational state of the Virtual Cluster.
+  // Example values: CREATING, FAILED, ACTIVE, DELETING.
+  string state = 7;
+
+  // Error details populated if state is FAILED.
+  google.rpc.Status error_details = 8;
+}
+
+// Message describing KubernetesJob object.
+message KubernetesJob {
+  // The resource name of the kubernetes job, in the format:
+  // `projects/{project}/locations/{location}/kubernetesJobs/{kubernetes_job}`
+  string name = 1;
+
+  // The virtual cluster.
+  // Format:
+  // `projects/{project}/locations/{location}/attachments/{attachment}/virtualClusters/{virtual_cluster}`
+  string virtual_cluster = 2;
+
+  // The labels to associate with this job.
+  map<string, string> labels = 3;
+
+  // The state of the job.
+  // Example values: PENDING, CREATING, RUNNING, FAILED, SUCCEEDED,
+  // CANCELING, CANCELLED.
+  string state = 4;
+
+  // Error details.
+  google.rpc.Status error_details = 5;
+
+  // Create time stamp.
+  google.protobuf.Timestamp create_time = 6;
+
+  // Update time stamp.
+  google.protobuf.Timestamp update_time = 7;
+}
+
+// The data within all Dataproc MSG Attachment state changed events.
+message AttachmentEventPayload {
+  // The Attachment event payload.
+  Attachment attachment = 1;
+}
+
+// The data within all Dataproc MSG VirtualCluster state changed events.
+message VirtualClusterEventPayload {
+  // The VirtualCluster event payload.
+  VirtualCluster virtual_cluster = 1;
+}
+
+// The data within all Dataproc MSG KubernetesJob state changed events.
+message KubernetesJobEventPayload {
+  // The KubernetesJob event payload.
+  KubernetesJob kubernetes_job = 1;
+}

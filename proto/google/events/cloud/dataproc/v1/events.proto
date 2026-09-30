@@ -1,0 +1,87 @@
+// Copyright 2026 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.events.cloud.dataproc.v1;
+
+import "google/events/cloud/dataproc/v1/data.proto";
+import "google/events/cloudevent.proto";
+
+option csharp_namespace = "Google.Events.Protobuf.Cloud.Dataproc.V1";
+option php_namespace = "Google\\Events\\Cloud\\Dataproc\\V1";
+option ruby_package = "Google::Events::Cloud::Dataproc::V1";
+option (google.events.cloud_event_product) = "Managed Service for Apache Spark";
+option (google.events.cloud_event_extension_attribute) = {
+  name: "state"
+  description: "The new operational/lifecycle state of the resource."
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "attachmentid"
+  description: "The resource ID of the Attachment."
+  camel_case_name: "attachmentId"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "virtualclusterid"
+  description: "The resource ID of the VirtualCluster."
+  camel_case_name: "virtualClusterId"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "kubernetesjobid"
+  description: "The resource ID of the KubernetesJob."
+  camel_case_name: "kubernetesJobId"
+};
+option (google.events.cloud_event_extension_attribute) = {
+  name: "gkecluster"
+  description: "The full resource name of the attached GKE cluster."
+  camel_case_name: "gkeCluster"
+};
+
+// CloudEvent raised when an Attachment state changes.
+message AttachmentEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.dataproc.attachment.v1.stateChanged";
+  option (google.events.cloud_event_extension_name) = "attachmentid";
+  option (google.events.cloud_event_extension_name) = "gkecluster";
+  option (google.events.cloud_event_extension_name) = "state";
+
+  // The data associated with the event.
+  AttachmentEventPayload data = 1;
+}
+
+// CloudEvent raised when a VirtualCluster state changes.
+message VirtualClusterEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.dataproc.virtualCluster.v1.stateChanged";
+  option (google.events.cloud_event_extension_name) = "attachmentid";
+  option (google.events.cloud_event_extension_name) = "virtualclusterid";
+  option (google.events.cloud_event_extension_name) = "gkecluster";
+  option (google.events.cloud_event_extension_name) = "state";
+
+  // The data associated with the event.
+  VirtualClusterEventPayload data = 1;
+}
+
+// CloudEvent raised when a KubernetesJob state changes.
+message KubernetesJobEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.dataproc.kubernetesJob.v1.stateChanged";
+  option (google.events.cloud_event_extension_name) = "virtualclusterid";
+  option (google.events.cloud_event_extension_name) = "kubernetesjobid";
+  option (google.events.cloud_event_extension_name) = "gkecluster";
+  option (google.events.cloud_event_extension_name) = "state";
+
+  // The data associated with the event.
+  KubernetesJobEventPayload data = 1;
+}
