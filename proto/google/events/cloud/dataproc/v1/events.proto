@@ -48,7 +48,7 @@ option (google.events.cloud_event_extension_attribute) = {
   camel_case_name: "gkeCluster"
 };
 
-// CloudEvent raised when an Attachment state changes.
+// The CloudEvent raised when an Attachment state changes.
 message AttachmentEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.dataproc.attachment.v1.stateChanged";
@@ -60,7 +60,7 @@ message AttachmentEvent {
   AttachmentEventPayload data = 1;
 }
 
-// CloudEvent raised when a VirtualCluster state changes.
+// The CloudEvent raised when a VirtualCluster state changes.
 message VirtualClusterEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.dataproc.virtualCluster.v1.stateChanged";
@@ -73,7 +73,7 @@ message VirtualClusterEvent {
   VirtualClusterEventPayload data = 1;
 }
 
-// CloudEvent raised when a KubernetesJob state changes.
+// The CloudEvent raised when a KubernetesJob state changes.
 message KubernetesJobEvent {
   option (google.events.cloud_event_type) =
       "google.cloud.dataproc.kubernetesJob.v1.stateChanged";
