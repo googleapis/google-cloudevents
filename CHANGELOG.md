@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/googleapis/google-cloudevents/compare/v2.1.6...v3.0.0) (2026-10-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Fix namespace for Ruby and PHP
+
+### Features
+
+* Add dataproc event schema ([5427368](https://github.com/googleapis/google-cloudevents/commit/5427368e99996f3185f45d6eb444f8f7c1cd6e2d))
+
+
+### Bug Fixes
+
+* Fix namespace for Ruby and PHP ([b2b1516](https://github.com/googleapis/google-cloudevents/commit/b2b1516d342364270974623c60b8fda6a4a58e6c))
+
 ## [2.1.6](https://github.com/googleapis/google-cloudevents/compare/v2.1.5...v2.1.6) (2023-11-29)
 
 
