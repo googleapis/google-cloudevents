@@ -24,9 +24,36 @@ option php_namespace = "Google\\Events\\Cloud\\NetworkManagement\\V1";
 option ruby_package = "Google::Events::Cloud::NetworkManagement::V1";
 option (google.events.cloud_event_product) = "Network Management";
 option (google.events.cloud_event_extension_attribute) = {
+  name: "networkmonitoringprovider"
+  description: "The resource ID of the NetworkMonitoringProvider triggering the event."
+  camel_case_name: "networkMonitoringProvider"
+};
+option (google.events.cloud_event_extension_attribute) = {
   name: "test"
   description: "The resource ID of the Test triggering the event."
 };
+
+// The CloudEvent raised when a NetworkMonitoringProvider is created.
+message NetworkMonitoringProviderCreatedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkmanagement.networkMonitoringProvider.v1.created";
+  option (google.events.cloud_event_extension_name) =
+      "networkmonitoringprovider";
+
+  // The data associated with the event.
+  NetworkMonitoringProviderEventData data = 1;
+}
+
+// The CloudEvent raised when a NetworkMonitoringProvider is deleted.
+message NetworkMonitoringProviderDeletedEvent {
+  option (google.events.cloud_event_type) =
+      "google.cloud.networkmanagement.networkMonitoringProvider.v1.deleted";
+  option (google.events.cloud_event_extension_name) =
+      "networkmonitoringprovider";
+
+  // The data associated with the event.
+  NetworkMonitoringProviderEventData data = 1;
+}
 
 // The CloudEvent raised when a ConnectivityTest is created.
 message ConnectivityTestCreatedEvent {
