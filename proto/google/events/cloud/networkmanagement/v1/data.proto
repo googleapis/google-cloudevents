@@ -23,6 +23,66 @@ option csharp_namespace = "Google.Events.Protobuf.Cloud.NetworkManagement.V1";
 option php_namespace = "Google\\Events\\Cloud\\NetworkManagement\\V1";
 option ruby_package = "Google::Events::Cloud::NetworkManagement::V1";
 
+// Message describing NetworkMonitoringProvider resource.
+message NetworkMonitoringProvider {
+  // Possible types of NetworkMonitoringProvider resource.
+  enum ProviderType {
+    // The default value. This value is used if the type is omitted.
+    PROVIDER_TYPE_UNSPECIFIED = 0;
+
+    // External provider.
+    EXTERNAL = 1;
+  }
+
+  // Possible states of NetworkMonitoringProvider resource.
+  enum State {
+    // The default value. This value is used if the status is omitted.
+    STATE_UNSPECIFIED = 0;
+
+    // NetworkMonitoringProvider is being activated.
+    ACTIVATING = 1;
+
+    // NetworkMonitoringProvider is active.
+    ACTIVE = 2;
+
+    // NetworkMonitoringProvider is being suspended.
+    SUSPENDING = 3;
+
+    // NetworkMonitoringProvider is suspended.
+    SUSPENDED = 4;
+
+    // NetworkMonitoringProvider is being deleted.
+    DELETING = 5;
+
+    // NetworkMonitoringProvider is deleted.
+    DELETED = 6;
+  }
+
+  // Output only. Identifier. Name of the resource.
+  // Format:
+  // `projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}`
+  string name = 1;
+
+  // Output only. The time the NetworkMonitoringProvider was created.
+  google.protobuf.Timestamp create_time = 2;
+
+  // Output only. The time the NetworkMonitoringProvider was updated.
+  google.protobuf.Timestamp update_time = 3;
+
+  // Required. Type of the NetworkMonitoringProvider.
+  ProviderType provider_type = 4;
+
+  // Output only. Link to the provider's UI.
+  string provider_uri = 5;
+
+  // Output only. State of the NetworkMonitoringProvider.
+  State state = 6;
+
+  // Output only. The list of error messages detected for the
+  // NetworkMonitoringProvider.
+  repeated string errors = 7;
+}
+
 // Trace represents one simulated packet forwarding path.
 //
 //   * Each trace contains multiple ordered steps.
@@ -48,6 +108,11 @@ message Trace {
   // network state machine. It is critical to preserve the order of the steps
   // and avoid reordering or sorting them.
   repeated Step steps = 2;
+
+  // ID of trace. For forward traces, this ID is unique for each trace. For
+  // return traces, it matches ID of associated forward trace. A single forward
+  // trace can be associated with none, one or more than one return trace.
+  int32 forward_trace_id = 4;
 }
 
 // A simulated forwarding path is composed of multiple steps.
@@ -67,10 +132,8 @@ message Step {
     // The endpoint information is populated.
     START_FROM_INTERNET = 2;
 
-    // Initial state: packet originating from a Google service. Some Google
-    // services, such as health check probers or Identity Aware Proxy use
-    // special routes, outside VPC routing configuration to reach Compute Engine
-    // Instances.
+    // Initial state: packet originating from a Google service.
+    // The google_service information is populated.
     START_FROM_GOOGLE_SERVICE = 27;
 
     // Initial state: packet originating from a VPC or on-premises network
@@ -87,6 +150,18 @@ message Step {
     // A CloudSQLInstanceInfo is populated with starting instance information.
     START_FROM_CLOUD_SQL_INSTANCE = 22;
 
+    // Initial state: packet originating from a Google Kubernetes Engine Pod.
+    // A GkePodInfo is populated with starting Pod information.
+    START_FROM_GKE_POD = 39;
+
+    // Initial state: packet originating from a Redis instance.
+    // A RedisInstanceInfo is populated with starting instance information.
+    START_FROM_REDIS_INSTANCE = 32;
+
+    // Initial state: packet originating from a Redis Cluster.
+    // A RedisClusterInfo is populated with starting Cluster information.
+    START_FROM_REDIS_CLUSTER = 33;
+
     // Initial state: packet originating from a Cloud Function.
     // A CloudFunctionInfo is populated with starting function information.
     START_FROM_CLOUD_FUNCTION = 23;
@@ -99,6 +174,20 @@ message Step {
     // A CloudRunRevisionInfo is populated with starting revision information.
     START_FROM_CLOUD_RUN_REVISION = 26;
 
+    // Initial state: packet originating from a Storage Bucket. Used only for
+    // return traces.
+    // The storage_bucket information is populated.
+    START_FROM_STORAGE_BUCKET = 29;
+
+    // Initial state: packet originating from a published service that uses
+    // Private Service Connect. Used only for return traces.
+    START_FROM_PSC_PUBLISHED_SERVICE = 30;
+
+    // Initial state: packet originating from a serverless network endpoint
+    // group backend. Used only for return traces.
+    // The serverless_neg information is populated.
+    START_FROM_SERVERLESS_NEG = 31;
+
     // Config checking state: verify ingress firewall rule.
     APPLY_INGRESS_FIREWALL_RULE = 4;
 
@@ -110,6 +199,9 @@ message Step {
 
     // Config checking state: match forwarding rule.
     APPLY_FORWARDING_RULE = 7;
+
+    // Config checking state: verify load balancer backend configuration.
+    ANALYZE_LOAD_BALANCER_BACKEND = 28;
 
     // Config checking state: packet sent or received under foreign IP
     // address and allowed.
@@ -124,17 +216,58 @@ message Step {
     // Forwarding state: arriving at a Compute Engine external load balancer.
     ARRIVE_AT_EXTERNAL_LOAD_BALANCER = 11;
 
+    // Forwarding state: arriving at a hybrid subnet. Appropriate routing
+    // configuration will be determined here.
+    ARRIVE_AT_HYBRID_SUBNET = 38;
+
     // Forwarding state: arriving at a Cloud VPN gateway.
     ARRIVE_AT_VPN_GATEWAY = 12;
 
     // Forwarding state: arriving at a Cloud VPN tunnel.
     ARRIVE_AT_VPN_TUNNEL = 13;
 
+    // Forwarding state: arriving at an interconnect attachment.
+    ARRIVE_AT_INTERCONNECT_ATTACHMENT = 37;
+
     // Forwarding state: arriving at a VPC connector.
     ARRIVE_AT_VPC_CONNECTOR = 24;
 
-    // Transition state: packet header translated.
+    // Forwarding state: arriving at a GKE Pod.
+    ARRIVE_AT_GKE_POD = 44;
+
+    // Forwarding state: for packets originating from a serverless endpoint
+    // forwarded through Direct VPC egress.
+    DIRECT_VPC_EGRESS_CONNECTION = 35;
+
+    // Forwarding state: for packets originating from a serverless endpoint
+    // forwarded through public (external) connectivity.
+    SERVERLESS_EXTERNAL_CONNECTION = 36;
+
+    // Forwarding state: Layer 7 packet inspection by the firewall endpoint
+    // based on the configured security profile group.
+    NGFW_PACKET_INSPECTION = 47;
+
+    // Transition state: packet header translated. The `nat` field is populated
+    // with the translation information.
     NAT = 14;
+
+    // Transition state: GKE Pod IP masquerading is skipped. The
+    // `ip_masquerading_skipped` field is populated with the reason.
+    SKIP_GKE_POD_IP_MASQUERADING = 40;
+
+    // Transition state: GKE Ingress Network Policy is skipped. The
+    // `gke_network_policy_skipped` field is populated with the reason.
+    SKIP_GKE_INGRESS_NETWORK_POLICY = 41;
+
+    // Transition state: GKE Egress Network Policy is skipped. The
+    // `gke_network_policy_skipped` field is populated with the reason.
+    SKIP_GKE_EGRESS_NETWORK_POLICY = 42;
+
+    // Config checking state: verify ingress GKE network policy.
+    APPLY_INGRESS_GKE_NETWORK_POLICY = 45;
+
+    // Config checking state: verify egress GKE network policy.
+    APPLY_EGRESS_GKE_NETWORK_POLICY = 46;
 
     // Transition state: original connection is terminated and a new proxied
     // connection is initiated.
@@ -197,14 +330,26 @@ message Step {
     // Display information of a Compute Engine forwarding rule.
     ForwardingRuleInfo forwarding_rule = 9;
 
+    // Display information of a hybrid subnet.
+    HybridSubnetInfo hybrid_subnet = 36;
+
     // Display information of a Compute Engine VPN gateway.
     VpnGatewayInfo vpn_gateway = 10;
 
     // Display information of a Compute Engine VPN tunnel.
     VpnTunnelInfo vpn_tunnel = 11;
 
+    // Display information of an interconnect attachment.
+    InterconnectAttachmentInfo interconnect_attachment = 35;
+
     // Display information of a VPC connector.
     VpcConnectorInfo vpc_connector = 21;
+
+    // Display information of a serverless direct VPC egress connection.
+    DirectVpcEgressConnectionInfo direct_vpc_egress_connection = 33;
+
+    // Display information of a serverless public (external) connection.
+    ServerlessExternalConnectionInfo serverless_external_connection = 34;
 
     // Display information of the final state "deliver" and reason.
     DeliverInfo deliver = 12;
@@ -218,7 +363,8 @@ message Step {
     // Display information of the final state "drop" and reason.
     DropInfo drop = 15;
 
-    // Display information of the load balancers.
+    // Display information of the load balancers. Deprecated in favor of the
+    // `load_balancer_backend_info` field, not used in new tests.
     LoadBalancerInfo load_balancer = 16;
 
     // Display information of a Google Cloud network.
@@ -227,8 +373,28 @@ message Step {
     // Display information of a Google Kubernetes Engine cluster master.
     GKEMasterInfo gke_master = 18;
 
+    // Display information of a Google Kubernetes Engine Pod.
+    GkePodInfo gke_pod = 37;
+
+    // Display information of the reason why GKE Pod IP masquerading was
+    // skipped.
+    IpMasqueradingSkippedInfo ip_masquerading_skipped = 38;
+
+    // Display information of a GKE Network Policy.
+    GkeNetworkPolicyInfo gke_network_policy = 39;
+
+    // Display information of the reason why GKE Network Policy evaluation was
+    // skipped.
+    GkeNetworkPolicySkippedInfo gke_network_policy_skipped = 40;
+
     // Display information of a Cloud SQL instance.
     CloudSQLInstanceInfo cloud_sql_instance = 19;
+
+    // Display information of a Redis Instance.
+    RedisInstanceInfo redis_instance = 30;
+
+    // Display information of a Redis Cluster.
+    RedisClusterInfo redis_cluster = 31;
 
     // Display information of a Cloud Function.
     CloudFunctionInfo cloud_function = 20;
@@ -238,11 +404,43 @@ message Step {
 
     // Display information of a Cloud Run revision.
     CloudRunRevisionInfo cloud_run_revision = 23;
+
+    // Display information of a NAT.
+    NatInfo nat = 25;
+
+    // Display information of a ProxyConnection.
+    ProxyConnectionInfo proxy_connection = 26;
+
+    // Display information of a specific load balancer backend.
+    LoadBalancerBackendInfo load_balancer_backend_info = 27;
+
+    // Display information of a Storage Bucket. Used only for return traces.
+    StorageBucketInfo storage_bucket = 28;
+
+    // Display information of a Serverless network endpoint group backend. Used
+    // only for return traces.
+    ServerlessNegInfo serverless_neg = 29;
+
+    // Display information of a layer 7 packet inspection by the firewall.
+    NgfwPacketInspectionInfo ngfw_packet_inspection = 42;
   }
 }
 
 // For display only. Metadata associated with a Compute Engine instance.
 message InstanceInfo {
+  // The status of the instance. We treat all states other than "RUNNING" as
+  // not running.
+  enum Status {
+    // Default unspecified value.
+    STATUS_UNSPECIFIED = 0;
+
+    // The instance is running.
+    RUNNING = 1;
+
+    // The instance has any status other than "RUNNING".
+    NOT_RUNNING = 2;
+  }
+
   // Name of a Compute Engine instance.
   string display_name = 1;
 
@@ -266,6 +464,16 @@ message InstanceInfo {
 
   // Service account authorized for the instance.
   string service_account = 8;
+
+  // URI of the PSC network attachment the NIC is attached to (if relevant).
+  string psc_network_attachment_uri = 9;
+
+  // Indicates whether the Compute Engine instance is running.
+  // Deprecated: use the `status` field instead.
+  bool running = 10;
+
+  // The status of the instance.
+  Status status = 11;
 }
 
 // For display only. Metadata associated with a Compute Engine network.
@@ -276,12 +484,18 @@ message NetworkInfo {
   // URI of a Compute Engine network.
   string uri = 2;
 
-  // The IP range that matches the test.
+  // URI of the subnet matching the source IP address of the test.
+  string matched_subnet_uri = 5;
+
+  // The IP range of the subnet matching the source IP address of the test.
   string matched_ip_range = 4;
+
+  // The region of the subnet matching the source IP address of the test.
+  string region = 6;
 }
 
 // For display only. Metadata associated with a VPC firewall rule, an implied
-// VPC firewall rule, or a hierarchical firewall policy rule.
+// VPC firewall rule, or a firewall policy rule.
 message FirewallInfo {
   // The firewall rule's type.
   enum FirewallRuleType {
@@ -309,24 +523,64 @@ message FirewallInfo {
     // rules](https://cloud.google.com/functions/docs/networking/connecting-vpc#restrict-access).
     SERVERLESS_VPC_ACCESS_MANAGED_FIREWALL_RULE = 4;
 
-    // Global network firewall policy rule.
+    // User-defined global network firewall policy rule.
     // For details, see [Network firewall
     // policies](https://cloud.google.com/vpc/docs/network-firewall-policies).
     NETWORK_FIREWALL_POLICY_RULE = 5;
+
+    // User-defined regional network firewall policy rule.
+    // For details, see [Regional network firewall
+    // policies](https://cloud.google.com/firewall/docs/regional-firewall-policies).
+    NETWORK_REGIONAL_FIREWALL_POLICY_RULE = 6;
+
+    // System-defined global network firewall policy rule.
+    SYSTEM_NETWORK_FIREWALL_POLICY_RULE = 7;
+
+    // System-defined regional network firewall policy rule.
+    SYSTEM_REGIONAL_NETWORK_FIREWALL_POLICY_RULE = 8;
+
+    // Firewall policy rule containing attributes not yet supported in
+    // Connectivity tests. Firewall analysis is skipped if such a rule can
+    // potentially be matched. Please see the [list of unsupported
+    // configurations](https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview#unsupported-configs).
+    UNSUPPORTED_FIREWALL_POLICY_RULE = 100;
+
+    // Tracking state for response traffic created when request traffic goes
+    // through allow firewall rule.
+    // For details, see [firewall rules
+    // specifications](https://cloud.google.com/firewall/docs/firewalls#specifications)
+    TRACKING_STATE = 101;
+
+    // Firewall analysis was skipped due to executing Connectivity Test in the
+    // BypassFirewallChecks mode
+    ANALYSIS_SKIPPED = 102;
   }
 
-  // The display name of the VPC firewall rule. This field is not applicable
-  // to hierarchical firewall policy rules.
+  // Target type of the firewall rule.
+  enum TargetType {
+    // Target type is not specified. In this case we treat the rule as applying
+    // to INSTANCES target type.
+    TARGET_TYPE_UNSPECIFIED = 0;
+
+    // Firewall rule applies to instances.
+    INSTANCES = 1;
+
+    // Firewall rule applies to internal managed load balancers.
+    INTERNAL_MANAGED_LB = 2;
+  }
+
+  // The display name of the firewall rule. This field might be empty for
+  // firewall policy rules.
   string display_name = 1;
 
-  // The URI of the VPC firewall rule. This field is not applicable to
-  // implied firewall rules or hierarchical firewall policy rules.
+  // The URI of the firewall rule. This field is not applicable to implied
+  // VPC firewall rules.
   string uri = 2;
 
   // Possible values: INGRESS, EGRESS
   string direction = 3;
 
-  // Possible values: ALLOW, DENY
+  // Possible values: ALLOW, DENY, APPLY_SECURITY_PROFILE_GROUP
   string action = 4;
 
   // The priority of the firewall rule.
@@ -337,18 +591,32 @@ message FirewallInfo {
   string network_uri = 6;
 
   // The target tags defined by the VPC firewall rule. This field is not
-  // applicable to hierarchical firewall policy rules.
+  // applicable to firewall policy rules.
   repeated string target_tags = 7;
 
   // The target service accounts specified by the firewall rule.
   repeated string target_service_accounts = 8;
 
-  // The hierarchical firewall policy that this rule is associated with.
-  // This field is not applicable to VPC firewall rules.
+  // The name of the firewall policy that this rule is associated with.
+  // This field is not applicable to VPC firewall rules and implied VPC firewall
+  // rules.
   string policy = 9;
+
+  // The URI of the firewall policy that this rule is associated with.
+  // This field is not applicable to VPC firewall rules and implied VPC firewall
+  // rules.
+  string policy_uri = 11;
 
   // The firewall rule's type.
   FirewallRuleType firewall_rule_type = 10;
+
+  // The priority of the firewall policy that this rule is associated with.
+  // This field is not applicable to VPC firewall rules and implied VPC firewall
+  // rules.
+  int32 policy_priority = 12;
+
+  // Target type of the firewall rule.
+  TargetType target_type = 13;
 }
 
 // For display only. Metadata associated with a Compute Engine route.
@@ -368,17 +636,21 @@ message RouteInfo {
     // Dynamic route exchanged between BGP peers.
     DYNAMIC = 3;
 
-    // A subnet route received from peering network.
+    // A subnet route received from peering network or NCC Hub.
     PEERING_SUBNET = 4;
 
     // A static route received from peering network.
     PEERING_STATIC = 5;
 
-    // A dynamic route received from peering network.
+    // A dynamic route received from peering network or NCC Hub.
     PEERING_DYNAMIC = 6;
 
     // Policy based route.
     POLICY_BASED = 7;
+
+    // Advertised route. Synthetic route which is used to transition from the
+    // StartFromPrivateNetwork state in Connectivity tests.
+    ADVERTISED = 101;
   }
 
   // Type of next hop:
@@ -395,7 +667,9 @@ message RouteInfo {
     // Next hop is a VPC network gateway.
     NEXT_HOP_NETWORK = 3;
 
-    // Next hop is a peering VPC.
+    // Next hop is a peering VPC. This scenario only happens when the user
+    // doesn't have permissions to the project where the next hop resource is
+    // located.
     NEXT_HOP_PEERING = 4;
 
     // Next hop is an interconnect.
@@ -414,7 +688,7 @@ message RouteInfo {
     NEXT_HOP_INTERNET_GATEWAY = 8;
 
     // Next hop is blackhole; that is, the next hop either does not exist or is
-    // not running.
+    // unusable.
     NEXT_HOP_BLACKHOLE = 9;
 
     // Next hop is the forwarding rule of an Internal Load Balancer.
@@ -424,6 +698,25 @@ message RouteInfo {
     // [router appliance
     // instance](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/ra-overview).
     NEXT_HOP_ROUTER_APPLIANCE = 11;
+
+    // Next hop is an NCC hub. This scenario only happens when the user doesn't
+    // have permissions to the project where the next hop resource is located.
+    NEXT_HOP_NCC_HUB = 12;
+
+    // Next hop is Secure Web Proxy Gateway.
+    SECURE_WEB_PROXY_GATEWAY = 13;
+  }
+
+  // Indicates where routes are applicable.
+  enum RouteScope {
+    // Unspecified scope. Default value.
+    ROUTE_SCOPE_UNSPECIFIED = 0;
+
+    // Route is applicable to packets in Network.
+    NETWORK = 1;
+
+    // Route is applicable to packets using NCC Hub's routing table.
+    NCC_HUB = 2;
   }
 
   // Type of route.
@@ -432,22 +725,31 @@ message RouteInfo {
   // Type of next hop.
   NextHopType next_hop_type = 9;
 
-  // Name of a Compute Engine route.
+  // Indicates where route is applicable. Deprecated, routes with NCC_HUB scope
+  // are not included in the trace in new tests.
+  RouteScope route_scope = 14;
+
+  // Name of a route.
   string display_name = 1;
 
-  // URI of a Compute Engine route.
-  // Dynamic route from cloud router does not have a URI.
-  // Advertised route from Google Cloud VPC to on-premises network also does
-  // not have a URI.
+  // URI of a route. SUBNET, STATIC, PEERING_SUBNET (only for peering network)
+  // and POLICY_BASED routes only.
   string uri = 2;
+
+  // Region of the route. DYNAMIC, PEERING_DYNAMIC, POLICY_BASED and ADVERTISED
+  // routes only. If set for POLICY_BASED route, this is a region of VLAN
+  // attachments for Cloud Interconnect the route applies to.
+  string region = 19;
 
   // Destination IP range of the route.
   string dest_ip_range = 3;
 
-  // Next hop of the route.
+  // String type of the next hop of the route (for example, "VPN tunnel").
+  // Deprecated in favor of the next_hop_type and next_hop_uri fields, not used
+  // in new tests.
   string next_hop = 4;
 
-  // URI of a Compute Engine network.
+  // URI of a VPC network where route is located.
   string network_uri = 5;
 
   // Priority of the route.
@@ -456,17 +758,54 @@ message RouteInfo {
   // Instance tags of the route.
   repeated string instance_tags = 7;
 
-  // Source IP address range of the route. Policy based routes only.
+  // Source IP address range of the route. POLICY_BASED routes only.
   string src_ip_range = 10;
 
-  // Destination port ranges of the route. Policy based routes only.
+  // Destination port ranges of the route. POLICY_BASED routes only.
   repeated string dest_port_ranges = 11;
 
-  // Source port ranges of the route. Policy based routes only.
+  // Source port ranges of the route. POLICY_BASED routes only.
   repeated string src_port_ranges = 12;
 
-  // Protocols of the route. Policy based routes only.
+  // Protocols of the route. POLICY_BASED routes only.
   repeated string protocols = 13;
+
+  // URI of the NCC Hub the route is advertised by. PEERING_SUBNET and
+  // PEERING_DYNAMIC routes that are advertised by NCC Hub only.
+  optional string ncc_hub_uri = 15;
+
+  // URI of the destination NCC Spoke. PEERING_SUBNET and PEERING_DYNAMIC routes
+  // that are advertised by NCC Hub only.
+  optional string ncc_spoke_uri = 16;
+
+  // For ADVERTISED dynamic routes, the URI of the Cloud Router that advertised
+  // the corresponding IP prefix.
+  optional string advertised_route_source_router_uri = 17;
+
+  // For ADVERTISED routes, the URI of their next hop, i.e. the URI of the
+  // hybrid endpoint (VPN tunnel, Interconnect attachment, NCC router appliance)
+  // the advertised prefix is advertised through, or URI of the source peered
+  // network. Deprecated in favor of the next_hop_uri field, not used in new
+  // tests.
+  optional string advertised_route_next_hop_uri = 18;
+
+  // URI of the next hop resource.
+  string next_hop_uri = 20;
+
+  // URI of a VPC network where the next hop resource is located.
+  string next_hop_network_uri = 21;
+
+  // For PEERING_SUBNET and PEERING_STATIC routes, the URI of the originating
+  // SUBNET/STATIC route.
+  string originating_route_uri = 22;
+
+  // For PEERING_SUBNET, PEERING_STATIC and PEERING_DYNAMIC routes, the name of
+  // the originating SUBNET/STATIC/DYNAMIC route.
+  string originating_route_display_name = 23;
+
+  // For PEERING_SUBNET and PEERING_DYNAMIC routes that are advertised by NCC
+  // Hub, the URI of the corresponding route in NCC Hub's routing table.
+  string ncc_hub_route_uri = 24;
 }
 
 // For display only. Details of a Google Service sending packets to a
@@ -477,7 +816,7 @@ message RouteInfo {
 message GoogleServiceInfo {
   // Recognized type of a Google Service.
   enum GoogleServiceType {
-    // Unspecified Google Service. Includes most of Google APIs and services.
+    // Unspecified Google Service.
     GOOGLE_SERVICE_TYPE_UNSPECIFIED = 0;
 
     // Identity aware proxy.
@@ -495,6 +834,21 @@ message GoogleServiceInfo {
     // https://cloud.google.com/dns/docs/zones/forwarding-zones#firewall-rules
     // https://cloud.google.com/dns/docs/policies#firewall-rules
     CLOUD_DNS = 3;
+
+    // private.googleapis.com and restricted.googleapis.com
+    GOOGLE_API = 4;
+
+    // Google API via Private Service Connect.
+    // https://cloud.google.com/vpc/docs/configure-private-service-connect-apis
+    GOOGLE_API_PSC = 5;
+
+    // Google API via VPC Service Controls.
+    // https://cloud.google.com/vpc/docs/configure-private-service-connect-apis
+    GOOGLE_API_VPC_SC = 6;
+
+    // Google API via Serverless VPC Access.
+    // https://cloud.google.com/vpc/docs/serverless-vpc-access
+    SERVERLESS_VPC_ACCESS = 7;
   }
 
   // Source IP address.
@@ -506,16 +860,16 @@ message GoogleServiceInfo {
 
 // For display only. Metadata associated with a Compute Engine forwarding rule.
 message ForwardingRuleInfo {
-  // Name of a Compute Engine forwarding rule.
+  // Name of the forwarding rule.
   string display_name = 1;
 
-  // URI of a Compute Engine forwarding rule.
+  // URI of the forwarding rule.
   string uri = 2;
 
-  // Protocol defined in the forwarding rule that matches the test.
+  // Protocol defined in the forwarding rule that matches the packet.
   string matched_protocol = 3;
 
-  // Port range defined in the forwarding rule that matches the test.
+  // Port range defined in the forwarding rule that matches the packet.
   string matched_port_range = 6;
 
   // VIP of the forwarding rule.
@@ -524,8 +878,22 @@ message ForwardingRuleInfo {
   // Target type of the forwarding rule.
   string target = 5;
 
-  // Network URI. Only valid for Internal Load Balancer.
+  // Network URI.
   string network_uri = 7;
+
+  // Region of the forwarding rule. Set only for regional forwarding rules.
+  string region = 8;
+
+  // Name of the load balancer the forwarding rule belongs to. Empty for
+  // forwarding rules not related to load balancers (like PSC forwarding rules).
+  string load_balancer_name = 9;
+
+  // URI of the PSC service attachment this forwarding rule targets (if
+  // applicable).
+  string psc_service_attachment_uri = 10;
+
+  // PSC Google API target this forwarding rule targets (if applicable).
+  string psc_google_api_target = 11;
 }
 
 // For display only. Metadata associated with a load balancer.
@@ -569,7 +937,9 @@ message LoadBalancerInfo {
   // Type of the load balancer.
   LoadBalancerType load_balancer_type = 1;
 
-  // URI of the health check for the load balancer.
+  // URI of the health check for the load balancer. Deprecated and no longer
+  // populated as different load balancer backends might have different health
+  // checks.
   string health_check_uri = 2;
 
   // Information for the loadbalancer backends.
@@ -615,6 +985,18 @@ message LoadBalancerBackend {
 
   // A list of firewall rule URIs blocking probes from health check IP ranges.
   repeated string health_check_blocking_firewall_rules = 5;
+}
+
+// For display only. Metadata associated with a hybrid subnet.
+message HybridSubnetInfo {
+  // Name of a hybrid subnet.
+  string display_name = 1;
+
+  // URI of a hybrid subnet.
+  string uri = 2;
+
+  // Name of a Google Cloud region where the hybrid subnet is configured.
+  string region = 3;
 }
 
 // For display only. Metadata associated with a Compute Engine VPN gateway.
@@ -686,6 +1068,50 @@ message VpnTunnelInfo {
   RoutingType routing_type = 9;
 }
 
+// For display only. Metadata associated with an Interconnect attachment.
+message InterconnectAttachmentInfo {
+  // What type of interconnect attachment this is.
+  enum Type {
+    // Unspecified type.
+    TYPE_UNSPECIFIED = 0;
+
+    // Attachment to a dedicated interconnect.
+    DEDICATED = 1;
+
+    // Attachment to a partner interconnect, created by the customer.
+    PARTNER = 2;
+
+    // Attachment to a partner interconnect, created by the partner.
+    PARTNER_PROVIDER = 3;
+
+    // Attachment to a L2 interconnect, created by the customer.
+    L2_DEDICATED = 4;
+  }
+
+  // Name of an Interconnect attachment.
+  string display_name = 1;
+
+  // URI of an Interconnect attachment.
+  string uri = 2;
+
+  // URI of the Interconnect where the Interconnect attachment is
+  // configured.
+  string interconnect_uri = 3;
+
+  // Name of a Google Cloud region where the Interconnect attachment is
+  // configured.
+  string region = 4;
+
+  // URI of the Cloud Router to be used for dynamic routing.
+  string cloud_router_uri = 5;
+
+  // The type of interconnect attachment this is.
+  Type type = 6;
+
+  // Appliance IP address that was matched for L2_DEDICATED attachments.
+  string l2_attachment_matched_ip_address = 7;
+}
+
 // For display only. The specification of the endpoints for the test.
 // EndpointInfo is derived from source and destination Endpoint and validated
 // by the backend data plane model.
@@ -710,6 +1136,9 @@ message EndpointInfo {
 
   // URI of the network where this packet is sent to.
   string destination_network_uri = 7;
+
+  // URI of the source telemetry agent this packet originates from.
+  string source_agent_uri = 8;
 }
 
 // Details of the final state "deliver" and associated resource.
@@ -738,13 +1167,74 @@ message DeliverInfo {
     // Connect](https://cloud.google.com/vpc/docs/configure-private-service-connect-services).
     PSC_PUBLISHED_SERVICE = 6;
 
-    // Target is all Google APIs that use [Private Service
+    // Target is Google APIs that use [Private Service
     // Connect](https://cloud.google.com/vpc/docs/configure-private-service-connect-apis).
     PSC_GOOGLE_API = 7;
 
     // Target is a VPC-SC that uses [Private Service
     // Connect](https://cloud.google.com/vpc/docs/configure-private-service-connect-apis).
     PSC_VPC_SC = 8;
+
+    // Target is a serverless network endpoint group.
+    SERVERLESS_NEG = 9;
+
+    // Target is a Cloud Storage bucket.
+    STORAGE_BUCKET = 10;
+
+    // Target is a private network. Used only for return traces.
+    PRIVATE_NETWORK = 11;
+
+    // Target is a Cloud Function. Used only for return traces.
+    CLOUD_FUNCTION = 12;
+
+    // Target is a App Engine service version. Used only for return traces.
+    APP_ENGINE_VERSION = 13;
+
+    // Target is a Cloud Run revision. Used only for return traces.
+    CLOUD_RUN_REVISION = 14;
+
+    // Target is a Google-managed service. Used only for return traces.
+    GOOGLE_MANAGED_SERVICE = 15;
+
+    // Target is a Redis Instance.
+    REDIS_INSTANCE = 16;
+
+    // Target is a Redis Cluster.
+    REDIS_CLUSTER = 17;
+
+    // Target is a GKE Pod.
+    GKE_POD = 19;
+  }
+
+  // Recognized type of a Google Service.
+  enum GoogleServiceType {
+    // Unspecified Google Service.
+    GOOGLE_SERVICE_TYPE_UNSPECIFIED = 0;
+
+    // Identity aware proxy.
+    // https://cloud.google.com/iap/docs/using-tcp-forwarding
+    IAP = 1;
+
+    // One of two services sharing IP ranges:
+    // * Load Balancer proxy
+    // * Centralized Health Check prober
+    // https://cloud.google.com/load-balancing/docs/firewall-rules
+    GFE_PROXY_OR_HEALTH_CHECK_PROBER = 2;
+
+    // Connectivity from Cloud DNS to forwarding targets or alternate name
+    // servers that use private routing.
+    // https://cloud.google.com/dns/docs/zones/forwarding-zones#firewall-rules
+    // https://cloud.google.com/dns/docs/policies#firewall-rules
+    CLOUD_DNS = 3;
+
+    // private.googleapis.com and restricted.googleapis.com
+    PRIVATE_GOOGLE_ACCESS = 4;
+
+    // Google API via Private Service Connect.
+    // https://cloud.google.com/vpc/docs/configure-private-service-connect-apis
+    // Google API via Serverless VPC Access.
+    // https://cloud.google.com/vpc/docs/serverless-vpc-access
+    SERVERLESS_VPC_ACCESS = 5;
   }
 
   // Target type where the packet is delivered to.
@@ -752,6 +1242,20 @@ message DeliverInfo {
 
   // URI of the resource that the packet is delivered to.
   string resource_uri = 2;
+
+  // IP address of the target (if applicable).
+  string ip_address = 3;
+
+  // Name of the Cloud Storage Bucket the packet is delivered to (if
+  // applicable).
+  string storage_bucket = 4;
+
+  // PSC Google API target the packet is delivered to (if applicable).
+  string psc_google_api_target = 5;
+
+  // Recognized type of a Google Service the packet is delivered to (if
+  // applicable).
+  GoogleServiceType google_service_type = 6;
 }
 
 // Details of the final state "forward" and associated resource.
@@ -781,6 +1285,15 @@ message ForwardInfo {
 
     // Forwarded to a VPC network in another project.
     ANOTHER_PROJECT = 7;
+
+    // Forwarded to an NCC Hub.
+    NCC_HUB = 8;
+
+    // Forwarded to a router appliance.
+    ROUTER_APPLIANCE = 9;
+
+    // Forwarded to a Secure Web Proxy Gateway.
+    SECURE_WEB_PROXY_GATEWAY = 10;
   }
 
   // Target type where this packet is forwarded to.
@@ -788,6 +1301,9 @@ message ForwardInfo {
 
   // URI of the resource that the packet is forwarded to.
   string resource_uri = 2;
+
+  // IP address of the target (if applicable).
+  string ip_address = 3;
 }
 
 // Details of the final state "abort" and associated resource.
@@ -797,62 +1313,98 @@ message AbortInfo {
     // Cause is unspecified.
     CAUSE_UNSPECIFIED = 0;
 
-    // Aborted due to unknown network.
-    // The reachability analysis cannot proceed because the user does not have
-    // access to the host project's network configurations, including firewall
-    // rules and routes. This happens when the project is a service project and
-    // the endpoints being traced are in the host project's network.
+    // Aborted due to unknown network. Deprecated, not used in the new tests.
     UNKNOWN_NETWORK = 1;
 
-    // Aborted because the IP address(es) are unknown.
-    UNKNOWN_IP = 2;
-
     // Aborted because no project information can be derived from the test
-    // input.
+    // input. Deprecated, not used in the new tests.
     UNKNOWN_PROJECT = 3;
 
-    // Aborted because the user lacks the permission to access all or part of
-    // the network configurations required to run the test.
-    PERMISSION_DENIED = 4;
-
-    // Aborted because no valid source endpoint is derived from the input test
-    // request.
-    NO_SOURCE_LOCATION = 5;
-
-    // Aborted because the source and/or destination endpoint specified in
-    // the test are invalid. The possible reasons that an endpoint is
-    // invalid include: malformed IP address; nonexistent instance or
-    // network URI; IP address not in the range of specified network URI; and
-    // instance not owning the network interface in the specified network.
-    INVALID_ARGUMENT = 6;
-
     // Aborted because traffic is sent from a public IP to an instance without
-    // an external IP.
+    // an external IP. Deprecated, not used in the new tests.
     NO_EXTERNAL_IP = 7;
 
     // Aborted because none of the traces matches destination information
-    // specified in the input test request.
+    // specified in the input test request. Deprecated, not used in the new
+    // tests.
     UNINTENDED_DESTINATION = 8;
 
-    // Aborted because the number of steps in the trace exceeding a certain
-    // limit which may be caused by routing loop.
+    // Aborted because the source endpoint could not be found. Deprecated, not
+    // used in the new tests.
+    SOURCE_ENDPOINT_NOT_FOUND = 11;
+
+    // Aborted because the source network does not match the source endpoint.
+    // Deprecated, not used in the new tests.
+    MISMATCHED_SOURCE_NETWORK = 12;
+
+    // Aborted because the destination endpoint could not be found. Deprecated,
+    // not used in the new tests.
+    DESTINATION_ENDPOINT_NOT_FOUND = 13;
+
+    // Aborted because the destination network does not match the destination
+    // endpoint. Deprecated, not used in the new tests.
+    MISMATCHED_DESTINATION_NETWORK = 14;
+
+    // Aborted because no endpoint with the packet's destination IP address is
+    // found.
+    UNKNOWN_IP = 2;
+
+    // Aborted because no endpoint with the packet's destination IP is found in
+    // the Google-managed project.
+    GOOGLE_MANAGED_SERVICE_UNKNOWN_IP = 32;
+
+    // Aborted because the source IP address doesn't belong to any of the
+    // subnets of the source VPC network.
+    SOURCE_IP_ADDRESS_NOT_IN_SOURCE_NETWORK = 23;
+
+    // Aborted because user lacks permission to access all or part of the
+    // network configurations required to run the test.
+    PERMISSION_DENIED = 4;
+
+    // Aborted because user lacks permission to access Cloud NAT configs
+    // required to run the test.
+    PERMISSION_DENIED_NO_CLOUD_NAT_CONFIGS = 28;
+
+    // Aborted because user lacks permission to access Network endpoint group
+    // endpoint configs required to run the test.
+    PERMISSION_DENIED_NO_NEG_ENDPOINT_CONFIGS = 29;
+
+    // Aborted because user lacks permission to access Cloud Router configs
+    // required to run the test.
+    PERMISSION_DENIED_NO_CLOUD_ROUTER_CONFIGS = 36;
+
+    // Aborted because no valid source or destination endpoint can be derived
+    // from the test request.
+    NO_SOURCE_LOCATION = 5;
+
+    // Aborted because the source IP address is not contained within the subnet
+    // ranges of the provided VPC network.
+    NO_SOURCE_GCP_NETWORK_LOCATION = 42;
+
+    // Aborted because the source IP address is not contained within the
+    // destination ranges of the routes towards non-GCP networks in the provided
+    // VPC network.
+    NO_SOURCE_NON_GCP_NETWORK_LOCATION = 43;
+
+    // Aborted because the source IP address can't be resolved as an Internet
+    // IP address.
+    NO_SOURCE_INTERNET_LOCATION = 44;
+
+    // Aborted because the source or destination endpoint specified in
+    // the request is invalid. Some examples:
+    // - The request might contain malformed resource URI, project ID, or IP
+    // address.
+    // - The request might contain inconsistent information (for example, the
+    // request might include both the instance and the network, but the instance
+    // might not have a NIC in that network).
+    INVALID_ARGUMENT = 6;
+
+    // Aborted because the number of steps in the trace exceeds a certain
+    // limit. It might be caused by a routing loop.
     TRACE_TOO_LONG = 9;
 
     // Aborted due to internal server error.
     INTERNAL_ERROR = 10;
-
-    // Aborted because the source endpoint could not be found.
-    SOURCE_ENDPOINT_NOT_FOUND = 11;
-
-    // Aborted because the source network does not match the source endpoint.
-    MISMATCHED_SOURCE_NETWORK = 12;
-
-    // Aborted because the destination endpoint could not be found.
-    DESTINATION_ENDPOINT_NOT_FOUND = 13;
-
-    // Aborted because the destination network does not match the destination
-    // endpoint.
-    MISMATCHED_DESTINATION_NETWORK = 14;
 
     // Aborted because the test scenario is not supported.
     UNSUPPORTED = 15;
@@ -868,6 +1420,70 @@ message AbortInfo {
 
     // Aborted because expected resource configuration was missing.
     RESOURCE_CONFIG_NOT_FOUND = 18;
+
+    // Aborted because expected VM instance configuration was missing.
+    VM_INSTANCE_CONFIG_NOT_FOUND = 24;
+
+    // Aborted because expected network configuration was missing.
+    NETWORK_CONFIG_NOT_FOUND = 25;
+
+    // Aborted because expected firewall configuration was missing.
+    FIREWALL_CONFIG_NOT_FOUND = 26;
+
+    // Aborted because expected route configuration was missing.
+    ROUTE_CONFIG_NOT_FOUND = 27;
+
+    // Aborted because PSC endpoint selection for the Google-managed service
+    // is ambiguous (several PSC endpoints satisfy test input).
+    GOOGLE_MANAGED_SERVICE_AMBIGUOUS_PSC_ENDPOINT = 19;
+
+    // Aborted because endpoint selection for the Google-managed service is
+    // ambiguous (several endpoints satisfy test input).
+    GOOGLE_MANAGED_SERVICE_AMBIGUOUS_ENDPOINT = 39;
+
+    // Aborted because tests with a PSC-based Cloud SQL instance as a source are
+    // not supported.
+    SOURCE_PSC_CLOUD_SQL_UNSUPPORTED = 20;
+
+    // Aborted because tests with the external database as a source are not
+    // supported. In such replication scenarios, the connection is initiated by
+    // the Cloud SQL replica instance.
+    SOURCE_EXTERNAL_CLOUD_SQL_UNSUPPORTED = 45;
+
+    // Aborted because tests with a Redis Cluster as a source are not supported.
+    SOURCE_REDIS_CLUSTER_UNSUPPORTED = 34;
+
+    // Aborted because tests with a Redis Instance as a source are not
+    // supported.
+    SOURCE_REDIS_INSTANCE_UNSUPPORTED = 35;
+
+    // Aborted because tests with a forwarding rule as a source are not
+    // supported.
+    SOURCE_FORWARDING_RULE_UNSUPPORTED = 21;
+
+    // Aborted because one of the endpoints is a non-routable IP address
+    // (loopback, link-local, etc).
+    NON_ROUTABLE_IP_ADDRESS = 22;
+
+    // Aborted due to an unknown issue in the Google-managed project.
+    UNKNOWN_ISSUE_IN_GOOGLE_MANAGED_PROJECT = 30;
+
+    // Aborted due to an unsupported configuration of the Google-managed
+    // project.
+    UNSUPPORTED_GOOGLE_MANAGED_PROJECT_CONFIG = 31;
+
+    // Aborted because the source endpoint is a Cloud Run revision with direct
+    // VPC access enabled, but there are no reserved serverless IP ranges.
+    NO_SERVERLESS_IP_RANGES = 37;
+
+    // Aborted because the used protocol is not supported for the used IP
+    // version.
+    IP_VERSION_PROTOCOL_MISMATCH = 40;
+
+    // Aborted because selected GKE Pod endpoint location is unknown. This is
+    // often the case for "Pending" Pods, which don't have assigned IP addresses
+    // yet.
+    GKE_POD_UNKNOWN_ENDPOINT_LOCATION = 41;
   }
 
   // Causes that the analysis is aborted.
@@ -876,9 +1492,11 @@ message AbortInfo {
   // URI of the resource that caused the abort.
   string resource_uri = 2;
 
-  // List of project IDs that the user has specified in the request but does
-  // not have permission to access network configs. Analysis is aborted in this
-  // case with the PERMISSION_DENIED cause.
+  // IP address that caused the abort.
+  string ip_address = 4;
+
+  // List of project IDs the user specified in the request but lacks access to.
+  // In this case, analysis is aborted with the PERMISSION_DENIED cause.
   repeated string projects_missing_permission = 3;
 }
 
@@ -902,7 +1520,7 @@ message DropInfo {
     // tracking.
     FIREWALL_RULE = 3;
 
-    // Dropped due to no routes.
+    // Dropped due to no matching routes.
     NO_ROUTE = 4;
 
     // Dropped due to invalid route. Route's next hop is a blackhole.
@@ -910,19 +1528,63 @@ message DropInfo {
 
     // Packet is sent to a wrong (unintended) network. Example: you trace a
     // packet from VM1:Network1 to VM2:Network2, however, the route configured
-    // in Network1 sends the packet destined for VM2's IP addresss to Network3.
+    // in Network1 sends the packet destined for VM2's IP address to Network3.
     ROUTE_WRONG_NETWORK = 6;
+
+    // Route's next hop IP address cannot be resolved to a GCP resource.
+    ROUTE_NEXT_HOP_IP_ADDRESS_NOT_RESOLVED = 42;
+
+    // Route's next hop resource is not found.
+    ROUTE_NEXT_HOP_RESOURCE_NOT_FOUND = 43;
+
+    // Route's next hop instance doesn't have a NIC in the route's network.
+    ROUTE_NEXT_HOP_INSTANCE_WRONG_NETWORK = 49;
+
+    // Route's next hop IP address is not a primary IP address of the next hop
+    // instance.
+    ROUTE_NEXT_HOP_INSTANCE_NON_PRIMARY_IP = 50;
+
+    // Route's next hop forwarding rule doesn't match next hop IP address.
+    ROUTE_NEXT_HOP_FORWARDING_RULE_IP_MISMATCH = 51;
+
+    // Route's next hop VPN tunnel is down (does not have valid IKE SAs).
+    ROUTE_NEXT_HOP_VPN_TUNNEL_NOT_ESTABLISHED = 52;
+
+    // Route's next hop forwarding rule type is invalid (it's not a forwarding
+    // rule of the internal passthrough load balancer).
+    ROUTE_NEXT_HOP_FORWARDING_RULE_TYPE_INVALID = 53;
+
+    // Packet is sent from the Internet to the private IPv6 address.
+    NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV6_ADDRESS = 44;
+
+    // Packet is sent from the Internet to the private IPv4 address.
+    NO_ROUTE_FROM_INTERNET_TO_PRIVATE_IPV4_ADDRESS = 109;
+
+    // Packet is sent from the external IPv6 source address of an instance to
+    // the private IPv6 address of an instance.
+    NO_ROUTE_FROM_EXTERNAL_IPV6_SOURCE_TO_PRIVATE_IPV6_ADDRESS = 98;
+
+    // The packet does not match a policy-based VPN tunnel local selector.
+    VPN_TUNNEL_LOCAL_SELECTOR_MISMATCH = 45;
+
+    // The packet does not match a policy-based VPN tunnel remote selector.
+    VPN_TUNNEL_REMOTE_SELECTOR_MISMATCH = 46;
 
     // Packet with internal destination address sent to the internet gateway.
     PRIVATE_TRAFFIC_TO_INTERNET = 7;
 
-    // Instance with only an internal IP address tries to access Google API and
-    // services, but private Google access is not enabled.
+    // Endpoint with only an internal IP address tries to access Google API and
+    // services, but Private Google Access is not enabled in the subnet or is
+    // not applicable.
     PRIVATE_GOOGLE_ACCESS_DISALLOWED = 8;
 
-    // Instance with only an internal IP address tries to access external hosts,
-    // but Cloud NAT is not enabled in the subnet, unless special configurations
-    // on a VM allow this connection.
+    // Source endpoint tries to access Google API and services through the VPN
+    // tunnel to another network, but Private Google Access needs to be enabled
+    // in the source endpoint network.
+    PRIVATE_GOOGLE_ACCESS_VIA_VPN_TUNNEL_UNSUPPORTED = 47;
+
+    // Endpoint with only an internal IP address tries to access external hosts,
+    // but there is no matching Cloud NAT gateway in the subnet.
     NO_EXTERNAL_ADDRESS = 9;
 
     // Destination internal address cannot be resolved to a known target. If
@@ -934,10 +1596,6 @@ message DropInfo {
     // Forwarding rule's protocol and ports do not match the packet header.
     FORWARDING_RULE_MISMATCH = 11;
 
-    // Packet could be dropped because it was sent from a different region
-    // to a regional forwarding without global access.
-    FORWARDING_RULE_REGION_MISMATCH = 25;
-
     // Forwarding rule does not have backends configured.
     FORWARDING_RULE_NO_INSTANCES = 12;
 
@@ -947,6 +1605,11 @@ message DropInfo {
     // rules](https://cloud.google.com/load-balancing/docs/health-checks#firewall_rules).
     FIREWALL_BLOCKING_LOAD_BALANCER_BACKEND_HEALTH_CHECK = 13;
 
+    // Matching ingress firewall rules by network tags for packets sent via
+    // serverless VPC direct egress is unsupported. Behavior is undefined.
+    // https://cloud.google.com/run/docs/configuring/vpc-direct-vpc#limitations
+    INGRESS_FIREWALL_TAGS_UNSUPPORTED_BY_DIRECT_VPC_EGRESS = 85;
+
     // Packet is sent from or to a Compute Engine instance that is not in a
     // running state.
     INSTANCE_NOT_RUNNING = 14;
@@ -954,8 +1617,17 @@ message DropInfo {
     // Packet sent from or to a GKE cluster that is not in running state.
     GKE_CLUSTER_NOT_RUNNING = 27;
 
+    // Packet sent from or to a GKE Pod that is not in running state.
+    GKE_POD_NOT_RUNNING = 103;
+
     // Packet sent from or to a Cloud SQL instance that is not in running state.
     CLOUD_SQL_INSTANCE_NOT_RUNNING = 28;
+
+    // Packet sent from or to a Redis Instance that is not in running state.
+    REDIS_INSTANCE_NOT_RUNNING = 68;
+
+    // Packet sent from or to a Redis Cluster that is not in running state.
+    REDIS_CLUSTER_NOT_RUNNING = 69;
 
     // The type of traffic is blocked and the user cannot configure a firewall
     // rule to enable it. See [Always blocked
@@ -1022,6 +1694,11 @@ message DropInfo {
     // instance to a destination network.
     CLOUD_SQL_INSTANCE_NO_ROUTE = 35;
 
+    // Packet was dropped because the Cloud SQL instance requires all
+    // connections to use Cloud SQL connectors and to target the Cloud SQL proxy
+    // port (3307).
+    CLOUD_SQL_CONNECTOR_REQUIRED = 63;
+
     // Packet could be dropped because the Cloud Function is not in an active
     // status.
     CLOUD_FUNCTION_NOT_ACTIVE = 22;
@@ -1033,9 +1710,57 @@ message DropInfo {
     // state.
     VPC_CONNECTOR_NOT_RUNNING = 24;
 
+    // Packet could be dropped because the traffic from the serverless service
+    // to the VPC connector is not allowed.
+    VPC_CONNECTOR_SERVERLESS_TRAFFIC_BLOCKED = 60;
+
+    // Packet could be dropped because the health check traffic to the VPC
+    // connector is not allowed.
+    VPC_CONNECTOR_HEALTH_CHECK_TRAFFIC_BLOCKED = 61;
+
+    // Packet could be dropped because it was sent from a different region
+    // to a regional forwarding without global access.
+    FORWARDING_RULE_REGION_MISMATCH = 25;
+
     // The Private Service Connect endpoint is in a project that is not approved
     // to connect to the service.
     PSC_CONNECTION_NOT_ACCEPTED = 26;
+
+    // The packet is sent to the Private Service Connect endpoint over the
+    // peering, but [it's not
+    // supported](https://cloud.google.com/vpc/docs/configure-private-service-connect-services#on-premises).
+    PSC_ENDPOINT_ACCESSED_FROM_PEERED_NETWORK = 41;
+
+    // The packet is sent to the Private Service Connect backend (network
+    // endpoint group), but the producer PSC forwarding rule does not have
+    // global access enabled.
+    PSC_NEG_PRODUCER_ENDPOINT_NO_GLOBAL_ACCESS = 48;
+
+    // The packet is sent to the Private Service Connect backend (network
+    // endpoint group), but the producer PSC forwarding rule has multiple ports
+    // specified.
+    PSC_NEG_PRODUCER_FORWARDING_RULE_MULTIPLE_PORTS = 54;
+
+    // The packet is sent to the Private Service Connect backend (network
+    // endpoint group) targeting a Cloud SQL service attachment, but this
+    // configuration is not supported.
+    CLOUD_SQL_PSC_NEG_UNSUPPORTED = 58;
+
+    // No NAT subnets are defined for the PSC service attachment.
+    NO_NAT_SUBNETS_FOR_PSC_SERVICE_ATTACHMENT = 57;
+
+    // PSC endpoint is accessed via NCC, but PSC transitivity configuration is
+    // not yet propagated.
+    PSC_TRANSITIVITY_NOT_PROPAGATED = 64;
+
+    // The packet sent from the hybrid NEG proxy matches a non-dynamic route,
+    // but such a configuration is not supported.
+    HYBRID_NEG_NON_DYNAMIC_ROUTE_MATCHED = 55;
+
+    // The packet sent from the hybrid NEG proxy matches a dynamic route with a
+    // next hop in a different region, but such a configuration is not
+    // supported.
+    HYBRID_NEG_NON_LOCAL_DYNAMIC_ROUTE_MATCHED = 56;
 
     // Packet sent from a Cloud Run revision that is not ready.
     CLOUD_RUN_REVISION_NOT_READY = 29;
@@ -1046,6 +1771,153 @@ message DropInfo {
     // Packet sent to a load balancer, which requires a proxy-only subnet and
     // the subnet is not found.
     LOAD_BALANCER_HAS_NO_PROXY_SUBNET = 39;
+
+    // Packet sent to Cloud Nat without active NAT IPs.
+    CLOUD_NAT_NO_ADDRESSES = 40;
+
+    // Packet is stuck in a routing loop.
+    ROUTING_LOOP = 59;
+
+    // Packet is dropped inside a Google-managed service due to being delivered
+    // in return trace to an endpoint that doesn't match the endpoint the packet
+    // was sent from in forward trace. Used only for return traces.
+    DROPPED_INSIDE_GOOGLE_MANAGED_SERVICE = 62;
+
+    // Packet is dropped due to a load balancer backend instance not having a
+    // network interface in the network expected by the load balancer.
+    LOAD_BALANCER_BACKEND_INVALID_NETWORK = 65;
+
+    // Packet is dropped due to a backend service named port not being defined
+    // on the instance group level.
+    BACKEND_SERVICE_NAMED_PORT_NOT_DEFINED = 66;
+
+    // Packet is dropped due to a destination IP range being part of a Private
+    // NAT IP range.
+    DESTINATION_IS_PRIVATE_NAT_IP_RANGE = 67;
+
+    // Generic drop cause for a packet being dropped inside a Redis Instance
+    // service project.
+    DROPPED_INSIDE_REDIS_INSTANCE_SERVICE = 70;
+
+    // Packet is dropped due to an unsupported port being used to connect to a
+    // Redis Instance. Port 6379 should be used to connect to a Redis Instance.
+    REDIS_INSTANCE_UNSUPPORTED_PORT = 71;
+
+    // Packet is dropped due to connecting from PUPI address to a PSA based
+    // Redis Instance.
+    REDIS_INSTANCE_CONNECTING_FROM_PUPI_ADDRESS = 72;
+
+    // Packet is dropped due to no route to the destination network.
+    REDIS_INSTANCE_NO_ROUTE_TO_DESTINATION_NETWORK = 73;
+
+    // Redis Instance does not have an external IP address.
+    REDIS_INSTANCE_NO_EXTERNAL_IP = 74;
+
+    // Packet is dropped due to an unsupported protocol being used to connect to
+    // a Redis Instance. Only TCP connections are accepted by a Redis Instance.
+    REDIS_INSTANCE_UNSUPPORTED_PROTOCOL = 78;
+
+    // Generic drop cause for a packet being dropped inside a Redis Cluster
+    // service project.
+    DROPPED_INSIDE_REDIS_CLUSTER_SERVICE = 75;
+
+    // Packet is dropped due to an unsupported port being used to connect to a
+    // Redis Cluster. Ports 6379 and 11000 to 13047 should be used to connect to
+    // a Redis Cluster.
+    REDIS_CLUSTER_UNSUPPORTED_PORT = 76;
+
+    // Redis Cluster does not have an external IP address.
+    REDIS_CLUSTER_NO_EXTERNAL_IP = 77;
+
+    // Packet is dropped due to an unsupported protocol being used to connect to
+    // a Redis Cluster. Only TCP connections are accepted by a Redis Cluster.
+    REDIS_CLUSTER_UNSUPPORTED_PROTOCOL = 79;
+
+    // Packet from the non-GCP (on-prem) or unknown GCP network is dropped due
+    // to the destination IP address not belonging to any IP prefix advertised
+    // via BGP by the Cloud Router.
+    NO_ADVERTISED_ROUTE_TO_GCP_DESTINATION = 80;
+
+    // Packet from the non-GCP (on-prem) or unknown GCP network is dropped due
+    // to the destination IP address not belonging to any IP prefix included to
+    // the local traffic selector of the VPN tunnel.
+    NO_TRAFFIC_SELECTOR_TO_GCP_DESTINATION = 81;
+
+    // Packet from the unknown peered network is dropped due to no known route
+    // from the source network to the destination IP address.
+    NO_KNOWN_ROUTE_FROM_PEERED_NETWORK_TO_DESTINATION = 82;
+
+    // Sending packets processed by the Private NAT Gateways to the Private
+    // Service Connect endpoints is not supported.
+    PRIVATE_NAT_TO_PSC_ENDPOINT_UNSUPPORTED = 83;
+
+    // Packet is sent to the PSC port mapping service, but its destination port
+    // does not match any port mapping rules.
+    PSC_PORT_MAPPING_PORT_MISMATCH = 86;
+
+    // Sending packets directly to the PSC port mapping service without going
+    // through the PSC connection is not supported.
+    PSC_PORT_MAPPING_WITHOUT_PSC_CONNECTION_UNSUPPORTED = 87;
+
+    // Packet with destination IP address within the reserved NAT64 range is
+    // dropped due to matching a route of an unsupported type.
+    UNSUPPORTED_ROUTE_MATCHED_FOR_NAT64_DESTINATION = 88;
+
+    // Packet could be dropped because hybrid endpoint like a VPN gateway or
+    // Interconnect is not allowed to send traffic to the Internet.
+    TRAFFIC_FROM_HYBRID_ENDPOINT_TO_INTERNET_DISALLOWED = 89;
+
+    // Packet with destination IP address within the reserved NAT64 range is
+    // dropped due to no matching NAT gateway in the subnet.
+    NO_MATCHING_NAT64_GATEWAY = 90;
+
+    // Packet is dropped due to matching a Private NAT64 gateway with no rules
+    // for source IPv6 addresses.
+    NO_CONFIGURED_PRIVATE_NAT64_RULE = 107;
+
+    // Packet is dropped due to being sent to a backend of a passthrough load
+    // balancer that doesn't use the same IP version as the frontend.
+    LOAD_BALANCER_BACKEND_IP_VERSION_MISMATCH = 96;
+
+    // Packet from the unknown NCC network is dropped due to no known route
+    // from the source network to the destination IP address.
+    NO_KNOWN_ROUTE_FROM_NCC_NETWORK_TO_DESTINATION = 97;
+
+    // Packet is dropped by Cloud NAT due to using an unsupported protocol.
+    CLOUD_NAT_PROTOCOL_UNSUPPORTED = 99;
+
+    // Packet is dropped due to using an unsupported protocol (any other than
+    // UDP) for L2 Interconnect.
+    L2_INTERCONNECT_UNSUPPORTED_PROTOCOL = 100;
+
+    // Packet is dropped due to using an unsupported port (any other than
+    // 6081) for L2 Interconnect.
+    L2_INTERCONNECT_UNSUPPORTED_PORT = 101;
+
+    // Packet is dropped due to destination IP not matching the appliance
+    // mapping IPs configured on the L2 Interconnect attachment.
+    L2_INTERCONNECT_DESTINATION_IP_MISMATCH = 102;
+
+    // Packet could be dropped because it matches a route associated with an NCC
+    // spoke in the hybrid subnet context, but such a configuration is not
+    // supported.
+    NCC_ROUTE_WITHIN_HYBRID_SUBNET_UNSUPPORTED = 104;
+
+    // Packet is dropped because the region of the hybrid subnet is different
+    // from the region of the next hop of the route matched within this hybrid
+    // subnet.
+    HYBRID_SUBNET_REGION_MISMATCH = 105;
+
+    // Packet is dropped because no matching route was found in the hybrid
+    // subnet.
+    HYBRID_SUBNET_NO_ROUTE = 106;
+
+    // Packet is dropped by GKE Network Policy.
+    GKE_NETWORK_POLICY = 108;
+
+    // Packet is dropped because there is no valid matching route from the
+    // network of the Google-managed service to the destination.
+    NO_VALID_ROUTE_FROM_GOOGLE_MANAGED_NETWORK_TO_DESTINATION = 110;
   }
 
   // Cause that the packet is dropped.
@@ -1053,6 +1925,21 @@ message DropInfo {
 
   // URI of the resource that caused the drop.
   string resource_uri = 2;
+
+  // Source IP address of the dropped packet (if relevant).
+  string source_ip = 3;
+
+  // Destination IP address of the dropped packet (if relevant).
+  string destination_ip = 4;
+
+  // Region of the dropped packet (if relevant).
+  string region = 5;
+
+  // Geolocation (region code) of the source IP address (if relevant).
+  string source_geolocation_code = 6;
+
+  // Geolocation (region code) of the destination IP address (if relevant).
+  string destination_geolocation_code = 7;
 }
 
 // For display only. Metadata associated with a Google Kubernetes Engine (GKE)
@@ -1064,11 +1951,126 @@ message GKEMasterInfo {
   // URI of a GKE cluster network.
   string cluster_network_uri = 4;
 
-  // Internal IP address of a GKE cluster master.
+  // Internal IP address of a GKE cluster control plane.
   string internal_ip = 5;
 
-  // External IP address of a GKE cluster master.
+  // External IP address of a GKE cluster control plane.
   string external_ip = 6;
+
+  // DNS endpoint of a GKE cluster control plane.
+  string dns_endpoint = 7;
+}
+
+// For display only. Metadata associated with a Google Kubernetes Engine (GKE)
+// Pod.
+message GkePodInfo {
+  // URI of a GKE Pod.
+  // For Pods in regional Clusters, the URI format is:
+  // `projects/{project}/locations/{location}/clusters/{cluster}/k8s/namespaces/{namespace}/pods/{pod}`
+  // For Pods in zonal Clusters, the URI format is:
+  // `projects/{project}/zones/{zone}/clusters/{cluster}/k8s/namespaces/{namespace}/pods/{pod}`
+  string pod_uri = 1;
+
+  // IP address of a GKE Pod. If the Pod is dual-stack, this is the IP address
+  // relevant to the trace.
+  string ip_address = 2;
+
+  // URI of the network containing the GKE Pod.
+  string network_uri = 3;
+}
+
+// For display only. Contains information about why IP masquerading was skipped
+// for the packet.
+message IpMasqueradingSkippedInfo {
+  // Reason why IP masquerading was skipped.
+  enum Reason {
+    // Unused default value.
+    REASON_UNSPECIFIED = 0;
+
+    // Masquerading not applied because destination IP is in one of configured
+    // non-masquerade ranges.
+    DESTINATION_IP_IN_CONFIGURED_NON_MASQUERADE_RANGE = 1;
+
+    // Masquerading not applied because destination IP is in one of default
+    // non-masquerade ranges.
+    DESTINATION_IP_IN_DEFAULT_NON_MASQUERADE_RANGE = 2;
+
+    // Masquerading not applied because destination is on the same Node.
+    DESTINATION_ON_SAME_NODE = 3;
+
+    // Masquerading not applied because ip-masq-agent doesn't exist and default
+    // SNAT is disabled.
+    DEFAULT_SNAT_DISABLED = 4;
+
+    // Masquerading not applied because the packet's IP version is IPv6.
+    NO_MASQUERADING_FOR_IPV6 = 5;
+
+    // Masquerading not applied because the source Pod uses the host Node's
+    // network namespace, including the Node's IP address.
+    POD_USES_NODE_NETWORK_NAMESPACE = 6;
+
+    // Masquerading not applied because the packet is a return packet.
+    NO_MASQUERADING_FOR_RETURN_PACKET = 7;
+  }
+
+  // Reason why IP masquerading was not applied.
+  Reason reason = 1;
+
+  // The matched non-masquerade IP range. Only set if reason is
+  // DESTINATION_IP_IN_CONFIGURED_NON_MASQUERADE_RANGE or
+  // DESTINATION_IP_IN_DEFAULT_NON_MASQUERADE_RANGE.
+  string non_masquerade_range = 2;
+}
+
+// For display only. Metadata associated with a GKE Network Policy.
+message GkeNetworkPolicyInfo {
+  // The name of the Network Policy.
+  string display_name = 1;
+
+  // The URI of the Network Policy.
+  // Format for a Network Policy in a zonal cluster:
+  // `projects/<project_id>/zones/<zone>/clusters/<cluster>/k8s/namespaces/<namespace>/networking.k8s.io/networkpolicies/<networkpolicy>`
+  // Format for a Network Policy in a regional cluster:
+  // `projects/<project_id>/locations/<location>/clusters/<cluster>/k8s/namespaces/<namespace>/networking.k8s.io/networkpolicies/<networkpolicy>`
+  string uri = 2;
+
+  // Possible values: INGRESS, EGRESS
+  string direction = 3;
+
+  // Possible values: ALLOW, DENY
+  string action = 4;
+}
+
+// For display only. Contains information about why GKE Network Policy
+// evaluation was skipped.
+message GkeNetworkPolicySkippedInfo {
+  enum Reason {
+    // Unused default value.
+    REASON_UNSPECIFIED = 0;
+
+    // Network Policy is disabled on the cluster.
+    NETWORK_POLICY_DISABLED = 1;
+
+    // Ingress traffic to a Pod from a source on the same Node is always
+    // allowed.
+    INGRESS_SOURCE_ON_SAME_NODE = 2;
+
+    // Egress traffic from a Pod that uses the Node's network namespace is not
+    // subject to Network Policy.
+    EGRESS_FROM_NODE_NETWORK_NAMESPACE_POD = 3;
+
+    // Network Policy is not applied to response traffic. This is because GKE
+    // Network Policy evaluation is stateful in both GKE Dataplane V2 (eBPF) and
+    // legacy (iptables) implementations.
+    NETWORK_POLICY_NOT_APPLIED_TO_RESPONSE_TRAFFIC = 4;
+
+    // Network Policy evaluation is currently not supported for clusters with
+    // FQDN Network Policies enabled.
+    NETWORK_POLICY_ANALYSIS_UNSUPPORTED = 100;
+  }
+
+  // Reason why Network Policy evaluation was skipped.
+  Reason reason = 1;
 }
 
 // For display only. Metadata associated with a Cloud SQL instance.
@@ -1091,6 +2093,51 @@ message CloudSQLInstanceInfo {
 
   // Region in which the Cloud SQL instance is running.
   string region = 7;
+}
+
+// For display only. Metadata associated with a Cloud Redis Instance.
+message RedisInstanceInfo {
+  // Name of a Cloud Redis Instance.
+  string display_name = 1;
+
+  // URI of a Cloud Redis Instance.
+  string uri = 2;
+
+  // URI of a Cloud Redis Instance network.
+  string network_uri = 3;
+
+  // Primary endpoint IP address of a Cloud Redis Instance.
+  string primary_endpoint_ip = 4;
+
+  // Read endpoint IP address of a Cloud Redis Instance (if applicable).
+  string read_endpoint_ip = 5;
+
+  // Region in which the Cloud Redis Instance is defined.
+  string region = 6;
+}
+
+// For display only. Metadata associated with a Redis Cluster.
+message RedisClusterInfo {
+  // Name of a Redis Cluster.
+  string display_name = 1;
+
+  // URI of a Redis Cluster in format
+  // "projects/{project_id}/locations/{location}/clusters/{cluster_id}"
+  string uri = 2;
+
+  // URI of the network containing the Redis Cluster endpoints in format
+  // "projects/{project_id}/global/networks/{network_id}".
+  string network_uri = 3;
+
+  // Discovery endpoint IP address of a Redis Cluster.
+  string discovery_endpoint_ip_address = 4;
+
+  // Secondary endpoint IP address of a Redis Cluster.
+  string secondary_endpoint_ip_address = 5;
+
+  // Name of the region in which the Redis Cluster is defined. For example,
+  // "us-central1".
+  string location = 6;
 }
 
 // For display only. Metadata associated with a Cloud Function.
@@ -1150,9 +2197,290 @@ message VpcConnectorInfo {
   string location = 3;
 }
 
+// For display only. Metadata associated with a serverless direct VPC egress
+// connection.
+message DirectVpcEgressConnectionInfo {
+  // URI of direct access network.
+  string network_uri = 1;
+
+  // URI of direct access subnetwork.
+  string subnetwork_uri = 2;
+
+  // Selected IP range.
+  string selected_ip_range = 3;
+
+  // Selected starting IP address, from the selected IP range.
+  string selected_ip_address = 4;
+
+  // Region in which the Direct VPC egress is deployed.
+  string region = 5;
+}
+
+// For display only. Metadata associated with a serverless public connection.
+message ServerlessExternalConnectionInfo {
+  // Selected starting IP address, from the Google dynamic address pool.
+  string selected_ip_address = 1;
+}
+
+// For display only. Metadata associated with NAT.
+message NatInfo {
+  // Types of NAT.
+  enum Type {
+    // Type is unspecified.
+    TYPE_UNSPECIFIED = 0;
+
+    // From Compute Engine instance's internal address to external address.
+    INTERNAL_TO_EXTERNAL = 1;
+
+    // From Compute Engine instance's external address to internal address.
+    EXTERNAL_TO_INTERNAL = 2;
+
+    // Cloud NAT Gateway.
+    CLOUD_NAT = 3;
+
+    // Private service connect NAT.
+    PRIVATE_SERVICE_CONNECT = 4;
+
+    // GKE Pod IP address masquerading.
+    GKE_POD_IP_MASQUERADING = 5;
+  }
+
+  // Types of Cloud NAT gateway.
+  enum CloudNatGatewayType {
+    // Type is unspecified.
+    CLOUD_NAT_GATEWAY_TYPE_UNSPECIFIED = 0;
+
+    // Public NAT gateway.
+    PUBLIC_NAT44 = 1;
+
+    // Public NAT64 gateway.
+    PUBLIC_NAT64 = 2;
+
+    // Private NAT gateway for NCC.
+    PRIVATE_NAT_NCC = 3;
+
+    // Private NAT gateway for hybrid connectivity.
+    PRIVATE_NAT_HYBRID = 4;
+
+    // Private NAT64 gateway.
+    PRIVATE_NAT64 = 5;
+  }
+
+  // Type of NAT.
+  Type type = 1;
+
+  // IP protocol in string format, for example: "TCP", "UDP", "ICMP".
+  string protocol = 2;
+
+  // URI of the network where NAT translation takes place.
+  string network_uri = 3;
+
+  // Source IP address before NAT translation.
+  string old_source_ip = 4;
+
+  // Source IP address after NAT translation.
+  string new_source_ip = 5;
+
+  // Destination IP address before NAT translation.
+  string old_destination_ip = 6;
+
+  // Destination IP address after NAT translation.
+  string new_destination_ip = 7;
+
+  // Source port before NAT translation. Only valid when protocol is TCP or UDP.
+  int32 old_source_port = 8;
+
+  // Source port after NAT translation. Only valid when protocol is TCP or UDP.
+  int32 new_source_port = 9;
+
+  // Destination port before NAT translation. Only valid when protocol is TCP or
+  // UDP.
+  int32 old_destination_port = 10;
+
+  // Destination port after NAT translation. Only valid when protocol is TCP or
+  // UDP.
+  int32 new_destination_port = 11;
+
+  // Uri of the Cloud Router. Only valid when type is CLOUD_NAT.
+  string router_uri = 12;
+
+  // The name of Cloud NAT Gateway. Only valid when type is CLOUD_NAT.
+  string nat_gateway_name = 13;
+
+  // Type of Cloud NAT gateway. Only valid when `type` is CLOUD_NAT.
+  CloudNatGatewayType cloud_nat_gateway_type = 14;
+}
+
+// For display only. Metadata associated with ProxyConnection.
+message ProxyConnectionInfo {
+  // IP protocol in string format, for example: "TCP", "UDP", "ICMP".
+  string protocol = 1;
+
+  // Source IP address of an original connection.
+  string old_source_ip = 2;
+
+  // Source IP address of a new connection.
+  string new_source_ip = 3;
+
+  // Destination IP address of an original connection
+  string old_destination_ip = 4;
+
+  // Destination IP address of a new connection.
+  string new_destination_ip = 5;
+
+  // Source port of an original connection. Only valid when protocol is TCP or
+  // UDP.
+  int32 old_source_port = 6;
+
+  // Source port of a new connection. Only valid when protocol is TCP or UDP.
+  int32 new_source_port = 7;
+
+  // Destination port of an original connection. Only valid when protocol is TCP
+  // or UDP.
+  int32 old_destination_port = 8;
+
+  // Destination port of a new connection. Only valid when protocol is TCP or
+  // UDP.
+  int32 new_destination_port = 9;
+
+  // Uri of proxy subnet.
+  string subnet_uri = 10;
+
+  // URI of the network where connection is proxied.
+  string network_uri = 11;
+}
+
+// For display only. Metadata associated with the load balancer backend.
+message LoadBalancerBackendInfo {
+  // Health check firewalls configuration state enum.
+  enum HealthCheckFirewallsConfigState {
+    // Configuration state unspecified. It usually means that the backend has
+    // no health check attached, or there was an unexpected configuration error
+    // preventing Connectivity tests from verifying health check configuration.
+    HEALTH_CHECK_FIREWALLS_CONFIG_STATE_UNSPECIFIED = 0;
+
+    // Firewall rules (policies) allowing health check traffic from all required
+    // IP ranges to the backend are configured.
+    FIREWALLS_CONFIGURED = 1;
+
+    // Firewall rules (policies) allow health check traffic only from a part of
+    // required IP ranges.
+    FIREWALLS_PARTIALLY_CONFIGURED = 2;
+
+    // Firewall rules (policies) deny health check traffic from all required
+    // IP ranges to the backend.
+    FIREWALLS_NOT_CONFIGURED = 3;
+
+    // The network contains firewall rules of unsupported types, so Connectivity
+    // tests were not able to verify health check configuration status. Please
+    // refer to the documentation for the list of unsupported configurations:
+    // https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview#unsupported-configs
+    FIREWALLS_UNSUPPORTED = 4;
+  }
+
+  // Display name of the backend. For example, it might be an instance name for
+  // the instance group backends, or an IP address and port for zonal network
+  // endpoint group backends.
+  string name = 1;
+
+  // URI of the backend instance (if applicable). Populated for instance group
+  // backends, and zonal NEG backends.
+  string instance_uri = 2;
+
+  // URI of the backend service this backend belongs to (if applicable).
+  string backend_service_uri = 3;
+
+  // URI of the instance group this backend belongs to (if applicable).
+  string instance_group_uri = 4;
+
+  // URI of the network endpoint group this backend belongs to (if applicable).
+  string network_endpoint_group_uri = 5;
+
+  // URI of the backend bucket this backend targets (if applicable).
+  string backend_bucket_uri = 8;
+
+  // URI of the PSC service attachment this PSC NEG backend targets (if
+  // applicable).
+  string psc_service_attachment_uri = 9;
+
+  // PSC Google API target this PSC NEG backend targets (if applicable).
+  string psc_google_api_target = 10;
+
+  // URI of the health check attached to this backend (if applicable).
+  string health_check_uri = 6;
+
+  // Output only. Health check firewalls configuration state for the backend.
+  // This is a result of the static firewall analysis (verifying that health
+  // check traffic from required IP ranges to the backend is allowed or not).
+  // The backend might still be unhealthy even if these firewalls are
+  // configured. Please refer to the documentation for more information:
+  // https://cloud.google.com/load-balancing/docs/firewall-rules
+  HealthCheckFirewallsConfigState health_check_firewalls_config_state = 7;
+}
+
+// For display only. Metadata associated with Storage Bucket.
+message StorageBucketInfo {
+  // Cloud Storage Bucket name.
+  string bucket = 1;
+}
+
+// For display only. Metadata associated with the serverless network endpoint
+// group backend.
+message ServerlessNegInfo {
+  // URI of the serverless network endpoint group.
+  string neg_uri = 1;
+}
+
+// For display only. Metadata associated with a layer 7 packet inspection by the
+// firewall.
+message NgfwPacketInspectionInfo {
+  // URI of the security profile group associated with this firewall packet
+  // inspection.
+  string security_profile_group_uri = 1;
+}
+
+// Type of a load balancer. For more information, see [Summary of Google Cloud
+// load
+// balancers](https://cloud.google.com/load-balancing/docs/load-balancing-overview#summary-of-google-cloud-load-balancers).
+enum LoadBalancerType {
+  // Forwarding rule points to a different target than a load balancer or a
+  // load balancer type is unknown.
+  LOAD_BALANCER_TYPE_UNSPECIFIED = 0;
+
+  // Global external HTTP(S) load balancer.
+  HTTPS_ADVANCED_LOAD_BALANCER = 1;
+
+  // Global external HTTP(S) load balancer (classic)
+  HTTPS_LOAD_BALANCER = 2;
+
+  // Regional external HTTP(S) load balancer.
+  REGIONAL_HTTPS_LOAD_BALANCER = 3;
+
+  // Internal HTTP(S) load balancer.
+  INTERNAL_HTTPS_LOAD_BALANCER = 4;
+
+  // External SSL proxy load balancer.
+  SSL_PROXY_LOAD_BALANCER = 5;
+
+  // External TCP proxy load balancer.
+  TCP_PROXY_LOAD_BALANCER = 6;
+
+  // Internal regional TCP proxy load balancer.
+  INTERNAL_TCP_PROXY_LOAD_BALANCER = 7;
+
+  // External TCP/UDP Network load balancer.
+  NETWORK_LOAD_BALANCER = 8;
+
+  // Target-pool based external TCP/UDP Network load balancer.
+  LEGACY_NETWORK_LOAD_BALANCER = 9;
+
+  // Internal TCP/UDP load balancer.
+  TCP_UDP_INTERNAL_LOAD_BALANCER = 10;
+}
+
 // A Connectivity Test for a network reachability analysis.
 message ConnectivityTest {
-  // Required. Unique name of the resource using the form:
+  // Identifier. Unique name of the resource using the form:
   //     `projects/{project_id}/locations/global/connectivityTests/{test_id}`
   string name = 1;
 
@@ -1162,46 +2490,22 @@ message ConnectivityTest {
 
   // Required. Source specification of the Connectivity Test.
   //
-  // You can use a combination of source IP address, virtual machine
-  // (VM) instance, or Compute Engine network to uniquely identify
-  // the source location.
+  // You can use a combination of source IP address, URI of a supported
+  // endpoint, project ID, or VPC network to identify the source location.
   //
-  // Examples:
-  // If the source IP address is an internal IP address within a Google Cloud
-  // Virtual Private Cloud (VPC) network, then you must also specify the VPC
-  // network. Otherwise, specify the VM instance, which already contains its
-  // internal IP address and VPC network information.
-  //
-  // If the source of the test is within an on-premises network, then you must
-  // provide the destination VPC network.
-  //
-  // If the source endpoint is a Compute Engine VM instance with multiple
-  // network interfaces, the instance itself is not sufficient to identify the
-  // endpoint. So, you must also specify the source IP address or VPC network.
-  //
-  // A reachability analysis proceeds even if the source location is
-  // ambiguous. However, the test result may include endpoints that you don't
-  // intend to test.
+  // Reachability analysis might proceed even if the source location is
+  // ambiguous. However, the test result might include endpoints or use a source
+  // that you don't intend to test.
   Endpoint source = 3;
 
   // Required. Destination specification of the Connectivity Test.
   //
-  // You can use a combination of destination IP address, Compute Engine
-  // VM instance, or VPC network to uniquely identify the destination
-  // location.
+  // You can use a combination of destination IP address, URI of a supported
+  // endpoint, project ID, or VPC network to identify the destination location.
   //
-  // Even if the destination IP address is not unique, the source IP
-  // location is unique. Usually, the analysis can infer the destination
-  // endpoint from route information.
-  //
-  // If the destination you specify is a VM instance and the instance has
-  // multiple network interfaces, then you must also specify either
-  // a destination IP address  or VPC network to identify the destination
-  // interface.
-  //
-  // A reachability analysis proceeds even if the destination location is
-  // ambiguous. However, the result can include endpoints that you don't
-  // intend to test.
+  // Reachability analysis proceeds even if the destination location is
+  // ambiguous. However, the test result might include endpoints or use a
+  // destination that you don't intend to test.
   Endpoint destination = 4;
 
   // IP Protocol of the test. When not provided, "TCP" is assumed.
@@ -1227,6 +2531,25 @@ message ConnectivityTest {
   // The details are updated when creating a new test, updating an
   // existing test, or triggering a one-time rerun of an existing test.
   ReachabilityDetails reachability_details = 12;
+
+  // Output only. The probing details of this test from the latest run, present
+  // for applicable tests only. The details are updated when creating a new
+  // test, updating an existing test, or triggering a one-time rerun of an
+  // existing test.
+  ProbingDetails probing_details = 14;
+
+  // Whether run analysis for the return path from destination to source.
+  // Default value is false.
+  bool round_trip = 15;
+
+  // Output only. The reachability details of this test from the latest run for
+  // the return path. The details are updated when creating a new test,
+  // updating an existing test, or triggering a one-time rerun of an existing
+  // test.
+  ReachabilityDetails return_reachability_details = 16;
+
+  // Whether the analysis should skip firewall checking. Default value is false.
+  bool bypass_firewall_checks = 17;
 }
 
 // Source or destination of the Connectivity Test.
@@ -1252,28 +2575,66 @@ message Endpoint {
     // URI. The format is:
     // projects/{project}/locations/{location}/revisions/{revision}
     string uri = 1;
+
+    // Output only. The URI of the Cloud Run service that the revision belongs
+    // to. The format is:
+    // projects/{project}/locations/{location}/services/{service}
+    string service_uri = 2;
   }
 
-  // The type definition of an endpoint's network. Use one of the
-  // following choices:
+  // The type of the network of the IP address endpoint. Relevant for the source
+  // IP address endpoints.
   enum NetworkType {
-    // Default type if unspecified.
+    // Unspecified. The test will analyze all possible IP address locations.
+    // This might take longer and produce inaccurate or ambiguous results, so
+    // prefer specifying an explicit network type.
+    //
+    // The `project_id` field should be set to the project where the GCP
+    // endpoint is located, or where the non-GCP endpoint should be reachable
+    // from (via routes to non-GCP networks). The project might also be inferred
+    // from the Connectivity Test project or other projects referenced in the
+    // request.
     NETWORK_TYPE_UNSPECIFIED = 0;
 
-    // A network hosted within Google Cloud.
-    // To receive more detailed output, specify the URI for the source or
-    // destination network.
+    // A VPC network. Should be used for internal IP addresses in VPC networks.
+    // The `network` field should be set to the URI of this network. Only
+    // endpoints within this network will be considered.
     GCP_NETWORK = 1;
 
-    // A network hosted outside of Google Cloud.
-    // This can be an on-premises network, or a network hosted by another cloud
-    // provider.
+    // A non-GCP network (for example, an on-premises network or another cloud
+    // provider network). Should be used for internal IP addresses outside of
+    // Google Cloud. The `network` field should be set to the URI of the VPC
+    // network containing a corresponding Cloud VPN tunnel, Cloud Interconnect
+    // VLAN attachment, or a router appliance instance. Only endpoints reachable
+    // from the provided VPC network via the routes to non-GCP networks will be
+    // considered.
     NON_GCP_NETWORK = 2;
+
+    // Internet. Should be used for internet-routable external IP addresses or
+    // IP addresses for global Google APIs and services.
+    INTERNET = 3;
+  }
+
+  // Type of the target of a forwarding rule.
+  enum ForwardingRuleTarget {
+    // Forwarding rule target is unknown.
+    FORWARDING_RULE_TARGET_UNSPECIFIED = 0;
+
+    // Compute Engine instance for protocol forwarding.
+    INSTANCE = 1;
+
+    // Load Balancer. The specific type can be found from [load_balancer_type]
+    // [google.cloud.networkmanagement.v1.Endpoint.load_balancer_type].
+    LOAD_BALANCER = 2;
+
+    // Classic Cloud VPN Gateway.
+    VPN_GATEWAY = 3;
+
+    // Forwarding Rule is a Private Service Connect endpoint.
+    PSC = 4;
   }
 
   // The IP address of the endpoint, which can be an external or internal IP.
-  // An IPv6 address is only allowed when the test's destination is a
-  // [global load balancer VIP](/load-balancing/docs/load-balancing-overview).
   string ip_address = 1;
 
   // The IP protocol port of the endpoint.
@@ -1283,41 +2644,76 @@ message Endpoint {
   // A Compute Engine instance URI.
   string instance = 3;
 
-  // A cluster URI for [Google Kubernetes Engine
-  // master](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture).
+  // A forwarding rule and its corresponding IP address represent the frontend
+  // configuration of a Google Cloud load balancer. Forwarding rules are also
+  // used for protocol forwarding, Private Service Connect and other network
+  // services to provide forwarding information in the control plane. Applicable
+  // only to destination endpoint. Format:
+  // `projects/{project}/global/forwardingRules/{id}` or
+  // `projects/{project}/regions/{region}/forwardingRules/{id}`
+  string forwarding_rule = 13;
+
+  // Output only. Specifies the type of the target of the forwarding rule.
+  optional ForwardingRuleTarget forwarding_rule_target = 14;
+
+  // Output only. ID of the load balancer the forwarding rule points to. Empty
+  // for forwarding rules not related to load balancers.
+  optional string load_balancer_id = 15;
+
+  // Output only. Type of the load balancer the forwarding rule points to.
+  optional LoadBalancerType load_balancer_type = 16;
+
+  // A cluster URI for [Google Kubernetes Engine cluster control
+  // plane](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture).
   string gke_master_cluster = 7;
+
+  // DNS endpoint of [Google Kubernetes Engine cluster control
+  // plane](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture).
+  // Requires gke_master_cluster to be set, can't be used simultaneoulsly with
+  // ip_address or network. Applicable only to destination endpoint.
+  string fqdn = 19;
 
   // A [Cloud SQL](https://cloud.google.com/sql) instance URI.
   string cloud_sql_instance = 8;
 
-  // A [Cloud Function](https://cloud.google.com/functions).
+  // A [Redis Instance](https://cloud.google.com/memorystore/docs/redis) URI.
+  // Applicable only to destination endpoint.
+  string redis_instance = 17;
+
+  // A [Redis Cluster](https://cloud.google.com/memorystore/docs/cluster) URI.
+  // Applicable only to destination endpoint.
+  string redis_cluster = 18;
+
+  // A [GKE Pod](https://cloud.google.com/kubernetes-engine/docs/concepts/pod)
+  // URI.
+  string gke_pod = 21;
+
+  // A [Cloud Function](https://cloud.google.com/functions). Applicable only to
+  // source endpoint.
   CloudFunctionEndpoint cloud_function = 10;
 
   // An [App Engine](https://cloud.google.com/appengine) [service
   // version](https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions).
+  // Applicable only to source endpoint.
   AppEngineVersionEndpoint app_engine_version = 11;
 
   // A [Cloud Run](https://cloud.google.com/run)
   // [revision](https://cloud.google.com/run/docs/reference/rest/v1/namespaces.revisions/get)
+  // Applicable only to source endpoint.
   CloudRunRevisionEndpoint cloud_run_revision = 12;
 
-  // A Compute Engine network URI.
+  // A VPC network URI. For source endpoints, used according to the
+  // `network_type`. For destination endpoints, used only when the source is an
+  // external IP address endpoint, and the destination is an internal IP address
+  // endpoint.
   string network = 4;
 
-  // Type of the network where the endpoint is located.
-  // Applicable only to source endpoint, as destination network type can be
-  // inferred from the source.
+  // For source endpoints, type of the network where the endpoint is located.
+  // Not relevant for destination endpoints.
   NetworkType network_type = 5;
 
-  // Project ID where the endpoint is located.
-  // The Project ID can be derived from the URI if you provide a VM instance or
-  // network URI.
-  // The following are two cases where you must provide the project ID:
-  // 1. Only the IP address is specified, and the IP address is within a Google
-  // Cloud project.
-  // 2. When you are using Shared VPC and the IP address that you provide is
-  // from the service project. In this case, the network that the IP address
-  // resides in is defined in the host project.
+  // For source endpoints, endpoint project ID. Used according to the
+  // `network_type`. Not relevant for destination endpoints.
   string project_id = 6;
 }
 
@@ -1344,7 +2740,9 @@ message ReachabilityDetails {
     // The source and destination endpoints do not uniquely identify
     // the test location in the network, and the reachability result contains
     // multiple traces. For some traces, a packet could be delivered, and for
-    // others, it would not be.
+    // others, it would not be. This result is also assigned to
+    // configuration analysis of return path if on its own it should be
+    // REACHABLE, but configuration analysis of forward path is AMBIGUOUS.
     AMBIGUOUS = 4;
 
     // The configuration analysis did not complete. Possible reasons are:
@@ -1372,8 +2770,145 @@ message ReachabilityDetails {
   repeated Trace traces = 5;
 }
 
+// Latency percentile rank and value.
+message LatencyPercentile {
+  // Percentage of samples this data point applies to.
+  int32 percent = 1;
+
+  // percent-th percentile of latency observed, in microseconds.
+  // Fraction of percent/100 of samples have latency lower or
+  // equal to the value of this field.
+  int64 latency_micros = 2;
+}
+
+// Describes measured latency distribution.
+message LatencyDistribution {
+  // Representative latency percentiles.
+  repeated LatencyPercentile latency_percentiles = 1;
+}
+
+// Results of active probing from the last run of the test.
+message ProbingDetails {
+  // Representation of a network edge location as per
+  // https://cloud.google.com/vpc/docs/edge-locations.
+  message EdgeLocation {
+    // Name of the metropolitan area.
+    string metropolitan_area = 1;
+  }
+
+  // Probing results for a single edge device.
+  message SingleEdgeResponse {
+    // The overall result of active probing for this egress device.
+    ProbingResult result = 1;
+
+    // Number of probes sent.
+    int32 sent_probe_count = 2;
+
+    // Number of probes that reached the destination.
+    int32 successful_probe_count = 3;
+
+    // Latency as measured by active probing in one direction: from the source
+    // to the destination endpoint.
+    LatencyDistribution probing_latency = 4;
+
+    // The EdgeLocation from which a packet, destined to the internet, will
+    // egress the Google network.
+    // This will only be populated for a connectivity test which has an internet
+    // destination address.
+    // The absence of this field *must not* be used as an indication that the
+    // destination is part of the Google network.
+    EdgeLocation destination_egress_location = 5;
+
+    // Router name in the format '{router}.{metroshard}'. For example:
+    // pf01.aaa01, pr02.aaa01.
+    string destination_router = 6;
+  }
+
+  // Overall probing result of the test.
+  enum ProbingResult {
+    // No result was specified.
+    PROBING_RESULT_UNSPECIFIED = 0;
+
+    // At least 95% of packets reached the destination.
+    REACHABLE = 1;
+
+    // No packets reached the destination.
+    UNREACHABLE = 2;
+
+    // Less than 95% of packets reached the destination.
+    REACHABILITY_INCONSISTENT = 3;
+
+    // Reachability could not be determined. Possible reasons are:
+    // * The user lacks permission to access some of the network resources
+    //   required to run the test.
+    // * No valid source endpoint could be derived from the request.
+    // * An internal error occurred.
+    UNDETERMINED = 4;
+  }
+
+  // Abort cause types.
+  enum ProbingAbortCause {
+    // No reason was specified.
+    PROBING_ABORT_CAUSE_UNSPECIFIED = 0;
+
+    // The user lacks permission to access some of the
+    // network resources required to run the test.
+    PERMISSION_DENIED = 1;
+
+    // No valid source endpoint could be derived from the request.
+    NO_SOURCE_LOCATION = 2;
+  }
+
+  // The overall result of active probing.
+  ProbingResult result = 1;
+
+  // The time that reachability was assessed through active probing.
+  google.protobuf.Timestamp verify_time = 2;
+
+  // Details about an internal failure or the cancellation of active probing.
+  google.rpc.Status error = 3;
+
+  // The reason probing was aborted.
+  ProbingAbortCause abort_cause = 4;
+
+  // Number of probes sent.
+  int32 sent_probe_count = 5;
+
+  // Number of probes that reached the destination.
+  int32 successful_probe_count = 6;
+
+  // The source and destination endpoints derived from the test input and used
+  // for active probing.
+  EndpointInfo endpoint_info = 7;
+
+  // Latency as measured by active probing in one direction:
+  // from the source to the destination endpoint.
+  LatencyDistribution probing_latency = 8;
+
+  // The EdgeLocation from which a packet, destined to the internet, will egress
+  // the Google network.
+  // This will only be populated for a connectivity test which has an internet
+  // destination address.
+  // The absence of this field *must not* be used as an indication that the
+  // destination is part of the Google network.
+  EdgeLocation destination_egress_location = 9;
+
+  // Probing results for all edge devices.
+  repeated SingleEdgeResponse edge_responses = 10;
+
+  // Whether all relevant edge devices were probed.
+  bool probed_all_devices = 11;
+}
+
+// The data within all NetworkMonitoringProvider events.
+message NetworkMonitoringProviderEventData {
+  // Optional. The NetworkMonitoringProvider event payload. Unset for deletion
+  // events.
+  NetworkMonitoringProvider payload = 1;
+}
+
 // The data within all ConnectivityTest events.
 message ConnectivityTestEventData {
   // Optional. The ConnectivityTest event payload. Unset for deletion events.
-  optional ConnectivityTest payload = 1;
+  ConnectivityTest payload = 1;
 }
